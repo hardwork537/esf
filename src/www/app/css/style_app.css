@@ -1,0 +1,157 @@
+.main_wapper { font-family: Microsoft YaHei;}
+.mt_25 {margin-top: 25px;}
+.mt_20 {margin-top: 20px;}
+.mt_10 {margin-top: 10px;}
+.mt_5 {margin-top: 5px;}
+.mr_25 {margin-right: 25px;}
+.mr_55 {margin-right: 55px;}
+.ml_25 {margin-left: 25px;}
+.ml_50 {margin-left: 50px;}
+.ml_30 {margin-left: 30px;}
+.ml_60 {margin-left: 60px;}
+.font_A, .font_A a {font-size: 16px; color: #8f8f8f;}
+.font_B {color: #545454;}
+.font_C {font-size: 16px; color: #1a1a1a;}
+.font_D {font-size: 12px; color: #1a1a1a; line-height: 20px;}
+.font_E {font-size: 24px; color: #1a1a1a;}
+.font_F {font-size: 18px; color: #483500;}
+.font_K {font-size: 18px; color: #363737;}
+.font_G {font-size: 18px; color: #1a1a1a;}
+.font_H {font-size: 22px; color: #363737;}
+.font_J {font-size: 14px; color: #676767;}
+.font_L {font-size: 14px; color: #333;}
+.font_N {font-size: 20px;}
+
+/* 回到顶部 */
+#toTop{
+    margin-right:-575px;
+    bottom: 46px;
+}
+
+/*头部*/
+.layout-hd { width: 100%; height: 74px; background: #eee; }
+.layout-hd .wapper {width: 960px; margin: 0 auto; position: relative;}
+.layout-hd nav ul { position: absolute; right: 0; top: 0;}
+.layout-hd ul li { float: left;height: 74px;line-height: 74px; width: 118px; text-align: center;}
+.layout-hd ul li.active {background: #fff;}
+.layout-hd .left {position: absolute; left: 0; width: 540px;}
+.layout-hd .logo { display: block; width: 150px; height: 50px; background: url(../img/logo.png) no-repeat 0 -1px; float: left; margin: 12px 30px 0 0;}
+
+.layout-hd .left ul li{
+    width: 90px;
+    height: 74px;
+    line-height: 74px;
+    padding: 0 5px;
+}
+.layout-hd .left ul li.wechat{
+    width: 120px;
+}
+.layout-hd .left i{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    *display:inline;
+    *zoom:1;
+    background: url("../img/device_icon.png");
+    float: left;
+    margin: 26px 0 0 8px;
+}
+.layout-hd .left i.mobile_icon{
+    background-position: 0 0;
+}
+.layout-hd .left i.wechat_icon{
+    background-position: 0 25px;
+}
+.layout-hd .left a{
+    font-size: 16px;
+    color: #8f8f8f;
+}
+footer.layout-ft { width: 100%; text-align: center; height: 45px; line-height: 45px; font-size: 14px; color: #9ea0a1; background-color: #dee1e2; }
+/*  
+--------------------- 
+-----焦点通首页 -----
+---------------------
+ */
+.layout-content-index .wapper section.hd { background: url(../img/pic_1920x537.jpg) no-repeat top center; width: 100%; }
+.layout-content-index .wapper section.hd .hd-wapper { position: relative; height: 537px; width: 960px; margin: 0 auto; }
+.layout-content-index .wapper section.hd  footer { width: 400px; height: 468px; position: absolute; top: 68px; left: 0; background: url(../img/pic_400x468.png) no-repeat; }
+.layout-content-index .wapper section.hd .content { float: right; padding-top: 70px; text-align: left; }
+.layout-content-index .wapper section.hd .content .tip_title { width: 312px; height: 64px; background: url(../img/pic_312x64.png) no-repeat; z-index: 99; }
+.layout-content-index .wapper section.hd .content  a.download { display: inline-block; width: 278px; height: 72px; line-height: 80px; background: url(../img/ui_global.png) -7px -224px no-repeat; position: relative; font-size: 22px; text-decoration: none; text-align: center; color: #825d00; _margin-bottom: -5px; }
+.layout-content-index .wapper section.hd .content  a.download:hover { background-position: -7px -307px; color: #7e7e7e; }
+.layout-content-index .wapper section.hd .content  a.download i { position: absolute; left: 18px; top: 15px; width: 34px; height: 44px; background: url(../img/ui_global.png) -273px 0px; display: inline-block; }
+.layout-content-index .wapper section.hd .content .code_bg { background: url(../img/pic_350x125.png) no-repeat; width: 350px; height: 125px; position: absolute; right: 101px; bottom: 61px; _right:160px; }
+
+.layout-content-index .wapper div.bd { text-align: left; width: 100%; border-top: 16px solid #e8a602; }
+.layout-content-index .wapper div.bd .bd-wapper {width: 960px; margin: 0 auto;}
+.layout-content-index .wapper div.bd header {width: 960px; overflow: hidden;}
+.layout-content-index .wapper div.bd header nav ul {width: 1000px; _width: 1100px;}
+.layout-content-index .wapper div.bd header nav ul li { float: left; border-right: 1px solid #c6c6c6; height: 76px; line-height: 76px; }
+.layout-content-index .wapper div.bd header nav ul li.ie6_a {_width: 320px;}
+.layout-content-index .wapper div.bd header nav ul li.ie6_b {_width: 340px;}
+.layout-content-index .wapper div.bd header nav ul li .li_wapper { height: 74px; margin: 0 45px 0 45px; padding: 0 5px; background-color: #fff; overflow: hidden;  }
+.layout-content-index .wapper div.bd header nav ul li .li_wapper .li_wapper_inner { background: none; }
+
+.layout-content-index .wapper div.bd header nav ul li a { margin: 0 60px; display: block; position: relative; text-decoration: none; }
+.layout-content-index .wapper div.bd header nav ul li a:hover {color: #1a1a1a;}
+.layout-content-index .wapper div.bd header nav ul li.active .li_wapper {background-color: #e8a704;}
+.layout-content-index .wapper div.bd header nav ul li.active .li_wapper .li_wapper_inner { background: url(../img/pic_bg.gif) repeat-x; }
+.layout-content-index .wapper div.bd section { height: 415px; padding-top: 55px; padding-left: 36px; border-bottom: 1px solid #d3d3d3; }
+.layout-content-index .wapper div.bd section.s_c { border-bottom: none; }
+.layout-content-index .wapper div.bd section footer {float: left;}
+.layout-content-index .wapper div.bd section .content { float: left; line-height: 26px; width: 440px; padding-top: 76px; }
+.layout-content-index .wapper div.bd section .content em {font-size: 24px; font-style: normal;}
+.layout-content-index .wapper div.bd section .content h2 { text-align: left; padding: 5px 8px 6px 8px; font-size: 24px; color: #fff; background-color: #10547c; display: inline-block; margin-bottom: 7px; }
+.layout-content-index .wapper div.bd section .content p {line-height: 44px;}
+.layout-content-index .wapper div.bd section.s_a footer { width: 420px; height: 356px; background: url(../img/pic_420x356_01.jpg) no-repeat; }
+.layout-content-index .wapper div.bd section.s_b footer {width: 420px; height: 356px; background: url(../img/pic_420x356_02.jpg) no-repeat;}
+.layout-content-index .wapper div.bd section.s_c footer {width: 420px; height: 356px; background: url(../img/pic_420x356_03.jpg) no-repeat;}
+
+
+.layout-content-index .wapper div.ft.friendly a {text-decoration:none}
+.layout-content-index .wapper div.ft.friendly .bar a.selected {background-color:#bfbfbf;color:#000}
+.layout-content-index .wapper div.ft.friendly .bar {height:40px;background-color:#d2d2d2;text-align:left;line-height:39px}
+.layout-content-index .wapper div.ft.friendly .bar a {display:inline-block;*display:inline;color:white;padding:0 27px;margin-right:0;height:39px;font:100 18px/39px "黑体";*zoom:1}
+.layout-content-index .wapper div.ft.friendly .bar .inner {width:950px;margin:0 auto}
+.layout-content-index .wapper div.ft.friendly .content {height:100px;background-color:#eee;text-align:left;line-height:50px}
+.layout-content-index .wapper div.ft.friendly .content .inner {width:950px;margin:0 auto}
+.layout-content-index .wapper div.ft.friendly .content .inner a {color:#646464;padding-left:20px;display:none;text-align:center;font-size:16px;font-family:"微软雅黑"}
+.layout-content-index .wapper div.ft.friendly .content .inner a:hover {color:red; text-decoration:underline}
+
+/*  
+--------------------- 
+-----焦点通用户反馈  && 更新日志-----
+---------------------
+ */
+.layout-content-fb { text-align: left; width: 100%; background: #ebebeb; padding-top: 30px; padding-bottom: 88px; }
+.layout-content-fb .wapper { width: 960px; margin: 0 auto 0 auto; background-color: #fff; padding-bottom: 62px; padding-top: 46px; }
+.layout-content-fb .wapper header { border-left: 10px solid #2c3e50; padding-left: 14px; position: relative; height: 46px; }
+.layout-content-fb .wapper header h1 {line-height: 42px;}
+.layout-content-fb .wapper header .ft_line {position: absolute; bottom: 0; left: 0px; width: 57%;}
+.layout-content-fb .wapper header .ft_line .l_line { height: 2px; float: left; overflow: hidden; }
+.layout-content-fb .wapper .fb-content { width: 860px; height: 410px; margin: 40px auto 0 auto; background: #ebebec; }
+.layout-content-fb .wapper .fb-content .content-wapper {padding: 32px 67px 48px 46px;}
+.layout-content-fb .wapper .fb-content .content-wapper .hd {line-height: 52px; border-bottom: 1px solid #bbbbc7;}
+.layout-content-fb .wapper .fb-content .content-wapper .bd h3{line-height: 52px;}
+.layout-content-fb .wapper .fb-content .content-wapper .bd textarea { padding: 10px; outline: 0; border: 1px solid #cfcfcf; width: 724px; height: 124px; }
+.layout-content-fb .wapper .fb-content .content-wapper .ft .btn_submit { padding: 0 50px 0 50px; background-color: #10547c; color: #fff; font-size: 24px; border: 0; outline: 0; border-bottom: 3px solid #0977b8; cursor: pointer; height: 48px; line-height: 42px; margin: 0; overflow: visible; width: auto; *width: 1; vertical-align: middle; }
+.layout-content-fb .wapper .fb-content .content-wapper .ft span {vertical-align: middle;}
+.layout-content-fb .wapper .fb-content .content-wapper .ft a {color: #3b6aa0;}
+
+.layout-content-fb .wapper .log-content { width: 908px; margin: 50px auto 0 auto; }
+.layout-content-fb .wapper .log-content section.item { background-color: #bed7e4;/* height: 258px; */ margin-bottom: 18px; }
+.layout-content-fb .wapper .log-content section.item h4 {margin-top: 30px; float: left; background-color: #bed7e4; width: 212px; height: 100%; line-height: 24px; text-align: center; position: relative;  }
+.layout-content-fb .wapper .log-content section.item h4 i { position: absolute; width: 9px; height: 21px; background: url(../img/ui_global.png) -126px -75px no-repeat ; left: 214px; top: 28px; }
+.layout-content-fb .wapper .log-content section.item h4 span { display: inline-block; text-align: left; line-height: 30px; }
+.layout-content-fb .wapper .log-content section.item .content { margin-left: 214px;padding-left: 25px; line-height: 22px; padding-bottom: 10px;background-color: #ebebec; }
+.layout-content-fb .wapper .log-content section.item .content h5 { padding-top: 10px; }
+
+.wechat_content{
+    overflow: hidden;
+    _width: 98%;
+}
+.wechat_content img{
+    margin-bottom: -5px;
+    width: 100%;
+    height: 100%; 
+}

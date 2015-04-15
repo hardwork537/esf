@@ -1,0 +1,37 @@
+<table border=1>
+<tr>
+	<th>操作人员</th>
+	<th>操作时间</th>
+	<th>操作ip</th>
+	<th>被操作的经纪人</th>
+	<th>所属公司</th>
+	<th>操作类型</th>
+	<th>端口数</th>
+	<th>端口类型</th>
+	<th>到期时间</th>
+	<th>操作内容</th>
+</tr>
+{% for list in lists %}
+<tr>
+	<td>{{ operatorTypes[list['operatorType']] }}{% if list['operatorType']!=9 %}&nbsp;{{ list['operatorAccount'] }}{% endif %}</td>
+    <td>{{ date('Y-m-d H时i分s秒', list['operateTime']) }}</td>
+    <td>{{ list['operateIp'] }}</td>
+	<td>{{ realAccounts[list['realId']]['name'] }}（{{ realtors[list['realId']]['name'] }}）</td>
+	<td>{{ companys[list['comId']]['abbr'] }}</td>
+	<td>{{ actionTypes[list['actionType']] }}</td>
+	{% if realPorts[list['realId']] is not empty %}
+	{% set port=realPorts[list['realId']] %}
+	<td>{{ port['salePortNum']+port['rentPortNum'] }}</td>
+	<td>{% if port['salePortNum']>0 %}出售{% else %}出租{% endif %}</td>
+	<td>{% if port['expiryDate'] == '0000-00-00' %}无限制{% else %}{{ port['expiryDate'] }}{% endif %}</td>
+	{% else %}
+	<td>0</td>
+	<td>无</td>
+	<td>无</td>
+	{% endif %}
+	<td><?php echo str_replace(array('<br>', '<br/>', '<br />'), ' ', $list['message']); ?></td>
+</tr>
+{% endfor %}
+</table>
+
+

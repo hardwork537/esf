@@ -1,0 +1,175 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 轨道线路字典 </strong> </h6>
+        <form method="get" action="/subwayline/">
+            <table class="search_form mb15">
+                <tbody>
+                    <tr>
+                        <td width="140">
+                            <select class="form-control" name="cityId">
+                                <?=MyTags::options($citys, $cityId)?>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-gray" type="submit">搜 索</button>
+                            <a type="button" class="btn btn-success widthxl addmodal" data-toggle="modal" data-target="#addnew" > <strong> + </strong> 新增轨交 </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10">
+            <tr>
+                <th style=" width:25%">ID</th>
+                <th style="width:25%;">轨道线路</th>
+                <th style="width:25%;">权重排序</th>
+                <th>操作</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">
+            <tr>
+                <th style=" width:25%">ID</th>
+                <th style="width:25%;">轨道线路</th>
+                <th style="width:25%;">权重排序</th>
+                <th>操作</th>
+            </tr>
+            {% for list in lists %}
+            <tr metroId="{{ list['id'] }}">
+                <td align="center">{{ list['id'] }}</td>
+                <td align="center"><a title="{{ list['name'] }}" href="#">{{ list['name'] }}</a></td>
+                <td align="center">{{ list['weight'] }}</td>
+                <td align="center" class="operate">
+                    <a  data-toggle="modal" data-target="#addnew" class="editmodal">修改</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }}
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- 添加用户 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增城市 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable">
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="轨交" method="post" action="">
+                    <table class="edittable">
+                        <tr>
+                            <td align="right" width="140">
+                                所属城市:
+                            </td>
+                            <td>
+                                <select class="form-control" name="cityId" notnull="true" info="城市">
+                                    <?=MyTags::options($citys)?>
+                                </select>
+                                <em class=" required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                轨道线路:
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="metroName" notnull="true" info="轨道线路" />
+                                <em class=" required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                排序权重:
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="weight" />
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="act" value="" />
+                    <input type="hidden" name="metroId" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var menu = 'menu2';
+    var moudle = 'subwayline';
+    var cityId = {{ cityId }};
+
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+
+        $("select[name=cityId]").val(cityId);
+    }
+    function initEeditModal(data) {
+        $("select[name=cityId]").val(data.cityId);
+        $("input[name=metroName]").val(data.name);
+        $("input[name=weight]").val(data.weight);
+    }
+    $(function() {
+        var cururl = base_url + "subwayline/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".addmodal").click(function() {
+            initModal();
+            $("#newmodal").smodal({title: "添加轨交", act: 'add'});
+        });
+
+        $(".editmodal").click(function() {
+            initModal();
+            var metroId = $(this).parent("td").parent("tr").attr("metroId");
+            $("input[name=metroId]").val(metroId);
+            $("#newmodal").smodal({title: "修改轨交", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + metroId + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });
+    });
+
+</script>

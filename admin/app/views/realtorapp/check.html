@@ -1,0 +1,94 @@
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 真房源认证  </strong> </h6>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong> 提示：</strong>
+        委托书中的“房屋位置、面积、价格、受托人（经纪人）、公章（公司名称）等信息”必须与该房源信息相符，并且有房源封面图。
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <strong> 房源信息： </strong> {{houseInfo['parkName']}} ({{houseInfo['distName']}} {{houseInfo['regName']}}) {{houseInfo['houseBedRoom']}}室{{houseInfo['houseLivingRoom']}}厅{{houseInfo['houseBathRoom']}}卫 {{houseInfo['houseBA']}}㎡ {{houseInfo['totalPrice']}}
+            [有封面图] {% if houseInfo['houseUrl'] %}<a target="_blank" href="{{houseInfo['houseUrl']}}">查看房源详情 </a>{% endif %}<br><br>
+            <strong> 经纪人信息： </strong>{{houseInfo['comAbbr']}} {{houseInfo['realName']}} {{houseInfo['realMobile']}} <a href="/realtorapp/?status=2&realAccount={{houseInfo['VaName']}}">查看认证记录</a> <br><br>
+            <strong> 委托图片： </strong><br>
+            <p class=" heightl"> <img width="600" src="/realtorapp/getImageDetail/{{houseInfo['rpId']}}" alt="example1"></p><!--data:image/png;base64,{{houseInfo['rpData']}}-->
+        </div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-success btn-success_ok" data-toggle="modal" data-target="#tongguo"> 通过认证 </button>
+            <button type="button" class="btn btn-danger widthl btn-success_error" data-toggle="modal" data-target="#weigui"> 拒绝认证 </button>
+        </div>
+    </div>
+</div>
+<div class="modal fade in" id="weigui" tabindex="-1" role="dialog" aria-labelledby="weiguiLabel" aria-hidden="false" style="display: none;">
+    <form method="post" id="form1">
+    <div class="modal-dialog" style=" width:450px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h5 class="modal-title" id="weiguiLabel"> 房源违规 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="system_words edittable">
+                    <div class="alert alert-warning alert-dismissible" role="alert" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span id="showMsg">您输入的内容有误！</span>
+                    </div>
+                    <img src="{{ src_url }}images/icon_attention.png" class="imgleft">
+                    <div class=" divr">
+                        <p> <strong class="font14 font_333"> 请输入拒绝理由 </strong> </p>
+                        <p>
+                            <textarea name="msg" style="width:220px;height:30px">
+
+                            </textarea>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-success_save">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'realtorapp';
+    var cururl = base_url + "realtorapp/";
+    var id = {{houseInfo['rpId']}};
+    //认证通过
+    $('.btn-success_ok').click(function(){
+        $.request({
+            url: cururl + "saveAuditing/" + id + "/1/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("操作成功！");
+                    self.location='/realtorapp/';
+                } else {
+                     alert("操作失败！");
+                }
+            }
+        });
+    });
+    //拒绝认证
+
+    $(".btn-success_save").click(function() {
+        var _this = $(this);
+        $("#form1").ajaxSubmit({
+            "url" : cururl  + "saveAuditing/"+ id + "/-1/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    _this.editSuccess("修改成功");
+                    self.location='/realtorapp/';
+                    return false;
+                } else {
+                    _this.editFail("修改失败");
+                }
+            }
+        });
+    });
+</script>

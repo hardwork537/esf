@@ -1,0 +1,177 @@
+<style>
+.form-control.l{ width:140px;}
+.panel-body{ border:solid 1px #ddd; border-top:none;padding: 25px 15px;}
+.panel{margin:30px 0 50px;}
+.tips{line-height: 22px; margin-top:20px;}
+</style>
+
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 工具箱  </strong> </h6>
+    {% if message %}
+    <div class=" alert-warning alert alert-dismissible " role="alert" style="color: red">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong> 提示：</strong> {{message}}
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>小区房源转移</strong></h3>
+        </div>
+        <div class="panel-body">
+            <form action="/tools/movePark/" method="post" id="moveParkForm">
+                <table class="search_form">
+                    <tr>
+                        <td width="160"> <input class=" form-control l" type="text" placeholder="要被转移的小区id " name="fromPark" value="{% if select['fromPark'] %}{{select['fromPark']}}{%endif%}" /> </td>
+                        <td width="160"> <input class=" form-control l" type="text" placeholder="转移到目标小区id " name="toPark" value="{% if select['toPark'] %}{{select['toPark']}}{%endif%}"/> </td>
+                        <td>
+                            <button class="btn btn-success" type="button" id="moveParkSubmit">确 定</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div class=" font_red tips"> <strong> 功能说明：</strong>
+                可以将某个小区下的所有房源(包括：发布、库存、回收站、删除状态)转移到另一个小区名下，
+                转移后可以这样直接手动删除这个没有房源的重复小区，方便处理重复小区房源问题。 </div>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>门店转移到区域</strong></h3>
+        </div>
+        <div class="panel-body">
+            <form action="/tools/moveShop/" method="post">
+            <table class="search_form">
+                <tr>
+                    <td width="140">
+                        <select class="form-control" name="cityId">
+                            <?=MyTags::options($citys, $selectData['cityId'])?>
+                        </select>
+                    </td>
+                    <td width="160"> <input class=" form-control" style=" width:140px;" type="text" placeholder="要被转移的门店id " name="shopId"  value="{%if selectData['shopId'] %}{{selectData['shopId']}}{%endif%}"/> </td>
+                    <td width="160"> <input class=" form-control" style=" width:140px;" type="text" placeholder="转移到目标区域id " name="areaId" value="{%if selectData['areaId'] %}{{selectData['areaId']}}{%endif%}"/> </td>
+                    <td>
+                        <button class="btn btn-success" type="submit">确 定</button>
+                    </td>
+                </tr>
+            </table>
+            </form>
+            <div class=" font_red tips"> <strong> 功能说明：</strong>
+                此功能可以将门店从所在区转移到同一公司下的另一个区下面；此操作会产生被转移的门店及下属经纪人的今日的操作统计数据不准；并且会同时清空这些经纪人的所有定时刷新队列，请慎重操作。  </div>
+
+        </div>
+    </div>
+<!--
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>独立经纪人批量转为企业经纪人</strong></h3>
+        </div>
+        <div class="panel-body">
+            <table class="search_form">
+                <tbody><tr>
+                    <td width="140">
+                        <select class="form-control">
+                            <option value="0" label="选择城市" selected>选择城市</option>
+                            <option value="1" label="北京">北京</option>
+                            <option value="2" label="上海">上海</option>
+                            <option value="4" label="广州">广州</option>
+                            <option value="5" label="深圳">深圳</option>
+                            <option value="3" label="天津">天津</option>
+                            <option value="6" label="成都">成都</option>
+                            <option value="7" label="重庆">重庆</option>
+                            <option value="8" label="沈阳">沈阳</option>
+                            <option value="9" label="石家庄">石家庄</option>
+                            <option value="10" label="南京">南京</option>
+                            <option value="11" label="濮阳">濮阳</option>
+
+                        </select>
+                    </td>
+                    <td width="120"> <input type="file" id="image_upload" style="display: none;">
+                     <input type="button" class="btn btn-success" onclick="$('#image_upload').click();" value="上传图片">  </td>
+                    <td>
+                        <button class="btn btn-success" type="button">执 行</button>
+                    </td>
+                </tr>
+                </tbody></table>
+
+            <div class="tips">
+                第一步：点此下载文件模板，按要求进行填写想要执行的内容，保存后另存为*.csv文格式件;<br />
+
+                第二步：选择保存好的文件，点击"执行"即可;<br />
+
+                <p class=" font_red"><strong> 操作规则：</strong>支持未认证、等待认证、已认证且停止状态的帐号进行转移，不能跨公司；每次最多可批量操作30条 </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>批量开通企业经纪人端口</strong></h3>
+        </div>
+        <div class="panel-body">
+            <table class="search_form">
+                <tbody><tr>
+                    <td width="140">
+                        <select class="form-control">
+                            <option value="0" label="选择城市" selected>选择城市</option>
+                            <option value="1" label="北京">北京</option>
+                            <option value="2" label="上海">上海</option>
+                            <option value="4" label="广州">广州</option>
+                            <option value="5" label="深圳">深圳</option>
+                            <option value="3" label="天津">天津</option>
+                            <option value="6" label="成都">成都</option>
+                            <option value="7" label="重庆">重庆</option>
+                            <option value="8" label="沈阳">沈阳</option>
+                            <option value="9" label="石家庄">石家庄</option>
+                            <option value="10" label="南京">南京</option>
+                            <option value="11" label="濮阳">濮阳</option>
+
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control s">
+                            <option value="1">出售</option>
+                            <option value="2">出租</option>
+
+                        </select>
+                    </td>
+                    <td width="120"> <input type="file" id="image_upload2" style="display: none;">
+                     <input type="button" class="btn btn-success" onclick="$('#image_upload2').click();" value="上传图片">  </td>
+                    <td>
+                        <button class="btn btn-success" type="button">执 行</button>
+                    </td>
+                </tr>
+                </tbody></table>
+
+            <div class=" tips">
+                第一步：点此下载文件模板，按要求进行填写想要执行的内容，保存后另存为*.csv文格式件;<br />
+
+                第二步：选择保存好的文件，点击"执行"即可;<br />
+
+                <p class=" font_red"><strong> 操作规则：</strong>企业经纪人帐号必须为停止状态;开通时间必须大于今天;</p>
+            </div>
+
+        </div>
+    </div>-->
+
+</div>
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'tools';
+    $("#moveParkSubmit").click(function(){
+        var fromPark = $("input[name='fromPark']").val();
+        var toPark = $("input[name='toPark']").val();
+        if(fromPark==''){
+            alert("要被转移的小区id不能为空");
+            return false;
+        }else if(toPark==''){
+            alert("转移到目标小区id不能为空");
+            return false;
+        }else{
+            $("#moveParkForm").submit();
+        }
+    })
+</script>

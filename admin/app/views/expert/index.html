@@ -1,0 +1,173 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold">  置业专家 </strong> </h6>
+        <form method="get" action="/expert/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>
+                    <td width="120">
+                        <select class="form-control s" name="cityId"  id="cityId">
+                                <?=MyTags::options($citys,$params['cityId'])?>
+                        </select>
+                    </td>
+					<td width="140">
+                        <select class="form-control" name="buyType">
+							<option value="0">置业专家卖点</option>
+							<?=MyTags::options($buyType,$params['buyType'])?>
+						</select>
+                    </td>
+					<td width="120">
+                        <input class="form-control s" type="text" placeholder="位置" name="buyName" value="{{ params['buyName'] }}" />
+                    </td>
+					<td width="120">
+                        <select class="form-control s" name="clientType">
+							<option value="0">客户类型</option>
+							<?=MyTags::options($clientType,$params['clientType'])?>
+						</select>
+                    </td>
+					<td>
+                        <input class="form-control s" type="text" placeholder="客户账号" name="clientName" value="{{ params['clientName'] }}" />
+                    </td>
+					
+                </tr>
+				<tr>
+				<td>
+					<select class="form-control s" name="channel">
+						<option value="0">展示频道</option>
+						<?=MyTags::options($channel,$params['channel'])?>
+					</select>
+				</td>
+				<td>
+					<select class="form-control" name="showType">
+						<option value="0">展示类型</option>
+						<?=MyTags::options($showType,$params['showType'])?>
+					</select>
+				</td>
+				<td>
+						<div class="inputwrap">
+							<input class="form-control s autoComplete" type="text" url="/ajax/getCompanyInfo/" toName="comId" nums=10  placeholder="公司名称"  name="companyName" value="{{ params['companyName'] }}"  autocomplete="off"/>
+							<input id="comId" type="hidden" value="{{ params['comId'] }}" name="comId" />
+						</div>
+						
+				</td>
+				<td colspan="2">
+					<button class="btn btn-gray" type="submit">搜 索</button>
+					<a type="button" class="btn btn-success widthxl" href="/expert/add/" > <strong> + </strong> 新增置业专家 </a> 
+				</td>
+				</tr>
+            </tbody>
+        </table>
+        </form>
+
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10">
+            <tr>
+                <th>城市</th>
+                <th>卖点</th>
+                <th>位置</th>
+                <th>所属公司</th>
+                <th>类型</th>
+                <th>购买人账号</th>
+                <th>购买人名称</th>
+                <th>购买类型</th>
+                <th>起始时间</th>
+                <th>到期时间</th>
+                <th>操作</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+        <table class="table table-hover mt10">
+            <tr>
+                <tr>
+                <th>城市</th>
+                <th>卖点</th>
+                <th>位置</th>
+                <th>所属公司</th>
+				<th>展示频道</th>
+                <th>展示类型</th>
+				<th>购买人类型</th>
+                <th>购买人账号</th>
+                <th>购买人名称</th>
+                <th>起始时间</th>
+                <th>到期时间</th>
+                <!--th>权重</th-->
+                <th>操作</th>
+            </tr>
+            {% for list in lists %}
+            <tr expertId="{{ list['id'] }}">
+                <td align="center">{{ citys[list['cityId']] }}</td>
+                <td align="center">{{ buyType[list['buyType']] }}</td>
+                <td>{{ list['buyName'] }}</td>
+                <td>{{ list['companyName'] }}</td>
+                <td align="center">{{ channel[list['channel']] }}</td>
+                <td align="center">{{ showType[list['showType']] }}</td>
+                <td align="center">{{ clientType[list['clientType']] }}</td>
+                <td>{{ list['clientAccname'] }}</td>
+                <td>{{ list['clientName'] }}</td>
+                <td align="center">{{ list['beginTime'] }}</td>
+                <td align="center">{{ list['endTime'] }}</td>
+				<!--td align="center">{{ list['weight'] }}</td-->
+                <td align="center" class="operate">
+                    <div class=" arrow_tipswrap">
+                        <a class="td_delete">删除</a>
+                    </div>
+                    <a href="/expert/edit/{{ list['id'] }}">修改</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }}
+        {% endif %}
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'expert';
+
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+
+        $("select[name=cityId]").val(cityId);
+        $("input[name=comAbbr]").attr('rule', '/^.{2,100}$/');
+        $("input[name=comName]").attr('rule', '/^.{2,100}$/');
+    }
+    function initEeditModal(data) {
+        $("select[name=cityId]").val(data.cityId);
+        $("input[name=comAbbr]").val(data.abbr);
+        $("input[name=comName]").val(data.name);
+    }
+    $(function() {
+        var cururl = base_url + "expert/";
+        $('.td_delete').click(function() {
+            var expertId = $(this).parent().parent("td").parent("tr").attr("expertId");
+            var _this = $(this);
+
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + expertId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+
+</script>

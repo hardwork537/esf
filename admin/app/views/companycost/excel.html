@@ -1,0 +1,14 @@
+<table border="1 solid black">
+<tr>
+	<th>日期</th>
+	<th>出售端口数量</th>
+	<th>出租端口数量</th>
+</tr>
+{% for date,value in lists %}
+<tr>
+	<td>{{ date }}</td>
+    <td>{{ value['portNum']['sale'] }}</td>
+    <td>{{ value['portNum']['rent'] }}</td>
+</tr>
+{% endfor %}
+</table>

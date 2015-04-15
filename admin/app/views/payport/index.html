@@ -1,0 +1,389 @@
+<div class="maininner"> 
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市运营管理  &gt; <strong class="font_gold">  定制收费端口 </strong> </h6>
+    <form method="get" action="/payport/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>
+                    <td width="140"> 
+                        <select name="cityId" id="cityId" class="form-control m">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit" > 搜索  </button>
+                        <button class="btn btn-success ml20 addmodal" type="button" > <strong> + </strong> 新增端口类型</button>
+                        {% if lists is not empty %}
+                        <button type="button" class="btn btn-default ml20 confirmmodal" status="{% if lists[0]['isSend']==openSend %}open{% else %}close{% endif %}">
+                            {% if lists[0]['isSend']==openSend %}已启用刷新赠送{% else %}已关闭刷新赠送{% endif %}
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+    {% if lists is empty %}  
+    <table class="table table-hover mt10"> 	 	 	 	 	
+        <tr>
+            <th>城市</th>
+            <th>类型</th>
+            <th>出售发布</th>
+            <th>出售精品</th>
+            <th>出售标签</th>
+            <th>出售刷新</th>
+            <th>出租发布</th>
+            <th>出租精品</th>
+            <th>出租标签</th>
+            <th>出租刷新</th>
+            <th>赠送刷新</th>
+            <th>价格</th>
+            <th>管理</th>
+        </tr>
+    </table>
+
+    <div class="noreascout">
+        <div> 
+            <p><strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
+        </div>
+    </div>
+
+    {% else %}
+    
+    <table class="table table-hover mt10">
+        <tr>
+            <th>城市</th>
+            <th>类型</th>
+            <th>出售发布</th>
+            <th>出售精品</th>
+            <th>出售标签</th>
+            <th>出售刷新</th>
+            <th>出租发布</th>
+            <th>出租精品</th>
+            <th>出租标签</th>
+            <th>出租刷新</th>
+            <th>赠送刷新</th>
+            <th>价格</th>
+            <th>管理</th>
+        </tr>
+        
+        {% for list in lists %}
+        <tr pcId="{{ list['id'] }}">  	  	  	  	 
+            <td align="center">{{ citys[list['cityId']] }}</td>
+            <td align="center">{{ list['name'] }}</td>
+            <td align="center">{{ list['esfRelease'] }}</td>
+            <td align="center">{{ list['esfBold'] }}</td>
+            <td align="center">{{ list['esfTags'] }}</td>
+            <td align="center">{{ list['esfRefresh'] }}</td>
+            <td align="center">{{ list['rentRelease'] }}</td>
+            <td align="center">{{ list['rentBold'] }}</td>
+            <td align="center">{{ list['rentTags'] }}</td>
+            <td align="center">{{ list['rentRefresh'] }}</td>
+            <td align="center">{{ list['refreshSend'] }}</td>
+            <td align="center">{{ list['price'] }}</td>
+            <td align="center" class="operate">
+                <a class="widthl editmodal">修改</a>
+                <div class=" arrow_tipswrap"> 
+                    <a class="td_delete">删除</a>
+                    <div class="arrow_tips">                        
+                    </div>
+                </div>               
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {{ page }} 
+    {% endif %}
+</div>
+
+<!-- 新增端口 -->
+<div class="modal fade" id="newmodal" aria-hidden="true">
+    <div class="modal-dialog" style=" width:600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增端口 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="端口" method="post" action="">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    城市:
+                                </td>
+                                <td  colspan=2>
+                                    <select name="cityId" class="form-control s">
+                                       	<?=MyTags::options($citys, $cityId)?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    端口:
+                                </td>
+                                <td>
+                                    <select name="portId" class="form-control s">
+                                        <?=MyTags::options($ports, 0)?>
+                                    </select>
+                                </td>
+                                <td align="right" width="140">
+                                    端口类型:
+                                </td>
+                                <td>
+                                    <select name="type" class="form-control s">
+                                        <?=MyTags::options($types, 0)?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    出售发布房源量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="esfRelease" notnull=true  info="出售发布房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                                <td align="right">
+                                    出售精品房源量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="esfBold" notnull=true  info="出售精品房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    出售标签数量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="esfTag" notnull=true  info="出售标签数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                                <td align="right">
+                                    出售刷新数量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="esfRefresh" notnull=true  info="出售刷新数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    出租发布房源量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="rentRelease" notnull=true  info="出租发布房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                                <td align="right">
+                                    出租精品房源量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="rentBold" notnull=true  info="出租精品房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    出租标签数量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="rentTag" notnull=true  info="出租标签数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                                <td align="right">
+                                    出租刷新数量:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="rentRefresh" notnull=true  info="出租刷新数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    赠送刷新:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="refreshSend" notnull=true  info="赠送刷新" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                                <td align="right">
+                                    端口价格:
+                                </td>
+                                <td>
+                                    <input class="form-control s" type="text" name="price" notnull=true  info="端口价格" rule="/^\d+$/"/><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="pcId" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 确认弹出框 -->
+<div class="modal fade" id="model_confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="model_success1Label"> 系统提示 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="system_words"> 
+                    <img src="{{ src_url }}images/icon_attention.fw.png" class="imgleft" />
+                    <div class=" divr"> 
+                        <p> <strong class="font14 font_333 confirm_msg"> 确定要开启赠送功能吗？ </strong> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success confirmSubmit">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该端口吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除端口类型成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回端口类型列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm "> 删除端口类型失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回重新操作</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu1';
+    var moudle = 'payport';
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+    }
+    function initEeditModal(data) {
+        $("#form1 select[name=cityId]").val(data.cityId);
+        $("#form1 select[name=portId]").val(data.portId);
+        $("#form1 select[name=type]").val(data.type);
+        $("#form1 input[name=esfRelease]").val(data.esfRelease);
+        $("#form1 input[name=esfBold]").val(data.esfBold);
+        $("#form1 input[name=esfTag]").val(data.esfTags);
+        $("#form1 input[name=esfRefresh]").val(data.esfRefresh);
+        $("#form1 input[name=rentRelease]").val(data.rentRelease);
+        $("#form1 input[name=rentBold]").val(data.rentBold);
+        $("#form1 input[name=rentTag]").val(data.rentTags);
+        $("#form1 input[name=rentRefresh]").val(data.rentRefresh);
+        $("#form1 input[name=refreshSend]").val(data.refreshSend);
+        $("#form1 input[name=price]").val(data.price);
+    }
+    $(function() {
+        var cururl = base_url + "payport/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".addmodal").click(function() {
+            initModal();
+            $("#newmodal").smodal({title: "添加端口类型", act: 'add'});
+        });
+
+        $(".editmodal").click(function() {
+            initModal();
+            var pcId = $(this).parent("td").parent("tr").attr("pcId");
+            $("#form1 input[name=pcId]").val(pcId);
+            $("#newmodal").smodal({title: "修改端口类型", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + pcId + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });
+        
+        $('.td_delete').click(function() {
+            var pcId = $(this).parent().parent("td").parent("tr").attr("pcId");
+            var _this = $(this);
+            
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + pcId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+        
+        $(".confirmmodal").click(function() {
+            var status = $(this).attr("status");
+            if('open' == status) {
+                msg = '确定要关闭赠送功能吗？';
+            } else {
+                msg = '确定要开启赠送功能吗？';
+            }
+            $.confirmModal(msg);
+        });
+        
+        $(".confirmSubmit").click(function() {
+            var status = $(".confirmmodal").attr("status");
+            var display = 'open' == status ? 'close' : 'open';
+            var cityId = $("#cityId").val();
+            
+            $.request({
+                url: cururl + "display/" + display + "/?cityId=" + cityId,
+                callback: function(msg) {
+                    location.reload(false);
+                }
+            });
+        });
+
+    });
+
+</script>

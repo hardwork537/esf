@@ -1,0 +1,212 @@
+.toggle{
+    margin: 28px 0 40px;
+    padding: 0 10px 0 20px;
+    height: 40px;
+    line-height: 40px;
+    background: #eee;
+    border-bottom: 1px solid #d9d9d9;
+    font-size: 14px;
+    font-weight: 700;
+}
+    .toggle .showHide{
+        margin: 5px 0 0;
+        padding: 0 0 0 22px;
+        display: inline-block;
+        width: 64px;
+        height: 30px;
+        line-height: 28px;
+        overflow: hidden;
+        text-align: center;
+        border: 1px solid #bcbcbc;
+        background: #fff url('../images/bg_icons.png') no-repeat 10px -94px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .toggle .showHide:hover, .toggle .showHide:focus, .toggle .showHide:active{
+        background-color: #eee;
+    }
+    .toggle .open{
+        background-position: 10px -114px;
+    }
+
+/* main balock */
+.formCon{
+    padding: 0 0 11px;
+    width: 888px;
+}
+.bigImg{
+    position: relative;/*20140729 add*/
+    padding: 30px 17px 0 0;
+    background: #eee;
+    width: 600px;
+}
+    .bigImg .control-group .control-label{
+        width: 80px;
+    }
+    .bigImg .hasInput{
+        text-align: right;
+        margin: 5px 0;
+    }
+    .bigImg .control-group input, .bigImg .control-group .control-label{
+        font-size: 12px;
+    }
+    /*20140729 add*/
+    .bigImg .icon_del{
+        position: absolute;
+        right: -12px;
+        top: -11px;
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        background: url('../images/bg_del.png') no-repeat 0 0;
+    }
+    .bigImg .icon_del:hover, .bigImg .icon_del:focus, .bigImg .icon_del:active{
+        background-position: 0 -26px;
+        cursor: pointer;
+    }
+
+/*bootcss*/
+label {
+    font-weight: normal;
+    font-size: 14px;
+}
+.control-group{
+    margin: 0 0 20px;
+    width: 100%;
+}
+    .control-group .control-label {
+        float: left;
+        width: 160px;
+        padding-top: 5px;
+        text-align: right;
+    }
+    .control-group input, .control-group textarea, .control-group .tagBox{
+        margin: 0 3px 0 0;
+        display: inline-block;
+        width: auto;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        /*background-color: #fff;
+        background-image: none;*/
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+        -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+    .control-group input{
+        height: 34px;
+    }
+    .control-group .w500{
+        width: 500px;
+    }
+    .control-group .w400{
+        width: 400px;
+    }
+    .control-group .w107{
+        width: 107px;
+    }
+    .bigImg .control-group .w57{
+        width: 57px;
+    }
+    .control-group textarea, .control-group .tagBox{
+        width: 600px;
+        vertical-align: text-bottom;
+    }
+    .control-group .i_add{
+        color: #0040d8;
+        font-style: normal;
+        cursor: pointer;
+    }
+    .control-group .i_size{
+        margin: -18px 0 0 150px;
+    }
+    .control-group .ruleCon{
+        margin: 0 0 10px;
+    }
+    .ruleCon i{
+        line-height: 30px;
+    }
+    .content_box{
+        margin-left: 20px;
+        width: 560px;
+    }
+
+.btn-success{
+    margin: 0 6px 0 0;
+}
+.btnSave{
+    margin: -62px 10px 0 0;
+    float: right;
+    padding: 0;
+}
+.btnClone{
+    display: block;
+    width: 600px;
+    height: 39px;
+    line-height: 39px;
+    background: #ebebeb;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btnClone:hover, .btnClone:focus, .btnClone:active{
+    background: #ddd;
+}
+.control-group .tagBox{
+    padding: 10px 0 10px 10px;
+    width: 600px;
+    height: 105px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+    .tagBox span{
+        margin: 5px 0 5px 10px;
+        display: inline-block;
+        width: 100px;
+    }
+    .tagBox span input{
+        border: 0;
+        height: auto;
+    }
+
+.img_upload {
+    border: solid 1px #ccc;
+    width: 140px;
+    height: 100px;
+    /*line-height: 100px;*/
+    background: #fff;
+    text-align: center;
+    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+}
+.img_upload .del{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 15px;
+    height: 26px;
+    line-height: 24px;    
+    text-align: center;
+    text-decoration: none;    
+    width: 26px;
+}
+.img_upload img {
+    max-height: 98px;
+    max-width: 138px;
+}
+
+

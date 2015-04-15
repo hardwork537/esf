@@ -1,0 +1,23 @@
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+<?php use Phalcon\Tag; ?>
+
+<h2>Sign using this form</h2>
+
+<?php echo Tag::form("signup/register"); ?>
+
+ <p>
+    <label for="name">Name</label>
+    <?php echo Tag::textField("name") ?>
+ </p>
+
+ <p>
+    <label for="name">E-Mail</label>
+    <?php echo Tag::textField("email") ?>
+ </p>
+
+ <p>
+    <?php echo Tag::submitButton("Register") ?>
+ </p>
+
+</form>

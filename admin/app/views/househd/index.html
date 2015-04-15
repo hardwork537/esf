@@ -1,0 +1,420 @@
+<div class="maininner">
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 高清房源审核 </strong> </h6>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong> 高清房源审核标准：</strong> <span id="showMsg">1、 三张及以上1000*430高清 无压缩拉伸室内图 、一张户型图； 2、30字以上房源描述； 3、非违规房源</span>
+    </div>
+
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="{% if selectData['verification'] ==0 %}active{% endif %}"><a href="/househd/?verification=0&cityId={{selectData['cityId']}}" >待审核区</a></li>
+        <li class="{% if selectData['verification'] ==1 %}active{% endif %}"><a href="/househd/?verification=1&cityId={{selectData['cityId']}}" >审核通过房源</a></li>
+        <li class="{% if selectData['verification'] ==3 %}active{% endif %}"><a href="/househd/?verification=3&cityId={{selectData['cityId']}}">已驳回</a></li>
+    </ul>
+
+    <div class="panel panel-default  search_form mb15 mt10">
+        <form action="/househd/" method="get">
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <td width="120">
+                            <select class="form-control s" name="cityId" id="cityId">
+                                <?=MyTags::options($citys, $selectData['cityId'])?>
+                            </select>
+                        </td>
+                        <td width="120">
+                            <select id="district_id" name="districtId" class="form-control s">
+                                <option value="0" selected>城区</option>
+                                <?=MyTags::options($district, $selectData['districtId'])?>
+                            </select>
+                        </td>
+                        <td width="120">
+                            <select id="hot_area_id" name="regionId" class="form-control s">
+                                <option value="0">板块</option>
+                                <?=MyTags::options($saleRegion, $selectData['saleRegionId'])?>
+                            </select>
+                        </td>
+                        <td width="180">
+                            <div class="inputwrap">
+                                <input class=" form-control autoComplete" style="width:160px;" url="/ajax/getParkName/" toName="parkId" nums=10 type="text" placeholder="请输入小区名称关键字"  name="parkName" value="{{ selectData['parkName'] }}"  autocomplete="off"/>
+                                <input id="parkId" type="hidden" value="{{ selectData['parkId'] }}" name="parkId">
+                            </div>
+                        </td>
+						<td width="140">
+                            <input class="form-control" type="text" placeholder="   房源ID " name="houseId" value="{{selectData['houseId']}}" />
+                        </td>
+                        <td width="140">
+                            <input class="form-control" type="text" placeholder="   经纪人账号 " name="realtorAccount" value="{{selectData['realtorAccount']}}" />
+                        </td>
+                        <td >
+                            <input type="hidden" name="verification" value="{{selectData['verification']}}">
+                            <button class="btn btn-gray ml20" type="submit">搜 索</button>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </form>
+    </div>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">
+            <!-- tab1 start -->
+
+            <div class="operaterow">
+                {% if selectData['verification'] ==0 %}
+                <button type="button" class="btn btn-success btn-success-ok" data-toggle="modal" data-target="#tongguo" > 通过审核 </button>
+                <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#weigui" > 设为违规 </button>
+                <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#bohui" > 设为驳回 </button>
+                {% elseif selectData['verification'] ==1 %}
+                <button type="button" class="btn btn-danger_again widthl btn-success"  > 重新审核 </button>
+                {% elseif selectData['verification'] ==3 %}
+                <button type="button" class="btn btn-success btn-success-ok" data-toggle="modal" data-target="#tongguo" > 通过审核 </button>
+                {% endif %}
+
+            </div>
+
+            {% if houseList %}
+
+            <table class="table mt10">
+
+                <tr>
+                    <th class="checkboxwrap" style="min-width:80px;"><input type="checkbox" class="selectAll" /> 房源ID</th>
+                    <th style="min-width:150px;">基本信息</th>
+                    <th style="min-width:100px;">房源发布时间</th>
+                    <th>{% if selectData['verification'] !=0 %}审核时间{%else%}操作{%endif%}</th>
+                    {% if selectData['verification'] ==3 %}
+                    <th>驳回理由</th>
+                    {%endif%}
+                </tr>
+
+                {% for house in houseList %}
+                <tr houseId="{{house['id']}}">
+                    <td>
+                        <input type="checkbox" name="houseIds" value="{{house['id']}}" class="checkBoxClass">
+                        {% if selectData['verification'] ==0 %}
+                        <a target="_blank" href="/househd/preview/{{house['id']}}">{{house['id']}}</a>
+                        {% else %}
+                        {{house['id']}}
+                        {%endif%}
+                    </td>
+                    <td align="center">
+                        <a href="http://{{houseExt['cityInfo']['pinyinAbbr']}}.esf.focus.cn/view/{{house['id']}}.html" target="_blank">{{houseExt['housePark'][house['parkId']]['name']}}/{{house['bedRoom']}}室{{house['price']}}万元 </a>
+                    </td>
+                    <td align="center">{{ house['create'] }}</td>
+                    <td align="center" class="operate">
+                        {% if selectData['verification'] ==0 %}
+                        <div class=" arrow_tipswrap">
+                            <a class="widthl td_delete_weigui" data-toggle="modal" data-target="#weigui">置为违规</a>
+                        </div>
+                        <div class=" arrow_tipswrap">
+                            <a class="widthl td_delete_ok">审核通过</a>
+                        </div>
+                        <div class=" arrow_tipswrap">
+                            <a class="widthl td_delete_weigui" data-toggle="modal" data-target="#bohui">驳回</a>
+                        </div>
+                        {% else %}
+                        <div class=" arrow_tipswrap">
+                            {{ house['houseUpdate'] }}
+                        </div>
+                        {% endif %}
+
+                    </td>
+                    {% if selectData['verification'] ==3 %}
+                    <td>
+                        <div class=" arrow_tipswrap">
+                            {%if house['opValue'] %}
+                            {{ houseExt['bohuiInfo'][house['opValue']] }}
+                            {% else %}
+                            {{houseExt['auditingInfo'][house['id']]['remark']}}
+                            {% endif %}
+
+                        </div>
+                    </td>
+                    {%endif%}
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <table class="table table-striped table-hover mt10">
+                <tr>
+                    <th class="checkboxwrap" style="min-width:80px;"><input type="checkbox" class="selectAll" /> 房源ID</th>
+                    <th style="min-width:150px;">基本信息</th>
+                    <th style="min-width:100px;">房源发布时间</th>
+                    <th>{% if selectData['verification'] !=0 %}审核时间{%else%}操作{%endif%}</th>
+                    {% if selectData['verification'] ==3 %}
+                    <th>驳回理由</th>
+                    {%endif%}
+                </tr>
+            </table>
+
+            <div class="noreascout">
+                <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                    <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+            </div>
+            {% endif %}
+
+            <!-- tab1 end -->
+        </div>
+    </div>
+    <!--分页开始-->
+    {{page}}
+    <!--分页结束-->
+
+</div>
+
+<!-- 设为违规 -->
+<div class="modal fade" id="weigui" tabindex="-1" role="dialog" aria-labelledby="weiguiLabel" aria-hidden="true">
+    <form name="form1" id="form1" method="post">
+        <div class="modal-dialog" style=" width:450px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="weiguiLabel"> 房源违规 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="edittable">
+                        <div class="alert alert-warning alert-dismissible" role="alert" style="display: none">
+                            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <strong> 提示：</strong> <span id="showMsg">您输入的内容有误！</span>
+                        </div>
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140"> 违规理由:</td>
+                                <td>
+                                    <select id="reasons" name="reasons" class="form-control">
+                                        <?=MyTags::options($houseExt['weiguiInfo'])?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="remark"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="houseIds" value="">
+                    <button type="button" class="btn btn-success btn-success-weigui">保 存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 设为违规 -->
+<div class="modal fade" id="bohui" tabindex="-1" role="dialog" aria-labelledby="bohuiLabel" aria-hidden="true">
+    <form name="form1" id="form2" method="post">
+        <div class="modal-dialog" style=" width:450px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="bohuiLabel"> 房源驳回 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="edittable">
+                        <div class="alert alert-warning alert-dismissible" role="alert" style="display: none">
+                            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <strong> 提示：</strong> <span id="showMsg">您输入的内容有误！</span>
+                        </div>
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140"> 驳回理由:</td>
+                                <td>
+                                    <select id="reasons" name="reasons" class="form-control">
+                                        <?=MyTags::options($houseExt['bohuiInfo'])?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="remark"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="houseIds" value="">
+                    <button type="button" class="btn btn-success btn-success-bohui">保 存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'househd';
+    var cururl = base_url + "househd/";
+    function getCheckBox(){
+        var value = $("input[name='houseIds']");
+        var ids = new Array();
+        var y = 0;
+        for (var i in value){
+            if(value[i].checked){
+                ids[y] = value[i].value;
+                y++;
+            }
+        };
+        if(ids.length ==0 ){
+            alert("请选择要操作的房源！");
+            return false;
+        }
+        return ids;
+    }
+    //审核通过
+    $('.btn-success-ok').click(function(){
+        var idArray = getCheckBox();
+        if(!idArray) return false;
+        var idsStr = idArray.join('-');
+        $.request({
+            url: cururl + "saveAuditing/" + idsStr + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("审核成功");
+                    location.reload(false);
+                    //_this.editSuccess("审核成功");
+                } else {
+                    alert("审核失败");
+                }
+            }
+        });
+    });
+    //审核通过,单条
+    $('.td_delete_ok').click(function(){
+        var id = $(this).parent().parent("td").parent("tr").attr("houseId");
+        $.request({
+            url: cururl + "saveAuditing/" + id + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("操作成功！");
+                    location.reload(false);
+                } else {
+                }
+            }
+        });
+    });
+    //审核不通过
+    $(".btn-danger").click(function(){
+        var idArray = getCheckBox();
+        if(!idArray) return false;
+        var idsStr = idArray.join('-');
+        $("input[name='houseIds']").val(idsStr);
+    });
+    $(".btn-success-weigui").click(function() {
+        //$("#weigui").hide();
+        var _this = $(this);
+        $("#form1").ajaxSubmit({
+            "url" : cururl  + "AuditingNo/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    _this.editSuccess("修改成功");
+                    return false;
+                } else {
+
+                    _this.editFail("修改失败");
+                }
+            }
+        });
+    });
+    //驳回
+    $(".btn-success-bohui").click(function() {
+        //$("#bohui").hide();
+        var _this = $(this);
+        $("#form2").ajaxSubmit({
+            "url" : cururl  + "AuditingBohui/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    _this.editSuccess("修改成功");
+                    return false;
+                } else {
+                    _this.editFail("修改失败");
+                }
+            }
+        });
+    });
+    ///////////////////城市 板块 联动
+    var curAjaxUrl = base_url + "ajax/";
+    $("select[name='cityId']").change(function(){
+        var cityId = $(this).val();
+        $.request({
+            url: curAjaxUrl + "getDistByCityId/" + cityId + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    var html = '<option value="0" selected="">城区</option>';
+                    var data = msg.data;
+                    for (var dist in data ){
+                        html += '<option value="'+dist+'">'+data[dist]+'</option>';
+                    }
+                    $("select[name='districtId']").html(html);
+                } else {
+                }
+            }
+        });
+        $("select[name='regionId']").html( '<option value="0" selected="">板块</option>');
+    });
+
+    $("select[name='districtId']").change(function(){
+        var districtId = $(this).val();
+        $.request({
+            url: curAjaxUrl + "getRegByDistId/" + districtId + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    var html = '<option value="0" selected="">板块</option>';
+                    var data = msg.data;
+                    for (var reg in data ){
+                        html += '<option value="'+reg+'">'+data[reg]+'</option>';
+                    }
+                    $("select[name='regionId']").html(html);
+                } else {
+                }
+            }
+        });
+    });
+    ///////////////城市板块联动end
+    $(".td_delete_weigui").click(function(){
+        var id = $(this).parent().parent('td').parent('tr').attr('houseId');
+        $("input[name='houseIds']").val(id);
+    })
+    //重新审核
+    $('.btn-danger_again').click(function() {
+        var idArray = getCheckBox();
+        if(!idArray) return false;
+        var idsStr = idArray.join('-');
+        var _this = $(this);
+        $.request({
+            url: cururl + "AuditingAgain/" + idsStr + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("操作成功");
+                    //_this.delSuccess("操作成功");
+                    location.reload(false);
+                } else {
+                    alert("操作失败");
+                    //_this.editFail("操作失败");
+                }
+            }
+        });
+    });
+
+    var all = $('.selectAll'), ckb_user = $('.checkBoxClass');
+    all.click(function(){
+        var flag = $(this).prop("checked");
+        ckb_user.each(function(){
+            $(this).prop("checked",flag);
+        });
+    })
+</script>

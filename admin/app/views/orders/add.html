@@ -1,0 +1,163 @@
+﻿<div class="maininner">
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; CS管理  &gt; <strong class="font_gold"> 客户合同管理  </strong> </h6>
+
+       <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">合同信息</h3>
+          </div>
+          <div class="panel-body">
+               <div class="edittable">
+			   <div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<strong> 提示：</strong>
+			<span class="notice-info">您输入的内容有误！</span>
+		</div>
+              <form id="form1" onsubmit="" form_tittle="合同" method="post" action="/orders/add/"  enctype="multipart/form-data">
+			  <input type="hidden" name="act" value="add">
+			  <table class="edittable">
+                  <tbody><tr>
+                      <td width="140" align="right">
+                          所在城市:
+                      </td>
+                      <td>
+                          <select class="form-control s" name="cityId">
+								<?=MyTags::options($citys, $cityId)?>
+						  </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width="140" align="right">
+                          客户账号:
+                      </td>
+                      <td>
+                         <select class="form-control s" name="to" id="orderTo">
+								<?=MyTags::options($orderTo, $orderTo)?>
+						  </select>
+						  <input type="text" class="form-control" name="accname" value=""  notnull="true" info="客户账号" />
+							<button type="button" class="btn btn-success checkAccname">检查账号</button>
+                      </td>
+                  </tr>
+                  <tr>
+
+                      <td valign="top" align="right">
+                          合同管理:
+                      </td>
+                      <td class="addhetong">
+                        <div>
+							<input type="hidden" value=",3011,2088,1509" name="delImage" id="delImage">
+							<a href="javascript:void(0);" onclick="addImage(this)">新增合同</a>
+						</div>
+							<!--dd>
+								<label></label>
+								<input type="file"  name="image[]">
+								<input type="hidden" value="606" style="display:none;" name="id[]">
+								<span class="view"><input type="text" value="" class="image"></span>
+								<input width="20" type="text" style="width: 130px;" class="contract_no" maxlength="18" value="" name="contract_no[]">
+								<input type="text" class="price" maxlength="10" value="" name="price[]">
+								<input type="button" value="上传图片" onclick="imageUpload(this);">
+								<a data_id="606" onclick="delImage(this);" href="javascript:void(0)">删除</a>
+								<span class="notice"></span>
+							</dd-->
+                      </td>
+                  </tr>
+                  <tr>
+                    <td> </td>
+                    <td>
+                      <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                      <button type="button" class="btn btn-default widthl cancelButton">取 消</button>
+                   </td>
+                  </tr>
+              </tbody></table>
+			  </form>
+             </div>
+
+          </div>
+        </div>
+
+     </div>
+<script type="text/javascript">
+	var menu = 'menu8';
+	var moudle = 'orders';
+	var cururl = base_url + "orders/";
+	$(function(){
+		$(".checkAccname").click(function(){
+			if(checkAccname()){
+				alert("账号可用");
+			}else{
+				alert("账号不可用");
+			}
+		});
+		$(".saveButton").click(function(){
+			if(! $('.contract_no').val() ){
+				$.error('请至少填一个合同！');
+				return false;
+			}
+			if(!checkAccname()){
+				$.error('账号不可用!');
+				return false;
+			}
+
+			$("#form1").formCheck({
+				callback:function(){
+					$("#form1").submit();
+				}
+			});
+		});
+		$(".cancelButton").click(function(){
+			location.href = cururl;
+		});
+	});
+
+	function checkAccname(){
+		flag = false;
+		var to = $("#orderTo").val();
+		var accname = $("input[name=accname]").val();
+		$.request({
+			method:"post",
+			data:"type="+to+"&accname="+accname,
+			url:"/ajax/checkAccname/",
+			async: false,
+			callback:function(msg){
+				if(msg.status==0){
+					flag = true;
+				}else{
+					flag = false;
+				}
+			}
+		});
+		return flag;
+	}
+	function imageUpload(obj){
+		$(obj).parent().children('input[type=file]').change(function(){
+			$(this).parent().children('.image').val( $(this).val() );
+			$(this).parent().children('.view').html('<input type="text" class="image" value="'+$(this).val()+'"/>');
+		}).click();
+		return false;
+	}
+
+	function delImage(obj){
+		$(obj).parent().remove();
+		$('#delImage').val( $('#delImage').val()+','+$(obj).attr('data_id') );
+	}
+	function addImage(obj){
+		$(obj).parent().parent().append(
+			'<dd style="margin:5px 0;"><label></label>'+
+				'<input type="file" name="image[]" style="display:none;" />'+
+				'<input type="text" class="image form-control" disabled="disabled"  notnull="true" placeholder="请上传合同图片" info="合同图片" />'+
+				'<input type="text" name="contract_no[]" value="" style="width:250px"  placeholder="对应合同编号" width="20" maxlength="18" class="contract_no form-control" style="width: 130px;"  notnull="true" rule=/^[0-9a-zA-Z-_]{18}$/ info="合同编号"/>'+
+				'<input type="text" name="price[]" value="" placeholder="合同金额"  maxlength="10"  class="price form-control s"  notnull="true" rule="/^[1-9][0-9]+(\.[0-9]+)?$/" info="合同金额"/>'+
+				'<input type="button" onclick="imageUpload(this);" class="btn  btn btn-default  widthl cancelButton" value="上传图片" />'+
+				'<a href="javascript:void(0)" onclick="delImage(this);" class="btn  btn btn-default  widthl cancelButton">删除</a>'+
+				'<span class="notice"></span>'+
+			'</dd>'
+		);
+	}
+
+
+
+
+</script>

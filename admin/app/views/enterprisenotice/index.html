@@ -1,0 +1,182 @@
+<script src="{{src_url}}js/ueditor.config.js" type="text/javascript"></script>
+<script src="{{src_url}}js/ueditor.all.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://v2.imgup.focus.cn/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="http://v2.imgup.focus.cn/js/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript" src="http://v2.imgup.focus.cn/js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="{{src_url}}js/ajaxfileupload.js"></script>
+<div class="maininner">
+	<h6 class="maintt">
+		您的位置：
+		<a href="/">首页</a>
+		&gt; 功能管理 &gt;
+		<strong class="font_gold"> 企业公告 </strong>
+	</h6>
+	<form method="get" action="/enterprisenotice/">
+	<table class="search_form mb15">
+		<tbody>
+			<tr>
+                            <td width="56">请选择：</td>
+				<td width="140">
+					<select class="form-control"  id="cityId" name="cityId">
+						<?=MyTags::options($citys, $cityId)?>
+					</select>
+				</td>
+                                <td width="62">公告类型</td>
+				<td width="140">
+					<select class="form-control" id="typeId" name="typeId">
+						<?=MyTags::options($types, $typeId)?>
+					</select>
+				</td>
+				<td>
+					<button class="btn btn-gray" type="submit">确定</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+    <form id="form1" onsubmit="return false" method="post" action="">
+        <table class="search_form mb15">
+            <tr>
+                <td align="right" width="90" valign="top">
+                    公告内容管理:
+                </td> 
+                <td style=" padding-left:10px;">
+                    <script id="editor" type="text/plain" style="width:600px;height:260px;" >{{notice['text']}}</script>
+                    <script>
+                        var ue = UE.getEditor('editor', {
+                                autoHeight: false,
+                                toolbars: [
+                                    ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+                                ]
+                            });
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td align="right" width="" valign="top">
+                    广告图片管理:
+                </td> 
+				<td  style=" padding-left:10px;">
+				</td>
+            </tr>
+            <tr>
+                <td align="right" width="" valign="top">
+                    广告预览:
+                </td> 
+                <td style=" padding-left:10px;">
+                    <input type="hidden" name="imageId" value="{{ imageId }}"/>
+                    <input type="hidden" name="imageExt" value="{{ imageExt }}" />   
+                    <input type="hidden" name="noticeId" value="{{ notice['id'] }}" /> 
+                    <input type="file" style="display:none;" id="image_upload" name="image_upload" onchange="upload_image('image_show');">
+                    {% if imgurl %}
+                    <a class="img_upload" href="javascript:;" id="image_default"><img src="{{imgurl}}" onclick="$('#image_upload').click();" /></a><!--默认未传图-->
+                    <span class="img_upload" style="display: none;" id="image_show"><img src="" /><a class="del" id="del_photo" href="javascript:;">x</a></span>
+
+                    {% else %}
+                    <a class="img_upload" href="javascript:;" id="image_default"><img src="{{ src_url }}images/thumbnail_default.png" onclick="$('#image_upload').click();" /></a><!--默认未传图-->
+                    <span class="img_upload" style="display: none;" id="image_show"><img src="" /><a class="del" id="del_photo" href="javascript:;">x</a></span>
+                    {% endif %}      
+                </td>
+                </tr>
+                <tr>
+                <td align="right" width="" valign="">
+                    网址:
+                </td> 
+                <td style=" padding-left:10px;">
+                    <input type="text" name="adurl" value="{{notice['adurl']}}" class="form-control l" />
+                </td> 
+            </tr>
+            <tr>
+                <td align="right" > </td>
+                <td style=" padding-left:3px;">
+                    <div class=" heightl">
+                        <button type="button" class="btn btn-success saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthxl" data-dismiss="modal">取 消</button>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="cityId" value="{{cityId}}" />
+        <input type="hidden" name="typeId" value="{{typeId}}" />
+    </form>
+
+</div>
+<script type="text/javascript">
+    
+    var menu = 'menu9';
+    var moudle = 'enterprisenotice';
+    var cityId = $("#cityId").val();
+    var typeId = $("#typeId").val();
+    var userId = {{ userid }};
+        var cururl = base_url + "enterprisenotice?cityId="+ cityId + "&typeId="+ typeId ;
+        $(".saveButton").click(function() {
+            
+            $("#form1").ajaxSubmit({
+                "url" : cururl,
+                "callback" : function(msg) {
+
+                    if (msg.status == 0) {
+                        
+                        alert("公告发布成功");
+                        //if(_do=='add'){
+                            location.href=cururl;
+                            return false;
+                        //}
+                        //location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+        $(".cancelButton").click(function(){
+            location.href = cururl;
+        })
+    
+    $(document).ready(function(){
+
+  	});
+        
+        
+    function upload_image(image_id) {
+    $.ajaxFileUpload ({
+        url           : '/ajax/uploadimage/'+userId+'/',
+        secureuri     : false,
+        fileElementId : 'image_upload',
+        dataType      : 'json',
+        success : function (data, status){
+            if(data.status  == 0) {
+                //上传成功
+                _create_image_box(data.msg, image_id);
+            } else {
+                //上传失败
+                var msg = data.msg ? data.msg : '上传失败，请稍后重试！';
+                $.error(msg);
+                $.toTop();
+            }
+        },
+        error: function (data, status, e){
+            $.error(data['responseText']);         
+        }
+    });
+    
+    function _create_image_box(data, image_id) {
+        $("input[name='imageId']").val(data.id);
+        $("input[name='imageExt']").val(data.ext);
+        $("#image_default").hide();
+        $("#" + image_id).show().find("img:first").attr("src", data.upload_url);   
+    } 
+}
+
+        $("#del_photo").click(function() {
+        $("#image_show").hide();
+        $("#image_default").show();
+        $("input[name='imageId']").val('');
+        $("input[name='imageExt']").val('');
+    });
+
+
+
+</script>
+

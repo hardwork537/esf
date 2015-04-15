@@ -1,0 +1,88 @@
+.wrap{ 
+	width:1200px; 
+	margin:0 auto; 
+	clear:both; 
+	display:block; 
+	zoom:1; 
+	height:auto; 
+}
+.wrap:after{ 
+	content:"."; 
+	display:block; 
+	height:0; 
+	clear:both; 
+	visibility:hidden; 
+}
+.foot{ 
+	font-size: 12px;
+	text-align:center; 
+	color:#333333; 
+	background-color:#fff; 
+	padding-bottom:30px; 
+	line-height:24px;
+}
+.top {
+	background-color: #3882CD;
+	height: 330px;
+	width: 100%;
+}
+.top_inner {
+	background: #3882CD url(../images/bg_index.png) no-repeat 170px bottom;
+	height: 100%;
+	position: relative;
+}
+.top_inner .logo {
+	position: absolute;
+	top: 100px;
+	left: 550px;
+}
+.top_inner .btn {
+	position: absolute;
+	top: 190px;
+	left: 716px;
+	color: #fff;
+	background-color: #87C66F;
+	border-color: #95CC80;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: \5b8b\4f53;
+	padding-top: 10px;
+	text-shadow: 0 1px rgba(0,0,0,.15);
+	width: 260px;
+	outline: none !important;
+}
+.top_inner .btn:hover {
+	background-color: #71bc54;
+	border-color: #87C66F;
+}
+.cms_intro {
+	color: #1f1f1f;
+	font-size: 14px;
+	line-height: 30px;
+	margin: 70px 0;
+}
+.cms_intro .grid {
+	position: relative;
+	display: inline-block;
+	padding-left: 110px;
+	width: 33%;
+}
+.cms_intro .icon1, .cms_intro .icon2, .cms_intro .icon3 {
+	background-image: url(../images/login.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 51px;
+	width: 51px;
+	position: absolute;
+	left: 40px;
+	top: 8px;
+}
+.cms_intro .icon1 {
+	background-position: 0 -120px;
+}
+.cms_intro .icon2 {
+	background-position: 0 -191px;
+}
+.cms_intro .icon3 {
+	background-position: 0 -264px;
+}

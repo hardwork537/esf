@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<table class="table table-hover mt10" border=1>
+    <tr>
+        <th>面积</th>
+        <th>搜索比例</th>
+        <th>房源比例</th>
+        {% if comNames %}
+        {% for oneCom in comNames %}
+        <th>{{oneCom["abbr"]}}</th>
+        {% endfor %}
+        {% endif %}
+
+    </tr>
+    {% if list %}
+    {% for one in list %}
+    <tr>
+        <td align="center">{{one["areaName"] | default("0%")}}</td>
+        <td align="center">{{one['clickUnit'] | default("0%")}}</td>
+        <td align="center">{{one['house'] | default("0%")}}</td>
+        {% for com in one['company'] %}
+        <td align="center">{{com}}</td>
+        {% endfor %}
+
+    </tr>
+    {% endfor %}
+    {% endif %}
+</table>
+</body>
+</html>

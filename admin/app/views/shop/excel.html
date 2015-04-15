@@ -1,0 +1,26 @@
+<table border=1>
+<tr>
+	<th>所属公司</th>
+	<th>门店名称</th>
+	<th>门店账号</th>
+	<th>出售端口数量</th>
+	<th>出租端口数量</th>
+	<th>所属板块</th>
+	<th>销售</th>
+	<th>客服</th>
+</tr>
+{% for list in lists %}
+<tr>
+	<td>{{ companys[list['comId']]['abbr'] }}</td>
+    <td>{{ list['name'] }}</td>
+    <td>{{ accounts[list['id']]['name'] }}</td>
+	<td>{{ portList[list['id']]['saleNum']|default(0) }}</td>
+	<td>{{ portList[list['id']]['rentNum']|default(0) }}</td>
+	<td>{{ shopRegions[list['regId']]['name'] }}</td>
+	<td>{% if allocation[list['id']]['toId1'] %}{{ users[allocation[list['id']]['toId1']]['name'] }}{% endif %}</td>
+	<td>{% if allocation[list['id']]['toId2'] %}{{ users[allocation[list['id']]['toId2']]['name'] }}{% endif %}</td>
+</tr>
+{% endfor %}
+</table>
+
+

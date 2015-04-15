@@ -1,0 +1,38 @@
+﻿<table class="table table-hover mt10" border=1>
+            <tr>
+                <th style=" min-width:68;" rowspan="2">行政区</th>
+                <th style=" min-width:68;" rowspan="2">热点区域</th>
+                <th style=" min-width:102;" rowspan="2">楼盘名称</th>
+                <th style=" padding:0 10px;" colspan="2">发布房源</th>
+                <th style=" padding:0 10px;" colspan="2">精品房源</th>
+                <th style=" padding:0 10px;" colspan="2">发布房源点击量</th>
+                <th style=" padding:0 10px;" colspan="2">精品房源点击量</th>
+            </tr>
+            <tr>
+                <th style=" padding:0 10px;">数量</th>
+                <th style=" padding:0 10px;">占比</th>
+                <th style=" padding:0 10px;">数量</th>
+                <th style=" padding:0 10px;">占比</th>
+                <th style=" padding:0 10px;">数量</th>
+                <th style=" padding:0 10px;">占比</th>
+                <th style=" padding:0 10px;">数量</th>
+                <th style=" padding:0 10px;">占比</th>
+            </tr>
+            {% for one in list %}
+            <tr>
+                <td>  {{district[one['distId']]}}  </td>
+                <td> {{hotRrgin[one['regId']]['name']}} </td>
+                <td> {{parkBase[one['parkId']]['name']}} </td>
+                <td> {%if selectData['type']==1%}{{one['saleReleaseNum']}}{%else%}{{one['rentReleaseNum']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleReleaseScale']}}{%else%}{{one['rentReleaseScale']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleBoldNum']}}{%else%}{{one['rentBoldNum']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleBoldScale']}}{%else%}{{one['rentBoldScale']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleClickNum']}}{%else%}{{one['rentClickNum']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleClickScale']}}{%else%}{{one['rentClickScale']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleFineClickNum']}}{%else%}{{one['rentFineClickNum']}}{%endif%}</td>
+                <td> {%if selectData['type']==1%}{{one['saleFineClickScale']}}{%else%}{{one['rentFineClickScale']}}{%endif%}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+

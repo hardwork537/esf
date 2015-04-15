@@ -1,0 +1,126 @@
+﻿/* show */
+.edit_count{
+    margin-left: 15px;
+}
+
+.edit_logs{
+    margin: 15px 0 0;
+    padding: 0 0 25px;
+    font-size: 14px;
+}
+    .edit_logs dt, .edit_logs dd, .edit_logs dd em{
+        line-height: 50px;
+        height: 50px;
+        overflow: hidden;
+    }
+    .edit_logs dt, .edit_logs dd{
+        padding: 0 5px 0 23px;
+    }
+    .edit_logs dt{
+        border-bottom: 1px solid #d7d7d7;
+    }
+    .edit_logs .em0{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .edit_logs .em1{ width: 120px;}
+    .edit_logs .em2{ width: 172px;}
+    .edit_logs .em3{ width: 145px;}
+    .edit_logs .em4{ width: 165px;}
+    .edit_logs .em5{ width: 150px;}
+    .edit_logs .em6{ width: 195px;}
+    .edit_logs dt .em0{
+        font-weight: 700;
+    }
+    .edit_logs dd{
+        border-bottom: 1px solid #eee;
+    }
+    .edit_logs a:link, .edit_logs a:visited{
+        color: #0041d9;
+    }
+    .edit_logs a:hover{
+        color: #ff4600;
+    }
+
+/*edit*/
+.form_log{
+    margin: 0 auto;
+    padding: 40px 0 22px;
+    width: 806px;
+    font-size: 14px;
+}
+    .form_log .log_item{
+        margin: 0 0 15px;
+        width: 806px;
+    }
+        .log_item .l_lbl, .log_item .r_sp{
+            display: inline-block;
+        }
+        .log_item .l_lbl{
+            width: 82px;
+            vertical-align: middle;
+        }
+        .log_item .r_sp{
+            width: 718px;
+        }
+        .log_item .r_sp .txt1, .log_item .r_sp .txt2, .log_item .r_sp .txt3{
+            margin-right: 10px;
+            padding: 0 8px;
+            height: 38px;
+            line-height: 38px;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+        }
+        .log_item .r_sp .txt1{
+            width: 422px;
+        }
+        .log_item .r_sp .txt2{
+            width: 102px;
+        }
+        .log_item .r_sp .txt3{
+            width: 702px;
+            *width: 690px;
+        }
+        .log_item .ckbClass, .log_item .rdoClass {
+            display: none;
+        }
+        .log_item .ckbLblClass, .log_item .rdoLblClass{
+            background: url(../img/radio.png) no-repeat 0 -17px;
+            display: inline-block;
+            height: 20px;
+            padding-left: 22px;
+            color: #222222;
+            margin: 8px 53px 8px 0;
+            *margin-right: 50px;
+            width: 65px;
+            line-height: 21px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .log_item .rdoLblClass{
+            margin-right: 47px;
+            *margin-right: 45px;
+            padding-left: 27px;
+            background-position: 0 -80px;
+        }
+        .log_item .ckbSelect{
+            background-position: 0 3px;
+        }
+        .log_item .rdoSelect{
+            background-position: 0 -50px;
+        }
+        .log_item .aSubmit:link, .log_item .aSubmit:visited, .log_item .aSubmit:hover{
+            margin: 20px 0 0 327px;
+            display: inline-block;
+            width: 140px;
+            height: 30px;
+            line-height: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            background: #1369c0;
+            color: #fff;
+            text-decoration: none;
+        }

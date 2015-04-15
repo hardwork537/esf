@@ -1,0 +1,201 @@
+em,i {
+	font-style: normal;
+}
+.c222{
+    color: #222;
+}
+.c004{
+    color: #0041d9;
+}
+.c_txt5{
+    color: #ff4600;
+}
+.bread_nav{
+    position: relative;
+}
+.bread_nav .bread_r{
+    position: absolute;
+    right: 0;
+}
+.ie_vml{behavior:url(#default#vml);}
+.dot{
+	background-color: #035fa7; 
+	display: inline-block; 
+	font-size: 0; 
+	height: 3px; 
+	width: 3px; 
+	vertical-align: middle;
+}
+
+.w_pct100{
+    width: 100%;
+}
+.tags span{
+    display: inline-block;
+    height: 21px;
+    line-height: 20px;
+    margin-right: 5px;
+    text-align: center;
+    width: 61px;
+    background: #e8f4ff;
+    color: #1369c0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+/* mod_sidebar */
+.mod_sidebar{
+	margin-bottom: 16px;
+}
+    .mod_sidebar a:link, .mod_sidebar a:visited{
+        color: #035fa7;
+    }
+    .mod_sidebar .mod_tit{
+        position: relative;
+        padding: 0 0 7px;
+        height: 21px;
+        overflow: hidden;
+    }
+        .mod_sidebar .mod_tit .more{
+            position: absolute;
+            right: 0;
+            top: 2px;
+            font-family: \5b8b\4f53;
+        }
+        .mod_sidebar .mod_tit strong{
+            padding: 0 0 0 23px;
+            display: inline-block;
+            font-size: 14px;
+            background: url("../img/icon_guide.png") no-repeat 0 0;
+        }
+    .mod_sidebar .mod_con{
+        border: 1px solid #dbdbdb;
+    }
+#sideBarInner{
+    width: 250px;
+}
+.mod_fixed {
+    position: fixed;
+    _position: absolute;
+    _top: expression(eval(document.documentElement.scrollTop));
+    top: 0;
+    width: 250px;
+}
+/*mod_hot_tag*/
+/*.mod_hot_tag{
+    padding: 0 0 6px;
+}*/
+    .mod_hot_tag .mod_tit strong{
+        background-position: 0 4px;
+    }
+    .mod_hot_tag .mod_con{
+        padding: 15px 8px 5px 20px;
+        max-height: 103px;
+        _height: 103px;
+        overflow: hidden;
+    }
+	.mod_hot_tag .mod_con a {
+		border-radius: 2px;
+	}
+    .mod_hot_tag .mod_con a:link, .mod_hot_tag .mod_con a:visited{
+        margin: 0 6px 15px 0;
+        padding: 0 7px;
+        display: inline-block;
+        height: 19px;
+        line-height: 19px;
+        border: 1px solid #ddd;
+        background: #f4f4f4;
+        color: #222;
+    }
+    .mod_sidebar a:hover, .mod_hot_tag .mod_con a:hover{
+        color: #ff4600;
+    }
+    .mod_hot_tag .mod_con a:hover{
+        border-color: #ff4600;
+        background: #fff4eb;
+        text-decoration: none;
+    }
+/*mod_hot_guide*/
+    .mod_hot_guide .mod_tit strong{
+        background-position: 0 -35px;
+    }
+    .mod_hot_guide .mod_con{
+        padding: 6px 0 5px;
+    }
+    .mod_hot_guide .mod_con .items{
+        padding: 12px 13px 17px 120px;
+        position: relative;
+        height: 68px;
+        width: 115px;
+        border-bottom: 1px dashed #e0e0e0;
+    }
+    .mod_hot_guide .mod_con .lst{
+        border-bottom: 0;
+    }
+        .mod_hot_guide .items .items_img, .mod_hot_guide .items_img img{
+            width: 90px;
+            height: 68px;
+            overflow: hidden;
+        }
+        .mod_hot_guide .items .items_img{
+            display: block;
+            position: absolute;
+            left: 20px;
+            top: 14px;
+        }
+        .mod_hot_guide .items .items_info{
+            line-height: 25px;
+            height: 50px;
+            overflow: hidden;
+        }
+        .mod_hot_guide .items a:link, .mod_hot_guide .items a:visited{
+            color: #222;
+        }
+        .mod_hot_guide .items a:hover{
+            color: #ff4600;
+        }
+
+/*mod_favorite*/
+.mod_favorite{
+    margin: 0 auto;
+    padding: 0 0 30px;
+    width: 1000px;
+}
+    .mod_favorite dt{
+        margin: 20px 0 10px;
+        font:500 20px/20px \5fae\8f6f\96c5\9ed1;
+    }
+    .mod_favorite .items{
+        margin: 0 28px 0 0;
+        float: left;
+        width: 177px;
+        font:14px/22px \5b8b\4f53;
+    }
+    .mod_favorite .lst{
+        margin-right: 0;
+    }
+    .mod_favorite .items_inner{
+        padding: 0 0 6px;
+        border: 1px solid #dfdfdf;
+    }
+    .items_inner .inner_a, .items_inner .inner_a img{
+        width: 175px;
+        height: 133px;
+        overflow: hidden;
+    }
+    .items_inner .inner_a{
+        display: block;
+    }
+    .items_inner .inner_p{
+        margin: 10px auto 0;
+        width: 155px;
+        height: 44px;
+        overflow: hidden;
+    }
+    .mod_favorite .p_blank{
+        margin: 1px 0 0;
+        width: 100%;
+        background: #f4f4f4;
+        height: 2px;
+        overflow: hidden;
+    }

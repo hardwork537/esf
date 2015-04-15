@@ -1,0 +1,490 @@
+em,i {
+	font-style: normal;
+}
+.ie_vml{behavior:url(#default#vml);}
+.dot { 
+	background-color: #035fa7; 
+	display: inline-block; 
+	font-size: 0; 
+	height: 3px; 
+	width: 3px; 
+	vertical-align: middle;
+}
+.w_pct100 {
+    width: 100%;
+}
+.tags span {
+	display: inline-block;
+	height: 21px;
+	line-height: 20px;
+	margin-right: 5px;
+	text-align: center;
+	width: 60px;
+	border-width: 1px;
+	border-style: solid;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
+.tags_1 {
+	border-color: #009f25;
+	color: #009f25;
+}
+.tags_2 {
+	border-color: #1369c0;
+	color: #1369c0;
+}
+.tags_3 {
+	border-color: #8e44ad;
+	color: #8e44ad;
+}
+
+/* sidebar common */
+.sidebar_mod {
+	border: 1px solid #b8d2ec;
+	margin-bottom: 10px;
+}
+.sidebar_mod a {
+	color: #035fa7;
+}
+.sidebar_mod a:hover {
+	color: #ff4600;
+}
+.sidebar_mod .hd {
+	background-color: #f2f9ff;
+    border-bottom: 1px solid #b8d2ec;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 15px;
+}
+.sidebar_mod .hd h2 {
+	font-size: 14px;
+	font-weight: bold;
+}
+.sidebar_mod .hd .more {
+	float: right;
+	font-family: \5b8b\4f53;
+}
+
+/* sidebar清除浮动 */
+.fChoice_mod .bd dl, .area_mod .bd dl, .cHot_mod .bd dl, .fHot_mod .bd dl {
+	clear: both; 
+	display: block; 
+	zoom: 1; /* for ie6 */
+	height: auto; 
+}
+.fChoice_mod .bd dl:after, .area_mod .bd dl:after, .cHot_mod .bd dl:after, .fHot_mod .bd dl:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden; 
+}
+
+/* sidebar导购房源精选 */
+.fChoice_mod .bd {
+	padding: 10px;
+}
+.fChoice_mod .bd dl {
+	margin-bottom: 5px;
+}
+.fChoice_mod .bd dt { 
+	display: inline;
+	float: left;
+	height: 68px; 
+	margin-right: 10px;
+	overflow: hidden; 
+	width: 90px; 
+}
+.fChoice_mod .bd dd {
+	position: relative;
+	font-size: 14px;
+	line-height: 22px;
+	height: 44px;
+	overflow: hidden;
+	padding-top: 5px;
+}
+.fChoice_mod .bd li {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.fChoice_mod .bd li i{ 
+	float: left; 
+	margin: 14px 8px 0 0;
+}
+
+/* sidebar导购小区榜单 */
+.cRank_mod .bd {
+	padding: 10px;
+}
+.cRank_mod .bd dl {
+	border-bottom: 1px dotted #a5a5a5;
+	padding-bottom: 15px;
+	margin-bottom: 10px;
+}
+.cRank_mod .bd dt { 
+	height: 120px;  
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: 15px;
+}
+.cRank_mod .bd dd {
+	position: relative;
+	font-size: 14px;
+	line-height: 22px;
+}
+.cRank_mod .tit {
+	font-weight: bold;
+	margin-bottom: 8px;
+    width: 100%;
+    max-height: 90px;
+    overflow: hidden;
+    word-break:break-all;
+}
+.cRank_mod .dot {
+	float: left;
+	margin: 10px 8px 0 0;
+}
+.cRank_mod .icon_hot {
+	background: url(../img/hot.gif) no-repeat 0 0;
+	color: #fff;
+	display: inline-block;
+	margin-left: 5px;
+	height: 14px;
+	width: 9px;
+	vertical-align: top;
+}
+.cRank_mod .txt {
+	color: #666;
+	font-size: 12px;
+}
+.cRank_mod .txt a {
+	font-family: \5b8b\4f53;
+}
+.cRank_mod .bd li {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.cRank_mod .bd li i{ 
+	float: left; 
+	margin: 14px 8px 0 0;
+}
+
+/* sidebar导购板块置业 */
+.area_mod .bd {
+	padding: 10px;
+}
+.area_mod .bd dl {
+	margin-bottom: 5px;
+}
+.area_mod .bd dt { 
+	display: inline;
+	float: left;
+	height: 68px; 
+	margin-right: 10px;
+	overflow: hidden; 
+	width: 90px; 
+}
+.area_mod .bd dd {
+	font-size: 14px;
+	line-height: 22px;
+	word-break: break-all;
+	word-wrap: break-word;
+	height: 44px;
+	overflow: hidden;
+	padding-top: 5px;
+}
+.area_mod .bd li {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.area_mod .bd li i{ 
+	float: left; 
+	margin: 14px 8px 0 0;
+}
+
+/* sidebar明星经纪人 */
+.starAgent_mod .items { 
+	border-top: 1px solid #b8d2ec;
+	cursor: pointer;
+	height: 120px; 
+	padding: 20px 0 20px 15px; 
+	position: relative; 
+	overflow: hidden;
+	top: -1px;
+}
+.starAgent_mod .items:hover, .starAgent_mod .hover {
+	background-color: #f2f9ff;
+}
+.starAgent_mod .items .pic { 
+	float: left; 
+	margin-right: 10px; 
+	height: 120px;
+	width: 90px; 
+	overflow: hidden; 
+}
+.starAgent_mod .items .txt p {
+	height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 120px;
+}
+.starAgent_mod .items .name {
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+
+/* sidebar热门导购 */
+.dgHot_mod .bd {
+	padding: 5px 10px;
+}
+.dgHot_mod .bd dd {
+	position: relative;
+	font-size: 14px;
+	line-height: 22px;
+}
+.dgHot_mod .bd li {
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.dgHot_mod .bd li i{ 
+	float: left; 
+	margin: 14px 8px 0 0;
+}
+
+/* sidebar最近浏览过的房源 */
+.fViewed_mod .bd {
+	padding: 10px;
+}
+.fViewed_mod .bd li{ 
+	line-height: 26px;
+}
+.fViewed_mod .bd li span{ 
+	display: inline-block; 
+	font-size: 12px; 
+	height: 26px; 
+	overflow: hidden;
+	vertical-align: middle; 
+}
+.fViewed_mod .bd li a{ 
+	text-decoration: none; 
+}
+.fViewed_mod .bd li a:hover span{ 
+	cursor: pointer; 
+	text-decoration: underline; 
+}
+.fViewed_mod .bd .col1{ 
+	margin-right: 10px; 
+	text-align: left; 
+	width: 105px; 
+}
+.fViewed_mod .bd .col2{ 
+	text-align: left; 
+	width: 40px; 
+}
+.fViewed_mod .bd .col3{ 
+	color: #d70000;
+	text-align: right; 
+	width: 60px; 
+}
+
+/* sidebar价格走势图 */
+.price_mod .bd {
+	padding: 10px;
+}
+.price_mod .bd p {
+	font-size: 14px;
+}
+.price_mod .bd p em {
+	font-style: normal;
+	font-size: 16px;
+}
+
+/* sidebar热门小区 */
+.cHot_mod .bd {
+	padding: 10px;
+}
+.cHot_mod .bd dl {
+	margin-bottom: 5px;
+}
+.cHot_mod .bd dt { 
+	display: inline;
+	float: left;
+	height: 68px; 
+	margin-right: 10px;
+	overflow: hidden; 
+	width: 90px; 
+}
+.cHot_mod .bd dd {
+	position: relative;
+	font-size: 14px;
+	line-height: 24px;
+}
+.cHot_mod .bd li { 
+	line-height: 26px; 
+}
+.cHot_mod .bd a:hover span{ 
+	cursor: pointer; 
+	text-decoration: underline; 
+}
+.cHot_mod .bd li span{ 
+	display: inline-block; 
+	font-size: 12px; 
+	vertical-align: middle; 
+	height: 26px; 
+	overflow: hidden;
+}
+.cHot_mod .bd li .col1 { 
+	text-align: left; 
+	overflow: hidden; 
+	width: 135px;
+}
+.cHot_mod .bd li .col2 { 
+	color: #d70000;
+	text-align: right; 
+	overflow: hidden; 
+	width: 85px;
+}
+
+/* sidebar热门房源 */
+.fHot_mod .bd {
+	padding: 10px;
+}
+.fHot_mod .bd dl {
+	margin-bottom: 5px;
+}
+.fHot_mod .bd dt { 
+	display: inline;
+	float: left;
+	height: 68px; 
+	margin-right: 10px;
+	overflow: hidden; 
+	width: 90px; 
+}
+.fHot_mod .bd dd {
+	position: relative;
+	font-size: 14px;
+	line-height: 24px;
+}
+.fHot_mod .bd dd .name {
+	height: 24px;
+	overflow: hidden;
+}
+.fHot_mod .bd li{ 
+	line-height: 26px;
+}
+.fHot_mod .bd li span{ 
+	display: inline-block; 
+	font-size: 12px; 
+	height: 26px; 
+	overflow: hidden;
+	vertical-align: middle; 
+}
+.fHot_mod .bd li a{ 
+	text-decoration: none; 
+}
+.fHot_mod .bd li a:hover span{ 
+	cursor: pointer; 
+	text-decoration: underline; 
+}
+.fHot_mod .bd .col1{ 
+	margin-right: 10px; 
+	text-align: left; 
+	width: 105px; 
+}
+.fHot_mod .bd .col2{ 
+	text-align: left; 
+	width: 40px; 
+}
+.fHot_mod .bd .col3{ 
+	color: #d70000;
+	text-align: right; 
+	width: 60px; 
+}
+
+/* page bottom common*/
+
+/* page bottom清除浮动 */
+.bottom_fHot .bd ul {
+	clear: both; 
+	display: block; 
+	zoom: 1; /* for ie6 */
+	height: auto; 
+}
+.bottom_fHot .bd ul:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden; 
+}
+/* page bottom 热门房源 */
+.bottom_fHot {
+	border: 1px solid #b8d2ec;
+}
+.bottom_fHot .hd {
+	background-color: #f2f9ff;
+    border-bottom: 1px solid #b8d2ec;
+    height: 33px;
+    line-height: 33px;
+    padding: 0 15px;
+}
+.bottom_fHot .bd {
+	padding: 8px 0 8px 15px;
+}
+.bottom_fHot .bd .items {
+	cursor: pointer;
+    display: inline;
+    float: left;
+    font-size: 12px;
+    line-height: 24px;
+    position: relative;
+}
+.bottom_fHot .items img {
+	height: 120px;
+	width: 160px;
+	overflow: hidden;
+	display: block;
+	margin-bottom: 8px;
+}
+.bottom_fHot .items p {
+	width: 160px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-text-overflow :ellipsis; 
+	-o-text-overflow: ellipsis; 
+	white-space: nowrap;
+}
+.bottom_fHot .items .title {
+	color: #0041d9;
+}
+.bottom_fHot .items .attr1, .bottom_fHot .items .attr2 {
+	color: #222;
+}
+.bottom_fHot .items .attr1 strong {
+	color: #d70000;
+}
+.bottom_fHot .items_link {
+	display: block;
+	height: 200px;
+	width: 160px;
+    padding: 8px 17px;
+	overflow: hidden;
+}
+.bottom_fHot .items_link:hover {
+	background-color: #f2f9ff;
+}
+.bottom_fHot .items_link:hover .title{
+	color: #0041d9;
+	text-decoration: underline;
+}
+.bottom_fHot .items_link:hover .attr1, .bottom_fHot .items_link:hover .attr2 {
+	color: #cd0200;
+	text-decoration: underline;
+}

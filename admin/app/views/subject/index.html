@@ -1,0 +1,84 @@
+﻿<div class="maininner" style=" padding-top:2px;">
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 专题管理  </strong> </h6>
+
+         <div class="mt10">
+           <a  class=" btn btn-success" href="/subject/add/"> 新建专题 </a>
+           <span class=" widthl"><a  target="_blank" href="/externalcall/" > 调用动态代码 </a></span>
+            <!--a  target="_blank" href="/externalcall/#singlecall" >调用单套房源</a>&nbsp;&nbsp;
+            <a  target="_blank" href="/externalcall/#multicall" >调用多套房源</a>&nbsp;&nbsp;
+            <a   target="_blank" href="/externalcall/#newscall" >调用新闻资讯</a-->
+         </div>
+		<form method="get" action="/subject/">
+         <table class="search_form mb15 mt10">
+                  <tbody><tr>
+                      <td width="120">
+                       <select class="form-control s" name="cityId" id="cityId" notnull="true" info="城市">
+							<?=MyTags::options($citys, $params['cityId'])?>
+						</select>
+                      </td>
+                      <td width="140">
+                          <input type="text" placeholder=" 专题名称" class="form-control " name="name" value="{{ params['name'] }}">
+                      </td>
+                      <td>
+                        <button type="submit" class="btn btn-gray"> 查 询 </button>
+                      </td>
+
+                  </tr>
+              </tbody></table>
+				</form>
+				{% if !lists %}
+              <table class="table table-striped table-hover mt10">
+                  <tbody><tr>
+			          	<th width="10%">城市</th>
+						<th width="15%">专题名称</th>
+						<th width="35%">专题网址</th>
+						<th width="8%">点击量</th>
+						<th width="25%">上传时间</th>
+						<th>管理</th>
+                    </tr>
+
+              </tbody></table>
+
+                  <div class="noreascout">
+                    <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的日志 </strong></p>
+                     <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+                  </div>
+
+				{% else %}
+                  <table class="table table-hover mt10">
+
+                      <tbody><tr>
+                       	<th width="10%">城市</th>
+						<th width="15%">专题名称</th>
+						<th width="35%">专题网址</th>
+						<th width="8%">点击量</th>
+						<th width="25%">上传时间</th>
+						<th>管理</th>
+                    </tr>
+					{% for list in lists %}
+                          <tr>
+                           	<td align="center">{{ list['cityName'] }}</td>
+								<td>{{ list['name'] }}</td>
+								<td><a target="_blank" href="http://zhuanti.esf.focus.cn/{{ list['cityPinyinAbbr'] }}/{{ list['path'] }}">http://zhuanti.esf.focus.cn/{{ list['cityPinyinAbbr'] }}/{{ list['path'] }}/</a></td>
+								<td align="center">0</td>
+								<td align="center">{{ list['uploadTime'] }}</td>
+                                <td align="center" class="operate">
+                               <a href="/subject/edit/{{ list['id'] }}/"> 修改 </a>
+                            </td>
+                          </tr>
+
+					{% endfor %}
+
+                </tbody></table>
+				{{ page }}
+				{% endif %}
+     </div>
+
+	 <script type="text/javascript">
+	var menu = 'menu9';
+	var moudle = 'subject';
+	$(function(){
+
+	});
+</script>

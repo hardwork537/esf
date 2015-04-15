@@ -1,0 +1,22 @@
+<table border="1 solid black">
+<tr>
+	<th>城市</th>
+	<th>企业账号</th>
+	<th>门店账号</th>
+    <th>经纪人姓名</th>
+    <th>经纪人手机号</th>
+    <th>经纪人账号</th>
+    <th>违规理由</th>
+</tr>
+{% for value in lists %}
+<tr>
+	<td>{{ value['cityName'] }}</td>
+    <td>{{ value['comAccount'] }}</td>
+    <td>{{ value['shopAccount'] }}</td>
+    <td>{{ value['realName'] }}</td>
+    <td>{{ value['realMobile'] }}</td>
+    <td>{{ value['realAccount'] }}</td>
+    <td>{{ value['reason'] }}</td>
+</tr>
+{% endfor %}
+</table>

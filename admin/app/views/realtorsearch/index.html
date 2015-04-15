@@ -1,0 +1,243 @@
+<style>
+.table > thead > tr > th, .table > tbody > tr > th, .table > thead > tr > td, .table > tbody > tr > td{padding:10px 2px;}
+</style>
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 经纪人查询 </strong> </h6>
+        <ul class="nav nav-tabs">
+            <li{% if "search"==type %} class="active"{% endif %}><a href="/realtorsearch/index/search/"> 经纪人查询 </a></li>
+            <li{% if "detail"==type %} class="active"{% endif %}><a href="/realtorsearch/index/detail/"> 查看经纪人使用情况</a></li>
+        </ul>
+        {% if "search"==type %}
+        <form method="get" action="/realtorsearch/index/{{ type }}/">
+                <table class="search_form mb15 mt15 ">
+                    <tbody>
+                    <tr>
+                        <td width="140">
+						<input class="form-control" type="text" name="realtoracc" value="{{ realtoracc }}" placeholder=" 账号" />
+						</td>
+                        <td width="140"> 
+                            <input class="form-control" type="text" name="realtorname" value="{{ realtorname }}" placeholder=" 姓名" /> 
+                        </td width="140">
+						<td width="140"> 
+                            <input class="form-control" type="text" name="realtortel" value="{{ realtortel }}" placeholder=" 手机" />
+                        </td>
+						 <td> 
+                            <button class="btn btn-gray search" type="submit">搜 索</button>
+                        </td>
+                    </tr>                         
+                    </tbody>
+   
+                </table>
+        </form>
+        <p>{{resultVerify}}</p>
+
+        <table class="table table-hover mt10">
+            <tr class="toptt">
+                 <th style=" width:40px;" class="checkboxwrap" rowspan="2">ID</th>
+                <th rowspan="2" style=" min-width:50px;">城市</th>
+                <th rowspan="2" style=" min-width:60px;">公司</th>
+                <th rowspan="2" style="  min-width:60px;">门店</th>
+                <th rowspan="2" style=" min-width:48px;">姓名</th>
+                <th style="" rowspan="2">帐号</th>
+                <th style="" rowspan="2">手机</th>
+                <th rowspan="2" style=" min-width:58px;">类型</th>
+                <th rowspan="2" style=" min-width:48px; ">状态</th>
+                <th style=" min-width:80px; padding:0 10px;" colspan="2">端口数量</th>
+                <th rowspan="2" style=" min-width:48px;">板块</th>
+                <th rowspan="2" style=" min-width:48px;">销售</th>
+                <th rowspan="2" style=" min-width:48px;">客服</th>
+                <th style="" rowspan="2">创建时间</th>
+                <th style="" rowspan="2">启用时间</th>
+                <th style="" rowspan="2">到期时间</th>
+            </tr>
+            <tr class="toptt">
+                <th align="center" style=" padding:0 10px;">售</th>
+                
+                <th align="center" style=" padding:0 10px;">租</th>
+            </tr>
+            
+            <tr> 
+                <td align="center">{{ list['id'] }}</td>
+                <td align="center">{{ cityname['name'] }}</td> 
+                <td align="center">{{ compname['name'] }}</td> 
+                <td align="center">{{ shopname['name']|default('-') }}</td> 
+                <td align="center">{{ list['name'] }}</td> 
+                <td align="center">{{ list['id']?viplist['name']:'' }}</td> 
+                <td align="center">{{ list['mobile'] }}</td> 
+                <td align="center">{{ types[list['type']] }}</td>
+                <td align="center">{{ statuses[list['status']] }}</td>
+                <td align="center">{{ realtorPort['salePortNum']|default(0) }}</td>
+                <td align="center">{{ realtorPort['rentPortNum']|default(0) }}</td>                       
+                <td align="center">{{ regname['name'] }}</td>
+                <td align="center">{{ xiaoshou['name']|default('-') }}</td>
+                <td align="center">{{ kefu['name']|default('-') }}</td>
+                <td align="center">{{ list['create'] }}</td>
+                <td align="center">{{ realtorPort['startDate']|default('-') }}</td>
+                <td align="center">{{ realtorPort['expiryDate']|default('-') }}</td>
+            </tr>
+        </table>
+
+        {{ page }} 
+
+        {% endif %}
+        
+        
+        {% if "detail"==type %}
+        <form method="get" action="/realtorsearch/index/{{ type }}/">
+            <table class="search_form mb15  mt15 ">
+                    <tr>
+                      
+                        <td width="140"> 
+                            <input class="form-control" type="text" name="realtoracc" value="{{ realtoracc }}"  placeholder="账号" />
+                        </td>
+						<td>
+						    <button class="btn btn-gray search" type="submit" >搜 索</button>
+						</td>
+                    </tr>    
+                    <tr>
+                        
+                    </tr>     
+            </table>            
+        </form>
+         <p>{{resultVerify}}</p>
+       <div class="panel panel-default">
+        <div class="panel-heading"> 基本信息 </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>账号</th>
+                    <th>姓名</th>
+                    <th>公司</th>
+                    <th>门店</th>
+                    <th>手机</th>
+                    <th>开通时间</th>
+                    <th>到期时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ viplist['name'] }}</td>
+                    <td>{{ list['name'] }}</td>
+                    <td>{{ compname['name'] }}</td>
+                    <td>{{ shopname['name'] }}</td>
+                    <td>{{ list['mobile'] }}</td>
+                    <td>{{ realtorPort['startDate']|default('-') }}</td>
+                    <td>{{ realtorPort['expiryDate']|default('-') }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        
+        <div class="panel panel-default">
+        <div class="panel-heading"> 出售当前使用情况 </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">发布房源</th>
+                    <th colspan="2">精品房源</th>
+                    <th colspan="2">标签房源</th>
+                    <th colspan="3">点击量</th>
+                    <th colspan="3">今日刷新</th>
+                    <th colspan="2">其他房源</th>
+                </tr>
+                <tr>
+                    <th>已发布</th>
+                    <th>还可发布</th>
+                    <th>已设置</th>
+                    <th>还可精品</th>
+                    <th>已设置</th>
+                    <th>还可设置</th>
+                    <th>今日点击</th>
+                    <th>昨日点击</th>
+                    <th>七日点击</th>
+                    <th>成功刷新</th>
+                    <th>正在定时</th>
+                    <th>还可刷新</th>
+                    <th>违规房源</th>
+                    <th>库存房源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ realtorLog['saleRelease']|default(0) }}</td>
+                    <td>{{ realtorLog['portSaleRelease']-realtorLog['saleRelease']|default(0) }}</td>
+                    <td>{{ realtorLog['saleBold']|default(0) }}</td>
+                    <td>{{ realtorLog['portSaleBold']-realtorLog['saleBold']|default(0) }}</td>
+                    <td>{{ realtorLog['saleTags']|default(0) }}</td>
+                    <td>{{ ((realtorLog['portSaleTags']-realtorLog['saleTags'])>0)?(realtorLog['portSaleTags']-realtorLog['saleTags']):0 }}</td>
+                    <td>{{ realtorLog['saleClick']|default(0) }}</td>
+                    <td>{{ realtorLog['ySClickTotal']|default(0) }}</td>
+                    <td>{{ realtorLog['7SClickTotal']|default(0) }}</td>
+                    <td>{{ realtorLog['refreshS']|default(0) }}</td>
+                    <td>{{ realtorLog['SRefreshCountNow']|default(0) }}</td>
+                    <td>{{ ((realtorLog['portSaleRefresh']-realtorLog['refreshS'])>0 )?(realtorLog['portSaleRefresh']-realtorLog['refreshS']):0}}</td>
+                    <td>{{ realtorLog['saleViolation']|default(0) }}</td>
+                    <td>{{ realtorLog['repertorySHoTo']|default(0) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	
+	<div class="panel panel-default">
+        <div class="panel-heading"> 出租当前使用情况 </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">发布房源</th>
+                    <th colspan="2">精品房源</th>
+                    <th colspan="2">标签房源</th>
+                    <th colspan="3">点击量</th>
+                    <th colspan="3">今日刷新</th>
+                    <th colspan="2">其他房源</th>
+                </tr>
+                <tr>
+                    <th>已发布</th>
+                    <th>还可发布</th>
+                    <th>已设置</th>
+                    <th>还可精品</th>
+                    <th>已设置</th>
+                    <th>还可设置</th>
+                    <th>今日点击</th>
+                    <th>昨日点击</th>
+                    <th>七日点击</th>
+                    <th>成功刷新</th>
+                    <th>正在定时</th>
+                    <th>还可刷新</th>
+                    <th>违规房源</th>
+                    <th>库存房源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ realtorLog['rentRelease']|default(0) }}</td>
+                    <td>{{ ((realtorLog['portRentRelease']-realtorLog['rentRelease'])>0)?(realtorLog['portRentRelease']-realtorLog['rentRelease']):0 }}</td>
+                    <td>{{ realtorLog['rentBold']|default(0) }}</td>
+                    <td>{{ realtorLog['portRentBold']-realtorLog['rentBold']|default(0) }}</td>
+                    <td>{{ realtorLog['rentTags']|default(0) }}</td>
+                    <td>{{ ((realtorLog['portRentTags']-realtorLog['rentTags'])>0)?(realtorLog['portRentTags']-realtorLog['rentTags']):0 }}</td>
+                    <td>{{ realtorLog['rentClick']|default(0) }}</td>
+                    <td>{{ realtorLog['yRClickTotal']|default(0) }}</td>
+                    <td>{{ realtorLog['7RClickTotal']|default(0) }}</td>
+                    <td>{{ realtorLog['refreshR']|default(0) }}</td>
+                    <td>{{ realtorLog['RRefreshCountNow']|default(0) }}</td>
+                    <td>{{ ((realtorLog['portRentRefresh']-realtorLog['refreshR'])>0)?(realtorLog['portRentRefresh']-realtorLog['refreshR']):0 }}</td>
+                    <td>{{ realtorLog['rentViolation']|default(0) }}</td>
+                    <td>{{ realtorLog['repertoryRHoTo']|default(0) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        
+		
+        {% endif %}
+        
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'realtorsearch';
+    
+    </script>

@@ -1,0 +1,31 @@
+<div class="maininner">
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 房源违规关键词  </strong> </h6>
+         <div role="alert" class="alert alert-warning alert-dismissible errortips">
+          <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <strong> 提示：</strong>
+        <span class="notice-info">由系统判断“房源标题、房源描述”当中的文字是否含有以下违规关键词（先发后审），可在房源内容审核中进行审核。添加多个违规关键词，请使用英文半角分号进行分隔。</span>
+         </div>
+          <form id="form1" onsubmit="return false" form_tittle="房源违规关键词" method="post" action="">
+		  <textarea class=" form-control mt15 mb15" style=" min-width:970px; width:95%; height: 382px;" id="content" name="content">{{ info.content }}</textarea>
+         <div> <a class=" btn btn-success btn-large saveButton" href="javascript:;"> 保存 </a> </div>
+		 </form>
+
+     </div>
+<script type="text/javascript">
+	var menu = 'menu6';
+	var moudle = 'keywords';
+	$(".saveButton").click(function() {
+			$("#form1").ajaxSubmit({
+				"url" : "/keywords/",
+				"callback" : function(msg) {
+					if (msg.status == 0) {
+						$.error("保存成功");
+						//location.href="/keywords/";
+					} else {
+						$.error(msg.info);
+					}
+				}
+			});
+		});
+</script>

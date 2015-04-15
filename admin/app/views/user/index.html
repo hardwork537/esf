@@ -1,0 +1,301 @@
+<div class="maininner">
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市运营管理  &gt; <strong class="font_gold"> CRM用户管理 </strong> </h6>
+    <form method="get" action="/user/">
+        <table class="search_form mb15">
+            <tbody><tr>
+                    <td width="120">
+                        <select name="cityId" id="cityId" class="form-control s">
+                            <option value="0">所有城市</option>
+                            <?=MyTags::options($citys, $params['cityId'])?>
+                        </select>
+                    </td>
+                    <td width="140">
+                        <select name="adminRoleId" id="adminRoleId" class="form-control">
+                            <option value="0">全部角色</option>
+                            <?=MyTags::options($roles, $params['adminRoleId'])?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select name="status" id="status" class="form-control s">
+                            <option value="0">全部状态</option>
+                            <?=MyTags::options($userStatus, $params['status'])?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <input type="text" class=" form-control s" placeholder="账号" name='accname' value='{{ params['accname'] }}'>
+                    </td>
+                    <td width="120">
+                        <input type="text" class=" form-control s" placeholder="姓名" name='name' value='{{ params['name'] }}'>
+                    </td>
+                    <td width="140">
+                        <input type="text" class=" form-control" placeholder="电话" name='tel' value='{{ params['tel'] }}'>
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit">搜 索</button>
+                        <button type="button" class="btn btn-success widthl addmodal" > <strong> + </strong> 新增用户 </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    {% if users %}
+    <table class="table table-hover mt10">
+        <tr>
+            <th style="width:10%">城市名称</th>
+            <th style="width:16%">用户角色</th>
+            <th style="">管理账号</th>
+            <th style="width:15%">姓名</th>
+            <th style="width:15%">电话</th>
+            <th style="width:10%">状态</th>
+            <th style="width:10%">操作</th>
+        </tr>
+        {% for v in users %}
+        <tr userId="{{ v['id'] }}">
+            <td align="center"> <div>{{ citys[v['cityId']] }}</div> </td>
+            <td align="center"><div>{% if v['password']==""%}CRM用户{%else%}{{ roles[v['adminRoleId']] }}{%endif%}</div> </td>
+            <td align="center" > <div>{{ v['accname'] }}</div> </td>
+            <td align="center" > <div>{{ v['name'] }}</div> </td>
+            <td align="center" > <div>{{ v['tel'] }}</div> </td>
+            <td align="center" > <div class=" arrow_tipswrap"><a class="td_change" attr="{% if v['status']==1 %}stop{%else%}start{%endif%}">{% if v['status']==1 %}启用{%else%}停用{%endif%}</a></div> </td>
+            <td align="center" class="operate">
+                <!--div class=" arrow_tipswrap">
+                    <a class="td_delete">删除</a>
+                </div-->
+                <a class="widthl editmodal">修改</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {{page}}
+    {% else %}
+    <table class="table table-striped table-hover mt10">
+        <tr>
+            <th style="width:16%">城市名称</th>
+            <th style="width:16%">用户角色</th>
+            <th style="">管理账号</th>
+            <th style="width:16%">姓名</th>
+            <th style="width:16%">电话</th>
+            <th style="width:16%">状态</th>
+            <th style="width:16%">操作</th>
+        </tr>
+    </table>
+    <div class="noreascout">
+        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- 添加用户 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增用户 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable">
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="用户" method="post" action="">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    所属城市:
+                                </td>
+                                <td>
+                                    <select  class="form-control" name="cityId">
+                                        <?=MyTags::options($citys, $cityId)?>
+                                    </select>
+                                    <em class="required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    用户角色:
+                                </td>
+                                <td>
+                                    <select  class="form-control" name="adminRoleId" type="adminRoleId" notnull=true info="用户角色">
+                                        <option value=""> -请选择- </option>
+                                        <?=MyTags::options($roles, $adminRoleId)?>
+                                    </select>
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    姓名:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="name" notnull=true info="姓名" /><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    手机:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="tel"  name="tel" notnull=true  info="手机"  /><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    账号:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="accname" notnull=true info="账号" /><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    邮箱:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" verify="email" name="email" notnull=true info="邮箱" rule="/^[0-9a-zA-Z\_]+@sohu\-inc\.com$/" /><em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="password"  info="密码" />
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="id" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var menu = 'menu1';
+    var moudle = 'user';
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+    }
+    function initEeditModal(data) {
+        $("#newmodal input[name=name]").val(data.name).attr("readonly",true);
+        $("#newmodal select[name=cityId]").val(data.cityId);
+        $("#newmodal select[name=adminRoleId]").val(data.adminRoleId);
+        $("#newmodal input[name=accname]").val(data.accname).attr("readonly",true);;
+        $("#newmodal input[name=tel]").val(data.tel);
+        $("#newmodal input[name=email]").val(data.email);
+	$("#newmodal input[name=id]").val(data.id);
+    }
+    $(function() {
+        var cururl = base_url + "user/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".addmodal").click(function() {
+            initModal();
+            $("#newmodal").smodal({title: "添加用户", act: 'add'});
+            $("input[name=userPw]").attr("notnull", true);
+            $("input[name=userPw]").attr("rule", "/^\\S{6,}$/");
+        });
+
+        $(".editmodal").click(function() {
+            initModal();
+            var user_id = $(this).parent("td").parent("tr").attr("userId");
+            $("#newmodal").smodal({title: "修改用户", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + user_id + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });
+
+        $('.td_delete').click(function() {
+            var hsId = $(this).parent().parent("td").parent("tr").attr("userId");
+            var _this = $(this);
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + hsId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                                location.reload(false);
+                            } else {
+                                _this.delFail(msg.info);
+                                //alert("删除失败!")
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    //alert(2)
+                }
+            });
+        });
+        
+        $('.td_change').click(function() {
+            var hsId = $(this).parent().parent("td").parent("tr").attr("userId");
+            var act = $(this).attr("attr");
+            var _this = $(this);
+            if(act=="stop"){
+                _this.delConfirm("停用确认", "确定要停用吗?", function(result) {
+                    if (result == true) {
+                        $.request({
+                            url: cururl + "changeStatus/" +act+"/"+ hsId + "/",
+                            callback: function(msg) {
+                                if (msg.status == 0) {
+                                    _this.delSuccess("停用成功");
+                                    location.reload(false);
+                                } else {
+                                    _this.delFail(msg.info);
+                                }
+                            }
+                        });
+                    }
+                });
+            }else{
+                _this.delConfirm("启用确认", "确定要启用吗?", function(result) {
+                    if (result == true) {
+                        $.request({
+                            url: cururl + "changeStatus/" +act+"/"+ hsId + "/",
+                            callback: function(msg) {
+                                if (msg.status == 0) {
+                                    _this.delSuccess("启用成功");
+                                    location.reload(false);
+                                } else {
+                                    _this.delFail(msg.info);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+</script>

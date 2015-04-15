@@ -1,0 +1,157 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 内容管理 </strong> </h6>
+        <form method="get" action="/front/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>
+                    <td width="120"> 
+                        <select class="form-control" style="width:100px;" name="cityId">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>	
+                    </td>
+                    <td width="60">
+                        新闻类型
+                    </td>
+                    <td width="220">
+                        <select class="form-control" name="newsType" style="width: 200px;">
+                            <?=MyTags::options($newsTypes, $newsType)?>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit">搜 索</button>
+                        <a class="btn btn-success ml20" href="/front/edit/">
+                        <strong> + </strong>
+  			新增内容
+			</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+        
+        {% if newslists is empty   %}
+        <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+            <tr>
+                <th style=" width:100px;">ID</th>
+                <th style="width:20%;">{% if newsType ==27 %}小区{% else %}标题{% endif %}</th>
+                <th style="width:35%;">链接地址</th>
+                <th style="width:12%;">排序</th>
+                <th >操作</th>
+            </tr>
+        </table>
+                     
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">
+            <tr>
+                <th style=" width:100px;">ID</th>
+                <th style="width:10%;">标题前缀</th>
+                <th style="width:20%;">{% if newsType ==5 %}小区{% else %}标题{% endif %}</th>
+                <th style="width:24%;">链接地址</th>
+               {% if newsType == 2 or newsType == 3 %} 
+               <th style="width:12%;">图片地址</th>
+               {% if newsType == 2 %}
+               <th style="width:12%;">摘要</th>
+               {% endif %}
+               {% endif %}
+                <th style="width:12%;">排序</th>
+                <th style="width:12%;">操作</th>
+            </tr>
+            {% for newslist in newslists %}
+            <tr newsId="{{ newslist['id'] }}">  	  	  	  	 
+                <td align="center">{{ newslist['id'] }}&nbsp;</td>
+                <td>{{ newslist['titlePrefix'] }}</td>
+                <td>{% if newsType ==27 %}{{ park[newslist['title']]["name"] | default('') }}[小区id:{{ newslist['title'] }}]{% else %}{{ newslist['title'] }}{% endif %}</td>
+                <td><a href="{{ newslist['url'] }}">{{ newslist['url'] }}</a></td>
+                {% if newsType == 2 or newsType == 3%} 
+                <td align="center"><a href="{{ newslist['imageUrl'] }}">{{ newslist['imageUrl'] }}</a></td>
+                {% if newsType == 2 %}
+                <td align="center">{{ newslist['abstract'] }}</td>
+               {% endif %}
+               {% endif %}
+                <td align="center">{{ newslist['weight'] }}</td>
+                <td align="center" class="operate">
+                    <a href="/front/edit/{{ newslist['id'] }}/" >修改</a>
+                    <div class=" arrow_tipswrap"> 
+                        <a class="widthl td_delete" >删除</a>
+                    </div> 
+                    <!--<a href="/front/log/{{ newslist['id'] }}/" >日志</a>-->
+                </td> 
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }} 
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该新闻吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除新闻成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回新闻列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除新闻失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回新闻操作</a></p>
+    </div>
+</div>
+                            
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'front';
+    
+    $(function() {
+        var cururl = base_url + "front/";
+        $('.td_delete').click(function() {
+            var newsId = $(this).parent().parent("td").parent("tr").attr("newsid");
+            var _this = $(this);
+
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + newsId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+    });
+</script>

@@ -1,0 +1,351 @@
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold">{% if picType == 1 %}外观图{% else %}户型图{% endif %}审核</strong> </h6>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong> 提示：</strong> （每一张通过审核的图片，自动奖励经纪人 <span class=" font_red"> 10  </span> 积分）;  &nbsp; &nbsp; &nbsp;
+            通过审核统计：今日<span class=" font_red"> {{ todayNum }}  </span>  &nbsp;| &nbsp;  昨日<span class=" font_red"> {{ yesterdayNum }} </span>   &nbsp;| &nbsp;  累计<span class=" font_red"> {{ allNum }}  </span>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li {% if picStatus == uncheck %}class="active"{% endif %}><a href="/parkpicture/newIndex/?cityId={{ cityId }}">待审核</a></li>
+            <li {% if picStatus == unpass %}class="active"{% endif %}><a href="/parkpicture/index/{{ picType }}/{{ unpass }}/?cityId={{ cityId }}">审核未通过</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="home">
+                <!-- tab1 start -->
+                <div class="panel panel-default  search_form mb15 mt10">
+                    <div class="">
+                        <form method="get" action="/parkpicture/index/{{ picType }}/{{ picStatus }}/">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td width="120"> 
+                                        <select class="form-control" style="width:100px;" name="cityId" onchange="getDist('distId', 0, this.value, '城区');getRegion('regId', 0, $('#distId').val(), '板块');">
+                                            <?=MyTags::options($citys, $cityId)?>
+                                        </select>	
+                                    </td>
+                                    <td width="120"> 
+                                        <select class="form-control" style="width:100px;" name="distId"  onchange="getRegion('regId', 0, this.value, '板块')" id="distId">
+                                            <option value="0">城区</option>
+                                            <?=MyTags::options($districts, $distId)?>
+                                        </select>
+                                    </td>
+                                    <td width="120"> 
+                                        <select class="form-control" style="width:100px;" id="regId" name="regId">
+                                            <option value="0">板块</option> 
+                                            <?=MyTags::options($regions, $regId)?>
+                                        </select> 
+                                    </td>
+                                    <td width="140">
+                                        <input class="form-control" type="text" placeholder="小区名称" name="parkName" value='{{ parkName }}' />
+                                    </td>
+                                    <td>
+                                        传图时间
+                                    </td>
+                                    <td >
+                                        <div class="timecol">
+                                            <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="uploadTime" value="{{ uploadTime }}">
+                                        </div>
+                                        <button class="btn btn-gray ml20" type="submit">搜 索</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </form>
+                    </div>
+                </div>
+                
+                {% if picStatus==uncheck %}
+                <div class="operaterow">
+                    <button type="button" class="btn btn-success" id="pass_audit" act="pass"> 通过审核 </button>
+                    <button type="button" class="btn btn-danger widthl" id="deny_audit" act="unpass"> 拒绝通过 </button>
+                </div>
+                {% endif %}
+                
+                {% if lists is empty %}
+                <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+                    <tr> 
+
+                        <th class="checkboxwrap" style=" width:20%;">{% if picStatus==uncheck %}<input type="checkbox" class="checkall" />{% endif %}小区图片</th>
+                        <th style=" width:30%;">图片信息</th>
+                        <th style=" width:15%;">传图时间</th>
+                        <th style=" width:15%;">传图人</th>
+                        <th >操作</th>
+                    </tr>
+                </table>
+
+                <div class="noreascout">
+                    <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的数据  </strong></p>
+                    <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+                </div>
+
+                {% else %}
+                
+                <table class="table mt10">
+                    <tr>
+                        <th class="checkboxwrap" style=" width:20%;">{% if picStatus==uncheck %}<input type="checkbox" class="checkall" />{% endif %}小区图片</th>
+                        <th style=" width:30%;">图片信息</th>
+                        <th style=" width:15%;">传图时间</th>
+                        <th style=" width:15%;">传图人</th>
+                        <th >操作</th>
+                    </tr>
+                    
+                    {% for list in lists %}
+                    <tr parkId="{{ list['parkId'] }}" imgId="{{ list['imgId'] }}">  
+                        <td>
+                            {% if picStatus==uncheck %}<input type="checkbox" class="checkone" />{% endif %}
+                            <div class="tablediv_in hoverimg">
+                                <img width="120" height="90" alt="" src="{{ list['imgUrl'] }}" class="asyn_loadin" onclick="javascript:getImageSize('size_{{ list['imgId'] }}', '{{ list['imgUrl'] }}');">
+                                <div class="imgbig"><img width="600" height="450"  src="{{ list['originImgUrl'] }}"></div>
+                                <br/><a href="{{ list['parkUrl'] }}" target="_blank">{{ parkList[list['parkId']] }}</a>
+                            </div>
+                        </td>
+                        <td>
+                            {% if 1==picType %}
+                            <div class="tablediv_in">  
+                                <p> 类型：
+                                    <select class="form-control" style="width:100px;">
+                                        <option value="无">无</option> 
+                                        <?=MyTags::options($tagList, $list['tag'])?>
+                                    </select>
+                                </p>
+                            </div>
+                            {% else %}
+                           <p> 户型：
+                            <select style="width:50px;">
+                                <?=MyTags::options($arrBedroom, $list['bed_room'])?>
+                            </select>
+                            <select style="width:50px;">
+                                <?=MyTags::options($arrLiving, $list['living_room'])?>
+                            </select>
+                            <select style="width:50px;">
+                                <?=MyTags::options($arrBathroom, $list['bath_room'])?>
+                            </select>
+                            </p>
+                           <p class="heightm">面积：                
+                               <input type="text" style="width:50px;" value="{% if list['area_min']>0 %}{{ list['area_min'] }}{% endif %}" />㎡~<input type="text" style="width:50px;" value="{% if list['area_max']>0 %}{{ list['area_max'] }}{% endif %}" />㎡
+                            </p>
+                            <p class="heightm">朝向：
+                            <select style="width:50px;">
+                                <?=MyTags::options($arrExposure, $list['exposure'])?>
+                            </select> </p>
+                            {% endif %}
+                            <p style="color:red; margin-top: 20px;" id="size_{{ list['imgId'] }}">点击图片查看尺寸</p>
+                        </td>
+                        <td class="tablediv_td"> 
+                            <div class="tablediv_in">{{ list['uploadTime'] }}</div>
+                        </td>
+                        <td class="tablediv_td">
+                            <div class="tablediv_in"><a href="{{ realUrl[list['realId']] }}" target="_blank">{{ realInfo[list['realId']]['name'] }}</a><br><a href="{{ realUrl[list['realId']] }}"  target="_blank">{{ realAccount[list['realId']]['name'] }}</a> </div>
+                        </td>
+                        <td align="center" class="operate">
+                            {% if picStatus==uncheck %}
+                            <div class=" arrow_tipswrap"> 
+                                <a class="widthl td_pass">审核通过</a>
+                                <div>                                 
+                                </div>
+                            </div> 
+                            <div class=" arrow_tipswrap"> 
+                                <a class="widthl td_unpass">拒绝通过</a>
+                                <div>                                  
+                                </div>
+                            </div> 
+                            {% else %}
+                            <div class=" arrow_tipswrap"> 
+                                <a class="widthl td_repass">重新审核</a>
+                                <div>                                  
+                                </div>
+                            </div> 
+                            {% endif %}
+                        </td> 
+                    </tr>
+                    {% endfor %}
+                                       
+                </table>
+                
+                {% endif %}
+            </div>
+        </div>
+
+        {{ page }}
+
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle title">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm message"> 确认审核通过吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm message"> 操作成功 </span></p>
+    </div>
+</div>
+
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 操作失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回重新操作</a></p>
+    </div>
+</div>
+            
+<script type="text/javascript">
+    var menu = 'menu3';
+    var moudle = 'parkpicture_{{ moudleId }}';
+    
+    $(function() {
+        var cururl = base_url + "parkpicture/";               
+        $('.td_pass').click(function() {
+            var parkId = $(this).parent().parent("td").parent("tr").attr("parkId");
+            var imgId = $(this).parent().parent("td").parent("tr").attr("imgId");
+            var _this = $(this);
+
+            _this.delConfirm("系统提示", "确定要审核通过吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        data: 'imgId='+imgId+'&parkId='+parkId,
+                        type: "post",
+                        url: cururl + "audit/pass/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("审核通过成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+                        }
+                    });
+                }               
+            });
+        });
+        
+        $('.td_unpass').click(function() {
+            var parkId = $(this).parent().parent("td").parent("tr").attr("parkId");
+            var imgId = $(this).parent().parent("td").parent("tr").attr("imgId");
+            var _this = $(this);
+
+            _this.delConfirm("系统提示", "确定要拒绝审核通过吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        data: 'imgId='+imgId+'&parkId='+parkId,
+                        type: "post",
+                        url: cururl + "audit/unpass/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("拒绝审核通过成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+        
+        $('.td_repass').click(function() {
+            var parkId = $(this).parent().parent("td").parent("tr").attr("parkId");
+            var imgId = $(this).parent().parent("td").parent("tr").attr("imgId");
+            var _this = $(this);
+
+            _this.delConfirm("系统提示", "确定要通过审核吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        data: 'imgId='+imgId+'&parkId='+parkId,
+                        type: "post",
+                        url: cururl + "audit/repass/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("重新审核成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+        
+        $('#pass_audit, #deny_audit').click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            var act = $(this).attr('act');
+            if('pass' == act) {
+                var msg = '确定要通过审核吗?';
+            } else {
+                var msg = '确定要拒绝审核通过吗?';
+            }
+            if(confirm(msg)) {
+                $.request({
+                    data: 'type=batch&data='+checkStr,
+                    type: "post",
+                    url: cururl + "audit/"+act+"/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            alert(msg.info);
+                            location.href=location.href;
+                        } else {
+                            alert(msg.info);
+                        }
+                    }
+                });
+            }
+        });
+    });
+    
+    function getCheckOption() {
+        var str = '';
+        $("input[class=checkone]:checked").each(function() {
+            var parkId = $(this).parent().parent().attr('parkId');
+            var imgId = $(this).parent().parent().attr('imgId');
+            str += parkId + '.' + imgId + "_";
+        })
+        var len = str.length;
+        if (len > 0) {
+            str = str.substr(0, len - 1);
+        }
+        return str;
+    }
+    
+    function getImageSize(position, url) {
+        $.request({
+            data: "url=" + url,
+            type: "post",
+            url: "/ajax/getImageSize",
+            callback: function(msg) {
+                if(msg.width == null ) {
+                   $("#"+position).html("数据异常");
+                } else {
+                   $("#"+position).html("尺寸："+msg.width+" x "+msg.height);
+                }
+            }
+        });             
+    }
+</script>

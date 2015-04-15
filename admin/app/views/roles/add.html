@@ -1,0 +1,90 @@
+﻿
+<div class="maininner">
+	<h6 class="maintt">
+		您的位置：
+		<a href="/">首页</a>
+		&gt; 系统设置 &gt;
+		<strong class="font_gold"> 角色管理 </strong>
+	</h6>
+	<div class="edittable">
+		<div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none;width: 100%; background-color: rgb(252, 248, 227); border-color: rgb(250, 235, 204); color: rgb(138, 109, 59); font-size: 14px;">
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			<strong> 提示：</strong>
+			<span class="notice-info">您输入的内容有误！</span>
+		</div>
+		<form id="form1" onsubmit="return false" form_tittle="角色" method="post" action="">
+			<input type="hidden" name="id" value="{{ info.id }}">
+			<input type="hidden" name="act" value="{% if info.id %}edit{% else %}add{% endif %}">
+			<table class="edittable">
+				<tr>
+					<td align="right" width="140">角色名称:</td>
+					<td>
+						<input class="form-control" type="text" name="name" value="{{ info.name }}"  notnull="true" info="角色名称"/>
+						<em class="required"> * </em>
+					</td>
+				</tr>
+
+				{% for menu in menus %}
+						<tr menu_id="{{ menu['id'] }}">
+							<td align="right"  valign="top"  width="140" style="padding-bottom: 20px;">{{ menu['name'] }}:</td>
+							{% if menu['moudels']%}
+							<td style="padding:3px 0 0 20px;">
+							{% for ms in menu['moudels'] %}
+							<p moudle_id="{{ ms['id'] }}" style="float:left;margin-right:25px;height:35px;line-height:35px;">
+							<input type="checkbox" class="moudel_{{ ms['id'] }}" name="moudels[{{ ms['id'] }}]" value="{{ menu['id'] }}_{{ ms['id'] }}"  style="margin-right: 5px; vertical-align: middle;">
+							<span style="vertical-align: middle;">{{ ms['name'] }} </span> </p>
+							{% endfor%}
+							</td>
+							{% endif %}
+						</tr>
+				{% endfor%}
+
+				<tr>
+					<td></td>
+					<td>
+						<button type="button" class="btn btn-success widthl saveButton">保 存</button>
+						<button type="button" class="btn btn-default widthxl cancelButton">返回列表</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	var menu = 'menu12';
+	var moudle = 'roles';
+
+	$(function() {
+		var cururl = base_url + "roles/";
+		{% if info.power%}
+		var power = {{ info.power }};
+		if(power){
+			for(i=0;i<power.length;i++){
+				$(".moudel_"+power[i].moudelId).attr("checked",true);
+			}
+		}
+		{% endif %}
+		$(".saveButton").click(function() {
+			_do = $("#form1").find("input[name=act]").val();
+			$("#form1").ajaxSubmit({
+				"url" : cururl + _do + "/",
+				"callback" : function(msg) {
+					if (msg.status == 0) {
+						$.error("保存成功");
+						if(_do=='add'){
+							location.href=cururl;
+							return false;
+						}
+						location.reload(false);
+					} else {
+						$.error(msg.info);
+					}
+				}
+			});
+		});
+		$(".cancelButton").click(function(){
+			location.href = cururl;
+		})
+
+	});
+</script>

@@ -1,0 +1,210 @@
+<div class="maininner">
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 房源图片审核 </strong> </h6>
+    <style>
+        .piclist li{ float:left; margin:5px 9px 5px 0; width:180px; height:168px; list-style:none; border:solid 1px #ccc; border-radius:3px; padding:9px;}
+		.piclist li img{ width:160px; height:120px;display: block;}
+        .piclist li .operate{ margin-top:10px;}
+        .piclist li .operate a{ float:right; margin-left:15px;}
+        .hoverimg .imgbig img{ width:auto; height:auto;}
+    </style>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <strong>提示：</strong>1、该列表数据为经纪人每日新增的上架房源图片；2、勾选不合规定的图片，即可将其房源设为图片违规，未勾选的则自动通过审核。
+    </div>
+
+    <div class="panel panel-default  search_form mb15 mt10">
+        <div class="panel-body">
+            <form method="get" action="/housepic/" id="searchForm">
+            <table class="search_form">
+                <tr>
+                    <td width="120">
+                        <select class="form-control s" name="cityId"  >
+                            <?=MyTags::options($citys, $selectData['cityId'])?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control s" name="housetype">
+                            <?=MyTags::options($houseType, $selectData['houseType'])?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control s" name="districtId">
+                            <option  value="0">城区</option>
+                            <?=MyTags::options($district, $selectData['districtId'])?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="hidden" name="sizeType" value="{{selectData['sizeType']}}" id="sizeType">
+                        <button class="btn btn-gray" type="submit">搜 索</button>
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div>
+    </div>
+    {% if imgList %}
+    <div class=" well clearfix">
+        <p class=" pull-left">
+            <a class="selectAll" href="javascript:void(0);">全选</a>|<a class="selectOther" href="javascript:void(0);">反选</a>
+            <button type="button" class="btn btn-success widthl" data-toggle="modal" data-target="#weigui"> 设为违规 </button>
+            <a class=" widthl" target="_blank" href="/housepic/log"> 审核日志 </a>
+        </p>
+        <p class=" pull-right" style="line-height: 35px;">
+            今日共审核 <strong class=" font_red">  {{auditingNum['shenhe']}}   </strong>条，违规 <strong class=" font_red">  {{auditingNum['weigui']}}  </strong> 条，共 <strong class=" font_red"> {{auditingNum['total']}} </strong> 套未审核房源
+            <select class="form-control s" name="sizeType" id="sizeTypeSelect"  >
+                <?=MyTags::options($sizeType, $selectData['sizeType'])?>
+            </select>
+        </p>
+    </div>
+
+    <ul class="piclist clearfix">
+        {% for oneHouse in imgList %}
+        {% for img in oneHouse  %}
+        <li data-group="{{img['houseId']}}">
+            <input type="hidden" name="houseId" value="{{img['houseId']}}" class="houseId" houseId="0" >
+            <a> <img width="160" height="120" alt="" src="{{img['small']}}"> </a>
+            <div class="operate">
+                <input type="checkbox" name="" class="checkBoxClass" autocomplete="off"/> {% if img['type'] == 1 %}户型图{% elseif img['type'] == 2 %}室内图{% elseif img['type'] == 3 %}外观图{%endif%}
+                <a class="hoverimg"> 大图  <div class="imgbig"><img width="600" height="450" src="{{img['big']}}"></div> </a>
+                <a target="_blank" href="<?=Url::getHouseUrl($img['houseId'],'sale',$selectData['cityId'])?>">  详情 </a>
+            </div>
+        </li>
+        {% endfor %}
+        {% endfor %}
+    </ul>
+
+    <div class=" tcenter"> <a class=" btn btn-success btn-lg" data-toggle="modal" data-target="#weigui"> 设为违规 </a> </div>
+    {% else %}
+    <div class="noreascout">
+        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+    </div>
+    {% endif %}
+    <!--分页开始-->
+
+    <!--分页结束-->
+
+</div>
+<script type="text/javascript">
+    gotoTop();
+    var menu = 'menu6';
+    var moudle = 'housepic';
+    var cururl = base_url + "housepic/";
+
+    var all = $('.selectAll'),
+            ckb_user = $('.checkBoxClass'),
+            len = ckb_user.length;
+    ckb_user.click(function() {
+        var flag = $(this).prop("checked");
+        var el_item = $(this).parent().parent('li');
+        var group_item = el_item.parent().find("li[data-group='"+el_item.attr('data-group')+"']").find('input[type="checkbox"]');
+        //var house_item = el_item.parent().find("li[data-group='"+el_item.attr('data-group')+"']").find('input[type="hidden"]');
+        group_item.each(function(){
+            $(this).prop("checked",flag);
+        });
+    });
+    $(".piclist img ").click(function(){
+        var flag = $(this).parent().parent("li").find(".checkBoxClass").prop("checked");
+        var setFlag = true;
+        if(flag === true){
+            setFlag = false;
+        }
+        $(this).parent().parent("li").find(".checkBoxClass").prop("checked", setFlag);
+        var el_item = $(this).parent().parent('li');
+        var group_item = el_item.parent().find("li[data-group='"+el_item.attr('data-group')+"']").find('input[type="checkbox"]');
+        group_item.each(function(){
+            $(this).prop("checked",setFlag);
+        });
+    })
+    all.click(function(){
+        var flag = true;
+        ckb_user.each(function(){
+            $(this).prop("checked",flag);
+        });
+    })
+
+    $(".selectOther").click(function(){
+        ckb_user.each(function(){
+            var flag = ($(this).prop("checked")==true)?false:true;;
+            $(this).prop("checked",flag);
+        });
+    });
+
+
+    $(".btn-success").click(function() {
+        var houseIdsOk = [];
+        var houseIdsError = [];
+
+
+        $(".checkBoxClass").each(function(){
+            var houseId = $(this).parent().parent().find('.houseId').val();
+            if($(this).prop("checked")){
+                houseIdsError.push(houseId) ;
+            }else{
+                houseIdsOk.push(houseId) ;
+            }
+        })
+        houseIdsError = houseIdsError.unique3();
+        houseIdsOk = houseIdsOk.unique3();
+        var houseIdsErrorStr = houseIdsError.join('-');
+        if(houseIdsErrorStr =="") houseIdsErrorStr = 0;
+        var houseIdsOkStr   = houseIdsOk.join('-');
+        if(houseIdsOkStr == "") houseIdsOkStr = 0;
+        var cityId = $("select[name='cityId']").val();
+        $.request({
+            url: cururl + "saveAuditing/" + houseIdsErrorStr + "/"+houseIdsOkStr+"/"+cityId,
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("操作成功！");
+                    $('html,body').animate({ scrollTop: 0 }, 200);
+                    location.reload(true);
+                } else {
+                    if(typeof msg.info != "undefined"){
+                        alert(msg.info);
+                    }else{
+                        console.log(msg);
+                        alert("操作失败,请重试");
+                    }
+                    $('html,body').animate({ scrollTop: 0 }, 200);
+                    location.reload(true);
+                }
+            }
+        });
+    });
+    var ajaxcururl = base_url + "ajax/";
+    $("select[name='cityId']").change(function(){
+        var cityId = $(this).val();
+        $.ajax({
+            url: ajaxcururl + "getDistByCityId/" + cityId + "/",
+            dataType: "json",
+            success: function(msg) {
+                if (msg.status == 0) {
+                    var html = '<option value="0" selected="">城区</option>';
+                    var data = msg.data;
+                    for (var dist in data ){
+                        html += '<option value="'+dist+'">'+data[dist]+'</option>';
+                    }
+                    $("select[name='districtId']").html(html);
+                } else {
+                }
+            }
+        });
+    });
+
+    $("#sizeTypeSelect").change(function(){
+        $("#sizeType").val($(this).val());
+        $("#searchForm").submit();
+    })
+
+    Array.prototype.unique3 = function(){
+        var res = [];
+        var json = {};
+        for(var i = 0; i < this.length; i++){
+            if(!json[this[i]]){
+                res.push(this[i]);
+                json[this[i]] = 1;
+            }
+        }
+        return res;
+    }
+</script>

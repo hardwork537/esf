@@ -1,0 +1,22 @@
+<table border=1>
+<tr>
+	<th>城市</th>
+	<th>公司名称 (全称)</th>
+	<th>日期</th>
+	<th>出售端口数量</th>
+	<th>出租端口数量</th>
+</tr>
+{% for value in lists %}
+{% for date,v in value['portNums'] %}
+<tr>
+	<td>{{ cityName }}</td>
+	<td>{{ value['comName'] }}</td>
+	<td>{{ date }}</td>
+    <td>{{ v['sale'] }}</td>
+    <td>{{ v['rent'] }}</td>
+</tr>
+{% endfor %}
+{% endfor %}
+</table>
+
+

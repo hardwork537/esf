@@ -1,0 +1,22 @@
+﻿<table>
+<tr>
+	<th>公司名称</th>
+	<th>客户类型</th>
+	<th>客户账号</th>
+	<th>正在执行合同编号</th>
+	<th>合同金额</th>
+	<th>创建日期</th>
+</tr>
+{% for list in lists %}
+<tr>
+	<td>{{ list['comName'] }}</td>
+	<td>{{ list['toName'] }}</td>
+	<td>{{ list['accname'] }}</td>
+	<td>{{ list['contract'] }}</td>
+	<td>{{ list['amount'] }}</td>
+	<td>{{ list['updateDate'] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+

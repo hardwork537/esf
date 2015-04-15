@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> 城市数据字典_小区楼盘字典 </title>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="css/common.css" rel="stylesheet" type="text/css" /> 
+</head>
+<body>
+
+  <div class="head "> 
+    <div class="headinner">
+    <div class="items"> 
+        <div class="logo"> 
+            <img src="images/logo.png" />
+        </div>
+        <div class=" user_login"> 
+          您好，<strong class="widthl"> Jeffer </strong>  <span class="widthl"> 超级管理员</span> <span class="widthl"> 上海</span> <span class=" widthm"> | </span> <a class="widthm"> 退出 </a> 
+        </div>
+    </div>
+     </div>
+  </div>
+
+  <div class="mainout items"> 
+
+   <div class="main">
+      <div class="maininner"> 
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 小区楼盘字典 </strong> </h6>
+
+        <table class="search_form mb15">
+              <tbody><tr>
+                  <td width="120"> 
+                   <select class="form-control" style="width:100px;"> onchange="get_district(this.value, 'district_id');get_sell_service('city_id','hot_area_list');" id="city_id" name="city_id">
+					    <option selected="selected" value="1" label="北京">北京</option>
+                        <option value="2" label="上海">上海</option>
+                        <option value="4" label="广州">广州</option>
+                        <option value="5" label="深圳">深圳</option>
+                        <option value="3" label="天津">天津</option>
+                        <option value="6" label="成都">成都</option>
+                        <option value="7" label="重庆">重庆</option>
+                        <option value="8" label="沈阳">沈阳</option>
+                        <option value="9" label="石家庄">石家庄</option>
+                        <option value="10" label="南京">南京</option>
+                        <option value="11" label="濮阳">濮阳</option>
+                    </select>	
+                  </td>
+                  <td width="120"> 
+                     <select class="form-control" style="width:100px;"> id="district_id" name="district_id"><option value="0">城区</option><option value="100">宝山</option><option value="101">长宁</option><option value="102">崇明</option><option value="103">奉贤</option><option value="104">虹口</option><option value="105">黄浦</option><option value="106">嘉定</option><option value="107">金山</option><option value="108">静安</option><option value="109">卢湾</option><option value="110">闵行</option><option value="111">浦东</option><option value="112">普陀</option><option value="113">青浦</option><option value="114">松江</option><option value="115">徐汇</option><option value="116">杨浦</option><option value="117">闸北</option><option value="193">上海周边</option><option value="196">昆山</option></select>
+                  </td>
+                  <td width="120"> <select class="form-control" style="width:100px;" id="hot_area_id" name="hot_area_id"><option>板块</option> </select> </td>
+                  <td width="120"> 
+                        <select class="form-control" style="width:100px;" id="live_type" name="live_type">
+                          <option>类型</option>
+                          <option value="1" label="普通住宅">普通住宅</option>
+                        <option value="5" label="商住两用">商住两用</option>
+                        <option value="6" label="公寓">公寓</option>
+                        <option value="2" label="别墅">别墅</option>
+                        <option value="3" label="写字楼">写字楼</option>
+                        <option value="4" label="商铺">商铺</option>
+                        <option value="7" label="平房/四合院">平房/四合院</option>
+                        <option value="9" label="其他">其他</option>
+                      </select>
+                  </td>
+                  <td width="120">
+                     <select class="form-control" style="width:100px;" id="no_data" name="no_data">
+                        <option value="0">筛选</option>
+                        <option value="1" label="无城区">无城区</option>
+                        <option value="2" label="无板块">无板块</option>
+                        <option value="3" label="无坐标">无坐标</option>
+                        <option value="4" label="无主图">无主图</option>
+                    </select>
+                  </td>
+                  <td width="140">
+                      <input class="form-control" type="text" placeholder="小区名称" />
+                  </td>
+                  <td>
+                    <button class="btn btn-gray" type="button">搜 索</button>
+                    <a href="2.6.2城市数据字典_板块字典_新增板块 .htm" type="button" class="btn btn-success widthl" > <strong> + </strong> 新增小区 </a> 
+                  </td>
+              </tr>
+          </tbody></table>
+
+          <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+            <tr>
+                <th style=" width:100px;">ID</th>
+                <th style="width:20%;">小区名称</th>
+                <th style="width:12%;">专家出售房源</th>
+				<th style="width:12%;">专家出租房源</th>
+				<th style="width:12%;">专家出售头像</th>
+				<th style="width:12%;">专家出租头像</th>
+                <th>操作</th>
+            </tr>
+          </table>
+      
+              <div class="noreascout">
+                <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                 <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+              </div>
+
+
+              <table class="table table-hover mt10">
+
+             <tr>
+                <th style=" width:100px;">ID</th>
+                <th style="width:20%;">小区名称</th>
+                <th style="width:12%;">专家出售房源</th>
+				<th style="width:12%;">专家出租房源</th>
+				<th style="width:12%;">专家出售头像</th>
+				<th style="width:12%;">专家出租头像</th>
+                <th>操作</th>
+            </tr>
+ 
+          <tr>  	  	  	  	 
+            <td align="center">118784&nbsp;</td>
+            <td><a title="湾子街" target="_blank" href="http://bj.esf.focus.cn/xiaoqu/118784">湾子街</a>&nbsp;</td>
+            <td align="center">0</td>
+			<td align="center">0</td>
+            <td align="center">0</td>
+            <td align="center">0</td>
+             <td align="center" class="operate">
+               
+                <a>修改</a>
+                <a class="widthl">外观图</a>
+                <a class="widthl">门户图</a>
+                <a class="widthl">设客户 </a>
+               <div class=" arrow_tipswrap"> 
+               <a class="widthl td_delete">删楼盘</a>
+                <div class="arrow_tips">
+                    <!-- 删除弹出框 -->
+                    <div style="display:block;"  class="arrow_tipsinner">
+            	        <img width="11" height="8" class="arrow_t" src="images/arrow_t.png">
+                        <h5 class="tittle">系统提示</h5>
+                        <a class="close_mylabel icon icon_xx"> </a>
+                        <div class="words">
+                            <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该板块吗？ </span></p>
+                            <p class="btnwrap">
+                                <button type="button" class="btn btn-success btn-xs">确认</button>
+                               <button type="button" class="btn btn-default btn-xs widthl2">取消</button>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 撤回成功弹出框 -->
+                    <div style="display:none;"  class="arrow_tipsinner">
+            	        <img width="11" height="8" class="arrow_t" src="images/arrow_t.png">
+                        <h5 class="tittle">系统提示</h5>
+                        <a class="close_mylabel icon icon_xx"> </a>
+                        <div class="words">
+                            <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除板块成功 </span></p>
+                            <p class="btnwrap mt10"><a href="#">返回板块列表</a></p>
+                        </div>
+                    </div>
+                    <!-- 撤回失败弹出框 -->
+                    <div style="display:none;" class="arrow_tipsinner">
+            	        <img width="11" height="8" class="arrow_t" src="images/arrow_t.png">
+                        <h5 class="tittle">系统提示</h5>
+                        <a class="close_mylabel icon icon_xx"> </a>
+                        <div class="words">
+                            <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm "> 删除板块失败！ </span></p>
+                            <p class="btnwrap mt10"><a href="#">返回重新操作</a></p>
+                        </div>
+                    </div>
+            
+                </div>
+                </div> 
+             
+      
+            </td> 
+          </tr>
+ 
+ 
+
+        </table>
+
+        <!--分页开始-->
+        <div class="numsrow clearfix mt30">  
+          <p class=" my_left "> 共有 <strong class=" font_orange "> 8668  </strong>条记录  </p>
+          <div class="pages_nav my_right">
+            <span class="pre pre_disable"><em></em>上一页</span><!--可点击时，class="pre" -->
+            <a class="num viewed">1</a><!-- viewed表示当前页面 -->
+            <span class="num on">2</span>
+            <a class="num">3</a>
+            <a class="num">4</a>
+            <a class="num">5</a>
+            <a class="num">6</a>
+            <a class="num">7</a>
+            <a class="num">8</a>
+            <span>...</span>
+            <a class="num">20</a>
+            <a class="next"><em></em>下一页</a><!--不能点击时，class="next_disable" -->
+        </div>
+      </div>
+      <!--分页结束-->
+
+     </div>
+   </div>
+
+
+    <div class=" sidebar"> 
+        <ul class="sidebar_inner">
+          <li>
+            <span> <s class="icon icon_set"></s> <strong>城市运营管理 </strong> </span>
+            <ul>
+              <li><a>城市数据统计  </a></li>
+              <li><a>CRM用户管理 </a></li>
+              <li><a>定制收费端口</a></li>
+              <li><a>收费端口配置</a></li>
+              <li><a>免费端口配置</a></li>
+            </ul>
+          </li>
+          <li class="open">
+            <span>  <s class="icon icon_set"></s>  <strong> 城市数据字典 </strong> </span>
+            <ul>
+              <li> <a> 城市字典 </a> </li>
+              <li> <a> 城区字典 </a> </li>
+              <li> <a> 板块字典 </a> </li>
+              <li> <a> 轨道线路字典 </a> </li>
+              <li> <a> 轨道站点字典 </a> </li>
+              <li> <a class="active"> 小区楼盘字典 </a> </li>
+              <li> <a> 小区外观图审核 </a> </li>
+              <li> <a> 小区户型图审核 </a> </li>
+              <li> <a> 学校字典 </a> </li>
+              <li> <a> 经纪公司字典 </a> </li>
+              <li> <a> 房源特色标签 </a> </li>
+            </ul>
+          </li>
+          <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 企业用户管理 </strong> </span>
+            <ul>
+              <li> <a> 经纪公司管理 </a> </li>
+              <li> <a> 区域管理 </a> </li>
+              <li> <a> 门店管理 </a> </li>
+              <li> <a> 经纪人管理 </a> </li>
+            </ul>
+          </li>
+       <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 独立经纪人管理 </strong> </span>
+            <ul>
+              <li> <a> 尚未认证 </a> </li>
+              <li> <a> 等待认证 </a> </li>
+              <li> <a> 成功认证 </a> </li>
+              <li> <a> 认证失败 </a> </li>
+            </ul>
+          </li>
+      <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 房源管理 </strong> </span>
+            <ul>
+              <li> <a> 经纪人出售 </a> </li>
+              <li> <a> 经纪人出租 </a> </li>
+              <li> <a> 经纪人房源审核 </a> </li>
+              <li> <a> 房源图片审核 </a> </li>
+              <li> <a> 无违规经纪人数据 </a> </li>
+              <li> <a> 个人房源管理 </a> </li>
+              <li> <a> 真房源认证 </a> </li>
+              <li> <a> 房源违规关键词 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 企业统计 </strong> </span>
+            <ul>
+              <li> <a> 企业费用查询 </a> </li>
+              <li> <a> 小区房源统计 </a> </li>
+              <li> <a> 门店操作统计 </a> </li>
+              <li> <a> 经纪人操作统计 </a> </li>
+              <li> <a> 城区板块统计 </a> </li>
+              <li> <a> 数据报表下载 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> CS管理 </strong> </span>
+            <ul>
+              <li> <a> CS日志管理 </a> </li>
+              <li> <a> 端口执行汇总 </a> </li>
+              <li> <a> 客户合同管理 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 功能管理 </strong> </span>
+            <ul>
+              <li> <a> 企业公告 </a> </li>
+              <li> <a> 焦点通公告 </a> </li>
+              <li> <a> 操作日志 </a> </li>
+              <li> <a> 修改密码 </a> </li>
+              <li> <a> 重置客户密码 </a> </li>
+              <li> <a> 经纪人查询 </a> </li>
+              <li> <a> 内容管理 </a> </li>
+              <li> <a> 专题管理 </a> </li>
+              <li> <a> 积分管理 </a> </li>
+              <li> <a> 工具箱 </a> </li>
+              <li> <a> 置业专家管理 </a> </li>
+              <li> <a> 二手房首页管理 </a> </li>
+              <li> <a> 积分兑换 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 互动管理 </strong> </span>
+            <ul>
+              <li> <a> 小区纠错管理 </a> </li>
+              <li> <a> 小区评论审核 </a> </li>
+              <li> <a> 房源举报管理 </a> </li>
+              <li> <a> 意见反馈管理 </a> </li>
+              <li> <a> 疑似手机号管理 </a> </li>
+              <li> <a> 个人用户黑名单管理 </a> </li>
+            </ul>
+          </li>
+     <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 接口管理 </strong> </span>
+            <ul>
+              <li> <a> 开放接口后盘配置 </a> </li>
+              <li> <a> 未匹配出售房源 </a> </li>
+              <li> <a> 未匹配出租房源 </a> </li>
+            </ul>
+          </li>
+
+        </ul>
+    </div>
+
+  </div>
+
+   <div class="foot items">
+   
+  <hr />
+  <div class="items totopwrap"> <a id="toTop"> </a> </div>
+  Copyright © 2014 Sohu.com Inc. All rights reserved. 搜狐公司 版权所有 <br />
+增值电信业务经营许可证B2-20040144 京ICP证030367号 互联网新闻信息服务许可证
+  </div>
+
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+
+
+</body>
+</html>

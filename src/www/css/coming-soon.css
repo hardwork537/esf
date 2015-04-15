@@ -1,0 +1,339 @@
+.global_top_nav{
+    margin-bottom: 0;
+}
+.body-wrap{
+    width: 100%;
+    min-height: 910px;
+    _height:880px;
+    background: url("../img/coming-soon-bg.png") center top;
+    overflow: hidden;
+}
+.wrap-content{
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+.wrap-content .logo{
+    margin-top: 44px;
+    width: 160px;
+    height: 48px;
+    background: url("../img/logo_nobg.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/logo_nobg.png");
+    display: inline-block;
+    *display:inline;
+    *zoom:1;
+}
+.wrap-content .main{
+    position: relative;
+    z-index: 10;
+}
+.main .word1{
+    position: absolute;
+    top: 318px;
+    top: 248px\0;
+    _top: 248px;
+    width: 275px;
+    height: 72px;
+    background: url("../img/coming-soon-word_01.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-word_01.png");
+    left: 150px;
+    z-index: 10;
+    animation: toleft 2s;
+    -moz-animation: toleft 2s;	 /*Firefox*/
+    -webkit-animation: toleft 2s;	 /*Safari 和 Chrome*/
+    -o-animation: toleft 2s;	/* Opera*/
+}
+.main .word2{
+    position: absolute;
+    top: 300px;
+    top:230px\0;
+    _top: 230px;
+    z-index: 10;
+    width: 278px;
+    height: 100px;
+    background: url("../img/coming-soon-word_02.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-word_02.png");
+    left: 576px;
+
+    animation: toright 2s;
+    -moz-animation: toright 2s;	 /*Firefox*/
+    -webkit-animation: toright 2s;	 /*Safari 和 Chrome*/
+    -o-animation: toright 2s;	/* Opera*/
+}
+.main .message{
+    width: 1000px;
+    height: 250px;
+    color: #8299b0;
+    text-align: center;
+    position: absolute;
+    top:550px;
+    top:460px\0;
+    _top: 460px;
+    font: 12px/1.5 Tahoma, Arial, "Microsoft YaHei";
+}
+.main .message .icon{
+    display: inline-block;
+    *display:inline;
+    *zoom:1;
+    width: 24px;
+    height: 42px;
+    background: url("../img/coming-soon-arrow.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-arrow.png");
+    margin: 15px 0 36px 0;
+}
+.main .message a{
+    text-decoration: underline;
+    color: #85d6de;
+}
+.main .message a:hover{
+    color: #ff4600;
+}
+.main .message em{
+    color:#e9e2bd;
+    font-style: normal;
+}
+.main .earth{
+    position: absolute;
+    z-index: 10;
+    animation: comeout 2s;
+    -moz-animation: comeout 2s;	 /*Firefox*/
+    -webkit-animation: comeout 2s;	 /*Safari 和 Chrome*/
+    -o-animation: comeout 2s;	/* Opera*/
+}
+.main .earth.size1{
+    width: 36px;
+    height: 36px;
+    top: 410px;
+    top: 340px\0;
+    _top: 340px;
+    left: 250px;
+    background: url("../img/coming-soon-earth1.png") no-repeat;
+
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-earth1.png");
+ }
+.main .earth.size2{
+    width: 62px;
+    height: 62px;
+    top: 600px;
+    top: 530px\0;
+    _top: 530px;
+    left: 860px;
+    background: url("../img/coming-soon-earth2.png") no-repeat;
+
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-earth2.png");
+}
+.main .earth.size3{
+    width: 78px;
+    height: 78px;
+    top: 126px;
+    top:56px\0;
+    _top:56px;
+    left: 690px;
+    background: url("../img/coming-soon-earth3.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-earth3.png");
+}
+.rocket{
+    width: 160px;
+    height: 254px;
+    position: absolute;
+    background: url("../img/coming-soon-roket.png") no-repeat;
+    _background:none;
+    _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="img/coming-soon-roket.png");
+    overflow: hidden;
+
+    z-index: 10;
+    top: 244px;
+    top: 174px\0;
+    _top: 174px;
+    left: 435px;
+    animation: flyin 2s;
+    -moz-animation: flyin 2s;	/* Firefox */
+    -webkit-animation: flyin 2s;	/* Safari 和 Chrome */
+    -o-animation: flyin 2s;	/* Opera */
+}
+/*左边字动画*/
+@keyframes toleft
+{
+    0% {
+        left: 210px;
+    }
+    100% {
+        left: 150px;
+    }
+}
+
+@-moz-keyframes toleft /* Firefox */
+{
+    0% {
+        left: 210px;
+    }
+    100% {
+        left: 150px;
+    }
+}
+
+@-webkit-keyframes toleft /* Safari 和 Chrome */
+{
+    0% {
+        left: 210px;
+    }
+    100% {
+        left: 150px;
+    }
+}
+
+@-o-keyframes toleft /* Opera */
+{
+    0% {
+        left: 210px;
+    }
+    100% {
+        left: 150px;
+    }
+}
+/*右边字动画*/
+@keyframes toright
+{
+    0% {
+        left: 516px;
+    }
+    100% {
+        left: 576px;
+    }
+}
+
+@-moz-keyframes toright /* Firefox */
+{
+    0% {
+        left: 516px;
+    }
+    100% {
+        left: 576px;
+    }
+}
+
+@-webkit-keyframes toright /* Safari 和 Chrome */
+{
+    0% {
+        left: 516px;
+    }
+    100% {
+        left: 576px;
+    }
+}
+
+@-o-keyframes toright /* Opera */
+{
+    0% {
+        left: 516px;
+    }
+    100% {
+        left: 576px;
+    }
+}
+/*地球出现动画*/
+@keyframes comeout
+{
+    0% {
+        transform:scale(0);
+    }
+    80% {
+        transform:scale(1.2);
+    }
+    100% {
+        transform:scale(1);
+    }
+}
+
+@-moz-keyframes comeout /* Firefox */
+{
+    0% {
+        transform:scale(0);
+    }
+    80% {
+        transform:scale(1.2);
+    }
+    100% {
+        transform:scale(1);
+    }
+}
+
+@-webkit-keyframes comeout /* Safari 和 Chrome */
+{
+    0% {
+        transform:scale(0);
+    }
+    80% {
+        transform:scale(1.2);
+    }
+    100% {
+        transform:scale(1);
+    }
+}
+
+@-o-keyframes comeout /* Opera */
+{
+    0% {
+        transform:scale(0);
+    }
+    80% {
+        transform:scale(1.2);
+    }
+    100% {
+        transform:scale(1);
+    }
+}
+/*火箭飞入动画*/
+@keyframes flyin
+{
+    from {
+        top: 940px;
+        left: 800px;
+    }
+    to {
+        top: 174px;
+        left: 435px;
+    }
+}
+
+@-moz-keyframes flyin /* Firefox */
+{
+    from {
+        top: 940px;
+        left: 800px;
+    }
+    to {
+        top: 244px;
+        left: 435px;
+    }
+}
+
+@-webkit-keyframes flyin /* Safari 和 Chrome */
+{
+    from {
+        top: 940px;
+        left: 800px;
+    }
+    to {
+        top: 244px;
+        left: 435px;
+    }
+}
+@-o-keyframes flyin /* Opera */
+{
+    from {
+        top: 940px;
+        left: 800px;
+    }
+    to {
+        top: 244px;
+        left: 435px;
+    }
+}

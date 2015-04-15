@@ -1,0 +1,285 @@
+﻿/*nav*/
+.tabNav li b{
+    font-weight: 100;
+    color: #d80100;
+}
+.tabNav .curr b{
+    font-weight: 700;
+}
+
+.list_def{
+    width: 100%;
+	padding-bottom: 10px;
+}
+
+    .list_def .item{
+        margin: 20px 0 0;
+        position: relative;
+        width: 783px;
+        border: 1px solid #e6e6e6;
+    }
+    .list_def .item:hover{
+        border: 1px solid #f7dec0;
+    }
+    .daogou_view .list_def .item{
+        width: 788px;
+    }
+        .item .icons, .list_noResult .icons, .daogou_view .icons{
+            display: inline-block;
+            background: url("../img/bg_daogou.png") no-repeat 0 0;
+            overflow: hidden;
+        }
+        .item .item_h{
+            margin: 17px 0 0 10px;
+            width: 600px;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+        .item .item_c{
+            margin: 11px 0 0 10px;
+            width: 760px;
+            line-height: 22px;
+        }
+        .item .item_b{
+            margin: 16px 0 0;
+            padding: 0 20px;
+            border-top: 1px dashed #e6e6e6;
+            height: 39px;
+            line-height: 39px;
+            overflow: hidden;
+            background: #f7f7f7;
+        }
+        .item:hover .item_b{
+            background: #fefff1;
+        }
+        .list_def .hover{
+            border-color: #f7dec0;
+        }
+        .hover .item_b{
+            background: #fefff1;
+        }
+            .item_b b{
+                color: #d80100;
+            }
+            .item_b .b_sp1{
+                color: #999;
+            }
+            .item_b .b_sp1 b{
+                color: #db7700;
+            }
+            .item_b .b_sp2{
+                font-size: 14px;
+            }
+            .item_b2 .b_sp2{
+                *margin: -40px 0 0;
+            }
+            .item_b .b_sp2 b{
+                margin: 0 6px;
+                font: 100 24px/1 arial;
+            }
+        .item .item_rt, .item .item_rb{
+            position: absolute;
+            display: inline-block;
+        }
+        .item .item_rt{
+            right: -6px;
+            top: -1px;
+            padding: 10px 0;
+            background: #f7dec0;
+            width: 175px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            color: #db7700;
+        }
+        .item .item_rt .join_p, .item .item_rt .join_n, .item .item_rt .join_w{
+            width: 17px;
+            height: 17px;
+            vertical-align: middle;
+        }
+        .item .item_rt .join_p{
+            background-position: 0 -216px;
+        }
+        .item .item_rt .join_n{
+            background-position: -19px -216px;
+        }
+        .item .item_rt .join_w{
+            background-position: -38px -216px;
+        }
+        .item .item_rt .i_rb{
+            position: absolute;
+            right: 0;
+            bottom: -5px;
+            width: 5px;
+            height: 5px;
+            background-position: -19px -235px;
+        }
+
+/*list_join*/
+.list_join .item_rb{
+    bottom: 0;
+    right: 0;
+    background: url("../img/bg_icon_end.png") no-repeat right bottom;
+    width: 116px;
+    height: 81px;
+}
+
+/*no result*/
+.list_noResult{
+    margin: 45px 0 0;
+    padding: 0 0 157px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    border-bottom: 1px solid #e6e6e6;
+}
+    .list_noResult .icons, .daogou_view_b .p5 .icons{
+        margin: 0 10px 0 0;
+        width: 16px;
+        height: 16px;
+        background-position: 0 -235px;
+        vertical-align: text-bottom;
+    }
+
+/*daogou view*/
+.daogou_view_h{
+    margin: 32px 0 0;
+    position: relative;
+    padding: 0 0 0 130px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px solid #e6e6e6;
+    background: #f7f7f7;
+}
+    .daogou_view_h .h_title{
+        position: absolute;
+        left: -1px;
+        bottom: -1px;
+        display: inline-block;
+        width: 100px;
+        height: 45px;
+        line-height: 45px;
+        background: #f7dec0;
+        text-align: center;
+        color: #db7700;
+        font-size: 14px;
+        font-weight: 700;
+    }
+        .h_title .icons{
+            position: absolute;
+            top: 0;
+            right: -5px;
+            width: 5px;
+            height: 5px;
+            background-position: -27px -235px;
+        }
+    .daogou_view_h .h_status{
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .daogou_view_h .h_status,.h_status .h_s_inner{
+        height: 38px;
+    }
+    .h_status .h_s_inner{
+        position: absolute;
+        top: 0;
+    }
+        .h_status i{
+            margin: 0 15px 0 17px;
+            color: #999;
+        }
+
+.daogou_view .tab_special{
+    position: relative;
+    top: -30px;
+    left: 69px;
+}
+    .tab_special b{
+        color: #d80100;
+    }
+.daogou_view_b{
+    position: relative;
+    padding: 40px 0 40px 100px;
+    width: 690px;
+    margin: -18px 0 25px;
+    background: #f7f7f7;
+}
+    .daogou_view_b .p0{
+        margin: 0 0 15px;
+        width: 520px;
+    }
+    .daogou_view_b .p0 label{
+        display: inline-block;
+        width: 62px;
+        vertical-align: top;
+    }
+    .daogou_view_b .p0 input, .daogou_view_b .p0 textarea{
+        padding: 0 9px;
+        line-height: 23px;
+        border: 1px solid #b3c8dd;
+    }
+    .daogou_view_b .p1 input{
+        width: 250px;
+        height: 23px;
+        line-height: 18px;
+    }
+    .daogou_view_b .p0 textarea{
+        padding-top: 10px;
+        width: 432px;
+        height: 95px;
+    }
+    .daogou_view_b .p3{
+        margin-top:-10px;
+        text-align: right;
+        color: #999;
+    }
+    .daogou_view_b .p4{
+        margin: 0 0 0 67px;
+    }
+    .daogou_view_b .p5{
+        position: absolute;
+        top: 10px;
+        left: 167px;
+        color: #d80100;
+    }
+/*daogou_view_tips*/
+.daogou_view_tips{
+    padding: 81px 0 75px 170px;
+    width: 620px;
+}
+.daogou_view_b .pn{
+    padding: 20px;
+    color: #db7700;
+    font-size: 14px;
+    width: 348px;
+    height: 88px;
+    border: 1px solid #f7dec0;
+    background: #fff;
+    line-height: 30px;
+}
+.daogou_view_tips .icons{
+    position: absolute;
+    top: 81px;
+    left: 61px;
+    width: 70px;
+    height: 70px;
+}
+.daogou_view_tips .i_jian{
+    background-position: -57px -216px;
+    width: 11px;
+    height: 13px;
+    left: 160px;
+    top: 97px;
+}
+.daogou_view_tips .face_p{
+    background-position: 0 0;
+}
+.daogou_view_tips .face_n{
+    background-position: 0 -72px;
+}
+.daogou_view_tips .face_w{
+    background-position: 0 -144px;
+}

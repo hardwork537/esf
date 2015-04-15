@@ -1,0 +1,15 @@
+<ul class="sidebar_inner">
+	{% for k,m in navs %}
+		<li id="menu{{ k }}">
+			<span> <s class="icon icon_set"></s> <strong>{{ m['menu']['name'] }} </strong> </span>
+			<ul>
+			{% for md in m['moudel']%}
+				<li><a  class="{{ md['path']|trim }} {{ md['path']|trim }}_{{ md['id'] }}" href="{{ md['url'] }}">{{ md['name'] }}  </a></li>
+			{% endfor %}
+			</ul>
+		</li>
+	{% endfor %}
+
+</ul>
+
+

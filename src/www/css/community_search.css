@@ -1,0 +1,56 @@
+.community_search_wrap{
+    font: 12px  Arial, \5b8b\4f53, \5fae\8f6f\96c5\9ed1;
+}
+a{
+    color: #333;
+}
+a:hover {
+    color: #ff4600;
+    text-decoration: underline;
+}
+.bread_nav{
+    margin-top: 20px;
+}
+.guide a{
+    font-size: 14px;
+}
+.details_box{
+    border: 1px solid #b8d2ec;
+    margin: 10px 0;
+}
+.details_box dt{
+    background-color: #f2f9ff;
+    border-bottom: 1px solid #b8d2ec;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 10px;
+}
+.details_box dd{
+    padding: 2px 13px 2px 10px;
+}
+
+.c_container li {
+    width: 188px;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 7px;
+    padding: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+}
+
+.pages {
+    width: 980px;
+    padding: 5px 10px;
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    float: left;
+}
+.pages dd a {
+    width: 64px;
+    font: 12px/22px Arial;
+    white-space: nowrap;
+    overflow: hidden;
+    float: left;
+}

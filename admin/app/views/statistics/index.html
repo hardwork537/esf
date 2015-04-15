@@ -1,0 +1,187 @@
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市运营管理  &gt; <strong class="font_gold"> 数据统计 </strong> </h6>
+
+    <!--<div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong> 提示：</strong> 您输入的内容有误！
+    </div>-->
+<form action="/statistics/" >
+    <table class="search_form mb15">
+        <tr>
+                <td width="140">
+                    <select name="cityId" id="cityId" class="form-control">
+                        <?=MyTags::options($citys, $selectData['cityId'])?>
+                    </select>
+                </td>
+                <td>
+                    <div class="timecol">
+                        <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="startTime" value="{{selectData['startTime']}}">
+                    </div>
+                    <button class="btn btn-gray ml20" type="submit">搜 索</button>
+                </td>
+            </tr>
+    </table>
+</form>
+
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">字典统计
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>行政区县</th>
+                    <th>热点板块</th>
+                    <th>轨道线路</th>
+                    <th>轨道站点</th>
+                    <th>小区楼盘</th>
+                    <th>经纪公司</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{info['district_sum'] | default(0)}}</td>
+                    <td>{{info['hot_area_sum'] | default(0)}}</td>
+                    <td>{{info['subway_line_sum'] | default(0)}} </td>
+                    <td>{{info['subway_site_sum'] | default(0)}}</td>
+                    <td>{{info['house_sum'] | default(0)}}</td>
+                    <td>{{info['company_dict_sum'] | default(0)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">企业统计（正在执行）</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>经纪公司</th>
+                    <th>区域</th>
+                    <th>门店</th>
+                    <th>企业经纪人（已启用）</th>
+                    <th>端口</th>
+                    <!--<th>出租端口</th>
+                    <th>独立经纪人（已认证）</th>
+                    <th>免费版 </th>
+                    <th>付费版 </th>
+                    <th>出售端口 </th>
+                    <th>出租端口 </th>-->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{info['company_sum'] | default(0)}}</td>
+                    <td>{{info['sector_sum'] | default(0)}}</td>
+                    <td>{{info['agent_sum'] | default(0)}}</td>
+                    <td>{{info['company_broker_sum'] | default(0)}}人</td>
+                    <td>{{info['company_sale_port'] | default(0)}}</td>
+                    <!--<td>{{info['company_rent_port'] | default(0)}}</td>
+                    <td>{{info['indie_broker_sum'] | default(0)}}人</td>
+                    <td>{{info['indie_broker_free'] | default(0)}}人</td>
+                    <td>{{info['indie_broker_pay'] | default(0)}} 人</td>
+                    <td>{{info['indie_sale_port'] | default(0)}} </td>
+                    <td>{{info['indie_rent_port'] | default(0)}}  </td>-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class=" clearfix">
+        <div class="left" style="width:47%;">
+            <div class="panel panel-default">
+                <div class="panel-heading">房源统计_经纪人房源</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="100"></th>
+                            <th>发布</th>
+                            <th>精品</th>
+                            <th>库存</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>出售</td>
+                            <td>{{info['sale_company_online_count'] | default(0)}}</td>
+                            <td>{{info['sale_company_recommend_count'] | default(0)}}</td>
+                            <td>{{info['sale_company_offline_count'] | default(0)}}</td>
+                        </tr>
+                        <tr>
+                            <td>出租</td>
+                            <td>{{info['rent_company_online_count'] | default(0)}}</td>
+                            <td>{{info['rent_company_recommend_count'] | default(0)}}</td>
+                            <td>{{info['rent_company_offline_count'] | default(0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="right" style="width:47%;">
+            <div class="panel panel-default">
+                <div class="panel-heading">房源统计_个人房源</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="100"> </th>
+                            <th>新增 </th>
+                            <th>删除</th>
+                            <th>违规</th>
+                            <th>总量</th>
+                            <th>委托</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>二手房 </td>
+                            <td>{{info['personal_daily_sale_new_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_sale_del_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_sale_weigui_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_all_sale_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_sale_weituo_unit_count'] | default(0)}}</td>
+                        </tr>
+                        <tr>
+                            <td>租房 </td>
+                            <td>{{info['personal_daily_rent_new_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_rent_del_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_rent_weigui_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_all_rent_unit_count'] | default(0)}}</td>
+                            <td>{{info['personal_daily_rent_weituo_unit_count'] | default(0)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">全国个人用户</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>当日注册量</th>
+                    <th>当日登录量</th>
+                    <th>个人用户总量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{info['personal_daily_new_count'] | default(0)}}</td>
+                    <td>{{info['personal_daily_login_count'] | default(0)}}</td>
+                    <td>{{persionTotal | default(0)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu1';
+    var moudle = 'statistics';
+</script>
+
+

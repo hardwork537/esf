@@ -1,0 +1,249 @@
+﻿<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<div class="maininner">
+    <h6 class="maintt">
+        您的位置：
+        <a href="/">首页</a>
+        &gt; 功能管理 &gt;
+        <strong class="font_gold"> 置业专家 </strong>
+    </h6>
+    <div class="edittable">
+        <div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none">
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <strong> 提示：</strong>
+            <span class="notice-info">您输入的内容有误！</span>
+        </div>
+        <form id="form1" onsubmit="return false" form_tittle="置业专家" method="post" action="">
+            <input type="hidden" name="id" value="{{ info.id }}">
+            <input type="hidden" name="act" value="{% if info.id %}edit{% else %}add{% endif %}">
+            <table class="edittable">
+                <tr>    
+                    <td align="right" width="140">城市:</td>
+                    <td>
+                        {% if info.id %}
+                        <input type="hidden" name="cityId" value="{{ info.cityId }}" />
+                        <span  style="padding-left: 10px;" >   {{ citys[info.cityId] }}</span>
+                        {% else %}
+                        <select class="form-control s" name="cityId">
+                                <?=MyTags::options($citys,$info->cityId) ?>
+                        </select>
+                        {%endif%}
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="140">客户类型:</td>
+                    <td>
+                        <select class="form-control s" name="clientType">
+                            <?=MyTags::options($clientType, $info->clientType)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="140">客户ID:</td>
+                    <td>
+                        <input type="hidden" name="cityId" value="{{ info.cityId }}">
+                        <input class="form-control" type="text" name="clientId" value="{{ info.clientId }}"
+                               notnull="true" info="客户ID" onblur="checkIsExistClient()"/>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="140">卖点:</td>
+                    <td>
+                        {% if info.id %}
+                        <input type="hidden" name="buyType" value="{{ info.buyType }}" />
+                        <span style="padding-left: 10px;">   {{ buyType[info.buyType] }}</span>
+                        {% else %}
+                        <select class="form-control s" name="buyType">
+                            <?=MyTags::options($buyType,  $info->buyType)?>
+                        </select>
+                        <em class="required"> * </em>
+                        {%endif%}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">位置ID:</td>
+                    <td>
+                        
+                        <input class="form-control" type="text" name="buyId" value="{{ info.buyId }}" notnull="true" info="位置ID"  onblur="checkIsExistType()"   {% if info.id %}readonly{%endif%}/>
+                        <em class=" required"> * </em>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" width="140">展示类型:</td>
+                    <td>
+                        {% if info.id %}
+                        <input type="hidden" name="showType" value="{{ info.showType }}" />
+                        <span style="padding-left: 10px;">{{ showType[info.showType] }}</span>
+                        {%else%}
+                        <select class="form-control s" name="showType">
+                            <?=MyTags::options($showType, $info->showType)?>
+                        </select>
+                        <em class="required"> * </em>
+                        {%endif%}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">展示频道:</td>
+                    <td>
+                        {% if info.id %}
+                        <input type="hidden" name="channel" value="{{ info.channel }}" />
+                        <span style="padding-left: 10px;">{{ channel[info.channel] }}</span>
+                        {%else%}
+                        <select class="form-control s" name="channel">
+                            <?=MyTags::options($channel, $info->channel)?>
+                        </select>
+                        <em class=" required"> * </em>
+                        {%endif%}
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">合同编号:</td>
+                    <td>
+                        <input class="form-control" type="text" name="contractNo"  value="{{ info.contractNo}}" notnull="" info="合同编号" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">开始时间:</td>
+                    <td>
+                        <input type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd 00:00:00'})" class="Wdate form-control" value="{{ info.beginTime }}" name="beginTime" readonly notnull="true" info="开始时间">
+                        <em class=" required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">结束时间:</td>
+                    <td>
+                        <input class="Wdate form-control" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd 23:59:59'})" name="endTime" value="{{ info.endTime }}" readonly notnull="true" info="结束时间" />
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <input class="form-control" type="hidden" name="weight" value="0"/>
+                <!--tr>
+                    <td align="right">排序权重:</td>
+                    <td>
+                        <input class="form-control" type="text" name="weight" value="{{ info.weight }}"/>
+                    </td>
+                </tr-->
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthl cancelButton">返回列表</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'expert';
+
+
+    function checkIsExistClient() {
+        var clientType = $("select[name=clientType]").val();
+        var clientId = $("input[name=clientId]").val();
+        if (clientType == 3) {
+            var postUrl = base_url + "ajax/getShopInfo/" + clientId + "/";
+        }
+        else if (clientType == 4) {
+            var postUrl = base_url + "ajax/getRealtorInfo/" + clientId + "/";
+        }
+        $.request({
+            data: '',
+            url: postUrl,
+            callback: function(msg) {
+                if (msg.status == 1) {
+                    $("input[name=clientId] + .required").html("客户ID不存在");
+                    $("input[name=clientId]").attr("isExist", "N");
+                } else {
+                    $("input[name=clientId] + .required").html("√");
+                    $("input[name=clientId]").attr("isExist", "Y");
+                }
+            },
+        });
+    }
+
+    function checkIsExistType() {
+        var clientType = $("select[name=buyType]").val();
+        var clientId = $("input[name=buyId]").val();
+        if (clientType == 1) {
+            var actions = 'getDistrictInfo';
+        }
+        else if (clientType == 2) {
+            var actions = 'getRegionInfo';
+        }
+        else if (clientType == 3) {
+            var actions = 'getMetroInfo';
+        }
+        else if (clientType == 4) {
+            var actions = 'getmetroStationInfo';
+        }
+        else if (clientType == 5) {
+            var actions = 'getParkInfo';
+        }
+        else if (clientType == 6) {
+            var actions = 'getSchoolInfo';
+        }
+        var postUrl = base_url + "ajax/" + actions + "/" + clientId + "/";
+
+        $.request({
+            data: '',
+            url: postUrl,
+            callback: function(msg) {
+                if (msg.status == 1) {
+                    $("input[name=buyId] + .required").html("对应ID不存在");
+                    $("input[name=buyId]").attr("isExist", "N");
+                } else {
+                    $("input[name=buyId] + .required").html("√");
+                    $("input[name=buyId]").attr("isExist", "Y");
+                    $("input[name=cityId]").val(msg.data.cityId);
+                }
+            },
+        });
+    }
+    $(function() {
+        $("select[name=buyType]").change(function() {
+            $("input[name=buyId]").val("");
+            $("input[name=buyId]").attr("isExist", "N");
+            $("input[name=buyId] + .required").html("*");
+        });
+        $("select[name=clientType]").change(function() {
+            $("input[name=clientId]").val("");
+            $("input[name=clientId]").attr("isExist", "N");
+            $("input[name=clientId] + .required").html("*");
+        });
+        var cururl = base_url + "expert/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            if ($("input[isExist=N]").length > 0) {
+                return false;
+            }
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do + "/",
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        $.error("保存成功");
+                        if (_do == 'add') {
+                            location.href = cururl;
+                            return false;
+                        }
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+        $(".cancelButton").click(function() {
+            location.href = cururl;
+        })
+
+    });
+</script>

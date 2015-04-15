@@ -1,0 +1,51 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt">企业经纪人资料认证</h6>
+        
+        <form action="/realtorverify/certify/{{ realId }}" method="post">
+            <table class="table table-hover mt10">          
+                <tr style="margin-bottom: 20px;">  	  	  	  	 
+                    <td width="800">
+                        <image height="155" style="max-width:255px;" src="{{ realtor['cardUrl']|default('') }}" />
+                        <image height="155" style="max-width:255px;" src="{{ realtor['logoUrl']|default('') }}" /><br/>
+                        <p>姓名： {{ realtor['name'] }} ({{ accounts[realId]['name'] }})<br/></p>
+                        <p>手机号码： {{ realtor['mobile'] }}<br/></p>
+                        <p>所属公司： {{ companys[realtor['comId']]['abbr'] }}</p>
+                        <p>所属门店： {{ shops[realtor['shopId']]['name']|default('') }}</p>
+                        <p>服务区域： {{ dists[realtor['distId']]['name'] }} {{ regions[realtor['regId']]['name'] }}</p>
+                        <p>提交时间:  {{ date('Y-m-d H:i:s', realtor['validation']) }}</p>
+                    </td>                  
+                    <td>
+                        {% if realtor['fakeLoginUrl'] %}<a href="{{ realtor['fakeLoginUrl'] }}" target="_blank">伪登录&gt;&gt;</a><br/><br/>{% endif %}
+                        上次认证结果：{% if certStatus %}通过{% else %}不通过{% endif %}<br/>
+                        上次认证时间：{{ certiTime }}<br/>
+                        操作人：{{ operatorName }}<br/><br/>
+                        <input class="realaudit" type="radio" name="certi" value="0">暂不认证<br/><br/>
+                        <input class="realaudit" type="radio" name="certi" value="1" {% if certStatus %}checked="checked"{% endif %}>通过<br/><br/>
+                        <input class="realaudit" type="radio" name="certi" value="2" {% if not certStatus %}checked="checked"{% endif %}>不通过<br/><br/>                      
+                        <select name="reason" {% if certStatus %}style="display: none;"{% endif %}>
+                            <?=MyTags::options($denyReason, $realtor['denyId'])?>
+                        </select>                       
+                    </td>
+                </tr>
+            </table>
+            <input style="margin-top: 30px;margin-left: 1000px;" type="submit" value="提交审核" />
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'realtorverify';
+    
+    $(function() {
+        $('.realaudit').change(function(){
+            if(2 == $(this).val()) {
+                $(this).siblings('select').show();
+            } else {
+                $(this).siblings('select').hide();
+            }
+        })
+    })
+</script>
+

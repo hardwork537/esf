@@ -1,0 +1,166 @@
+.crumb {
+	margin-bottom: 10px;
+}
+.analysis_tips {
+	background-color: #fefff1;
+	border: 1px solid #f7dec0;
+	color: #db7700;
+	padding: 10px 20px;
+	line-height: 20px;
+	margin-bottom: 20px;
+}
+.tabNav {
+	margin-bottom: 20px;
+}
+.highcharts_title {
+	color: #666;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 20px;
+	margin-bottom: 15px;
+}
+.xline {
+	border-top: 1px dotted #666;
+	height: 0;
+	line-height: 0;
+	margin-bottom: 15px;
+	font-size: 0;
+	width: 100%;
+}
+.analysis_menu {
+	background-color: #3d75b0;
+	height: 36px;
+	margin-bottom: 10px;
+	padding: 4px 4px 0 4px;
+}
+.analysis_menu a {
+	color: #fff;
+	display: inline-block;
+	font-size: 14px;
+	height: 36px;
+	line-height: 36px;
+	padding: 0 9px;
+}
+.analysis_menu a.on {
+	background-color: #fff;
+	color: #3c75af;
+	font-weight: 700;
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+}
+.analysis_menu a:hover {
+	text-decoration: none;
+}
+
+/* analysis search */
+.analysis_search {
+	background-color: #e0eaf4;
+	border: 1px solid #cddbea;
+	padding: 7px 10px;
+}
+.analysis_search .dropdown {
+	position: relative; 
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	margin-right: 5px; 
+	vertical-align: top;
+}
+.analysis_search .dropdown_btn { 
+	position: relative; 
+	display: inline-block;
+	background-color: #fff; 
+	border: 1px solid #b3c8dd; 
+	color: #222; 
+	cursor: pointer; 
+	height: 18px;
+	line-height: 18px;
+	padding: 3px 0 3px 10px;
+	width: 110px; 
+}
+.analysis_search .dropdown_btn i { 
+	position: absolute; 
+	right: 0; 
+	top: 0; 
+	border-left: 1px solid #accbe9;
+	display: inline-block;
+	height: 24px;
+	width: 29px;
+	background: #f4f4f4 url(../img/icon_arrow.png) no-repeat 50% 50%;
+}
+.analysis_search .dropdown_list { 	
+	position: absolute; 
+	left: 0; 
+	top: 25px; 
+	background-color: #ffffff; 
+	border: 1px solid #b8d2ec; 
+	width: 120px;
+	z-index: 999;
+}
+.analysis_search .dropdown_list a { 
+	color: #222222; 
+	display: block; 
+	height: 24px; 
+	line-height: 24px; 
+	padding: 0 7px; 
+	text-decoration: none; 
+}
+.analysis_search .dropdown_list a:hover { 
+	background-color: #e0eaf4; 
+}
+.analysis_search .btn {
+	background: url(../img/search_btn.png) no-repeat 0 0;
+	border: 0;
+	color: #fff;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	height: 25px;
+	line-height: 24px;
+	width: 65px;
+	text-align: right;
+	padding: 0 16px 0 0;
+}
+.analysis_search .btn:hover {
+	background-position: 0 -30px;
+	text-decoration: none;
+}
+.analysis_search .form_control {
+	display: inline-block;
+	border: 1px solid #b3c8dd;
+	height: 17px;
+	line-height: 17px;
+	padding: 3px 5px;
+	margin-right: 5px;
+	width: 150px;
+	vertical-align: top;
+}
+.analysis_search .default {
+	color: #999;
+}
+
+/* added by ice 20141120 */
+.highcharts_legend {
+	text-align: center;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 18px;
+	margin-bottom: 15px;
+}
+.highcharts_legend span {
+	margin: 0 10px;
+}
+.highcharts_legend i {
+	display: inline-block;
+	height: 12px;
+	width: 16px;
+	overflow: hidden;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.highcharts_legend .span01 i {
+	background-color: #56b9f9;
+}
+.highcharts_legend .span02 i {
+	background-color: #fdc12e;
+}

@@ -1,0 +1,88 @@
+/*
+* data.css add by hqyun 2014-06-11
+*/
+.content{
+    font-size: 20px;
+}
+.content b{
+    font-weight: normal;
+}
+.content .tit{
+    padding: 0 0 0 15px;
+    line-height: 3;
+    font-size: 15px;
+}
+
+.content .charts{
+    position: relative;
+    padding: 0 10px 20px;/*l r 20 to 10*/
+}
+    .charts .charts_l{
+        margin: 0 20px 0 0;
+    }
+    .charts .charts_r{
+        position: absolute;
+        top: 15%;
+        right: 8%;
+    }
+    .charts .p0, .charts .sp0{
+        font-size: 12px;
+    }
+    .charts .p0{
+        margin: 20px 0;
+    }
+    .charts .sp0{
+        margin: 0 0 0 20px;
+    }
+    .charts .sp0, .charts .i0{
+        margin: 4px 0 0;
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+    }
+    .charts .i0{
+        margin: 4px 0 0;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        overflow: hidden;
+        vertical-align: top;
+    }
+    .charts .i1{
+        background: #50c25f;
+    }
+    .charts .i2{
+        background: #fdd400;
+    }
+    .charts .charts_p{
+        margin: 10px 0 20px;
+        text-align: right;
+    }
+    .charts .myChart2{
+        clear: both;
+    }
+.content .charts2{
+    padding-left: 0;
+}
+
+.content .description{
+    padding: 10px 10px 10px 15px;
+    background: #f8f8f8;
+}
+    .description b{
+        /*padding: 0 0 0 25px;*/
+        display: inline-block;
+        line-height: 30px;
+        font-size: 14px;
+    }
+    .description b i{
+        color: #e85b17;
+    }
+
+.content .blank{
+    height: 20px;
+    background: #f0f0f0;
+    border-width: 1px 0;
+    border-color: #e2e2e2;
+    border-style: solid;
+}

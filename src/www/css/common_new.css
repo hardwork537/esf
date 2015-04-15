@@ -1,0 +1,142 @@
+﻿a{
+    color: #035fa7;
+}
+.bread_nav a{
+    color: #0041d9;
+}
+.cff4, a:hover, .bread_nav a:hover{
+    color: #ff4600;
+}
+.mt23{
+    margin-top: 23px;
+}
+.ml20{
+    margin-left: 20px;
+}
+em,i{
+    font-style: normal;
+}
+
+/**** main ****/
+.main_content{
+    margin: 10px auto 0;
+}
+/*main_con*/
+    .mod_l_con{
+        margin: 29px 20px 0 0;
+        width: 720px;
+        overflow: hidden;
+    }
+
+
+/**** right ****/
+.mod_r_con{
+    margin: 0 0 10px;
+    padding: 0 0 9px;
+    width: 248px;
+    border: 1px solid #b8d2ec;
+}
+    .mod_r_con .mod_r_t{
+        padding: 0 0 0 10px;
+        background: #f2f9ff;
+        height: 34px;
+        line-height: 34px;
+        border-bottom: 1px solid #b8d2ec;
+    }
+    .mod_r_con .mod_r_c{
+        padding: 0 13px;
+    }
+    .mod_r_con .mod_r_c .col_con:link, .mod_r_con .mod_r_c .col_con:visited, .mod_r_con .mod_r_c .col_con:hover{
+        display: block;
+        height: 26px;
+        line-height: 26px;
+        overflow: hidden;
+    }
+    .mod_r_c .col_con:hover{
+        padding: 0;
+    }
+    .mod_r_c .col_con:hover em, .mod_r_c .col_con:hover i{
+        cursor:pointer;
+        text-decoration:underline;
+    }
+    /*hot*/
+    .mod_r_con .mod_r_fst .col_con:link, .mod_r_con .mod_r_fst .col_con:visited, .mod_r_con .mod_r_fst .col_con:hover{
+        padding: 16px 0 3px 100px;
+        position: relative;
+        display: block;
+        width: 122px;
+        height: 64px;
+        overflow: hidden;
+        font-size: 14px;
+    }
+    .mod_r_fst img{
+        position: absolute;
+        left: 0;
+        top: 10px;
+    }
+    .col_con p{
+        line-height: 18px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .col_con:hover, .recommend_a:hover{
+        padding: 0;
+    }
+    .col_con:link i, .col_con:visited i, .col_con:hover i,
+    .recommend_a:link i, .recommend_a:visited i, .recommend_a:hover i{
+        color: #ff4600;
+    }
+    .col_con em, .col_con i{
+        display: inline-block;
+        vertical-align: top;
+        height: 26px;
+        line-height: 26px;
+        overflow: hidden;
+    }
+    .col_con em{
+        width: 142px;
+    }
+    .col_con i{
+        width: 75px;
+    }
+    .col_con .dot{
+        margin: 14px 10px 0 0;
+        background-color: #035fa7;
+        display: inline-block;
+        font-size: 0;
+        height: 3px;
+        width: 3px;
+    }
+
+.mod_r_con1{
+    position: relative;
+}
+    .mod_r_con1 .mod_r_t{
+        margin-bottom: 10px;
+    }
+    .mod_r_t .a_more{
+        position: absolute;
+        right: 14px;
+        top: 12px;
+        font:100 12px/1  \5B8B\4F53,Helvetica,sans-serif;
+    }
+    .mod_r_con1 .col_con p{
+        margin: 0 0 8px;
+    }
+
+.fixed_top{
+    width: 100%;
+    background: #5691d7;
+    height: 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    _position: absolute;
+    _top: expression(eval(document.documentElement.scrollTop));
+    z-index: 1001;
+}
+    .fixed_top .main_tabs{
+        margin: 0 auto;
+        width: 1000px;
+    }

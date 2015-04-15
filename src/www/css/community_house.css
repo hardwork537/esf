@@ -1,0 +1,56 @@
+/* main tab */ 
+.main_title {
+	font-size: 24px;
+	font-weight: normal;
+	font-family: \9ED1\4F53;
+	margin-bottom: 5px;
+}
+.main_tab { 
+	position: relative; 
+	border-bottom: 1px solid #b8d2ec; 
+	height: 31px; 
+	margin-bottom: 15px;
+}
+.main_tab ul { 
+	position: absolute; 
+	top: 0; 
+	width: 100%; 
+}
+.main_tab li { 
+	background-color: #f2f9ff; 
+	border-color: #b8d2ec; 
+	border-style: solid; 
+	border-width: 1px 0 0; 
+	cursor: pointer; 
+	float: left; 
+	font-size: 14px; 
+	height: 30px; 
+	line-height: 30px; 
+	margin-right: 3px; 
+	overflow: hidden; 
+	vertical-align: middle; 
+	text-align: center; 
+	width: 100px; 
+}
+.main_tab li a { 
+	border-color: #b8d2ec;
+	border-style: solid; 
+	border-width: 0 1px; 
+	color: #222222; 
+	display: block; 
+	text-decoration: none; 
+}
+.main_tab li a:hover { 
+	background-color: #ffffff; 
+	color: #222222; 
+	text-decoration: none; 
+}
+.main_tab li.on, .main_tab li.on { 
+	background-color: #ffffff; 
+	border-top-width: 2px; 
+	border-color: #1369c0; 
+	font-weight: bold; 
+}
+.main_tab li.on, .main_tab li.on a, .main_tab li.on, .main_tab li.on a:hover{ 
+	color:#1369c0; 
+}

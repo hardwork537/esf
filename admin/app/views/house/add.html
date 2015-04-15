@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> 城市数据字典_小区楼盘 </title>
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="css/common.css" rel="stylesheet" type="text/css" /> 
+<script src="js/ueditor.config.js" type="text/javascript"></script>
+<script src="js/ueditor.all.min.js" type="text/javascript"></script>
+<script src="js/lang/zh-cn/zh-cn.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=ajaxmap&v=2.1.2&key=4706805b4dac4acdeddafabe13079a4d8099793ef5ce0f49b2f9153d82a4594af912c23f25f0cfee"></script>
+<script type="text/javascript" src="http://src.esf.focus.cn/upload/js/map51f.js"></script>
+</head>
+<body>
+
+  <div class="head "> 
+    <div class="headinner">
+    <div class="items"> 
+        <div class="logo"> 
+            <img src="images/logo.png" />
+        </div>
+        <div class=" user_login"> 
+          您好，<strong class="widthl"> Jeffer </strong>  <span class="widthl"> 超级管理员</span> <span class="widthl"> 上海</span> <span class=" widthm"> | </span> <a class="widthm"> 退出 </a> 
+        </div>
+    </div>
+     </div>
+  </div>
+
+  <div class="mainout items"> 
+
+   <div class="main">
+      <div class="maininner"> 
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 新增小区楼盘 </strong> </h6>
+
+          <div class="edittable"> 
+          <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <strong> 提示：</strong> 您输入的内容有误！
+            </div>
+          
+          <!--小区基本信息  start-->
+          <div class="panel panel-default">
+              <div class="panel-heading"><h3 class="panel-title">小区基本信息</h3></div>
+              <div class="panel-body">
+                
+                    <table class="edittable">
+                  <tr>  
+                      <td align="right" width="140">
+                          小区名称:
+                      </td>
+                      <td>
+                           <input class="form-control" type="text" />
+                          <em class="required"> * </em>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          小区别名:
+                      </td>
+                      <td>
+                          <input class="form-control" type="text" />
+                          <em class=" required"> * </em>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          本月均价:
+                      </td>
+                      <td>
+                          <input class="form-control" type="text" /> 元/平米
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          城市/区域/板块
+                      </td>
+                      <td>
+                         <select class="form-control m" data-message="所属城市不能为空" min="1" required="required" onchange="get_district(this.value, 'district_id');get_city_config('city_id');$('#house_name').attr('url', 'ajax/is_exits_house.php?city_id='+this.value+'q_word=');" id="city_id" name="city_id">
+                                <option value="1" label="北京">北京</option>
+                           </select>
+                           <select class="form-control m widthl" data-message="所属城区不能为空" min="1" required="required" onchange="get_hot_area(this.value, 'hot_area_id')" id="district_id" name="district_id">
+                                <option value="0">所属城区</option>
+                                <option value="5" label="朝阳">朝阳</option>
+                                <option value="6" label="海淀">海淀</option>
+                                <option value="7" label="丰台">丰台</option>
+                                <option value="1" label="东城">东城</option>
+                                <option value="2" label="西城">西城</option>
+                                <option value="3" label="崇文">崇文</option>
+                                <option value="4" label="宣武">宣武</option>
+                                <option value="8" label="石景山">石景山</option>
+                                <option value="9" label="门头沟">门头沟</option>
+                                <option value="10" label="房山">房山</option>
+                                <option value="11" label="通州">通州</option>
+                                <option value="12" label="昌平">昌平</option>
+                                <option value="13" label="大兴">大兴</option>
+                                <option value="14" label="怀柔">怀柔</option>
+                                <option value="15" label="顺义">顺义</option>
+                                <option value="16" label="密云">密云</option>
+                                <option value="17" label="平谷">平谷</option>
+                                <option value="26" label="延庆">延庆</option>
+                                <option value="27" label="周边">周边</option>
+                           </select>
+                           <select class="form-control m widthl" data-message="所属板块不能为空" min="1" required="required" id="hot_area_id" name="hot_area_id">
+                                <option value="0">所属板块</option>
+                              </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          小区地址:
+                      </td>
+                      <td>
+                         <input class="form-control l " type="text" />
+                          <em class=" required"> * </em> 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          焦点小区ID:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" />
+                          <em class=" required"> * </em> 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          焦点论坛ID:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" />
+                          <em class=" required"> * </em> 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          <span class="red"> 物业类型: </span>
+                      </td>
+                      <td>
+                         <select id="live_type" name="live_type" class=" form-control" style=" width:130px;">
+                              <option value="1" label="普通住宅">普通住宅</option>
+                                <option value="5" label="商住两用">商住两用</option>
+                                <option value="6" label="公寓">公寓</option>
+                                <option value="2" label="别墅">别墅</option>
+                                <option value="3" label="写字楼">写字楼</option>
+                                <option value="4" label="商铺">商铺</option>
+                                <option value="7" label="平房/四合院">平房/四合院</option>
+                                <option value="9" label="其他">其他</option>
+
+                            </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          <span class="red"> 建筑年代: </span>
+                      </td>
+                      <td>
+                         <input class="form-control" type="text" /> 年 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          X经度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" id="x" name="x"  readonly="readonly"  />
+                          <em class=" required"> * </em> 
+                          <span class=" font12 text-info"> 请点下方按钮获取坐标 </span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          Y纬度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text"  id="y" name="y" readonly="readonly" />
+                          <em class=" required"> * </em>
+                      </td>
+                  </tr>
+                  <tr> 
+                    <td colspan="2"> 
+                        <div style="float:left; width:330px; height:400px; background-color:#f1f1f1; margin-left:10px; padding:10px 0; border:solid 1px #ccc;"> 
+                            <input name="s_name" id="s_name" type="text" class=" form-control"/> <input id="s_search" type="button" value="查询"class="btn btn-gray widthl" /> 
+                            <ul id="s_result" style="padding:0px 10px;"></ul>
+                        </div>
+                        <div style="float:left; width:10px;">&nbsp;</div>
+                        <div id="map" style="width:600px; height:400px; float:left;"></div>
+                    </td>
+                  </tr>
+              </table>
+              </div>
+            </div>
+            <!--小区基本信息  end-->
+
+
+            <!--小区扩展信息  start-->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">小区扩展信息</h3>
+              </div>
+              <div class="panel-body">
+                  <table class="edittable">
+                  <tr>
+                      <td align="right" >
+                          <span class="red"> 绿化率: </span>
+                      </td>
+                      <td>
+                         <input class="form-control" type="text" /> %
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                         <span class="red"> 容积率: </span>
+                      </td>
+                      <td>
+                          <input class="form-control" type="text" />
+                          <em class=" required"> * </em>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          总建筑面积:
+                      </td>
+                      <td>
+                          <input class="form-control" type="text" /> 平米 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          占地面积:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" /> 平米 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          车位数:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" />
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          <span class="red">总户数:</span>
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" />
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right">
+                          <span class="red">物业公司:</span>
+                      </td>
+                      <td>
+                        <input class="form-control" type="text" />
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          物业电话:
+                      </td>
+                      <td>
+                         <input class="form-control" type="tel" /> 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          <span class="red"> 物业费:</span>
+                      </td>
+                      <td>
+                         <input class="form-control" type="text" /> 元/平米·月 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          <span class="red"> 开发商:</span>
+                      </td>
+                      <td>
+                         <input class="form-control" type="text" /> 
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" valign="top">
+                          <span class="red"> 公交线路:</span>
+                      </td>
+                      <td>
+                        <div class="widthl"> 
+                            <script id="editor1" type="text/plain" style="width:600px;height:300px;"></script>
+                            <script>
+                                var ue1 = UE.getEditor('editor1', {
+                                    autoHeight: false,
+                                    toolbars: [
+                                        ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+                                    ]
+                                });
+                            </script>
+                         </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td align="right"  valign="top" >
+                           周边设施:
+                      </td>
+                      <td>
+                        <div class="widthl"> 
+                            <script id="editor2" type="text/plain" style="width:600px;height:300px;"></script>
+                            <script>
+                                var ue2 = UE.getEditor('editor2', {
+                                    autoHeight: false,
+                                    toolbars: [
+                                        ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+                                    ]
+                                });
+                            </script>
+                        </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td align="right"  valign="top" >
+                           内部设施:
+                      </td>
+                      <td>
+                        <div class="widthl"> 
+                            <script id="editor3" type="text/plain" style="width:600px;height:300px;"></script>
+                            <script>
+                                var ue3 = UE.getEditor('editor3', {
+                                    autoHeight: false,
+                                    toolbars: [
+                                        ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+                                    ]
+                                });
+                            </script>
+                        </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td align="right" valign="top">
+                           小区设施:
+                      </td>
+                      <td>
+                       <div class="widthl"> 
+                            <script id="editor4" type="text/plain" style="width:600px;height:300px;"></script>
+                            <script>
+                                var ue4 = UE.getEditor('editor4', {
+                                    autoHeight: false,
+                                    toolbars: [
+                                        ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+                                    ]
+                                });
+                            </script>
+                        </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td> </td>
+                    <td>
+                      <button type="button" class="btn btn-success widthl">保 存</button>
+                      <button type="button" class="btn btn-default widthl" data-dismiss="modal">取 消</button>
+                   </td>
+                  </tr>
+              </table>
+              </div>
+            </div>
+            <!--小区扩展信息  end-->
+          
+           
+
+         </div>
+         
+     </div>
+   </div>
+
+
+    <div class=" sidebar"> 
+        <ul class="sidebar_inner">
+          <li>
+            <span> <s class="icon icon_set"></s> <strong>城市运营管理 </strong> </span>
+            <ul>
+              <li><a>城市数据统计  </a></li>
+              <li><a>CRM用户管理 </a></li>
+              <li><a>定制收费端口</a></li>
+              <li><a>收费端口配置</a></li>
+              <li><a>免费端口配置</a></li>
+            </ul>
+          </li>
+          <li class="open">
+            <span>  <s class="icon icon_set"></s>  <strong> 城市数据字典 </strong> </span>
+            <ul>
+              <li> <a> 城市字典 </a> </li>
+              <li> <a> 城区字典 </a> </li>
+              <li> <a> 板块字典 </a> </li>
+              <li> <a> 轨道线路字典 </a> </li>
+              <li> <a> 轨道站点字典 </a> </li>
+              <li> <a class="active"> 小区楼盘字典 </a> </li>
+              <li> <a> 小区外观图审核 </a> </li>
+              <li> <a> 小区户型图审核 </a> </li>
+              <li> <a> 学校字典 </a> </li>
+              <li> <a> 经纪公司字典 </a> </li>
+              <li> <a> 房源特色标签 </a> </li>
+            </ul>
+          </li>
+          <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 企业用户管理 </strong> </span>
+            <ul>
+              <li> <a> 经纪公司管理 </a> </li>
+              <li> <a> 区域管理 </a> </li>
+              <li> <a> 门店管理 </a> </li>
+              <li> <a> 经纪人管理 </a> </li>
+            </ul>
+          </li>
+       <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 独立经纪人管理 </strong> </span>
+            <ul>
+              <li> <a> 尚未认证 </a> </li>
+              <li> <a> 等待认证 </a> </li>
+              <li> <a> 成功认证 </a> </li>
+              <li> <a> 认证失败 </a> </li>
+            </ul>
+          </li>
+      <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 房源管理 </strong> </span>
+            <ul>
+              <li> <a> 经纪人出售 </a> </li>
+              <li> <a> 经纪人出租 </a> </li>
+              <li> <a> 经纪人房源审核 </a> </li>
+              <li> <a> 房源图片审核 </a> </li>
+              <li> <a> 无违规经纪人数据 </a> </li>
+              <li> <a> 个人房源管理 </a> </li>
+              <li> <a> 真房源认证 </a> </li>
+              <li> <a> 房源违规关键词 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 企业统计 </strong> </span>
+            <ul>
+              <li> <a> 企业费用查询 </a> </li>
+              <li> <a> 小区房源统计 </a> </li>
+              <li> <a> 门店操作统计 </a> </li>
+              <li> <a> 经纪人操作统计 </a> </li>
+              <li> <a> 城区板块统计 </a> </li>
+              <li> <a> 数据报表下载 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> CS管理 </strong> </span>
+            <ul>
+              <li> <a> CS日志管理 </a> </li>
+              <li> <a> 端口执行汇总 </a> </li>
+              <li> <a> 客户合同管理 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 功能管理 </strong> </span>
+            <ul>
+              <li> <a> 企业公告 </a> </li>
+              <li> <a> 焦点通公告 </a> </li>
+              <li> <a> 操作日志 </a> </li>
+              <li> <a> 修改密码 </a> </li>
+              <li> <a> 重置客户密码 </a> </li>
+              <li> <a> 经纪人查询 </a> </li>
+              <li> <a> 内容管理 </a> </li>
+              <li> <a> 专题管理 </a> </li>
+              <li> <a> 积分管理 </a> </li>
+              <li> <a> 工具箱 </a> </li>
+              <li> <a> 置业专家管理 </a> </li>
+              <li> <a> 二手房首页管理 </a> </li>
+              <li> <a> 积分兑换 </a> </li>
+            </ul>
+          </li>
+    <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 互动管理 </strong> </span>
+            <ul>
+              <li> <a> 小区纠错管理 </a> </li>
+              <li> <a> 小区评论审核 </a> </li>
+              <li> <a> 房源举报管理 </a> </li>
+              <li> <a> 意见反馈管理 </a> </li>
+              <li> <a> 疑似手机号管理 </a> </li>
+              <li> <a> 个人用户黑名单管理 </a> </li>
+            </ul>
+          </li>
+     <li>
+            <span>  <s class="icon icon_set"></s>  <strong> 接口管理 </strong> </span>
+            <ul>
+              <li> <a> 开放接口后盘配置 </a> </li>
+              <li> <a> 未匹配出售房源 </a> </li>
+              <li> <a> 未匹配出租房源 </a> </li>
+            </ul>
+          </li>
+
+        </ul>
+    </div>
+
+  </div>
+
+   <div class="foot items">
+   
+  <hr />
+  <div class="items totopwrap"> <a id="toTop"> </a> </div>
+  Copyright © 2014 Sohu.com Inc. All rights reserved. 搜狐公司 版权所有 <br />
+增值电信业务经营许可证B2-20040144 京ICP证030367号 互联网新闻信息服务许可证
+  </div>
+
+
+
+  
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    var mapObj = null;
+    var map = new map51f('map');
+    $(document).ready(function () {
+        map.initialize();
+        map.setCtrlPanel(SMALL); //加载小心工具条
+        map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
+        map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
+        map.addEventListener(MOUSE_CLICK, MClick);
+        map.setCenterByCity("010");
+        $("#s_search").click(function () {
+            map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city: "北京" });
+            //map.getSearch($("#s_name").val(), keywordSearch_CallBack, 'beijing');
+            $("#s_result").html("<li>加载数据中……</li>");
+        });
+        $('div', $('Mapabc.Layer.TMS_16'));
+
+        var config = [
+                  'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold', 'italic', 'underline',
+                  'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                  'insertunorderedlist'];
+        KE.show({ id: 'rim_bus', items: config });
+        KE.show({ id: 'rim_info', items: config });
+        KE.show({ id: 'house_describe', items: config });
+        KE.show({ id: 'inside_info', items: config });
+    });
+    $("#form1").validator({ lang: 'fi' });
+    function keywordSearch_CallBack(data) {
+        try {
+            if (data.poilist.length == 0) {
+                $("#s_result").html("<li>未查找到任何结果!</li>");
+            } else {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
+                    $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
+                });
+            }
+        } catch (e) {
+            $("#s_result").html("<li>数据异常！</li>");
+        }
+    }
+    function setPosition(x, y) {
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
+    }
+    function MClick(data) {
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
+    }
+</script>
+
+</body>
+</html>

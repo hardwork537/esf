@@ -1,0 +1,305 @@
+<div class="maininner">
+	<h6 class="maintt">
+		您的位置：
+		<a href="/">首页</a>
+		&gt; 系统设置 &gt;
+		<strong class="font_gold"> 菜单管理 </strong>
+	</h6>
+	<table class="search_form mb15">
+		<tbody>
+			<tr>
+				<td>
+					<button type="button" class="btn btn-success addmodal">
+						<strong> + </strong>
+						添加菜单
+					</button>
+					<button type="button" class="btn btn-success addmodal2 widthxl">
+						<strong> + </strong>
+						添加模块
+					</button>
+				</td>
+				<td>
+
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<table class="table table-hover mt10">
+		<tr>
+			<th>菜单编号</th>
+			<th>菜单名称</th>
+			<th>菜单排序</th>
+			<th>操作</th>
+		</tr>
+		{% for menu in menus %}
+		<tr menu_id="{{ menu['id'] }}">
+			<td align="center">{{ menu['id'] }}</td>
+			<td>{{ menu['name'] }}</td>
+			<td align="center">{{ menu['weight'] }}</td>
+			<td align="center" class="operate"><a href="javascript:;" class="editmodal">修改</a> <a href="javascript:;" class="showmoudel widthl">查看模块</a></td>
+		</tr>
+		{% if menu['moudels']%}
+		<tr class="parent_menu_{{ menu['id'] }}" style="display:none"><td colspan=4>
+			<table  class="table mt10">
+				<tr>
+					<th>模块名称</th>
+					<th>模块路径</th>
+					<th>模块URL</th>
+					<th>模块排序</th>
+					<th>是否显示在菜单</th>
+					<th>操作</th>
+				</tr>
+				{% for ms in menu['moudels'] %}
+				<tr moudle_id="{{ ms['id'] }}">
+					<td >{{ ms['name'] }}</td>
+					<td>{{ ms['path'] }}</td>
+					<td>{{ ms['url'] }}</td>
+					<td align="center">{{ ms['weight'] }}</td>
+					<td align="center">{% if ms['isShow']%}是{% else %}否{% endif %}</td>
+					<td align="center" class="operate"><a href="javascript:;" class="editmodal2">修改</a></td>
+				</tr>
+				{% endfor%}
+			</table>
+		</td></tr>
+		{% endif %}
+		{% endfor%}
+	</table>
+</div>
+
+<!-- 添加菜单 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" style="width: 500px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h5 class="modal-title" id="addnewLabel">新增菜单</h5>
+			</div>
+			<div class="modal-body">
+				<div class="edittable">
+					<div class="alert alert-warning alert-dismissible errortips" role="alert"
+						style='display: none;'>
+						<strong> 提示：</strong>
+						<span class="notice-info">您输入的内容有误！</span>
+					</div>
+					<form id="form1" onsubmit="return false" form_tittle="菜单" method="post" action="">
+						<table class="edittable">
+							<tr>
+								<td align="right" width="140">菜单名称:</td>
+								<td>
+									<input class="form-control" type="text" name="name" notnull="true" info="菜单名称" />
+									<em class="required"> * </em>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">菜单排序:</td>
+								<td>
+									<input class="form-control" type="text" name="weight" notnull="true" rule="/[0-9]*/" info="菜单排序" />
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="act" value="" />
+						<input type="hidden" name="id" value="" />
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success saveButton">保 存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 添加模型 -->
+<div class="modal fade" id="newmodal2" tabindex="-1"  aria-hidden="true">
+	<div class="modal-dialog" style="width: 500px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h5 class="modal-title" id="addnewLabel">新增模块</h5>
+			</div>
+			<div class="modal-body">
+				<div class="edittable">
+					<div class="alert alert-warning alert-dismissible errortips" role="alert"
+						style='display: none;'>
+						<strong> 提示：</strong>
+						<span class="notice-info">您输入的内容有误！</span>
+					</div>
+					<form id="form2" onsubmit="return false" form_tittle="菜单" method="post" action="">
+						<table class="edittable">
+							<tr>
+								<td align="right" width="140">所属菜单:</td>
+								<td>
+									<select class="form-control" name="menuId">
+										<?=MyTags::options($menuOptions,0)?>
+									</select>
+									<em class="required"> * </em>
+								</td>
+							</tr>
+							<tr>
+								<td align="right" width="140">模块名称:</td>
+								<td>
+									<input class="form-control" type="text" name="name" notnull="true" info="模块名称" />
+									<em class="required"> * </em>
+								</td>
+							</tr>
+							<tr>
+								<td align="right" width="140">模块路径:</td>
+								<td>
+									<input class="form-control" type="text" name="path" notnull="true" info="模块路径" />
+									<em class="required"> * </em>
+								</td>
+							</tr>
+							<tr>
+								<td align="right" width="140">模块URL:</td>
+								<td>
+									<input class="form-control" type="text" name="url" notnull="true" info="模块URL" />
+									<em class="required"> * </em>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">是否在菜单显示:</td>
+								<td>
+									<select class="form-control s" name="isShow">
+										<option value="1">是</option>
+										<option value="0">否</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td align="right">模块排序:</td>
+								<td>
+									<input class="form-control" type="text" name="weight" notnull="true" rule="/[0-9]*/" info="模块排序" />
+								</td>
+							</tr>
+						</table>
+						<input type="hidden" name="act" value="" />
+						<input type="hidden" name="id" value="" />
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success saveButton2">保 存</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var menu = 'menu12';
+	var moudle = 'menus';
+	function initModal() {
+		$("#newmodal").find("form")[0].reset();
+	}
+	function initEeditModal(data) {
+		$("#newmodal input[name=name]").val(data.name);
+		$("#newmodal input[name=weight]").val(data.weight);
+		$("#newmodal input[name=id]").val(data.id);
+	}
+	$(function() {
+		var cururl = base_url + "menus/";
+		$(".saveButton").click(function() {
+			_do = $("#form1").find("input[name=act]").val();
+			$("#form1").ajaxSubmit({
+				"url" : cururl + _do + "/",
+				"callback" : function(msg) {
+					if (msg.status == 0) {
+						location.reload(false);
+					} else {
+						$.error(msg.info);
+					}
+				}
+			});
+		});
+
+		$(".addmodal").click(function() {
+			initModal();
+			$("#newmodal").smodal({
+				title : "添加菜单",
+				act : 'add'
+			});
+		});
+
+		$(".editmodal").click(function() {
+			initModal();
+			var menu_id = $(this).parent("td").parent("tr").attr("menu_id");
+			$("#newmodal").smodal({
+				title : "修改菜单",
+				act : 'edit'
+			});
+			$.request({
+				url : cururl + "edit/" + menu_id + "/",
+				callback : function(msg) {
+					if (msg.status == 0) {
+						initEeditModal(msg.data);
+					}
+				}
+			});
+		});
+
+		function initModal2() {
+			$("#newmodal2").find("form")[0].reset();
+		}
+		function initEeditModal2(data) {
+			$("#newmodal2 input[name=name]").val(data.name);
+			$("#newmodal2 input[name=weight]").val(data.weight);
+			$("#newmodal2 input[name=path]").val(data.path);
+			$("#newmodal2 input[name=url]").val(data.url);
+			$("#newmodal2 input[name=id]").val(data.id);
+			$("#newmodal2 select[name=menuId]").val(data.menuId);
+			$("#newmodal2 select[name=isShow]").val(data.isShow);
+		}
+		$(".saveButton2").click(function() {
+			_do = $("#form2").find("input[name=act]").val();
+			$("#form2").ajaxSubmit({
+				"url" : cururl + _do + "/",
+				"callback" : function(msg) {
+					if (msg.status == 0) {
+						location.reload(false);
+					} else {
+						$.error(msg.info);
+					}
+				}
+			});
+		});
+
+		$(".addmodal2").click(function() {
+			initModal2();
+			$("#newmodal2").smodal({
+				title : "添加模块",
+				act : 'addmoudel'
+			});
+		});
+
+		$(".editmodal2").click(function() {
+			initModal2();
+			var moudle_id = $(this).parent("td").parent("tr").attr("moudle_id");
+			$("#newmodal2").smodal({
+				title : "修改模块",
+				act : 'editmoudel'
+			});
+			$.request({
+				url : cururl + "editmoudel/" + moudle_id + "/",
+				callback : function(msg) {
+					if (msg.status == 0) {
+						initEeditModal2(msg.data);
+					}
+				}
+			});
+		});
+		$(".showmoudel").click(function(){
+			var menu_id = $(this).parent("td").parent("tr").attr("menu_id");
+			if($(".parent_menu_"+menu_id).is("tr:hidden")){
+				$("[class^=parent_menu_]").hide();
+				$(".parent_menu_"+menu_id).show();
+			}else{
+				$("[class^=parent_menu_]").hide();
+			}
+
+		});
+
+	});
+</script>

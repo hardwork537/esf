@@ -1,0 +1,298 @@
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=ajaxmap&v=2.1.2&key={{ map_key }}"></script>
+<script type="text/javascript" src="{{ src_url }}js/map51f.js"></script>
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> {% if id %}修改{% else %}新增{% endif %}学校 </strong> </h6>
+        <div class="edittable">
+            <div class="alert alert-warning alert-dismissible" role="alert" id="errortips">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong> 提示：</strong><span class="notice-info">请修改或者添加以下信息时，尽量避开网站前端访问高峰期。</span>
+            </div>
+            <form id="form1" onsubmit="return false" form_title="学校" method="post" action="">
+            <table class="edittable">
+                <tr>
+                    <td align="right" width="76">
+                        所属城市:
+                    </td>
+                    <td width="240">
+                        <select class="form-control" name="cityId" onchange="getDist('distId', 0, this.value,'所有城区');getRegion('regId', 0, $('#distId').val(),'所有板块')" >
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                    <td align="right" width="76">
+                        所属城区:
+                    </td>
+                    <td width="240">
+                        <select class=" form-control" name="distId" id="distId" onchange="getRegion('regId',0,this.value, '所有板块');"  >
+                             <option value ="城区" selected = "selected">城区</option>
+                            <?=MyTags::options($dists, $distId)?>
+                        </select>
+                       <em class="required"> * </em>
+                    </td>
+                    <td align="right" width="76">
+                        所属板块:
+                    </td>
+                    <td>
+                        <select class=" form-control" name="regId"   id="regId" >
+                            <?=MyTags::options($regs, $regId)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+
+                        学校名称:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="name" value="{{ school_info['name'] }}" />
+                        <em class="required"> * </em>
+                    </td>
+                    <td align="right">
+                        学校别称:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="alias" value="{{ school_info['alias'] }}" />
+                    </td>
+
+                    <td align="right">
+                        学校全拼:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="pinyin" value="{{ school_info['pinyin'] }}" />
+                     
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        缩写拼音:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="pinyinAbbr" value="{{ school_info['pinyinAbbr'] }}" />
+                       
+                    </td>
+
+
+                    <td align="right">
+                        学校地址:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="address" value="{{ school_info['address'] }}" />
+                       
+                    </td>
+                    <td align="right">
+                        学校邮编:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="postcode" value="{{ school_info['postcode'] }}" />
+                      
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        联系电话:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="tel"  value="{{ school_info['tel'] }}" />
+                        
+                    </td>
+
+                    <td align="right">
+                        传真号码:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="fax" value="{{ school_info['fax'] }}" />
+                        
+                    </td>
+
+                    <td align="right">
+                        学校类别:
+                    </td>
+                    <td>
+                        <select class="form-control" name="rank" >
+                            <?=MyTags::options($types, $rank)?>
+                        </select>
+                        <em class="required"> * </em>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        学校性质:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="property"  value="{{ school_info['property'] }}" />
+
+                    </td>
+
+
+                    <td align="right">
+                        学校等级:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="level"  value="{{ school_info['level'] }}" />
+                      
+                    </td>
+                    <td align="right">
+                        学校状态:
+                    </td>
+                    <td>
+                        <select class=" form-control" name="status"  id="status">
+                            <?=MyTags::options($allstatus, $status)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" >
+                        排序权重:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="type" value="{{ school_info['type'] }}" /><em class="required"> * </em>
+                    </td>
+                    
+                    <td align="right" >
+                        经纬度:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="lonLat" value="{{ school_info['lonLat'] }}" />
+                       
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" >
+                        X精度坐标:
+                    </td>
+                    <td>
+                        <input class="form-control s"  type="text" id="x" name="x"  value="{{ school_info['x'] }}" notnull="true" info="经纬度坐标"  />
+                        <em class="required"> * </em>
+                        <!--span class=" font12 text-info"> 请点下方按钮获取坐标 </span-->
+                        
+                    </td>
+					<td align="right" >
+                        Y精度坐标:
+                    </td>
+                   <td>
+                        <input class="form-control s"  type="text" id="y" name="y" value="{{ school_info['y'] }}" notnull="true" info="经纬度坐标"  />
+                        <em class="required"> * </em>
+                        <!--button type="button" class="btn btn-success btn-sm"   data-toggle="modal" data-target="#map" id='markXY'> 标记地图</button-->
+                    </td>
+					<td colspan="2"> </td>
+                </tr>
+				<tr>
+				<td colspan="6">
+				  <div class="map_l">
+                            <input name="s_name" id="s_name" type="text" class=" form-control"/> <input id="s_search" type="button" value="查询"class="btn btn-gray widthl" />
+                            <ul id="s_result" class="search_result"></ul>
+                        </div>
+                        <div class="map_m">&nbsp;</div>
+                        <div id="map" class="map_r"></div>
+				</td>
+				</tr>
+                <tr>
+                    <td> </td>
+                    <td colspan="5">
+                        <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthl cancelButton" data-dismiss="modal">取 消</button>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="act" value="{% if id %}edit{% else %}add{% endif %}" />
+            <input type="hidden" name="id" value="{{id}}" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var mapObj = null;
+    var map = new map51f('map');
+    $(document).ready(function () {
+        map.initialize();
+        map.setCtrlPanel(SMALL); //加载小心工具条
+        map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
+        map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
+        map.addEventListener(MOUSE_CLICK, MClick);
+
+        {% if school_info['x'] and school_info['y'] %}
+			map.setPoint({{ school_info['x'] }}, {{ school_info['y'] }});
+			map.setCenter({{ school_info['x'] }}, {{ school_info['y'] }});
+		{% else %}
+			map.setCenterByCity("上海");
+		{% endif %}
+
+        $("#s_search").click(function () {
+            map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city: $("select[name=cityId]").find("option:selected").text() });
+            //map.getSearch($("#s_name").val(), keywordSearch_CallBack, 'beijing');
+            $("#s_result").html("<li>加载数据中……</li>");
+        });
+        $('div', $('Mapabc.Layer.TMS_16'));
+    });
+
+    function keywordSearch_CallBack(data) {
+        try {
+            if (data.poilist.length == 0) {
+                $("#s_result").html("<li>未查找到任何结果!</li>");
+            } else {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
+                    $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
+                });
+            }
+        } catch (e) {
+            $("#s_result").html("<li>数据异常！</li>");
+        }
+    }
+    function setPosition(x, y) {
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
+    }
+    function MClick(data) {
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
+    }
+</script>
+
+<script type="text/javascript">
+    var menu = 'menu2';
+    var moudle = 'school';
+    var cityId = {{ cityId }};
+
+    $(function() {
+        var cururl = base_url + "school/";
+        _do = $("#form1").find("input[name=act]").val();
+
+
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                
+                "callback": function(msg) {
+
+                    if (msg.status == 0) {
+                        if(_do=='edit')
+                            alert("学校修改成功");
+                        else
+                            alert("学校添加成功");
+                        self.location=document.referrer;
+                    } else {
+
+                        $.error(msg.info);
+                    }
+                }
+            });
+
+        });
+
+        $(".cancelButton").click(function() {
+            $("input").val("");
+        });
+
+    });
+
+
+</script>

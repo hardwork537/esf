@@ -1,0 +1,124 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 企业经纪人资料认证 </strong> </h6>
+
+        <ul class="nav nav-tabs">
+            <li{% if 1==type %} class="active"{% endif %}><a href="/realtorverify/index/1/">待认证 ({{ totalNum|default(0) }})</a></li>
+            <li{% if 2==type %} class="active"{% endif %}><a href="/realtorverify/index/2/">成功认证</a></li>
+            <li{% if 3==type %} class="active"{% endif %}><a href="/realtorverify/index/3/">认证失败</a></li>
+        </ul>
+        <form method="get" action="/realtorverify/index/{{ type }}/">
+            <table class="search_form mb15 mt10">
+                <tbody>
+                    <tr>
+                        <td width="120"> 
+                            <select class="form-control s" name="cityId" id="cityId" onchange="getDist('distId', 0, this.value, '城区');
+    getRegion('regId', 0, $('#distId').val(), '板块');
+    getXiaoshou('saleId', 0, this.value, '销售');
+    getKefu('CSId', 0, this.value, '客服');">
+                                <?=MyTags::options($citys, $params['cityId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="distId" id="distId" onchange="getRegion('regId', 0, this.value, '板块')">
+                                <option value="0">城区</option>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="regId" id="regId">
+                                <option value="0">板块</option> 
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <input class=" form-control s" type="text" placeholder="所属公司" name="comName" value="{{ params['comName'] }}" /> 
+                        </td>
+                        <td> 
+                            <select class=" form-control s" name="saleId" id="saleId">
+                            </select>              
+                            <select  class=" form-control s widthl" name="CSId" id="CSId">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <input class=" form-control s" type="text" placeholder="门店名称" name="shopName" value="{{ params['shopName'] }}" /> </td>
+                        <td> <input class=" form-control s" type="text" placeholder=" 姓名" name="name" value="{{ params['name'] }}" /> </td>
+
+                        <td>
+                            <input class=" form-control s" type="text" placeholder="  帐号" name="account" value="{{ params['account'] }}" /> 
+                        </td>
+                        <td>
+                            <input class=" form-control s" type="text" placeholder=" 手机号" name="mobile" value="{{ params['mobile'] }}" /> 
+                        </td>
+                        <td>                          
+                            <button class="btn btn-gray" type="submit">搜 索</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        {% if lists is empty %}
+        
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件数据 </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <form action="/realtorverify/dealwait/" method="post">
+            <table class="table table-hover mt10">          
+                {% for id,list in lists %}
+                <tr realtorId="{{ list['id'] }}">  	  	  	  	 
+                    <td style="min-width:620px;">
+                        <div class="left"> <image height="155" style="max-width:255px;" src="{{ list['cardUrl']|default('') }}" />
+                        <image height="155" style="max-width:255px;" src="{{ list['logoUrl']|default('') }}" /> </div>
+                        <div class="left widthl"> <p> <strong>姓名：</strong> {{ list['name'] }} ({{ accounts[id]['name'] }})</p>
+                        <p> <strong>手机号码：</strong> {{ list['mobile'] }}</p>
+                        <p> <strong>所属公司：</strong> {{ companys[list['comId']]['abbr'] }}</p>
+                        <p> <strong>所属门店：</strong> {{ shops[list['shopId']]['name']|default('') }}</p>
+                        <p> <strong>服务区域：</strong> {{ dists[list['distId']]['name'] }} {{ regions[list['regId']]['name'] }}</p>
+                        <p> <strong>提交时间: </strong> {{ date('Y-m-d H:i:s', list['validation']) }}</p></div>
+                    </td>                  
+                    <td style="min-width:100px;">
+                        {% if list['fakeLoginUrl'] %}<a href="{{ list['fakeLoginUrl'] }}" target="_blank">伪登录&gt;&gt;</a><br/><br/>{% endif %}
+                        <input class="realaudit" type="radio" name="info[{{ id }}][certi]" value="0" checked="checked">暂不认证<br/><br/>
+                        <input class="realaudit" type="radio" name="info[{{ id }}][certi]" value="1">通过<br/><br/>
+                        <input class="realaudit" type="radio" name="info[{{ id }}][certi]" value="2">不通过<br/><br/>
+                        <select name="info[{{ id }}][reason]" style="display: none;">
+                            <?=MyTags::options($denyReason, 1)?>
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <input type="hidden" name="type" value="{{ type }}" />
+            <input style="margin-top: 30px;margin-left: 1000px;" type="submit" value="提交审核" />
+        </form>
+        {{ page }} 
+        {% endif %}
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'realtorverify';
+    var cityId = $("select[name=cityId]").val();
+    
+    getDist('distId', '{{ params["distId"] }}', cityId, '城区'); 
+    getRegion('regId', '{{ params["regId"] }}', $('#distId').val(), '板块');
+    getXiaoshou('saleId', '{{ params["saleId"] }}', cityId, '销售');
+    getKefu('CSId', '{{ params["CSId"] }}', cityId, '客服');
+    
+    $(function() {
+        $('.realaudit').change(function(){
+            if(2 == $(this).val()) {
+                $(this).siblings('select').show();
+            } else {
+                $(this).siblings('select').hide();
+            }
+        })
+    })
+</script>
+

@@ -1,0 +1,58 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 企业用户管理  &gt; <strong class="font_gold">  经纪公司管理 </strong> </h6>
+
+        <div class="alert alert-warning alert-dismissible" role="alert">
+           	<button type="button" class="close" data-dismiss="alert"><span class="sr-only">Close</span></button>
+			<strong> {{ comInfo['abbr'] }} 房源描述模板管理 </strong>
+        </div>
+        模板使用方式
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<label>
+			<input type="radio" name="is_auto_template" value="1"/>自动
+		</label>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<label>
+			<input type="radio" name="is_auto_template" value="2" checked="checked"/>手动
+		</label>
+		<table class="table table-hover mt10">
+			 <tr>
+          <th>模版分类</th><th style="width:45%;">模版标题</th><th>是否启用</th><th>管理</th></tr>
+			{% for seq,list in lists['sale'] %}
+			<tr>
+				<td>出售{{ seq }}{% if 1==seq %} (默认){% endif %}</td>
+				<td>{% if list['title'] %}{{ list['title'] }}{% endif %}</td>
+				<td>{% if list['status'] %}{{ list['status'] }}{% endif %}</td>
+				<td>
+				{% if list['id'] %}
+				<a href="/companytemplate/edit/{{ list['id'] }}/">修改</a>
+				{% else %}
+				<a href="/companytemplate/add/?comId={{ comId }}&seq={{ seq }}&type=1">添加</a>
+				{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+			
+			<tr bgcolor="#eeeeee"><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			{% for seq,list in lists['rent'] %}
+			<tr>
+				<td>出租{{ seq }}{% if 1==seq %} (默认){% endif %}</td>
+				<td>{% if list['title'] %}{{ list['title'] }}{% endif %}</td>
+				<td>{% if list['status'] %}{{ list['status'] }}{% endif %}</td>
+				<td>
+				{% if list['id'] %}
+				<a href="/companytemplate/edit/{{ list['id'] }}/">修改</a>
+				{% else %}
+				<a href="/companytemplate/add/?comId={{ comId }}&seq={{ seq }}&type=2">添加</a>
+				{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</table>
+    </div>
+</div>
+                            
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'company';
+</script>

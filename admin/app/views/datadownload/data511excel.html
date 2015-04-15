@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<table class="table table-hover mt10" border=1 >
+    <tr>
+        <th>公司</th>
+        <th>经纪人姓名</th>
+        <th>经纪人账号</th>
+        <th>手机</th>
+        <th>小区名称</th>
+        <th>城区</th>
+        <th>板块</th>
+        <th>刷新数</th>
+    </tr>
+    {% if list['data'] %}
+    {% for one in list['data'] %}
+    {% for onePark in one %}
+    <?php if(is_array($onePark)){?>
+    <tr>
+        <td align="center">{{list['comName']}}{{onePark['realId']}}</td>
+        <td align="center">{{one['name'] }}</td>
+        <td align="center">{{one['accountName']}}</td>
+        <td align="center">{{one['mobile'] }}</td>
+        <td align="center">{{onePark['name'] | default('未知')}}</td>
+        <td align="center">{{cityInfo['dist'][onePark['distId']]}}</td>
+        <td align="center">{{cityInfo['reg'][onePark['regId']]}}</td>
+        <td align="center">
+            {% if houseType ==1 %}{{onePark['saleRefresh']}}{%else%}{{onePark['rentRefresh']}}{%endif%}
+        </td>
+    </tr>
+    <?php } ?>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+</table>
+</body>
+</html>

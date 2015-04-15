@@ -1,0 +1,297 @@
+<div class="maininner">
+
+<h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold">  经纪人出售房源 </strong> </h6>
+
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong> 提示：</strong> 小区名称中的图片数是指经纪人所上传的“室内图”数量
+</div>
+<form method="get" action="/sale/">
+<table class="search_form mb15 mt10">
+    <tbody>
+    <tr>
+        <td width="120">
+            <select class="form-control s" name="cityId" id="cityId">
+                <?=MyTags::options($citys, $selectData['cityId'])?>
+            </select>
+        </td>
+        <td width="120">
+            <select class="form-control s" name="districtId">
+                <option value="0" selected>城区</option>
+                <?=MyTags::options($district, $selectData['districtId'])?>
+            </select>
+        </td>
+        <td width="120">
+            <select class="form-control s" name="regionId">
+                <option value="0">板块</option>
+                <?=MyTags::options($saleRegion, $selectData['saleRegionId'])?>
+            </select>
+        </td>
+        <td width="120">
+            <select id="status" name="status" class="form-control s">
+                <option value="0">房源状态</option>
+                <?=MyTags::options($houseStatus, $selectData['status'])?>
+            </select>
+        </td>
+        <td width="120">
+            <select id="houseFine" name="houseFine" class="form-control s">
+                <option value="0">房源特征</option>
+                <?=MyTags::options($houseFine, $selectData['houseFine'])?>
+            </select>
+        </td>
+        <td>
+            <select id="company" name="company" class="form-control l">
+                <option value="0">所属公司</option>
+                <?=MyTags::options($companylist, $selectData['companyId'])?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input class=" form-control s" type="text" placeholder=" 房源编号" name="houseId" value="{% if selectData['houseId'] %}{{selectData['houseId']}}{% endif %}"/>
+        </td>
+        <td> <input class=" form-control s" type="text" placeholder=" 帐号" name="realName" value="{{selectData['realName']}}"/> </td>
+        <td colspan="4">
+            <div class="inputwrap">
+                <input class=" form-control l autoComplete" url="/ajax/getParkName/" toName="parkId" nums=10 type="text" placeholder="请输入小区名称关键字"  name="parkName" value="{{ selectData['parkName'] }}"  autocomplete="off"/>
+                <input id="parkId" type="hidden" value="{{ selectData['parkId'] }}" name="parkId">
+                <button class="btn btn-gray widthxl" type="submit">搜 索</button>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+</form>
+{% if houseList %}
+<table class="table table-hover mt10">
+
+    <tr class="toptt">
+        <th rowspan="2" style=" width:12%;">房源编号</th>
+        <th rowspan="2" style=" width:20%;">小区名称</th>
+        <th rowspan="2" style=" min-width:60px;">帐号</th>
+        <th rowspan="2" style=" min-width:120px;">刷新时间</th>
+        <th rowspan="2" style=" min-width:60px;">发布时间</th>
+        <th colspan="3" style=" min-width:136px; padding:0 10px;">点击量</th>
+        <th rowspan="2" style=" min-width:60px;">状态</th>
+        <th rowspan="2">管理菜单</th>
+    </tr>
+    <tr class="toptt">
+        <th align="center" style=" padding:0 10px;">今日</th>
+        <th align="center" style=" padding:0 10px;">昨日</th>
+        <th align="center" style=" padding:0 10px;">7日</th>
+    </tr>
+    {% for house in houseList %}
+    <tr houseId="{{house['houseId']}}">
+        <td align="center">{{house['houseId']}}</td>
+        <td title="{{house['parkName']}}"> {{house['parkName']}}[<span class=" font_red"> {{houseExt['houseImgNum'][house['houseId']]}}图 </span>] {{house['houseBedRoom']}}室{{house['housePrice']}}万元</td>
+        <td align="center" title="">{{houseExt['houseReal'][house['realId']]['name']}}</td>
+        <td align="center">{% if house['houseRefreshTime']> house['houseCreate']  %}<?= date("Y-m-d H:i:s", $house['houseRefreshTime']) ?>{%endif%}</td>
+        <td align="center">{% if house['houseCreate'] %}<?= date("Y-m-d H:i:s", $house['houseCreate']) ?>{%endif%}</td>
+        <td align="center">{% if clicks %}{{clicks[house['houseId']]["today"]}}{%endif%}</td>
+        <td align="center">{% if clicks %}{{clicks[house['houseId']]["yesterday"]}}{%endif%}</td>
+        <td align="center">{% if clicks %}{{clicks[house['houseId']]["week"]}}{%endif%}</td>
+        <td align="center">{{houseStatus[house['status']]}}</td>
+        <td align="center" class="operate">
+
+            <div class=" arrow_tipswrap">
+                <a class="widthl td_delete">删除</a>
+            </div>
+
+            <div class=" arrow_tipswrap">
+                {% if house['houseVerification']==-1  %}
+                <a class="widthl delWeigui" style="color:red">违规</a>
+                {% elseif  house['status']==98 %}
+                <font class="widthl " style="color:red">{{houseStatus[house['status']]}}</font>
+                {% else %}
+                <a class="widthl weigui">违规</a>
+                {% endif %}
+            </div>
+            <a class=" widthl" target="_blank" href="<?=Url::getHouseUrl($house['houseId'],'sale',$selectData['cityId'])?>"> 查看 </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+    {% else %}
+    <table class="table table-striped table-hover mt10">
+        <tr class="toptt">
+            <th rowspan="2" style=" width:12%;">房源编号</th>
+            <th rowspan="2" style=" width:20%;">小区名称</th>
+            <th rowspan="2" style=" min-width:60px;">帐号</th>
+            <th rowspan="2" style=" min-width:120px;">刷新时间</th>
+            <th rowspan="2" style=" min-width:60px;">发布时间</th>
+            <th colspan="3" style=" min-width:136px; padding:0 10px;">点击量</th>
+            <th rowspan="2" style=" min-width:60px;">状态</th>
+            <th rowspan="2">管理菜单</th>
+        </tr>
+        <tr class="toptt">
+            <th align="center" style=" padding:0 10px;">今日</th>
+            <th align="center" style=" padding:0 10px;">昨日</th>
+            <th align="center" style=" padding:0 10px;">7日</th>
+        </tr>
+    </table>
+
+    <div class="noreascout">
+        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的结果  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+    </div>
+    {% endif %}
+
+<!--分页开始-->
+{{page}}
+<!--分页结束-->
+    <div class="arrow_tips" id="weigui" style=" display: none;">
+        <form id="form1" method="post">
+        <!-- 违规弹出框 -->
+        <div class="arrow_tipsinner">
+            <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+            <h5 class="tittle">房源违规</h5>
+            <a class="close_mylabel icon icon_xx"> </a>
+            <div class="words">
+                <p>违规理由：
+                    <select id="reasons" name="reasons" class=" form-control" style=" margin:5px 0 0 0;">
+                        <?=MyTags::options($houseExt['auditingInfo'])?>
+                    </select>
+
+                </p>
+                <p class="btnwrap">
+                    <button type="button" class="btn btn-success btn-xs">确认</button>
+                    <button type="button" class="btn btn-default btn-xs widthl2">取消</button>
+                </p>
+            </div>
+        </div>
+        <input type="hidden" name="auditingHouseId" value="0"/>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'sale';
+    var cururl = base_url + "ajax/";
+    $("select[name='cityId']").change(function(){
+        var cityId = $(this).val();
+
+        $.ajax({
+            url:cururl + "getDistByCityId/" + cityId + "/",
+            dataType: "json",
+            success:function(msgOne){
+                if (msgOne.status == 0) {
+                    var html = '<option value="0" selected="">城区</option>';
+                    var data = msgOne.data;
+                    for (var dist in data ){
+                        html += '<option value="'+dist+'">'+data[dist]+'</option>';
+                    }
+                    console.log(msgOne);
+                    $("select[name='districtId']").html(html);
+                }
+            }
+        })
+        $("select[name='regionId']").html( '<option value="0" selected="">板块</option>');
+
+        $.request({
+            url: cururl + "getCompanyByCityID/" + cityId + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    var html = '<option value="0" selected="">所属公司</option>';
+                    var data = msg.data;
+                    for (var dist in data ){
+                        html += '<option value="'+dist+'">'+data[dist]+'</option>';
+                    }
+                    $("select[name='company']").html(html);
+                } else {
+                }
+            }
+        });
+
+    });
+
+    $("select[name='districtId']").change(function(){
+        var districtId = $(this).val();
+        $.request({
+            url: cururl + "getRegByDistId/" + districtId + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    var html = '<option value="0" selected="">板块</option>';
+                    var data = msg.data;
+                    for (var reg in data ){
+                        html += '<option value="'+reg+'">'+data[reg]+'</option>';
+                    }
+                    $("select[name='regionId']").html(html);
+                } else {
+                }
+            }
+        });
+    });
+    $(".weigui").click(function(){
+        var html = $("#weigui");
+        $(this).after(html);
+        $("#weigui").show();
+        $("#form1").show();
+        var houseId = $(this).parent().parent("td").parent("tr").attr("houseId");
+        $("input[name='auditingHouseId']").val(houseId);
+    })
+    $(".btn-default").click(function(){
+        $("#weigui").hide();
+        $("input[name='auditingHouseId']").val(0);
+    })
+    var cururlSale = base_url + "sale/";
+    //保存违规
+
+    $(".btn-success").click(function() {
+        $("#weigui").hide();
+        $("#form1").ajaxSubmit({
+            "url" : cururlSale  + "saveAuditing/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    $('.td_delete').delSuccess("修改成功");
+                    return false;
+                } else {
+                    $('.td_delete').delFail("修改失败");
+                }
+            }
+        });
+    });
+    //删除
+    $('.td_delete').click(function() {
+        var id = $(this).parent().parent("td").parent("tr").attr("houseId");
+        var _this = $(this);
+        _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+            if (result == true) {
+                $.request({
+                    url: cururlSale + "del/" + id + "/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            _this.delSuccess("删除成功");
+                            //location.reload(false);
+                        } else {
+                            _this.delFail(msg.info);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    //取消 违规
+    $('.delWeigui').click(function() {
+        var id = $(this).parent().parent("td").parent("tr").attr("houseId");
+        var _this = $(this);
+        _this.delConfirm("取消违规确认", "确定要取消违规吗?", function(result) {
+            if (result == true) {
+                $.request({
+                    url: cururlSale + "delAuditing/" + id + "/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            _this.delSuccess("取消成功");
+                            //location.reload(false);
+                        } else {
+                            _this.delFail(msg.info);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>

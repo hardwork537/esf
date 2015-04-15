@@ -1,0 +1,150 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 小区楼盘字典 </strong> </h6>
+        <form method="get" action="/park/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>
+                    <td width="120">
+                        <select class="form-control" style="width:100px;" name="cityId" onchange="getDist('distId', 0, this.value, '城区'); getRegion('regId', 0, $('#distId').val(), '板块')">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control" style="width:100px;" name="distId" id="distId" onchange="getRegion('regId', 0, this.value, '板块')">
+                            <option value="0">城区</option>
+                            <?=MyTags::options($districts, $distId)?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control" style="width:100px;" id="regId" name="regId">
+                            <option value="0">板块</option>
+                            <?=MyTags::options($regions, $regId)?>
+                        </select>
+                    </td>
+                    <td width="120">
+                        <select class="form-control" style="width:100px;" name="type">
+                            <option>类型</option>
+                            <?=MyTags::options($types, $type)?>
+                        </select>
+                    </td>
+                    <td width="140">
+                        <input class="form-control" type="text" placeholder="小区名称" name="name" value="{{ name }}" />
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit">搜 索</button>
+                        <a href="/park/add/" type="button" class="btn btn-success widthxl" > <strong> + </strong> 新增小区 </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10">
+            <tr>
+                <th style=" width:30%;">ID</th>
+                <th style="width:30%;">小区名称</th>
+                <th>操作</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">
+            <tr>
+                <th style=" width:30%;">ID</th>
+                <th style="width:30%;">小区名称</th>
+                <th>操作</th>
+            </tr>
+            {% for list in lists %}
+            <tr parkId="{{ list['id'] }}">
+                <td align="center">{{ list['id'] }}&nbsp;</td>
+                <td><a title="{{ list['name'] }}" target="_blank" href="{{ list['parkUrl'] }}">{{ list['name'] }}</a>&nbsp;</td>
+                <td align="center" class="operate">
+                    <a href="/park/edit/{{ list['id'] }}/">修改</a>
+                    <a class="widthl" href="/park/picture/{{ list['id'] }}/?type=waiguan_biaozhun">外观图</a>
+                    <a class="widthl" href="/park/picture/{{ list['id'] }}/?type=huxing_biaozhun">户型图</a>
+                    <div class=" arrow_tipswrap">
+                        <a class="widthl td_delete">删楼盘</a>
+                        <div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }}
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该楼盘吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除楼盘成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回楼盘列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除楼盘失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回楼盘操作</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu2';
+    var moudle = 'park';
+
+    $(function() {
+        var cururl = base_url + "park/";
+        $('.td_delete').click(function() {
+            var parkId = $(this).parent().parent("td").parent("tr").attr("parkId");
+            var _this = $(this);
+
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + parkId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

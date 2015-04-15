@@ -1,0 +1,66 @@
+<script src="{{ src_url }}js/jquery.min.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/bootstrap.js" type="text/javascript"></script>
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+<div class="main">
+    <div class="maininner"> 
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; CS管理  &gt; <strong class="font_gold"> 端口执行汇总  </strong> </h6>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong> 提示：</strong> 在确定导出此数据表时，系统会进行大量的计算，需要您耐心等待。
+        </div>
+        <table class="search_form mb15 mt10">
+            <form action="" method="get" name="form1" onsubmit="return exportData();">
+            <tbody>
+                <tr>
+                    <td width="120"> 
+                        <select class="form-control s" name="cityId">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>	
+                    </td>
+                    <td width="250"> 
+                        <select class="form-control" style=" width:230px;" name="type">
+                            <?=MyTags::options($types, $type)?>
+                        </select>	
+                    </td>
+                    <td> 
+                        <div class="timecol">
+                            <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="dateFrom" value="{{ dateFrom }}">
+                        </div>
+                        <span class="my_tittle font_gray">  &mdash; </span>
+                        <div class="timecol">
+                            <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="dateTo" value="{{ dateTo }}">
+                        </div>
+                        <input type="hidden" name="action" value="export" />
+                        <button class="btn btn-success widthxl">确定导出</button>  
+                    </td>
+                </tr>
+            </tbody>
+            </form>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu8';
+    var moudle = 'portgather';
+    
+    function exportData() {
+        var dateFrom = $("input[name=dateFrom]").val();
+        var dateTo = $("input[name=dateTo]").val();
+
+        if(dateFrom == '' || dateTo == ''){
+			alert("请选择时间段再进行导出");
+			return false;
+		} else if(dateFrom > dateTo) {
+            alert("开始时间不能晚于截止时间");
+			return false;
+        } else {
+			return true;
+		}	
+    }
+</script>
+
+
+

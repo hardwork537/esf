@@ -1,0 +1,374 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold">  经纪公司字典 </strong> </h6>
+
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong> 提示：</strong> 因直营站涉及到合同问题（加盟站不涉及），已经合作的公司名称不允许修改或删除，如需修改，请发送邮件至总部CS部门进行确认和修改。
+        </div>
+        <form method="get" action="/company/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>
+                    <td width="120"> 
+                        <select class="form-control s" name="cityId">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>
+                    </td>
+                    <td width="120"> 
+                        <select class=" form-control s" name="saleId" id="saleId">
+                        </select>    
+                    </td>
+                    <td width="120"> 
+                        <select  class=" form-control s" name="CSId" id="CSId">
+                        </select>    
+                    </td>
+                    <td width="140"> 
+                        <input class="form-control" type="text" placeholder="公司简称" name="abbr" value="{{ abbr }}" />
+                    </td>
+                    <td width="120">
+                        <input class=" form-control s" type="text" placeholder="帐号" name="account" value="{{ account }}" /> 
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit">搜 索</button>
+                        <a type="button" class="btn btn-success widthxl addmodal" data-toggle="modal" data-target="#addnew" > <strong> + </strong> 新增公司 </a> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+        
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+            <tr>
+                <th style="width:80px;">ID</th>
+                <th style=" width:25%;">公司简称</th>
+                <th style=" width:45%;">公司全称</th>
+                <th>操作</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+        
+        <table class="table table-hover mt10">
+            <tr>
+                <th style="width:80px;">ID</th>
+                <th style=" width:20%;">公司简称</th>
+                <th style=" width:20%;">公司全称</th>
+                <th style=" width:20%;">公司账号</th>
+                <th style=" width:80px;">销售</th>
+                <th style=" width:80px;">客服</th>
+                <th>操作</th>
+            </tr>
+            {% for list in lists %}
+            <tr comId="{{ list['id'] }}">  	  	  	  	 
+                <td>&nbsp;{{ list['id'] }}</td>
+                <td><a href='{{ list['companyUrl'] }}' target='_blank'>&nbsp;{{ list['abbr'] }}</a></td>
+                <td>&nbsp;{{ list['name'] }}</td>
+                <td>&nbsp;{{ list['account'] }}</td>
+                <td align="center">&nbsp;{{ list['saleName'] }}</td>
+                <td align="center">&nbsp;{{ list['CSName'] }}</td>
+                <td align="center" class="operate">
+                    {% if list['comFakeLoginUrl'] %}<a href='{{ list['comFakeLoginUrl'] }}' target="_blank">伪登录</a>{% endif %}
+                    <a class="editmodal">修改</a>
+                    <div class=" arrow_tipswrap "> 
+                        <a class="widthl td_delete">删除</a>
+                    </div> 
+                    <a href="/companytemplate/?comId={{ list['id'] }}">模板</a>
+                </td> 
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }} 
+        {% endif %}
+
+    </div>
+</div>
+
+
+<!-- 添加公司 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增公司</h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="公司" method="post" action="">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    所属城市:
+                                </td>
+                                <td>
+                                    <select  class="form-control" name="cityId" notnull="true" info="城市" onchange="getXiaoshou('xiaoshouId', 0, $(this).val(), '销售');getKefu('kefuId', 0, $(this).val(), '客服')">
+                                        <?=MyTags::options($citys)?>
+                                    </select>
+                                    <em class="required"> * </em>
+                                </td>
+                            </tr>
+                            <tr class="tipsup">
+                                <td align="right">
+                                    公司简称:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="comAbbr" notnull="true" info="公司简称" />
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr class="tips"> 
+                                <td> </td>
+                                <td> <span class=" font12 font_999 widthl"> 如：链家地产 </span> </td>
+                            </tr>
+                            <tr class="tipsup">
+                                <td align="right">
+                                    公司全称:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="comName" notnull="true" info="公司全称" /> 
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr class="tips"> 
+                                <td> </td>
+                                <td> <span class=" font12 font_999 widthl"> 如：北京链家房地产经纪有限公司</span> </td>
+                            </tr>
+                            <tr class="tipsup">
+                                <td align="right">
+                                    公司账号:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="account" notnull="true" info="公司账号" /> 
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr class="tipsup">
+                                <td align="right">
+                                    新密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="password" name="pwd" /> 
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr class="tipsup">
+                                <td align="right">
+                                    确认密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="password" name="repwd" /> 
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    指定销售:
+                                </td>
+                                <td>
+                                    <select  class="form-control" name="saleId" id='xiaoshouId' notnull="true" info="销售">
+                                        
+                                    </select>
+                                    <em class="required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    指定客服:
+                                </td>
+                                <td>
+                                    <select  class="form-control" name="CSId" id='kefuId' notnull="true" info="客服">
+                                        
+                                    </select>
+                                    <em class="required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    查看费用:
+                                </td>
+                                <td>
+                                    <input id="chkcost1" type="checkbox" style="width:20px; margen-left:10px;" value="1" name="chkcost[1]">
+                                    允许公司查看费用
+                                    <input id="chkcost2" type="checkbox" style="width:20px; margen-left:10px;" value="2" name="chkcost[2]">
+                                    允许下属查看费用 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    认证房源:
+                                </td>
+                                <td>
+                                    <input id="customTitleCheck" type="checkbox" style="width:20px; margen-left:10px;" value="1" name="customTitleCheck">
+                                    授予该公司认证房源标签展示功能（需首代确认才可设置）
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140">
+                                    认证房源:
+                                </td>
+                                <td>
+                                    <input id="customTitle" type="text"  placeholder="输入真房源标签提示文字" value="" name="customTitle">
+                                    （如：链家认证房源，最多可输入10个字） 
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="companyId" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该公司吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除公司成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回公司列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm "> 删除公司失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回重新操作</a></p>
+    </div>
+</div>
+                            
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'company';
+    var cityId = {{ cityId }};
+    
+    getXiaoshou('saleId', '{{ saleId }}', cityId, '销售');
+    getKefu('CSId', '{{ CSId }}', cityId, '客服');
+    
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+        
+        $("select[name=cityId]").val(cityId);
+        $("input[name=comAbbr]").attr('rule', '/^.{2,100}$/');
+        $("input[name=comName]").attr('rule', '/^.{2,100}$/');
+    }
+    function initEeditModal(data) {
+        $("select[name=cityId]").val(data.cityId);
+        $("input[name=comAbbr]").val(data.abbr);
+        $("input[name=comName]").val(data.name);
+        $("#form1 input[name=account]").val(data.account);
+        
+        if(1 == data.isCheck) {
+            $("#chkcost1").attr('checked', 'checked');
+            $("#chkcost2").attr('checked', 'checked');
+        } else if(2 == data.isAdmin) {
+            $("#chkcost1").attr('checked', 'checked');
+        }
+        if(1 == data.isAdmin) {
+            $("#manageRealtor").attr('checked', 'checked');
+        }
+        if(1 == data.isShowTag) {
+            $("#customTitleCheck").attr('checked', 'checked');
+        }
+        $("#customTitle").val(data.customTag);
+        getXiaoshou('xiaoshouId', data.saleId, data.cityId, '销售');
+        getKefu('kefuId', data.CSId, data.cityId, '客服');
+    }
+    $(function() {
+        var cururl = base_url + "company/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".addmodal").click(function() {
+            initModal();
+            getXiaoshou('xiaoshouId', 0, $("#form1 select[name=cityId]").val(), '销售');
+            getKefu('kefuId', 0, $("#form1 select[name=cityId]").val(), '客服');
+            $("#form1 input[name=pwd]").attr('rule', '/^[\\w+]{6,16}$/').attr('notnull', true).attr('info', '密码');
+            $("#form1 input[name=repwd]").attr('rule', '/^[\\w+]{6,16}$/').attr('notnull', true).attr('info', '确认密码');
+            $("#newmodal").smodal({title: "添加公司", act: 'add'});       
+        });
+
+        $(".editmodal").click(function() {
+            initModal();           
+            var comId = $(this).parent("td").parent("tr").attr("comId");
+            $("input[name=companyId]").val(comId);
+            $("#newmodal").smodal({title: "修改公司", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + comId + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });
+        
+        $('.td_delete').click(function() {
+            var comId = $(this).parent().parent("td").parent("tr").attr("comId");
+            var _this = $(this);
+            
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + comId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+
+    });
+
+</script>

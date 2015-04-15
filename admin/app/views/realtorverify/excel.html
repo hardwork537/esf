@@ -1,0 +1,22 @@
+        <table class="table table-hover mt10">  
+            <tr class="toptt">
+                <th  style=" width:10%;">公司</th>
+                <th  style=" width:10%;">门店</th>
+                <th  style=" min-width:60px;">姓名</th>
+                <th  style=" min-width:80px;">手机</th>
+                <th  style=" min-width:60px;">销售</th>
+                <th  style=" min-width:100px;">认证时间</th>
+                <th  style=" min-width:100px;">到期时间</th>
+            </tr>
+            {% for id,list in lists %}
+            <tr realtorId="{{ list['id'] }}">  	  	  	  	 
+                <td>{{ companys[list['comId']]['abbr'] }}</a></td>
+                <td>{{ shops[list['shopId']]['name'] }}</a></td>
+                <td align="center">{{ list['name'] }}</a></td>
+                <td align="center">{{ list['mobile'] }}</td>
+                <td align="center">{% if allocation[id]['toId1'] %}{{ users[allocation[id]['toId1']]['name'] }}{% endif %}</td>
+                <td align="center">{{ date('Y-m-d H:i:s', list['validation']) }}</td>
+                <td align="center">{% if '0000-00-00'==realPort[id]['expiryDate'] %}无限制{% else %}{{ realPort[id]['expiryDate'] }}{% endif %}</td>  
+            </tr>
+            {% endfor %}
+        </table>

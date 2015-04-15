@@ -1,0 +1,40 @@
+<style>
+      .menu{ margin-bottom:15px;}
+      .menu a{ margin-right:10px;}
+      .list_img li{height:189px; float:left;margin:5px 9px 5px 0;border:solid 1px #ccc; border-radius:3px; padding:9px; list-style:none;}
+    </style>
+<div class='maininner'>
+    <div class="top_title">
+        <h3><a href="{{ xiangce_url }}" target="_blank">{{ parkName }}</a> 房源图片汇总（每组类型图片最多显示50张）</h3>
+    </div>
+	<hr/>
+    <div class="menu">
+       
+                {% for item in arrMenu %}
+                {% if item['check'] %}
+                
+                    <a href="#" style='color:red'>{{ item['name'] }}</a>
+                
+                {% else %}
+                
+                    <a href="{{ item['url'] }}">{{ item['name'] }}</a>
+                
+                {% endif %}
+                {% endfor %}
+          
+    </div>
+    <div class="list_img">
+        {% if arrUnitImage is not empty %}
+               <ul>
+                {% for item in arrUnitImage %}
+                <li>
+                    <a href="{{ item['bigUrl'] }}" target="_blank"><img src="{{ item['smallUrl'] }}"/></a>
+                    <p>{{ item['des'] }}</p>
+                </li>
+                {% endfor %}
+              </ul>
+        {% else %}
+        <p style="text-align:center; padding:15px 0;"> 暂无图片 </p>
+        {% endif %}
+    </div>
+</div>

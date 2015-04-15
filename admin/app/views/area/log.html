@@ -1,0 +1,60 @@
+<div class="main">
+    <div class="maininner">
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 企业用户管理 &gt; 区域管理 &gt; <strong class="font_gold"> 日志 </strong>
+        </h6>
+
+        <form method="get" action="/area/showLog">
+            <table class="search_form mb15">
+                <tr>
+                    <td width="120">
+                        <input class=" form-control s" type="text" placeholder="操作人账号" name="userAccname" value="{% if selectData['userAccname']%}{{selectData['userAccname']}}{%endif%}"/>
+                    </td>
+                    <td>
+                        <button class="btn btn-gray ml20" type="submit">搜 索</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+        {% if list %}
+        <table class="table table-bordered table-hover roletable  heightxl">
+            <tr>
+                <th width="25%">操作时间</th>
+                <th width="15%">操作人</th>
+                <th width="60%">操作内容</th>
+            </tr>
+            {% for id,value in list%}
+            <tr>
+                <td align="center"> {{value["time"]}}</td>
+                <td align="center"> {{value["zhName"]}}</td>
+                <td> {{value["message"]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <table class="table table-bordered table-hover roletable  heightxl">
+            <tr>
+                <th width="25%">操作时间</th>
+                <th width="15%">操作人</th>
+                <th width="60%">操作内容</th>
+            </tr>
+        </table>
+        <div class="noreascout">
+            <div><p><strong class="font14"> 很抱歉，没有找到符合条件的日志 </strong></p>
+
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果 </p></div>
+        </div>
+        {% endif %}
+
+        <!--分页开始-->
+        {{page}}
+        <!--分页结束-->
+
+    </div>
+</div>
+<script>
+    var menu = 'menu4';
+    var moudle = 'area';
+</script>

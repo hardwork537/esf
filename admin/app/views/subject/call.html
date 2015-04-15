@@ -1,0 +1,118 @@
+﻿<div class="maininner">
+	<h6 class="maintt">
+		您的位置：
+		<a href="/">首页</a>
+		&gt; 功能管理 &gt;
+		<strong class="font_gold"> 专题管理 </strong>
+	</h6>
+
+         <div class="edittable">
+		 <div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<strong> 提示：</strong>
+			<span class="notice-info">您输入的内容有误！</span>
+		</div>
+
+		 <form id="form1" onsubmit=""  target="e_s_f_1" form_tittle="专题" method="post" action="" enctype="multipart/form-data">
+		 <input type="hidden" name="id" value="{{ info.id }}">
+			<input type="hidden" name="act" value="{% if info.id %}edit{% else %}add{% endif %}">
+          <table class="edittable">
+               <tbody>
+			   {% if !info.id %}
+			   <tr>
+                <td align="right" width="140">
+                      城市:
+                  </td>
+                  <td>
+                    <select class="form-control" name="cityId" id="cityId" notnull="true" info="城市">
+						<?=MyTags::options($citys, $params['cityId'])?>
+					</select>
+                    <em class="required"> * </em>
+                  </td>
+              </tr>
+			  {% endif %}
+			   <tr>
+                <td align="right" width="140">
+                      专题名称:
+                  </td>
+                  <td>
+                    <input class="form-control" value="{{ info.name }}" name="name" type="text" notnull="true" info="专题名称">
+                      <em class="required"> * </em>
+                  </td>
+              </tr>
+			  {% if !info.id %}
+			  <tr>
+                <td align="right" width="140">
+                      专题路径:
+                  </td>
+                  <td>
+                    <input class="form-control" value="" type="text" name="path"  notnull="true" rule="/^[0-9a-zA-Z-_]+$/" info="专题路径">
+                      <em class="required"> * 仅支持小写字母和数字，否则无法提交；设置后无法更改</em>
+                  </td>
+              </tr>
+			  {% endif %}
+              <tr class=" tipsup">
+                <td align="right" width="140">
+                      选择专题:
+                  </td>
+                  <td>
+                      <input style=" width:160px; float:left;" type="file" name="file"  info="专题包">  <a class=" btn btn-success btn-sm"> 上传 </a>
+					  <em class="required"> &nbsp;&nbsp;* 仅支持ZIP压缩包格式文件,大小不超过4M</em>
+                  </td>
+              </tr>
+			  	<tr>
+				<td></td>
+				<td>
+					<button type="button" class="btn btn-success widthl saveButton">保 存</button>
+					<button type="button" class="btn btn-default widthl cancelButton">返回列表</button>
+				</td>
+			</tr>
+          </tbody></table>
+		  </form>
+		  <iframe id="e_s_f_1" name="e_s_f_1"  style="display:none"></iframe>
+         </div>
+         <div class=" mt10">
+           <strong>专题制作规范：</strong><br>
+            <ol class="widthl mt10">
+             <li><a href="http://zhuanti.esf.focus.cn/upload/doc/zhuanti_tpl.zip">专题通用模版下载 </a>，此模版中包含“点击量统计”等代码，请务必使用，否则无法对专题进行统计</li>
+             <li>可通过dreamweaver等软件制作专题页面，主页文件名支持index.html，支持多个页面一起存放 </li>
+             <li>专题宽度统一定为950px，并且居中；所有文件名都必须使用小写字母或数字，避免因浏览器兼容问题导致不能正常显示 </li>
+             <li>尽量把相关图片（只允许jpg和gif，jpeg、bmp不行）、swf、css、js文件，固定放到一个images目录下 </li>
+             <li>将制作好的页面（必须包含一个主页，如：index.html）和images文件夹一起压缩为.zip压缩文件即可 </li>
+            </ol>
+         </div>
+
+</div>
+<script type="text/javascript">
+	var menu = 'menu9';
+	var moudle = 'subject';
+	var cururl = base_url + "subject/";
+
+	function doNotice(statuss,msg){
+		if(status=='SUCCESS'){
+			$.error("保存成功");
+			location.href=cururl;
+		}else{
+			$.error("保存失败");
+		}
+	}
+	$(function(){
+		var v = $("#cityId").val();
+
+		$(".saveButton").click(function() {
+			_do = $("#form1").find("input[name=act]").val();
+			if(_do=="add"){
+				$("input[name=file]").attr("notnull","true");
+			}
+			if($("#form1").formCheck()){
+				$("#form1").attr("action",cururl + _do + "/").submit();
+			}
+		});
+		$(".cancelButton").click(function(){
+			location.href = cururl;
+		});
+	});
+</script>

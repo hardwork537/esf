@@ -1,0 +1,52 @@
+<div class="maininner">
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 无违规经纪人数据 </strong> </h6>
+<form  action="/infraction/" method="post" >
+    <table class="search_form mb15">
+        <tr>
+            <td style="width:140px">
+                <select class="form-control" name="cityId" id="cityId">
+                    <?=MyTags::options($citys, $selectData['cityId'])?>
+                </select>
+            </td>
+            <td>
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-30),maxDate:GetDateStr(-1)})"  class="Wdate form-control" name="startTime">
+                </div>
+                <span class="my_tittle font_gray widthm">  — </span>
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-30),maxDate:GetDateStr(-1)})"  class="Wdate form-control" name="endTime">
+                </div>
+                <button class="btn btn-success ml20" type="button">下载</button>
+            </td>
+        </tr>
+    </table>
+</form>
+{% if isEmpty %}
+    <span style="color: red">{{msg}}</span>
+{% endif %}
+</div>
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'infraction';
+    $('.btn-success').click(function(){
+        var startTime = $("input[name='startTime']").val();
+        var endTime   = $("input[name='endTime']").val();
+        if(startTime=="" || endTime==""){
+            alert("请选择时间");
+            return false;
+        }
+        $("form").submit();
+    });
+
+    //获取几天前的时间
+    function GetDateStr(AddDayCount)
+    {
+        var dd = new Date();
+        dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+        var m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+        var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate(); //获取当前几号，不足10补0
+        var y = dd.getFullYear();
+        return y+"-"+m+"-"+d;
+    }
+</script>

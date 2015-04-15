@@ -1,0 +1,20 @@
+﻿<table class="table table-bordered table-hover roletable  heightxl">
+        <tr>
+            <th width="20%">审核房源数量</th>
+            <th width="20%">审核图片数量</th>
+            <th width="20%">设为违规数量</th>
+            <th width="20%">审核时间</th>
+            <th width="20%">审核人</th>
+        </tr>
+        {% for one in list %}
+        <tr>
+            <td align="center">{{one["housenum"]}}</td>
+            <td align="center">{{one["housePic"]}}</td>
+            <td align="center">{{one["houseWeigui"]}}</td>
+            <td align="center">{{one["date"]}}</td>
+            <td>{{one["opAccname"]}}({{one["name"]}})</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+

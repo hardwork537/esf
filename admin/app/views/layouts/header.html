@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> 后台管理系统_搜狐焦点二手房 </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="{{src_url}}css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="{{src_url}}css/common.css" rel="stylesheet" type="text/css" />
+<script src="{{src_url}}js/jquery.min.js" type="text/javascript"></script>
+<script src="{{src_url}}js/bootstrap.js" type="text/javascript"></script>
+<script src="{{src_url}}js/common.js" type="text/javascript"></script>
+<script src="{{src_url}}js/global.js" type="text/javascript"></script>
+<script src="{{src_url}}js/jquery.ext.js" type="text/javascript"></script>
+</head>
+<body>
+
+  <div class="head ">
+    <div class="headinner">
+    <div class="items">
+        <a class="logo" href="/">
+            <img src="{{src_url}}images/logo.png" />
+        </a>
+        <div class=" user_login">
+          <div class=" user_login"> 
+              您好，<strong class="font_yellow"> {{ userinfo['name'] }} </strong>  <span class="widthl"> 城市: {{ userinfo['cityName'] }}</span> <span class=" widthm"> | </span>  <span class="widthl"> 角色: {{ userinfo['roleName'] }}</span> <span class=" widthm"> | </span><a href="javascript:;" class="widthm" onclick="return loginout();"> 退出 </a> 
+            </div>
+        </div>
+    </div>
+     </div>
+  </div>

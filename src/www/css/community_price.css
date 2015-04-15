@@ -1,0 +1,342 @@
+/* main tab */ 
+.main_title {
+	font-size: 24px;
+	font-weight: normal;
+	font-family: \9ED1\4F53;
+	margin-bottom: 5px;
+}
+.main_tab { 
+	position: relative; 
+	border-bottom: 1px solid #b8d2ec; 
+	height: 31px; 
+	margin-bottom: 15px;
+}
+.main_tab ul { 
+	position: absolute; 
+	top: 0; 
+	width: 100%; 
+}
+.main_tab li { 
+	background-color: #f2f9ff; 
+	border-color: #b8d2ec; 
+	border-style: solid; 
+	border-width: 1px 0 0; 
+	cursor: pointer; 
+	float: left; 
+	font-size: 14px; 
+	height: 30px; 
+	line-height: 30px; 
+	margin-right: 3px; 
+	overflow: hidden; 
+	vertical-align: middle; 
+	text-align: center; 
+	width: 100px; 
+}
+.main_tab li a { 
+	border-color: #b8d2ec;
+	border-style: solid; 
+	border-width: 0 1px; 
+	color: #222222; 
+	display: block; 
+	text-decoration: none; 
+}
+.main_tab li a:hover { 
+	background-color: #ffffff; 
+	color: #222222; 
+	text-decoration: none; 
+}
+.main_tab li.on, .main_tab li.on { 
+	background-color: #ffffff; 
+	border-top-width: 2px; 
+	border-color: #1369c0; 
+	font-weight: bold; 
+}
+.main_tab li.on, .main_tab li.on a, .main_tab li.on, .main_tab li.on a:hover{ 
+	color:#1369c0; 
+}
+
+.price_trend {
+	margin-bottom: 15px;
+}
+.price_trend .hd {
+	margin-bottom: 20px;
+}
+.price_trend .hd .rise {
+	color: #d70000;
+}
+.price_trend .hd .fall {
+	color: #328c39;
+}
+.price_trend .hd .time { 
+	color: #666666; 
+	height: 26px; 
+	line-height: 26px; 
+	margin-top: 4px;
+}
+.price_trend .hd .time span { 
+	border: 1px solid #c7c7c7; 
+	color: #666; 
+	cursor: pointer;
+	display: inline-block; 
+	width: 50px; 
+	text-align: center;
+}
+.price_trend .hd .time .on { 
+	background-color: #bbb; 
+	color: #ffffff; 
+	text-decoration: none;
+}
+.price_trend .item {
+	margin: 0 0 5px 70px;
+}
+.price_trend .item span {
+	margin-right: 20px;
+}
+.price_trend .item .txt1 {
+	color: #ff4600;
+}
+.price_trend .item .txt2 {
+	color: #3f90ff;
+}
+
+/* compared data */
+.price_data h2 {
+	font-size: 16px;
+	font-weight: 100;
+	margin: 0 0 15px 15px;
+}
+.price_data table {
+    margin-bottom: 30px;
+}
+.price_data table th, .price_data table td {
+    border: 1px solid #e1e1e1;
+    color: #222;
+	font-size: 14px;
+    text-align: center;
+	padding: 15px 0;
+}
+.price_data table th {
+    background-color: #f9f9f9;
+    font-weight: 700;
+}
+
+/* search */
+.dtl_search {
+	background-color: #f2f9ff;
+	border: 1px solid #b8d2ec;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+.dtl_search .label {
+	float: left;
+	font-size: 14px;
+	line-height: 32px;
+	margin-right: 10px;
+}
+.dtl_search .search_box {
+	position: relative;
+	float: left;
+}
+.dtl_search .autocomplete {
+	width: 303px;
+	top: 34px;
+}
+.dtl_search .input_txt {
+    border: 1px solid #b8d2ec;
+	border-right: 0;
+    color: #aeaeae;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 40px 0 10px;
+    width: 214px;
+	float: left;
+}
+.dtl_search .focus {
+	border-color: #1369c0;
+	color: #222;
+}
+.dtl_search .btn {
+    background: url(../img/icon.png) no-repeat -115px -120px;
+    border: 0 none;
+    cursor: pointer;
+    height: 34px;
+    width: 40px;
+	float: left;
+}
+.dtl_search .icon_clear {
+	position: absolute;
+	left: 240px;
+	top: 8px;
+	background: url(../img/icon.png) no-repeat -90px -60px;
+	cursor: pointer;
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+}
+.dtl_search .icon_clear_hover {
+	background-position: -120px -60px;
+}
+.dtl_search .relateCompare {
+	float: left;
+	margin-left: 30px;
+	line-height: 34px;
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	white-space: nowrap;
+	width: 280px;
+}
+.dtl_search .relateCompare a {
+	margin-right: 18px;
+}
+
+/* around_community */
+.around_community {
+	background-color: #ffffff;
+    border: 1px solid #b8d2ec;
+	margin-bottom: 20px;
+}
+.around_community .hd {
+	background-color: #f2f9ff;
+    border-bottom: 1px solid #b8d2ec;
+    height: 33px;
+    line-height: 33px;
+    padding: 0 15px;
+}
+.around_community .hd h3 {
+	font-size: 16px;
+}
+.around_community .hd h3 em {
+	color: #035fa7;
+	font-style: normal;
+}
+.around_community .hd .more {
+	float: right;
+	font-family: \5b8b\4f53;
+}
+.around_community .bd {
+	padding: 15px 0 15px 15px;
+	overflow: hidden;
+}
+.around_community li {
+	display: inline;
+	float: left;
+	font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+	margin-right: 20px;
+	width: 340px;
+}
+.around_community li span {
+    display: inline-block;
+    vertical-align: top;
+}
+.around_community li .name {
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	white-space: nowrap;
+	width: 115px;
+}
+.around_community li .name a {
+	color: #035fa7;
+}
+.around_community li .name a:hover {
+	color: #ff4600;
+}
+.around_community li .price {
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	white-space: nowrap;
+	width: 115px;
+}
+.around_community li .price em{
+	color: #ff4600;
+	font-style: normal;
+	font-weight: 700;
+}
+.around_community li .rise, .around_community li .fall {
+	font-family: \5b8b\4f53; 
+}
+.around_community li .rise {
+	color: #D70000;
+}
+.around_community li .fall {
+	color: #328c39;
+}
+
+/* community_house_rel */
+.community_house_rel {
+	background-color: #ffffff;
+    border: 1px solid #b8d2ec;
+	margin-bottom: 20px;
+}
+.community_house_rel .hd {
+	background-color: #f2f9ff;
+    border-bottom: 1px solid #b8d2ec;
+    height: 33px;
+    line-height: 33px;
+    padding: 0 15px;
+}
+.community_house_rel .hd h3 {
+	font-size: 16px;
+}
+.community_house_rel .hd h3 em {
+	color: #035fa7;
+	font-style: normal;
+}
+.community_house_rel .hd .more {
+	float: right;
+	font-family: \5b8b\4f53;
+}
+.community_house_rel .bd {
+	padding: 10px 0 10px 15px;
+}
+.community_house_rel .bd li { 
+	display: inline; 
+	float: left; 
+	font-size: 12px; 
+	line-height: 24px; 
+	padding: 5px; 
+	margin: 0 20px 0 0; 
+	position: relative; 
+	width: 150px; 
+	height: 199px;
+}
+.community_house_rel .bd li .attr a {
+	color: #222;
+}
+.community_house_rel .bd li .attr a:hover {
+	color: #ff4600;
+}
+.community_house_rel .bd li:hover, .community_house_rel .bd li.hover{ 
+	background-image: none; 
+	background-color: #f2f9ff; 
+	border: none;
+}
+.community_house_rel .bd li .name { 
+	width: 150px; 
+	overflow: hidden;
+	text-overflow: ellipsis; 
+	-webkit-text-overflow: ellipsis; 
+	-o-text-overflow: ellipsis; 
+	white-space: nowrap;
+}
+.community_house_rel .bd li .price {
+	color: #ff4600;
+	font-weight: 700;
+}
+/* added by ice 20141224 */
+.priceCharts .nodata {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #f9f9f9;
+	font: 16px/240px \5fae\8f6f\96c5\9ed1;
+	text-align: center;
+}

@@ -1,0 +1,238 @@
+<script src="{{ src_url }}js/ajaxfileupload.js"  type="text/javascript"></script>
+
+<style type="text/css">
+    #all_huxing{ margin-top:15px;}
+    #all_huxing li{ float:left; width:47%; list-style:none;border:solid 1px #ccc; border-radius:3px; margin:0 15px 15px 0;}
+    #all_huxing li .box{ background-color:#fcfcfc;}
+    #all_huxing li .box_left{ width:200px; padding:10px; float:left;border-right:solid 1px #ccc; background-color:#fff; text-align:center; height:170px; position: relative;}
+    #all_huxing li .box_left p{ text-align:center; margin-top:10px; position: absolute;  width: 180px;  bottom: 10px;}
+    #all_huxing li .box img{ max-width:180px; max-height:120px;}
+    #all_huxing li .box_right{ float:left; padding:10px; }
+    #all_huxing li .box_right p{ margin-bottom:5px;}
+    #all_huxing li .box_right .form-control{ font-size:12px; width:50px; height:22px; line-height:22px; padding:0 2px;}
+    #all_huxing li .box_right .form-control.l{ width:170px;}
+     
+    input{margin:-3px 0px 0 0;vertical-align:middle;}
+    p a{width:11px;height:12px;display:inline-block;background:url({{ src_url }}images/icon39.gif) no-repeat 0 0;margin-left:5px;}
+    a.one{background-position:0 0;}
+    a.one:hover{background-position:0 -22px;}
+    a.two{background-position:0 -44px; margin:0 13px 0 15px;}
+    a.two:hover{background-position:0 -66px;}
+    a.three{background-position:0 -88px;}
+    a.three:hover{background-position:0 -111px;}
+</style>
+
+<div class="main">   
+    <div class="maininner">        
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; 小区楼盘字典 &gt; 户型图</h6>
+        <div style="margin-bottom: 10px;"><font color="blue">{{ parkName }}</font> 户型图管理</div>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <b>上传图片注意事项：</b><br />
+            1. 请确认上传的是本小区图片，并要求图片清晰、真实、有效。<br />
+            2. 支持JPG、GIF、PNG格式图片，文件小于≤2M。<br />
+            3. 禁止上传带有水印、边框、文字、网址、印章等不纯洁的图片。禁止重复上传已经上传过的图片。
+        </div>
+        <form action="" method="POST" id="huxingbiaozhun">
+                <div class="well"> 
+                <div  class=" clearfix">
+				    <div class=" pull-left"> 
+                    <!--<a href="">户型图标库管理</a>&nbsp;&nbsp;-->
+                    {% if arrHouse.house_group_id %}<a href="?do=housePhoto&amp;deal=huxing_newhouse&amp;house_id={{ arrHouse.house_id }}&amp;strBackUrlHouseList={{ strBackUrlHouseList }}">新房户型图</a>&nbsp;&nbsp;{% endif %}
+                    <a href="?type=view_photo&amp;bedroom=1" target="_blank" class=" widthxl">查看本小区房源图片</a></div>
+                    <!--<div class=" pull-right"> <input style="margin-left:25px;" type="checkbox"{% if 2==parkInfo['allowHxPhoto'] %} checked="checked"{% endif %} name="closeHxPhoto" value="2" /> 关闭经纪人上传户型图&nbsp;&nbsp;&nbsp;&nbsp;(需点击“<strong> 保存图片</strong>”生效)</div>-->
+                </div>
+				<hr/>
+                <div  class="clearfix mt10">
+                   
+                        <select name="bedroom" class="form-control s">
+                            {% for key,i in arrBedroom %}
+                            <option value="{{ key }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                      
+                    
+                        <input style="display: none;" type="file" id="image_upload" name="image_upload" onchange="upload_image('image_show');">
+                        <input type='button' value="上传图片" onclick="$('#image_upload').click();" class=" widthxl btn btn-success" />   
+                    
+                    <input type="button" value="保存图片" onclick="beforesubmit();" class=" widthxl btn btn-success" />
+                </div>
+				</div>
+               
+                    <div>
+                        全部(<strong>{{ intTotal }}</strong>){% for key,item in arrHuXingType %}&nbsp;&nbsp;｜&nbsp;&nbsp;{{ item['name'] }}(<strong>{{ item['num'] }}</strong>){% endfor %}
+                    </div>
+                
+                <ul id="all_huxing" class=" clearfix">    
+                    {% set index=0 %}
+                    {% for item in arrHuXingImage %}
+                    {% set index+=1 %}
+                    <li num='{{ index }}'>
+                        <div class="box clearfix">
+                            <div class="box_left">
+                                <a href="{{ item['bigUrl'] }}" target="_blank"><img src="{{ item['url'] }}" /></a>
+                                <p>
+                                    <a href="javascript:void(0)" class="one" onclick="moveLeft(this);return false;" title="向左移"></a>
+                                    <a href="javascript:void(0)" class="two" onclick="moveRight(this);return false;" title="向右移"></a>
+                                    <a href="javascript:void(0)" class="three" onclick="removeImage(this);return false;" title="删除"></a>
+                                </p>
+                            </div><input type="hidden" name="huxing[{{ index }}][image]" value="{{ item['image'] }}" />
+                            <div class="box_right">
+                                <p>户型：
+                                    <select name="huxing[{{ index }}][bedRoom]" class='form-control'><?=MyTags::options($arrBedroom, $item['bedRoom'])?></select>
+                                    <select name="huxing[{{ index }}][livingRoom]" class="form-control widthl"><?=MyTags::options($arrLiving, $item['livingRoom'])?></select>
+                                    <select name="huxing[{{ index }}][bathRoom]" class="form-control widthl"><?=MyTags::options($arrBathroom, $item['bathRoom'])?></select>
+                                </p>
+                                <p class="area">面积：
+                                    <input type="text" value="{% if item['areaMin'] !=0 %}{{ item['areaMin'] }}{% endif %}"  class="form-control" name="huxing[{{ index }}][areaMin]" maxlength="7" /> ㎡ ～ <input type="text" value="{% if item['areaMax'] !=0 %}{{ item['areaMax'] }}{% endif %}"  class="form-control" name="huxing[{{ index }}][areaMax]" maxlength="7" /> ㎡
+                                </p>
+                                <p>朝向：
+                                    <select name="huxing[{{ index }}][exposure]" class="form-control"><?=MyTags::options($arrExposure, $item['exposure'])?></select>
+                                </p>
+                                <p>描述：
+                                    <input type="text" value="{{ item['tag'] }}" name="huxing[{{ index }}][tag]" class="form-control l" onkeyup="noSymbol(this);" />
+                                </p>
+                                <p>时间：
+                                    {% if item['uploadTime'] %}{{ date('Y-m-d', item['uploadTime']) }}{% else %}待定{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <input type="hidden" id="lastId" value="{{ item.photo_id }}" />
+                <input type="hidden" name="brokerNo" value="{{ strBrokerNo }}" id="brokerNo" />
+                <input type="hidden" name="saveImage" value="保存图片" type="text" />
+            
+        </form>
+    </div>   
+</div>
+
+<script>
+    var menu = 'menu2';
+    var moudle = 'park';
+    var userId = {{ userId }};
+    var bedroom = {{ arrBedroomForJs }};
+    var livingroom = {{ arrLivingForJs }};
+    var bathroom = {{ arrBathroomForJs }};
+    var exposure = {{ arrExposureForJs }};
+    
+    //上传图片  
+    function upload_image() {
+        $.ajaxFileUpload ({
+            url           : '/ajax/uploadimage/'+userId+'/',
+            secureuri     : false,
+            fileElementId : 'image_upload',
+            dataType      : 'json',
+            success : function (data, status){
+                if(data.status  == 0) {
+                    //上传成功
+                    var html = get_html(data.msg);
+                    $("#all_huxing").append(html);
+                } else {
+                    //上传失败
+                    var msg = data.msg ? data.msg : '上传失败，请稍后重试！';
+                    $.error(msg);
+                }
+            },
+            error: function (data, status, e){
+                //$.error(data['responseText']);         
+            }
+        });
+    }
+    
+    function get_html(msg) {
+        var html = '';
+        var image = msg.id + '.' + msg.ext;
+        var nowDate = new Date();
+        var dateStr = nowDate.getFullYear()+"-"+(nowDate.getMonth() + 1)+"-"+nowDate.getDate();
+        var picNum = parseInt($("#all_huxing li:last-child").attr("num"));
+        var index = isNaN(picNum) ? 1 : picNum+1;
+        
+        html += "<li num='" + index + "'>";
+        html += "    <div class='box clearfix'>";
+        html += "        <div class='box_left'>";
+        html += "            <a href='" + msg.upload_url + "' target='_blank'><img src='" + msg.upload_url + "' /></a>";
+        html += "            <p>";
+        html += "                <a href='javascript:void(0)' class='one' onclick='moveLeft(this);return false;' title='向左移'></a>";
+        html += "                <a href='javascript:void(0)' class='two' onclick='moveRight(this);return false;' title='向右移'></a>";
+        html += "                <a href='javascript:void(0)' class='three' onclick='removeImage(this);return false;' title='删除'></a>";
+        html += "            </p>";
+        html += "        </div>";
+        html += "        <input type='hidden' name='huxing[" + index + "][image]' value='" + image + "' />";
+        html += "        <div class='box_right'>";
+        html += "            <p>户型：";
+        html += "                <select name='huxing[" + index + "][bedRoom]'  class='form-control'>";
+        for (var i in bedroom) {
+            html += "                    <option value='" + i + "'>" + bedroom[i] + "</option>";
+        }
+        html += "                </select>";
+        html += "                <select name='huxing[" + index + "][livingRoom]'  class='form-control widthl'>";
+        for (var i in livingroom) {
+            html += "                    <option value='" + i + "'>" + livingroom[i] + "</option>";
+        }
+        html += "                </select>";
+        html += "                <select name='huxing[" + index + "][bathRoom]' class='form-control widthl'>";
+        for (var i in bathroom) {
+            html += "                    <option value='" + i + "'>" + bathroom[i] + "</option>";
+        }
+        html += "                </select>";
+        html += "            </p>";
+        html += "            <p>面积：";
+        html += "                <input type='text' value='' class='form-control' name='huxing[" + index + "][areaMin]' maxlength='7' /> ㎡ ～ <input type='text' value='' class='form-control' name='huxing[" + index + "][areaMax]' maxlength='7' /> ㎡";
+        html += "            </p>";
+        html += "            <p>朝向：";
+        html += "                <select name='huxing[" + index + "][exposure]' class='form-control'>";
+        for (var i in exposure) {
+            html += "                    <option value='" + i + "'>" + exposure[i] + "</option>";
+        }
+        html += "                </select>";
+        html += "            </p>";
+        html += "            <p>描述：";
+        html += "                <input type='text' value='' name='huxing[" + index + "][tag]' class='form-control l' onkeyup='noSymbol(this);' />";
+        html += "            </p>";
+        html += "            <p>时间：" + dateStr + "</p>";
+        html += "        </div>";
+        html += "    </div>";
+        html += "</li>";
+
+        return html;
+    }
+    
+    function moveLeft(obj) {
+        var o = $(obj).parent('p').parent('div').parent('div').parent('li'); o.insertBefore(o.prev('li'));
+    }
+    function moveRight(obj) {
+        var o = $(obj).parent('p').parent('div').parent('div').parent('li'); o.insertAfter(o.next('li'));
+    }
+    function removeImage(obj) {
+        var o = $(obj).parent('p').parent('div').parent('div').parent('li'); o.remove();
+    }
+    function beforesubmit(){
+        var boolSubmit = true;
+        var tmp = '';
+        var tmp1 = '';
+        var msg = '';
+        $("#all_huxing").find('select.roomNum').each(function (){  //遍历所有有多选框的图片
+            if($(this).val()==0 ){ 
+                boolSubmit=false; 
+                msg='需要添加的图片数据中，居室不能为空！';
+            }
+        });
+        var fMinArea = 0;
+        var fMaxArea = 0;
+        var strMin = '';
+        var strMax = '';
+        $(".area_min").each(function (){
+            strMin = $(this).val();
+            strMax = $(this).siblings('input').val();
+            if( strMin!=''&&isNaN(strMin) ){boolSubmit=false; msg='最小面积请填写数字！';}
+            if( strMax!=''&&isNaN(strMax) ){boolSubmit=false; msg='最大面积请填写数字！';}
+            fMinArea = parseFloat(strMin);
+            fMaxArea = parseFloat(strMax);
+            if( fMinArea>fMaxArea ){ boolSubmit=false; msg='需要添加的图片数据中，最小面积不能大于或等于最大面积！';}
+            if( isNaN(fMinArea)&&!isNaN(fMaxArea) ){ boolSubmit=false; msg='需要添加的图片数据中，最小面积不能为空！';}
+        });
+        if(boolSubmit) $('#huxingbiaozhun').submit();
+        else alert(msg);
+    }
+</script>

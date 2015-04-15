@@ -1,0 +1,36 @@
+<table border="1 solid black">
+<tr>
+	<th>经纪人id</th>
+	<th>所属公司</th>
+	<th>所属门店</th>
+	<th>姓名</th>
+	<th>手机号</th>
+	<th>账号</th>
+	<th>出售端口数</th>
+	<th>出租端口数</th>
+	<th>所属板块</th>
+	<th>销售</th>
+	<th>客服</th>
+	<th>启用时间</th>
+	<th>停止时间</th>
+	<th>注册时间</th>
+</tr>
+{% for id,list in realList %}
+<tr>
+	<td>{{ id }}</td>
+    <td>{{ list['comName'] }}</td>
+    <td>{{ list['shopName'] }}</td>
+	<td>{{ list['name'] }}</td>
+    <td>{{ list['mobile'] }}</td>
+    <td>{{ list['account'] }}</td>
+	<td>{{ list['portSaleNum'] }}</td>
+    <td>{{ list['portRentNum'] }}</td>
+    <td>{{ list['regName'] }}</td>
+	<td>{{ list['saleName'] }}</td>
+    <td>{{ list['CSName'] }}</td>
+    <td>{{ list['startDate'] }}</td>
+	<td>{{ list['expiryDate'] }}</td>
+	<td>{{ list['createTime'] }}</td>
+</tr>
+{% endfor %}
+</table>

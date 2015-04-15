@@ -1,0 +1,285 @@
+<style>
+   .boxHouse li{ list-style:none; border:solid 1px #ccc; padding:8px; border-radius:5px; float:left; width:178px; background-color:#f7f5f5; text-align:center;}
+  .boxHouse li p{ margin-bottom:3px;}
+</style>
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 外部调用 </strong> </h6>
+ 
+        <div>
+            <a class="btn btn-success" href="#" onclick="clickin('singlecall')" >调用单套房源</a>&nbsp;&nbsp;<a class="btn btn-success ml20" href="#"  onclick="clickin('multicall')" >调用多套房源</a>&nbsp;&nbsp;<a class="btn btn-success ml20" href="#" onclick="clickin('newscall')" >调用新闻资讯</a>
+        </div>
+        <div id="singlecall" class="template heightl">
+       
+            <div class="edittable">
+            <form class='formall' id="form1" onsubmit="return false" method="post" action="" name='form1'>
+                <table class="edittable">
+                    <tr>
+                        <td align="right" width="76">
+                            所在城市：
+                        </td>
+                        <td>
+                            <select class="form-control" name="cityId" >
+                            <?=MyTags::options($citys, $cityId)?>
+                            </select>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            租售类型：
+                        </td>
+                        <td>
+                            <select class="form-control" name="type">
+                            <?=MyTags::options($types)?>
+                            </select>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            房源编号：
+                        </td>
+                        <td width="">
+                             <input class="form-control" type="text" name="houseid" value="{{houseid}}" id="house"/>
+                        </td>
+                        <td id="output1" ></td>
+                    </tr>
+                <tr>
+                    <td> </td>
+                    
+                    <td>
+                        <button type="button" class="btn btn-success  previewButton" targetForm="form1">预览结果</button>
+                        <button type="button" class="btn btn-default widthxl generateButton" targetForm="form1" data-dismiss="modal">生成html</button>
+                    </td>
+                    <td> </td>
+                </tr>
+	        
+                </table>
+                  <input type="hidden" name="act" value="singlecall" />
+            </form>
+            </div>
+            
+        
+
+        </div>
+
+      
+        <div id="multicall" class="template heightl">
+       
+            <div class="edittable">
+            <form class='formall' id="form2" onsubmit="return false" method="post" action="" name='form2'>
+                <table class="edittable">
+                    <tr>
+                        <td align="right" width="76">
+                            所在城市：
+                        </td>
+                        <td>
+                            <select class="form-control" name="cityId" >
+                            <?=MyTags::options($citys, $cityId)?>
+                            </select>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            租售类型：
+                        </td>
+                        <td>
+                            <select class="form-control" name="type">
+                            <?=MyTags::options($types)?>
+                            </select>
+                        </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            搜索：
+                        </td>
+                        
+                        <td>
+                            <select class="form-control" name="searchType">
+                            <?=MyTags::options($searchTypes)?>
+                            </select>
+                            <input  type="text" name="searchId" class="form-control" value="{{searchId}}" id="search"/>
+                            <span id="output2"></span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            显示套数：
+                        </td>
+                        <td>
+                           <input class="form-control" type="text" name="housenum" />
+                        </td>
+                        <td> </td>
+                    </tr>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-success  previewButton" targetForm="form2">预览结果</button>
+                        <button type="button" class="btn btn-default widthxl generateButton" targetForm="form2" data-dismiss="modal">生成html</button>
+                    </td>
+                    <td> </td>
+                </tr>
+	         </table>
+                  <input type="hidden" name="act" value="multicall" />
+            </form>
+
+            </div>
+              
+       
+
+        </div>
+        <div  id="newscall" class="template heightl">
+		
+            <div class="edittable">
+            <form  class='formall' id="form3" onsubmit="return false" method="post" action="" name='form3'>
+                <table class="edittable">
+                    <tr>
+                        <td align="right" width="76">
+                            所在城市：
+                        </td>
+                        <td>
+                            <select class="form-control" name="cityId" >
+                            <?=MyTags::options($citys, $cityId)?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            资讯类型：
+                        </td>
+                        <td>
+                            <select class="form-control" name="newstype">
+                            <?=MyTags::options($newstypes)?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            调用条数：
+                        </td>
+                        <td>
+                             <input class="form-control" type="text" name="callnum" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" width="">
+                            标题字数：
+                        </td>
+                        <td>
+                           <input class="form-control" type="text" name="titlenum" />
+                           <span id="output3"></span>
+                        </td>
+                    </tr>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-success  previewButton" targetForm="form3">预览结果</button>
+                        <button type="button" class="btn btn-default widthxl generateButton"  targetForm="form3" data-dismiss="modal">生成html</button>
+                    </td>
+                </tr>
+	        
+                </table>
+                       <input type="hidden" name="act" value="newscall" />
+            </form>
+
+            </div>
+    
+
+        </div>
+
+<div class="view"  style="width:800px;"></div>
+
+        
+</div>
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'externalcall';
+    
+    function clickin(id) {
+
+        $(".template").hide();
+        $(".view").empty();
+        $("#"+id).show();
+    }
+
+    $("#house").change(function(){
+        var id = $(this).val();
+        
+        $.post(base_url+'externalcall/search',{
+            houseid:id
+        },function(msg){
+                $("#output1").html(msg.info);
+        },'json');
+
+    })
+        $("#search").change(function(){
+        var id = $(this).val();
+        var stype = $("[name=searchType]").val();
+        var cityId = $("[name=cityId]").val();
+        var type = $("[name=type]").val();
+        $.post(base_url+'externalcall/search',{
+              searchType:  stype,
+              searchId: id,
+              cityId:cityId,
+              type:type
+        },function(msg){
+            if (msg.status != 0) 
+            {
+                $("#output2").html(msg.info);
+
+            }
+            else
+            {
+                $("#output2").html("");
+
+            }
+          
+        },'json');
+
+    })
+    $(function() {
+        $(".template").hide();
+        var cururl = base_url + "externalcall/";
+        
+        $(".previewButton").click(function() {
+            var targetForm = $(this).attr('targetForm');
+            $("#"+targetForm).ajaxSubmit({
+                "url": cururl+'preview',
+                
+                "callback": function(msg) {
+
+                    $(".view").html(msg);
+
+                }
+            });
+
+            
+        });  
+        
+        $(".generateButton").click(function() {
+            var targetForm = $(this).attr('targetForm');
+            var temp=1;
+            if($("#output2").text()||$("#output1").text())
+                temp=0;
+         
+            if(temp){
+                $("#"+targetForm).ajaxSubmit({
+                "url": cururl+'generate',
+                
+                "callback": function(msg) {
+
+                  $(".view").html(msg);
+                }
+            });
+            }
+
+        });  
+        
+    });
+   
+
+</script>

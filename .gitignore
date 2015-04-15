@@ -1,0 +1,8 @@
+.buildpath
+.project
+.idea/*
+.settings/*
+nbproject/*
+weixin/app/compiled/*
+config/*
+crontab/tmp/*

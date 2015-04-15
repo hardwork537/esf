@@ -1,0 +1,228 @@
+﻿<script type="text/javascript" src="http://app.mapabc.com/apis?&t=ajaxmap&v=2.1.2&key={{ map_key }}"></script>
+<script type="text/javascript" src="{{ src_url }}js/map51f.js"></script>
+<div class="maininner">
+	<h6 class="maintt">
+		您的位置：
+		<a href="/">首页</a>
+		&gt; 城市数据字典 &gt;
+		<strong class="font_gold"> 板块字典 </strong>
+	</h6>
+	<div class="alert alert-warning alert-dismissible errortips" role="alert"  style="display: none">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<strong> 提示：</strong>
+			<span class="notice-info">您输入的内容有误！</span>
+		</div>
+	<div class="edittable">
+		
+		<form id="form1" onsubmit="return false" form_tittle="板块" method="post" action="">
+			<input type="hidden" name="id" value="{{ info.id }}">
+			<input type="hidden" name="act" value="{% if info.id %}edit{% else %}add{% endif %}">
+		<table class="edittable">
+			<tr>
+				<td align="right" width="92">所属城市:</td>
+				<td>
+					<select class="form-control s" name="cityId" id="cityId" onchange="getDist('distId',0,this.value,'请选择城区');getXiaoshou('xiaoshouId',0,this.value);getKefu('kefuId',0,this.value);">
+							<?=MyTags::options($citys, $info->cityId)?>
+						</select>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">所属城区:</td>
+				<td>
+					<select class="form-control s" name="distId" id="distId" notnull='true' info="所属城区">
+						<option value="0">选择板块</option>
+					</select>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">板块名称:</td>
+				<td>
+					<input class="form-control" type="text" name="name" notnull='true' info="板块名称" value="{{ info.name }}"/>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">板块缩写:</td>
+				<td>
+					<input class="form-control" type="text"  name="abbr" notnull='true' info="板块缩写" value="{{ info.abbr }}" />
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">板块全拼:</td>
+				<td>
+					<input class="form-control" type="text"  name="pinyin" notnull='true' info="板块全拼" rule="/^[a-z]{2,}$/" value="{{ info.pinyin }}"/>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">板块简拼:</td>
+				<td>
+					<input class="form-control" type="text" name="pinyinAbbr" notnull='true' info="板块简拼" rule="/^[a-z]{2,}$/" value="{{ info.pinyinAbbr }}" />
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">板块首字母:</td>
+				<td>
+					<input class="form-control" type="text"  name="pinyinFirst" notnull='true' info="板块首字母" rule="/^[a-z]{1}$/" maxlength="1" value="{{ info.pinyinFirst }}"/>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			 <tr>
+                      <td align="right" >
+                          X经度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" id="x" name="x"  readonly="readonly"  value="{{ info.X }}" notnull="true" info="经纬度坐标"   />
+                          <em class=" required"> * </em>
+                          <span class=" font12 text-info"> 请点下方按钮获取坐标 </span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          Y纬度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text"  id="y" name="y" readonly="readonly"  value="{{ info.Y }}" notnull="true" info="经纬度坐标" />
+                          <em class=" required"> * </em>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <div class="map_l">
+                            <input name="s_name" id="s_name" type="text" class=" form-control"/> <input id="s_search" type="button" value="查询"class="btn btn-gray widthl" />
+                            <ul id="s_result" class="search_result"></ul>
+                        </div>
+                        <div class="map_m">&nbsp;</div>
+                        <div id="map" class="map_r"></div>
+                    </td>
+                  </tr>
+			<tr>
+				<td align="right">指定销售客服:</td>
+				<td>
+					<select class="form-control m" id="xiaoshouId" name="xiaoshouId" notnull='true' info="销售">
+						<option value="0">选择销售</option>
+					</select>
+					<em class="required"> * </em>
+					<select class="form-control m" id="kefuId" name="kefuId"  notnull='true' info="客服">
+						<option value="0">选择客服</option>
+					</select>
+					<em class="required"> * </em>
+				</td>
+			</tr>
+			<tr>
+					<td align="right">权重排序:</td>
+					<td>
+						<input class="form-control" type="text" name="weight" notnull="true" rule="/[0-9]+/" info="权重排序" value="{{ info.weight }}" />
+						<em class=" required"> * </em>
+					</td>
+				</tr>
+                                <tr>
+					<td align="right">状态:</td>
+					<td>
+						<select class="form-control" name="status">
+							<?=MyTags::options($distStatus, $info->status)?>
+						</select>
+						<em class=" required"> * </em>
+					</td>
+				</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button type="button" class="btn btn-success widthl saveButton">保 存</button>
+					<button type="button" class="btn btn-default widthl cancelButton">返回列表</button>
+				</td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+    var mapObj = null;
+    var map = new map51f('map');
+    $(document).ready(function () {
+        map.initialize();
+        map.setCtrlPanel(SMALL); //加载小心工具条
+        map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
+        map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
+        map.addEventListener(MOUSE_CLICK, MClick);
+
+		{% if info.X and info.Y %}
+			map.setPoint({{ info.X }}, {{ info.Y }});
+			map.setCenter({{ info.X }}, {{ info.Y }});
+		{% else %}
+			map.setCenterByCity("上海");
+		{% endif %}
+        $("#s_search").click(function () {
+            map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city:$("select[name=cityId]").find("option:selected").text() });
+            //map.getSearch($("#s_name").val(), keywordSearch_CallBack, 'beijing');
+            $("#s_result").html("<li>加载数据中……</li>");
+        });
+        $('div', $('Mapabc.Layer.TMS_16'));
+    });
+
+    //$("#form1").validator({ lang: 'fi' });
+    function keywordSearch_CallBack(data) {
+        try {
+            if (data.poilist.length == 0) {
+                $("#s_result").html("<li>未查找到任何结果!</li>");
+            } else {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
+                    $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
+                });
+            }
+        } catch (e) {
+            $("#s_result").html("<li>数据异常！</li>");
+        }
+    }
+    function setPosition(x, y) {
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
+    }
+    function MClick(data) {
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
+    }
+
+	var menu = 'menu2';
+	var moudle = 'region';
+	$(function(){
+		var v = $("#cityId").val();
+		getDist('distId','{{ info.distId }}',v,'请选择城区');
+		getXiaoshou('xiaoshouId','{{ xiaoshouId }}',v);
+		getKefu('kefuId','{{ kefuId }}',v);
+
+		var cururl = base_url + "region/";
+		$(".saveButton").click(function() {
+			_do = $("#form1").find("input[name=act]").val();
+			$("#form1").ajaxSubmit({
+				"url" : cururl + _do + "/",
+				"callback" : function(msg) {
+					if (msg.status == 0) {
+						$.error("保存成功");
+						if(_do=='add'){
+							location.href=cururl;
+							return false;
+						}
+					} else {
+						$.error(msg.info);
+					}
+				}
+			});
+		});
+		$(".cancelButton").click(function(){
+			location.href = cururl;
+		});
+
+	});
+</script>

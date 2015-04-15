@@ -1,0 +1,147 @@
+
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 经纪人资料审核 </strong> </h6>
+     
+        <form method="get" action="/realtoraudit/index/{{ type }}/">
+            <table class="search_form mb15 mt10">
+                <tbody>
+                    <tr>
+                        <td width="120"> 
+                            <select class="form-control s" name="cityId" id="cityId" onchange="getDist('distId', 0, this.value, '城区');
+    getRegion('regId', 0, $('#distId').val(), '板块');
+    getXiaoshou('saleId', 0, this.value, '销售');
+    getKefu('CSId', 0, this.value, '客服');">
+                                <?=MyTags::options($citys, $params['cityId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="distId" id="distId" onchange="getRegion('regId', 0, this.value, '板块')">
+                                <option value="0">城区</option>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="regId" id="regId">
+                                <option value="0">板块</option> 
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <input class=" form-control s" type="text" placeholder="所属公司" name="comName" value="{{ params['comName'] }}" /> 
+                        </td>
+                        <td> 
+                            <select class=" form-control s" name="saleId" id="saleId">
+                            </select>              
+                            <select  class=" form-control s widthl" name="CSId" id="CSId">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <input class=" form-control s" type="text" placeholder="门店名称" name="shopName" value="{{ params['shopName'] }}" /> </td>
+                        <td> <input class=" form-control s" type="text" placeholder=" 姓名" name="name" value="{{ params['name'] }}" /> </td>
+
+                        <td>
+                            <input class=" form-control s" type="text" placeholder="  帐号" name="account" value="{{ params['account'] }}" /> 
+                        </td>
+                        <td>
+                            <input class=" form-control s" type="text" placeholder=" 手机号" name="mobile" value="{{ params['mobile'] }}" /> 
+                        </td>
+                        <td>                          
+                            <button class="btn btn-gray" type="submit">搜 索</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+               
+        <ul class="nav nav-tabs">
+            <!--
+            <li{% if 1==type %} class="active"{% endif %}><a href="/realtoraudit/index/1/">企业经纪人</a></li>
+            <li{% if 2==type %} class="active"{% endif %}><a href="/realtoraudit/index/2/">独立经纪人</a></li>
+            -->
+        </ul>
+        
+        {% if lists is empty %}
+
+        <div class="noreascout">
+            <div><p><strong class="font14">  很抱歉，没有找到符合条件的数据 </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <form action="/realtoraudit/audit/" method="post">
+            <table class="table table-hover mt10">  
+                <tr realtorId="{{ list['id'] }}">  
+                     <th style="min-width:430px;">
+                        旧资料
+                    </th>
+                    <th style="min-width:430px;">
+                        新资料
+                    </th>
+                    <th style="min-width:88px;">
+                        操作
+                    </th>
+                </tr>
+                {% for id,list in lists %}
+                <tr realtorId="{{ list['id'] }}">  	  	  	  	 
+                    <td  style="min-width:380px;">
+                        <div class="left"> <image src="{{ list['oldLogoUrl'] }}"  height="100"style="max-width:150px" />
+                        <image src="{{ list['oldCardUrl'] }}"  height="100"style="max-width:150px"  /></div>
+                        <div class="left widthl"> <p><strong>姓名：</strong>  {{ list['name'] }} ({{ accounts[id]['name'] }})</p>
+                        <p><strong>手机号码：</strong>  {{ list['oldMobile'] }}</p>
+                        <p><strong>所属公司：</strong>  {{ companys[list['comId']]['abbr'] }}</p>
+                        <p><strong>所属门店：</strong>  {{ shops[list['shopId']]['name']|default('其他门店') }}</p>
+                        <p><strong>服务区域：</strong>  {{ dists[list['distId']]['name'] }} {{ regions[list['regId']]['name'] }}</p></div>
+                    </td>
+                    <td style="min-width:380px;">
+                        <div class="left"> <image src="{{ list['logoUrl'] }}"  height="100"style="max-width:150px"  />
+                        <image src="{{ list['cardUrl'] }}"  height="100"style="max-width:150px"   /></div>
+                        <div class="left widthl"><p><strong>姓名：</strong>  {{ list['name'] }} ({{ accounts[id]['name'] }})</p>
+                        <p><strong>手机号码：</strong>  {{ list['oldMobile'] }}</p>
+                        <p><strong>所属公司：</strong>  {{ companys[list['comId']]['abbr'] }}</p>
+                        <p><strong>所属门店：</strong>  {{ shops[list['shopId']]['name']|default('其他门店') }}</p>
+                        <p><strong>服务区域：</strong>  {{ dists[list['distId']]['name'] }} {{ regions[list['regId']]['name'] }}</p></div>
+                    </td>
+                    <td>
+                        <input class="realaudit" type="radio" name="info[{{ id }}][audit]" value="0" checked="checked"> 暂不审核<br/><br/>
+                        <input class="realaudit" type="radio" name="info[{{ id }}][audit]" value="1"> 通过<br/><br/>
+                        <input class="realaudit" type="radio" name="info[{{ id }}][audit]" value="2"> 不通过<br/><br/>
+                        <select name="info[{{ id }}][reason]" style="display: none;">
+                            <?=MyTags::options($denyReason, 1)?>
+                        </select>
+                    </td>
+                    <input type="hidden" name="info[{{ id }}][card]" value="{{ list['cardId'] }}.{{ list['cardExt'] }}" />
+                    <input type="hidden" name="info[{{ id }}][logo]" value="{{ list['logoId'] }}.{{ list['logoExt'] }}" />
+                    <input type="hidden" name="info[{{ id }}][mobile]" value="{{ list['mobile'] }}" />
+                </tr>
+                {% endfor %}
+            </table>
+            <input class="btn btn-success mt30" type="submit" value="提交审核" />
+        </form>
+        {{ page }} 
+        {% endif %}
+
+    </div>
+
+
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'realtoraudit';
+    var cityId = $("select[name=cityId]").val();
+    var cururl = base_url + "realtoraudit/";
+    
+    getDist('distId', '{{ params["distId"] }}', cityId, '城区'); 
+    getRegion('regId', '{{ params["regId"] }}', $('#distId').val(), '板块');
+    getXiaoshou('saleId', '{{ params["saleId"] }}', cityId, '销售');
+    getKefu('CSId', '{{ params["CSId"] }}', cityId, '客服');
+    
+    $(function() {
+        $('.realaudit').change(function(){
+            if(2 == $(this).val()) {
+                $(this).siblings('select').show();
+            } else {
+                $(this).siblings('select').hide();
+            }
+        })
+    })
+</script>
+

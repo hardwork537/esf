@@ -1,0 +1,124 @@
+
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 积分兑换 </strong> </h6>
+    <a class="btn btn-success" href="/product/add/">
+            <strong> + </strong>
+            新增产品
+    </a>
+	<table class="table table-hover mt10">
+		<tr>
+			<th>商品名称</th>
+			<th>兑换消费积分</th>
+			<th>已兑换数量</th>
+			<th>库存总量</th>
+                        <th>排序</th>
+			<th>操作</th>
+		</tr>
+		{% for product in plist %}
+		<tr id="{{ product['id'] }}">
+			<td align="center">
+				{{ product['name'] }}
+			</td>
+			<td align="center">
+			        {{ product['cost'] }}
+			</td>
+                        <td align="center">
+				{{ product['exchanged'] }}
+			</td>
+			<td align="center">
+			        {{ product['counts'] }}
+			</td>
+                        <td align="center">
+				{{ product['seq'] }}
+			</td>
+			<td align="center" align="center">
+                            <a href="/product/edit/{{ product['id'] }}/" class="widthl editmodal">修改</a>
+                            <div class=" arrow_tipswrap widthl"> 
+                                <a class="td_delete">删除</a>
+                                <div class="arrow_tips">                        
+                                </div>
+                            </div>  
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除成功！</span></p>
+        <p class="btnwrap mt10"><a href="">返回列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回列表</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'product';
+    
+    $(function() {
+        var cururl = base_url + "product/";
+        $('.td_delete').click(function() {
+            var Id = $(this).parent().parent("td").parent("tr").attr("id");
+            var _this = $(this);
+  
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + Id + "/",
+                        callback: function(msg) {
+                            if (msg) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail("删除失败");
+                            }
+
+                        }
+                    });
+                }               
+            });
+        });
+        
+                
+        $(".editmodal").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+    });
+</script>

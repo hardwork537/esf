@@ -1,0 +1,207 @@
+.mini_header {
+    margin-bottom: 12px;
+}
+.mini_header .section_a {
+    background-color: #1369c0;
+    height: 40px;
+}
+.mini_header .section_b {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #d8d8d8;
+    height: 40px;
+}
+
+/* logo */
+.mini_header .hd_logo {
+    float: left;
+}
+/* city */
+.mini_header .hd_city {
+    float: left;
+    margin-left: 27px;
+    position: relative;
+    z-index: 190;
+}
+.hd_city .city_name {
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 40px;
+    text-decoration: none;
+    padding-right: 10px;
+}
+.hd_city .city_name i {
+    position: absolute;
+    display: inline-block;
+    font-size: 0;
+    height: 4px;
+    width: 10px;
+    top: 18px;
+    right: 0;
+}
+.hd_city .city_name i.up {
+    background: url(../img/icon_detail.png) no-repeat right -140px;
+}
+.hd_city .city_name i.down {
+    background: url(../img/icon_detail.png) no-repeat right -160px;
+}
+.hd_city .city_list {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 40px;
+    background-color: #ffffff;
+    border: 1px solid #b8d2ec;
+    padding: 6px 15px;
+    width: 210px;
+    z-index: 199;
+}
+.hd_city .city_list a {
+    display: inline-block;
+    line-height: 30px;
+    width: 66px;
+}
+/* main nav */
+.mini_header .hd_nav {
+    float: left;
+    margin-left: 30px;
+}
+.mini_header .hd_nav li {
+    display: inline;
+    float: left;
+}
+.mini_header .hd_nav li a {
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    line-height: 40px;
+    padding: 0 18px;
+    position: relative;
+}
+.mini_header .hd_nav li a:hover, .mini_header .hd_nav li a.on {
+    background-color: #115eac;
+    color: #fff;
+    text-decoration: none;
+}
+.mini_header .hd_nav li a i {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -5px;
+    height: 0;
+    width: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #115eac #115eac #f0f0f0 #115eac;
+}
+
+/* login */
+.mini_header .hd_login {
+    float: right;
+}
+.hd_login .menu {
+    position: relative;
+    background-color: #115eac;
+    color: #fff;
+    display: inline;
+    float: left;
+    line-height: 40px;
+}
+.hd_login .menu a {
+    color: #fff;
+}
+.hd_login .user {
+    padding: 0 15px;
+}
+.hd_login .menu_hd span {
+    cursor: default;
+    display: inline-block;
+    text-align: center;
+    width: 70px;
+    padding-right: 10px;
+}
+.hd_login .jdt .menu_hd span {
+    width: 85px;
+}
+.hd_login .yhzx .menu_hd span {
+    width: 95px;
+}
+.hd_login .menu_hd i {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: url(../img/icon_detail.png) no-repeat right -160px;
+    display: inline-block;
+    font-size: 0;
+    width: 8px;
+    height: 4px;
+}
+.hd_login .menu_hd s {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    border-left: 1px solid #417ebd;
+    display: inline-block;
+    height: 23px;
+    overflow: hidden;
+    width: 0;
+}
+.hd_login .menu_bd {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 40px;
+    background-color: #fff;
+    border: 1px solid #b8d2ec;
+    width: 78px;
+    z-index: 190;
+    zoom: 1;
+}
+.hd_login .jdt .menu_bd {
+    width: 93px;
+}
+.hd_login .yhzx .menu_bd {
+    width: 103px;
+}
+.hd_login .menu_bd a {
+    background-color: #fff;
+    color: #666666;
+    display: block;
+    line-height: 24px;
+    padding-left: 20px;
+    text-decoration: none;
+    text-align: left;
+    white-space: nowrap;
+}
+.hd_login .menu_bd a:hover {
+    background-color: #f4f4f4;
+}
+.hd_login .menu_hover {
+    z-index: 199;	/* for ie6 bug */
+}
+.hd_login .menu_hover .menu_hd span {
+    border-color: #e1e1e1;
+}
+.hd_login .menu_hover .menu_hd i {
+    background-position: right -140px;
+}
+/* sub nav */
+.mini_header .hd_subnav {
+    padding-left: 214px;
+}
+.mini_header .hd_subnav a {
+    display: inline-block;
+    color: #115eac;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    margin: 5px 9px;
+}
+.mini_header .hd_subnav a:hover, .mini_header .hd_subnav a.focus {
+    background-color: #fff;
+    border-radius: 2px;
+    color: #115eac;
+    text-decoration: none;
+}

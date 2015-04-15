@@ -1,0 +1,339 @@
+
+
+<link href="{{ src_url }}/css/bxslider.css" rel="stylesheet" type="text/css" />
+
+<script src="{{ src_url }}/js/bxslider.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.bxslider').bxSlider({
+            auto: true,
+            mode: 'fade'
+        });
+
+    });
+</script>
+<div class="maininner">
+<div class="wrap btnwrap">
+    <button type="button" class="btn btn-success auditingOk" data-toggle="modal" data-target="#tongguo" > 通过审核 </button>
+    <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#bohui" > 设为驳回 </button>
+    <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#weigui" > 设为违规 </button>
+</div>
+
+<div class="wrap clearfix mt10">
+    <div class="house_top_show">
+        <ul class="bxslider">
+            {% for hdimage in houseExt["HdImage"]%}
+            <li><div class="img_wrap"><img src="{{hdimage}}"/></div></li>
+            {% endfor %}
+        </ul>
+        <div class="label">
+            <div class="label_outer">
+                <div class="label_inner">
+                    <ul class=" alpha_a20">
+                        {% for features in houseUnit['features']%}
+                        <li class=" alpha_b80"><em class="icon icon_correct mr12"></em><span class="vm dib">{{features}}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="broker alpha_a20">
+            <dl class="clearfix  alpha_a80">
+                <dt class="fl mr10"><img src="{{houseUser['headImage']}}" height="70" width="55" /></dt>
+                <dd class="fl mr10">
+                    <p class="f20 mt10 lh24">{{houseUser['mobile']}}</p>
+                    <p class="f14">{{houseUser['name']}}{% if houseUser['company'] %}<em class="f_simsun">[</em>{{houseUser['company']}}<em class="f_simsun">]</em>{%endif%}</p>
+                </dd>
+            </dl>
+        </div>
+        <div class="attr  alpha_a20 f_yahei">
+            <p class="p1  alpha_a80"><span id="TotalPrice" class="f20 f_tahoma">{{houseUnit['price']}}</span>万&nbsp;&nbsp;&nbsp;<span class="outMonthMoney" style="font-size:20px; font-family:Tahoma;">{{houseBase['unit']}}</span>元/平米</p>
+            <p class="p2  alpha_a80 mt1"><span class="f20 f_tahoma">{{houseBase['bA']}}</span>平米&nbsp;&nbsp;&nbsp;<span class="f20 f_tahoma">{{houseBase['bedRoom']}}室</span><span class="f20 f_tahoma">{{houseBase['livingRoom']}}厅</span></p>
+        </div>
+
+    </div>
+    <div class="clearfix">
+        <div class="main">
+            <div class="house_quick_link tab_nav">
+                <ul class="tab_nav_list clearfix">
+                    <li class="tab_nav_item on"><a href="#house_feature1">房源信息</a></li>
+                    <li class="tab_nav_item"><a href="#house_desc1">房源描述</a></li>
+                    <li class="tab_nav_item"><a href="#house_pic1">房源照片</a></li>
+                </ul>
+            </div>
+            <div class="fixto" id="house_feature1"> </div>
+            <div class="fixto" id="house_basic1"> </div>
+            <div oncopy="return OnCopy ()" class="house_basic" id="house_basic">
+                <h2 class="f14 fb">
+                    基本信息：</h2>
+                <ul>
+                    <li>总价：<span class="f20 c_txt5">{{houseUnit['price']}}</span> <span class="c_txt5">万</span>&nbsp;&nbsp;
+                    <li class="pct50">单价：{{houseBase['unit']}}元/平米</li>
+                    <li class="pct50">户型：{{houseBase['bedRoom']}}室{{houseBase['livingRoom']}}厅{{houseBase['bathRoom']}}卫</li>
+                    <li class="pct50">面积：{{houseBase['bA']}}平米</li>
+                    <li class="pct50">楼层：{{houseBase['floor']}}/{{houseBase['floorMax']}}</li>
+                    <li class="pct50">朝向：{{globals['orientation'][houseBase['orientation']]}}</li>
+                    <li class="pct50">装修情况：{{houseExt['decoration']}}</li>
+                    <li class="pct50">建造年代：{{houseBase['buildYear']}}年</li>
+                    <li class="pct50">物业类型：{{houseExt['propertyType']}}({{houseExt['buildType']}})</li>
+                    <li>小区：<a target="_blank" href="#">{{houseExt['park']['name']}}</a></li>
+                    <li>地址：<a href="#" target="_blank">{{houseExt['district']['name']}}</a>- <a href="#"target="_blank">{{houseExt['region']['name']}}</a> &nbsp;&nbsp;{{houseUnit['address']}}&nbsp;&nbsp;
+                    </li>
+                </ul>
+            </div>
+            <div class="fixto" id="house_desc1"> </div>
+            <div oncopy="return OnCopy ()" class="house_desc" id="house_desc">
+                <p align="left" style="background:white;text-align:left;line-height:16pt;">
+                    <br />
+                </p>
+                <p align="left" style="line-height:22.5pt;background-color:white;">
+                    <b> </b>
+                </p>
+                <div align="center">
+               {{houseExt["more"]['text']}}
+                </div>
+                <p>
+                    <span> </span>
+                </p>
+                <p>
+                    <br />
+                </p>
+            </div>
+            <div class="fixto" id="house_pic1"> </div>
+            <div oncopy="return OnCopy ()" class="house_pic" id="house_pic">
+                {% for imgGroup in houseExt["image"] %}
+                <div>
+                    <img title="2室2厅1卫" src="{{imgGroup}}" alt="周边区 固安 空港家园 毛坯房 89.00平米2室2厅1卫">
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrap btnwrap">
+    <button type="button" class="btn btn-success auditingOk" data-toggle="modal" data-target="#tongguo" > 通过审核 </button>
+
+    <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#bohui" > 设为驳回 </button>
+
+    <button type="button" class="btn btn-danger widthl" data-toggle="modal" data-target="#weigui" > 设为违规 </button>
+</div>
+
+<!--驳回弹出框  start11 -->
+
+<div class="modal fade" id="addnew" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 房源驳回 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable">
+                    <div class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> 您输入的内容有误！
+                    </div>
+                    <form name='overrule' action='?do=high_definition_audit&action=overrulesave&housesids=23541116&city_id=1&is_preview=1' method='post'>
+                        <input type="hidden" name='housesids' value='23541116' />
+
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    驳回理由:
+                                </td>
+                                <td>
+                                    <select  class="form-control" style=" width:250px;" name='overrule_reason'>
+                                        <option value='1'> 图片模糊不清晰 </option>
+                                        <option value='2'> 图片拉伸变形 </option>
+                                        <option value='3'> 室内图未达到三张 </option>
+                                        <option value='4'> 其他 </option>
+                                    </select>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class=" form-control" style=" margin-left:10px; width:250px; height:100px;" name='overrule_remarks'></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick='document.overrule.submit();'>保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--驳回弹出框  end -->
+
+
+<!--设为违规弹出框  start -->
+
+<!-- 设为违规 -->
+<div class="modal fade" id="weigui" tabindex="-1" role="dialog" aria-labelledby="weiguiLabel" aria-hidden="true">
+    <form name="form1" id="form1" method="post">
+        <div class="modal-dialog" style=" width:450px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="weiguiLabel"> 房源违规 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="edittable">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    违规理由:
+                                </td>
+                                <td>
+                                    <select id="reasons" name="reasons" class="form-control l">
+                                        <option value="1">该房源已售或不存在</option>
+                                        <option value="2">该房源已租或不存在</option>
+                                        <option value="3">该房源价格不真实</option>
+                                        <option value="4">个人区发布中介房源</option>
+                                        <option value="5">房源内容含有不良信息(搜狐网监)</option>
+                                        <option value="98">房源标题重复</option>
+                                        <option value="6">房源图片不符合要求</option>
+                                        <option value="7">房源图片重复</option>
+                                        <option value="9">房源特色标签违规</option>
+                                        <option value="8">其它</option>
+                                        <option value="97">带有敏感词信息</option>
+                                        <option value="10">房源与小区不符</option>
+                                        <option value="11">房源所在城区板块虚假</option>
+                                        <option value="12">房源标题或描述内容不符合要求</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="remark" style="width: 200px;"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="houseIds" value="{{houseBase['id']}}">
+                    <button type="button" class="btn btn-success btn-success-weigui">保 存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 设为违规 -->
+<div class="modal fade" id="bohui" tabindex="-1" role="dialog" aria-labelledby="bohuiLabel" aria-hidden="true">
+    <form name="form1" id="form2" method="post">
+        <div class="modal-dialog" style=" width:450px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="bohuiLabel"> 房源驳回 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="edittable">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    驳回理由:
+                                </td>
+                                <td>
+                                    <select id="reasons" name="reasons" class="form-control l">
+                                        <option value="13">图片模糊不清晰</option>
+                                        <option value="14">图片拉伸变形</option>
+                                        <option value="15">室内图未达到三张</option>
+                                        <option value="8">其它</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="remark" style="width: 200px;"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="houseIds" value="{{houseBase['id']}}">
+                    <button type="button" class="btn btn-success btn-success-bohui">保 存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<!--设为违规弹出框  end -->
+<script>
+    var menu = 'menu6';
+    var moudle = 'househd';
+    var cururl = base_url + "househd/";
+    //审核通过,单条
+    $('.auditingOk').click(function(){
+        var id = {{houseBase['id']}};
+    alert(id);
+        $.request({
+            url: cururl + "saveAuditing/" + id + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    alert("操作成功！");
+                    location.reload(false);
+                } else {
+                }
+            }
+        });
+    });
+
+    //驳回
+    $(".btn-success-bohui").click(function() {
+        $("#bohui").hide();
+        var _this = this;
+        $("#form2").ajaxSubmit({
+            "url" : cururl  + "AuditingBohui/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    $(_this).delSuccess("修改成功");
+                    return false;
+                } else {
+                    $(_this).delFail("修改失败");
+                }
+            }
+        });
+    });
+
+    $(".btn-success-weigui").click(function() {
+        $("#weigui").hide();
+        var _this = this;
+        $("#form1").ajaxSubmit({
+            "url" : cururl  + "AuditingNo/",
+            "callback" : function(msg) {
+                if (msg.status == 0) {
+                    $(_this).delSuccess("修改成功");
+                    return false;
+                } else {
+                    $(_this).delFail("修改失败");
+                }
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

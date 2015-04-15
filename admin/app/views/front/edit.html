@@ -1,0 +1,124 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 内容管理 </strong>&gt; {% if id %}修改{% else %}新增{% endif %}内容</h6>
+        <div class="edittable">
+            <div class="alert alert-warning alert-dismissible" role="alert" id="errortips">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong> 提示：</strong>
+                <span class="notice-info">
+                    <br>1.热门搜索和热门城区最多可添加条目不超过20<br>
+                    2.“大家都在搜”添加条目固定为10
+                </span>
+            </div>
+            <form id="form1" onsubmit="return false"  method="post" action="">
+                    <table class="edittable">
+                        <tr>
+                            <td align="right" width="100"> 城市:</td>
+                            <td>
+                                <select class="form-control" name="cityId" notnull="true" info="城市" >
+                                       <?=MyTags::options($citys, $newslist['cityId'])?>
+                                </select>
+                                <em class="required"> * </em>
+                           </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="100">新闻类型:</td>
+                            <td>
+                                <select class="form-control"  name="type">
+                                    <?=MyTags::options($newsTypes,  $newslist['type'])?>
+                                </select>
+                                <em class="required"> * </em>
+                            </td>
+	        	        </tr>
+                        <tr>
+                            <td align="right" width="100">内容类型:</td>
+                            <td>
+                                <select class="form-control"  name="contentType">
+                                    <?=MyTags::options($newsContentTypes,  $newslist['contentType'])?>
+                                </select>
+                                <em class="required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+		            <td align="right">新闻摘要:</td>
+                    <td> <input class="form-control" type="text" name="abstract" value="{%if newslist%}{{ newslist['abstract']}}{%endif%}"  /></td>
+		        </tr>
+                <tr>
+                    <td align="right"> 标题前缀: </td>
+                    <td><input class="form-control" type="text" name="titlePrefix" value="{%if newslist%}{{ newslist['titlePrefix'] }}{%endif%}"  /></td>
+                </tr>
+                <tr>
+			        <td align="right" id="title_tishi"> {% if newslist['type']==5 %}小区id{% else %}新闻标题{% endif %}: </td>
+		            <td><input class="form-control" type="text" name="title" value="{%if newslist%}{{ newslist['title'] }}{%endif%}" notnull="true" info="title" /><em class=" required"> * </em></td>
+		        </tr>
+                <tr>
+	     		    <td align="right"> 新闻链接:</td>
+	         	    <td><input class="form-control" type="text" name="url" value="{%if newslist%}{{ newslist['url'] }}{%endif%}" notnull="true" info="url" /><em class=" required"> * </em></td>
+			    </tr>
+                <tr>
+                    <td align="right">图片链接:</td>
+	                <td><input class="form-control" type="text" name="imageUrl" value="{%if newslist%}{{ newslist['imageUrl'] }}{%endif%}" /></td>
+		        </tr>
+                <tr>
+                    <td align="right" width="100">排名:</td>
+                    <td><input class="form-control"  name="weight" value="{%if newslist%}{{ newslist['weight'] }}{%endif%}" notnull="true" info="weight" /><em class="required"> * </em></td>
+	        	</tr>
+                <tr>
+	      		    <td></td>
+				    <td><button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthl ">返回列表</button>
+                    </td>
+			</tr>
+            </table>
+                <input type="hidden" name="hiddenId" value="{% if id %}{{id}}{%endif%}">
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu9';
+    var moudle = 'front';
+    
+
+    $(function() {
+        var cururl = base_url + "front/saveNews/";
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl,
+                "callback": function(msg) {
+                 
+                    if (msg.status == 0) {
+                        alert("操作成功");
+                        self.location=document.referrer;
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+            
+        });  
+        
+        $(".cancelButton").click(function() {
+            $("input").val("");
+        });  
+
+    });
+
+    $(".btn-default").click(function(){
+        window.location.href="/front/";
+    })
+    if($("select[name='type']").val() ==27 ){
+        $("#title_tishi").text("小区id");
+    }
+    $("select[name='type']").change(function(){
+        if($(this).val() == 27){
+            $("#title_tishi").text("小区id:");
+        }else{
+            $("#title_tishi").text("新闻标题:");
+        }
+
+    });
+
+</script>

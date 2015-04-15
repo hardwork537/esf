@@ -1,0 +1,173 @@
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=ajaxmap&v=2.1.2&key={{ map_key }}"></script>
+<script type="text/javascript" src="{{ src_url }}js/map51f.js"></script>
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> {% if msId %}修改{% else %}新增{% endif %}轨道站点 </strong> </h6>
+        <div class="edittable">
+            <div class="alert alert-warning alert-dismissible" role="alert" id="errortips">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong> 提示：</strong><span class="notice-info">请修改或者添加以下信息时，尽量避开网站前端访问高峰期。</span>
+            </div>
+            <form id="form1" onsubmit="return false" form_tittle="轨道站点" method="post" action="">
+            <table class="edittable">
+                <tr>
+                    <td align="right" width="76">
+                        所属城市:
+                    </td>
+                    <td>
+                        <select class="form-control" name="cityId" notnull="true" info="城市" onchange="getMetro('metroId',0,this.value);">
+                            <?=MyTags::options($citys, $cityId)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        轨道线路:
+                    </td>
+                    <td>
+                        <select class=" form-control" name="metroId" notnull="true" info="轨道线路" id="metroId">
+                            <?=MyTags::options($lines, $metroId)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        轨道站点:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="msName" notnull="true" info="轨道站点" value="{{ site_info['name'] }}" />
+                        <em class=" required"> * </em>
+                    </td>
+                </tr>
+                 <tr>
+                      <td align="right" >
+                          X经度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text" id="x" name="x"  readonly="readonly" value="{{ site_info['x'] }}" notnull="true" info="经纬度坐标"  />
+                          <em class=" required"> * </em>
+                          <span class=" font12 text-info"> 请点下方按钮获取坐标 </span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td align="right" >
+                          Y纬度坐标:
+                      </td>
+                      <td>
+                         <input class="form-control s" type="text"  id="y" name="y" readonly="readonly"  value="{{ site_info['y'] }}" notnull="true" info="经纬度坐标"  />
+                          <em class=" required"> * </em>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <div class="map_l">
+                            <input name="s_name" id="s_name" type="text" class=" form-control"/> <input id="s_search" type="button" value="查询"class="btn btn-gray widthl" />
+                            <ul id="s_result" class="search_result"></ul>
+                        </div>
+                        <div class="map_m">&nbsp;</div>
+                        <div id="map" class="map_r"></div>
+                    </td>
+                  </tr>
+                <tr>
+                    <td align="right" >
+                        排序权重:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="weight" value="{{ site_info['weight'] }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthl cancelButton" data-dismiss="modal">取 消</button>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="act" value="{% if msId %}edit{% else %}add{% endif %}" />
+            <input type="hidden" name="msId" value="{{ msId }}" />
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var mapObj = null;
+    var map = new map51f('map');
+    $(document).ready(function () {
+        map.initialize();
+        map.setCtrlPanel(SMALL); //加载小心工具条
+        map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
+        map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
+        map.addEventListener(MOUSE_CLICK, MClick);
+		{% if site_info['x'] and site_info['y'] %}
+			map.setPoint({{ site_info['x'] }}, {{ site_info['y'] }});
+			map.setCenter({{ site_info['x'] }}, {{ site_info['y'] }});
+		{% else %}
+			map.setCenterByCity("上海");
+		{% endif %}
+
+        $("#s_search").click(function () {
+            map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city: $("select[name=cityId]").find("option:selected").text() });
+            //map.getSearch($("#s_name").val(), keywordSearch_CallBack, 'beijing');
+            $("#s_result").html("<li>加载数据中……</li>");
+        });
+        $('div', $('Mapabc.Layer.TMS_16'));
+
+    });
+
+    function keywordSearch_CallBack(data) {
+        try {
+            if (data.poilist.length == 0) {
+                $("#s_result").html("<li>未查找到任何结果!</li>");
+            } else {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
+                    $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
+                });
+            }
+        } catch (e) {
+            $("#s_result").html("<li>数据异常！</li>");
+        }
+    }
+    function setPosition(x, y) {
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
+    }
+    function MClick(data) {
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
+    }
+</script>
+<script type="text/javascript">
+    var menu = 'menu2';
+    var moudle = 'subwaysite';
+    var cityId = {{ cityId }};
+
+    $(function() {
+        var cururl = base_url + "subwaysite/";
+        _do = $("#form1").find("input[name=act]").val();
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        self.location=cururl;
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".cancelButton").click(function() {
+            $("input").val("");
+        });
+
+    });
+
+</script>

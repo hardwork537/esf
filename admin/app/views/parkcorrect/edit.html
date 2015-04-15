@@ -1,0 +1,195 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 互动管理  &gt; <strong class="font_gold"> 小区纠错 </strong> </h6>
+        <div class="edittable"> 
+            <form id="form1" onsubmit="return false" method="post" action="">
+            <table class="edittable">
+                <tr>
+                    
+                    <td align="right" width="82">                
+                        物业公司:
+                    </td>
+                    <td width="280">
+                        <input class="form-control" type="text" name="propertyCompany"  value="{{ pclist['propertyCompany'] }}" />
+                    </td>
+                    <td>
+                        原始数据：{% if plist['物业公司'] %}{{plist['物业公司']}}{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right">
+                        开发商:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="developer" value="{{ pclist['developer'] }}" />
+                    </td> 
+                    <td>
+                        原始数据：{% if plist['开发商'] %}{{plist['开发商']}}{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right">
+                        物业费:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="fee" value="{{ pclist['fee'] }}" />&nbsp;元/月
+                    </td>
+                    <td>
+                        原始数据：{% if plist['物业费'] %}{{plist['物业费']}}{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right">
+                        绿化率:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="GR" value="{{ pclist['GR'] }}" />&nbsp;%
+                    </td>
+                    <td>
+                        原始数据：{% if plist['GR'] %}{{plist['GR']}}%{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right">
+                        总户数:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="houses" value="{{ pclist['houses'] }}" />&nbsp;户
+                    </td>
+                    <td>
+                        原始数据：{% if plist['houses'] %}{{plist['houses']}}户{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        容积率:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="FAR" value="{{ pclist['FAR'] }}" />&nbsp;%
+                    </td> 
+                    <td>
+                        原始数据：{% if plist['FAR'] %}{{plist['FAR']}}%{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td align="right">
+                        建造年代:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="buildYear" value="{{ pclist['buildYear'] }}" />&nbsp;年
+                    </td>
+                    <td>
+                        原始数据：{% if plist['buildYear'] %}{{plist['buildYear']}}年{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        车位数:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="pCount" value="{{ pclist['pCount'] }}" />&nbsp;个
+                    </td>
+                    <td>
+                        原始数据：{% if plist['pCount'] %}{{plist['pCount']}}个{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        车位信息:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="pRemark" value="{{ pclist['pRemark'] }}" />
+                    </td>
+                    <td>
+                        原始数据：{% if plist['车位信息'] %}{{plist['车位信息']}}{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        小区设施:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="facility" value="{{ pclist['facility'] }}" />
+                    </td>
+                    <td>
+                        原始数据：{% if plist['小区设施'] %}{{plist['小区设施']}}{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        老人占比:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="oldRate" value="{{ pclist['oldRate'] }}" />&nbsp;%
+                    </td>
+                    <td>
+                        原始数据：{% if plist['老人占比'] %}{{plist['老人占比']}}%{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        出租占比:
+                    </td>
+                    <td>                       
+                        <input class="form-control" type="text" name="rentRate" value="{{ pclist['rentRate'] }}" />&nbsp;%
+                    </td>
+                    <td>
+                        原始数据：{% if plist['出租占比'] %}{{plist['出租占比']}}%{% else %}暂无数据{% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthxl cancelButton" data-dismiss="modal">取 消</button>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="Id" value="{{Id}}" />
+            <input type="hidden" name="id" value="{{pclist['parkId']}}" />
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var menu = 'menu10';
+    var moudle = 'parkcorrect';
+    
+
+    $(function() {
+        var cururl = base_url + "parkcorrect/edit/";
+       
+
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl,
+                
+                "callback": function(msg) {
+
+                    if (msg.status == 0) {
+                        alert("操作成功");
+                        self.location=document.referrer;
+                    } else {
+                        self.location=document.referrer;
+                        $.error(msg.info);
+                    }
+                }
+            });
+            
+        });  
+        $(".cancelButton").click(function() {
+            self.location=document.referrer;
+        });
+        
+    });
+   
+
+</script>

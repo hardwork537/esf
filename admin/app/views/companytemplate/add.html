@@ -1,0 +1,96 @@
+<script src="{{ src_url }}js/ueditor.config.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/ueditor.all.min.js" type="text/javascript"></script>
+
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 企业用户管理  &gt; <strong class="font_gold"> 经纪公司管理 </strong> </h6>
+        <div class="edittable"> 
+            <div class="alert alert-warning alert-dismissible" role="alert" id="errortips">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong> 提示：</strong><span class="notice-info">{{ comInfo['abbr'] }} 房源描述模板管理</span>
+            </div>
+            <form id="form1" onsubmit="return false" form_tittle="经纪公司" method="post" action="">
+            <table class="edittable">
+                <tr>
+                    <td align="right" width="140">
+                        启用模板:
+                    </td>
+                    <td>
+                        <select class="form-control" name="status">
+                            <?=MyTags::options($statuses, $status)?>
+                        </select>
+                        <em class="required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        模板标题:
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" name="title" notnull="true" info="模板标题" value="{{ ctInfo['title'] }}" />
+                        <em class=" required"> * </em>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" valign="top">
+                        <span class="red"> 模板内容:</span>
+                    </td>
+                    <td>
+                        <div class="widthl"> 
+                            <script id="editor1" name="content" type="text/plain" style="width:600px;height:300px;" class="ueditor_list">{{ ctInfo['template'] }}</script> 
+                        </div>                    
+                    </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                        <button type="button" class="btn btn-default widthl cancelButton">取 消</button>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" name="act" value="{% if ctId %}edit{% else %}add{% endif %}" />
+            <input type="hidden" name="ctId" value="{{ ctId }}" />
+            <input type="hidden" name="comId" value="{{ comId }}" />
+            <input type="hidden" name="type" value="{{ type }}" />
+            <input type="hidden" name="seq" value="{{ seq }}" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'company';
+    
+    $(function() {
+        var cururl = base_url + "companytemplate/";
+        _do = $("input[name=act]").val();
+        
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "totop": true,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        self.location=document.referrer;
+                    } else {
+                        $.error(msg.info);
+                        $.toTop();
+                    }
+                }
+            });
+        });  
+        
+        $(".cancelButton").click(function() {
+            window.location.href='/companytemplate/?comId={{ comId }}'
+        });
+    });
+    
+    var ue = UE.getEditor("editor1", {
+        autoHeight: false,
+        toolbars: [
+            ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+        ]
+    });         
+</script>

@@ -1,0 +1,146 @@
+<script src="<?php echo $src_url; ?>js/ajaxfileupload.js"  type="text/javascript"></script>
+
+<style type="text/css">
+  .cue{height:100px;}
+  .cue p{line-height:20px;}
+
+  .list_img dl dd{height:189px; float:left;margin:5px 9px 5px 0;border:solid 1px #ccc; border-radius:3px; padding:9px;}
+  .list_img dl dd p{ margin-top:5px;}
+  .list_img dl dd div{width:120px;height:90px;}
+  .list_img dl dd div img{width:120px;height:90px;margin-left:-5px;}
+
+  .list_img dl dd a{width:11px;height:12px;display:inline-block;background:url(<?php echo $src_url; ?>images/icon39.gif) no-repeat 0 0;margin-left:5px; vertical-align:middle;}
+  .list_img dl dd a.one{background-position:0 0;}
+  .list_img dl dd a.one:hover{background-position:0 -22px;}
+  .list_img dl dd a.two{background-position:0 -44px;}
+  .list_img dl dd a.two:hover{background-position:0 -66px;}
+  .list_img dl dd a.three{background-position:0 -88px;}
+  .list_img dl dd a.three:hover{background-position:0 -111px;}
+  .four{width:120px;}
+
+  .demand2{height:30px;}
+  .demand2 span{height:20px;display:block;float:left;margin-left:10px;}
+</style>
+
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; 小区楼盘字典 &gt; 外观图</h6>
+        <div style="margin-bottom: 10px;"><font color="blue"><?php echo $parkName; ?></font> 外观图管理</div>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <p style="margin-top:10px;">上传图片注意事项：</p>
+            <p>1. 请确认上传的是本小区图片，并要求图片清晰、真实、有效。</p>
+            <p>2. 支持JPG、GIF、PNG格式图片，图片宽边≥800像素,文件小于≤2M。每次最多可上传10张。</p>
+            <p>3. 禁止上传带有水印、边框、文字、网址、印章等不纯洁的图片。禁止重复上传已经上传过的图片。</p>
+        </div>
+        <form action="" method="POST">
+                <div class="well">    
+                <div class=" clearfix">
+                   <div class=" pull-left"><!--<a class="is_now" href="">外观图标库管理</a>--></td>
+                    <?php if ($arrHouse->house_group_id) { ?><a href="?do=housePhoto&amp;deal=&amp;house_id=<?php echo $arrHouse->house_id; ?>&amp;strBackUrlHouseList=<?php echo $strBackUrlHouseList; ?>" class="widthxl">新房外观图</a><?php } ?>
+                    <a href="?type=view_photo&amp;bedroom=1" target="_blank" class="widthxl">查看本小区房源图片</a></div>            
+                    <!--<div class=" pull-right"><input type="checkbox"{% if 2==parkInfo['allowWgPhoto'] %} checked="checked"{% endif %} name="closeWgPhoto" value="2" /> 关闭经纪人上传外观图&nbsp;&nbsp;&nbsp;&nbsp;(需点击“<strong>保存图片</strong>”生效)</div>-->
+                </div>
+				<hr/>
+                <div class="clearfix mt10">
+                    <div class=" pull-left"> 
+                        <input style="display: none;" type="file" id="image_upload" name="image_upload" onchange="upload_image('image_show');">
+                        <input type='button' value="上传图片" onclick="$('#image_upload').click();" class="btn btn-success" />   
+						<input type="submit" name="saveImage" value="保存图片" class="btn btn-success widthxl" />
+                    </div>                   
+                    <div class=" pull-right">
+                        <!--<span class="font_red" id="upload_waiguan" water="<?php echo $boolIsWater; ?>">上传已达上限</span><span id="upload_waiguan_notice"></span>-->
+                    </div>
+                         
+                </div>
+				</div>
+                <div class="list_img">                                    
+                        <p>
+                        全部(<strong><?php echo $intTotal; ?></strong>)<?php foreach ($arrTagImage as $key => $item) { ?>&nbsp;&nbsp;|&nbsp;&nbsp;<?php echo $key ? $key : '未分类'; ?>(<strong><?php echo $item['num']; ?></strong>)<?php } ?>
+                        </p>
+                         <dl id="waiguan" class="mt20">
+                        <?php $index = 0; ?>
+                        <?php foreach ($arrWaiGuan as $item) { ?>
+                        <?php $index += 1; ?>
+                        <dd num="<?php echo $index; ?>" class="ms">
+                            <div><a href="<?php echo $item['bigUrl']; ?>" target="_blank"><img src="<?php echo $item['url']; ?>"/></a></div>
+                            <p><label><input type="radio" name="cover_image" value="<?php echo $item['image']; ?>" <?php if ($item['image'] == $defaultCoverImage) { ?>checked<?php } ?> /> 封面 </label>
+                            <a class="one" href="javascript:void(0);" onclick="moveLeft(this);return false;" title="向左移"></a>
+                            <a class="two" href="javascript:void(0);" onclick="moveRight(this); return false;" title="向右移"></a>
+                            <a class="three" href="javascript:void(0);" onclick="removeImage(this);return false;" title="删除"></a></p>
+                            <p><input type="hidden" name="waiguan[<?php echo $index; ?>][image]" value="<?php echo $item['image']; ?>" />
+                            <select class="four" name="waiguan[<?php echo $index; ?>][tag]">
+                                <?php foreach ($arrWaiGuanTag as $item1) { ?>
+                                <option value="<?php echo $item1; ?>" <?php if ($item1 == $item['tag']) { ?>selected="selected"<?php } ?>><?php echo $item1; ?></option>
+                                <?php } ?>
+                            </select></p>
+                           <p> 时间：<?php echo date('Y-m-d', $item['uploadTime']); ?></p>
+                        </dd>
+                        <?php } ?>
+                    </dl>                
+                </div>    
+        </form>
+    </div>
+</div>
+
+<script>
+    var menu = 'menu2';
+    var moudle = 'park';
+    var userId = <?php echo $userId; ?>;
+    var waiGuanTag = <?php echo $arrWaiGuanTagForJs; ?>;
+    
+    function moveLeft(obj){ var o=$(obj).parent().parent('dd'); o.insertBefore(o.prev('.ms')); }
+    function moveRight(obj){ var o=$(obj).parent().parent('dd'); o.insertAfter(o.next('.ms')); }
+    function removeImage(obj){ var o=$(obj).parent().parent('dd'); o.remove(); }
+    
+    //上传图片  
+    function upload_image() {
+        $.ajaxFileUpload ({
+            url           : '/ajax/uploadimage/'+userId+'/',
+            secureuri     : false,
+            fileElementId : 'image_upload',
+            dataType      : 'json',
+            success : function (data, status){
+                if(data.status  == 0) {
+                    //上传成功
+                    var html = get_html(data.msg);
+                    $("#waiguan").append(html);
+                    
+                } else {
+                    //上传失败
+                    var msg = data.msg ? data.msg : '上传失败，请稍后重试！';
+                    $.error(msg);
+                }
+            },
+            error: function (data, status, e){
+                //$.error(data['responseText']);         
+            }
+        });
+    }
+    
+    function get_html(msg) {
+        var html = '';
+        var image = msg.id + '.' + msg.ext;
+        var nowDate = new Date();
+        var dateStr = nowDate.getFullYear()+"-"+(nowDate.getMonth() + 1)+"-"+nowDate.getDate();
+        var picNum = parseInt($("#waiguan dd:last-child").attr("num"));
+        var index = isNaN(picNum) ? 1 : picNum+1;
+        
+        
+        html += "<dd num='"+index+"' class='ms'>";
+        html += "    <div><a href='"+msg.upload_url+"' target='_blank'><img src='"+msg.upload_url+"'/></a></div>";
+        html += "    <p><label><input type='radio' name='cover_image' value='"+image+"' />封面</label>";
+        html += "    <a class='one' href='javascript:void(0);' onclick='moveLeft(this);return false;' title='向左移'></a>";
+        html += "    <a class='two' href='javascript:void(0);' onclick='moveRight(this); return false;' title='向右移'></a>";
+        html += "    <a class='three' href='javascript:void(0);' onclick='removeImage(this);return false;' title='删除'></a></p>";
+        html += "    <p><input type='hidden' name='waiguan["+index+"][image]' value='"+image+"' />";
+        html += "    <select class='four' name='waiguan["+index+"][tag]'>";
+        for(var i in waiGuanTag){
+            html += "    <option value='"+waiGuanTag[i]+"'>"+waiGuanTag[i]+"</option>";
+        }
+        html += "    </select></p>";
+        html += "    <p>时间："+dateStr+"</p>";
+        html += "</dd>";
+
+        return html;           
+    }
+</script>

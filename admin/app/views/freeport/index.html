@@ -1,0 +1,237 @@
+<style>
+  .edittable .form-control.s{width:90px;}
+  </style>
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市运营管理  &gt; <strong class="font_gold">  免费端口配置 </strong> </h6>
+
+        <form method="get" action="/freeport/">
+            <table class="search_form mb15">
+                <tbody>
+                    <tr>
+                        <td width="140"> 
+                            <select name="cityId" id="cityId" class="form-control">
+                                <option value="0">城市</option>
+                                <?=MyTags::options($citys, $cityId)?>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-gray" type="submit" > 搜索  </button>
+                            <button class="btn btn-success ml20 addmodal" type="button" > <strong> + </strong> 新增端口类型</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        
+        {% if lists is empty %}  
+        <table class="table table-hover mt10"> 	 	 	 	 	
+            <tr>
+                <th width="11%">城市</th>         
+                <th width="13%">权限</th>
+                <th width="13%">发布房源</th>
+                <th width="13%">精品房源</th>
+                <th width="13%">标签数量</th>
+                <th width="13%">刷新数量</th>
+                <th width="13%">库存</th>
+                <th>管理</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+        
+        {% else %}
+
+        <table class="table table-row2 mt10">
+            <tr>
+                <th width="11%">城市</th>         
+                <th width="13%">权限</th>
+                <th width="13%">发布房源</th>
+                <th width="13%">精品房源</th>
+                <th width="13%">标签数量</th>
+                <th width="13%">刷新数量</th>
+                <th width="13%">库存</th>
+                <th>管理</th>
+            </tr>
+            
+            {% for list in lists %}
+            <tr pcId="{{ list['id'] }}">
+                <td rowspan="2" class="tablediv_td" style="vertical-align: middle;" ><div>{{ citys[list['cityId']] }}</div></td>
+                <td align="center">出售</td>
+                <td align="center">{{ list['esfRelease'] }}</td>
+                <td align="center">{{ list['esfBold'] }}</td>
+                <td align="center">{{ list['esfTags'] }}</td>
+                <td align="center">{{ list['esfRefresh'] }}</td>
+                <td align="center">不限</td>
+                <td rowspan="2" class="tablediv_td" > <a class="editmodal">修改</a></td>
+            </tr>
+            <tr>
+                <td align="center">出租</td>
+                <td align="center">{{ list['rentRelease'] }}</td>
+                <td align="center">{{ list['rentBold'] }}</td>
+                <td align="center">{{ list['rentTags'] }}</td>
+                <td align="center">{{ list['rentRefresh'] }}</td>
+                <td align="center">不限</td>
+            </tr>       
+            {% endfor %}
+        </table>
+        {{ page }} 
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- 新增端口 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 出售端口配置 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="端口" method="post" action="">
+                    <table class="edittable">
+                        <tr>
+                            <td align="right" width="140">
+                                城市:
+                            </td>
+                            <td  colspan=2>
+                                <select name="cityId" class="form-control s">
+                                    <?=MyTags::options($citys, $cityId)?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" width="140">
+                                出售发布房源量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="esfRelease" notnull=true  info="出售发布房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                            <td align="right">
+                                出租发布房源量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="rentRelease" notnull=true  info="出租发布房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                出售精品房源量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="esfBold" notnull=true  info="出售精品房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                            <td align="right">
+                                出售精品房源量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="rentBold" notnull=true  info="出租精品房源量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                出售标签数量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="esfTag" notnull=true  info="出售标签数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                            <td align="right">
+                                出租标签数量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="rentTag" notnull=true  info="出租标签数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                出售刷新数量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="esfRefresh" notnull=true  info="出售刷新数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                            <td align="right">
+                                出租刷新数量:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="rentRefresh" notnull=true  info="出租刷新数量" rule="/^\d+$/"/><em class=" required"> * </em>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="act" value="" />
+                    <input type="hidden" name="pcId" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu1';
+    var moudle = 'freeport';
+    
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+    }
+    function initEeditModal(data) {
+        $("#form1 select[name=cityId]").val(data.cityId);
+        $("#form1 input[name=esfRelease]").val(data.esfRelease);
+        $("#form1 input[name=esfBold]").val(data.esfBold);
+        $("#form1 input[name=esfTag]").val(data.esfTags);
+        $("#form1 input[name=esfRefresh]").val(data.esfRefresh);
+        $("#form1 input[name=rentRelease]").val(data.rentRelease);
+        $("#form1 input[name=rentBold]").val(data.rentBold);
+        $("#form1 input[name=rentTag]").val(data.rentTags);
+        $("#form1 input[name=rentRefresh]").val(data.rentRefresh);
+    }
+    $(function() {
+        var cururl = base_url + "freeport/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+
+        $(".addmodal").click(function() {
+            initModal();
+            $("#newmodal").smodal({title: "添加端口类型", act: 'add'});
+        });
+
+        $(".editmodal").click(function() {
+            initModal();
+            var pcId = $(this).parent("td").parent("tr").attr("pcId");
+            $("#form1 input[name=pcId]").val(pcId);
+            $("#newmodal").smodal({title: "修改端口类型", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + pcId + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });         
+    });
+</script>

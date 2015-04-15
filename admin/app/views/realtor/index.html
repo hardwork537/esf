@@ -1,0 +1,808 @@
+<style type="text/css">
+.icon_tips {
+    background-position: -2px -85px;
+    height: 16px;
+    margin-right: 10px;
+    margin-top: -2px;
+    width: 13px;
+}
+</style>
+
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 企业用户管理  &gt; <strong class="font_gold"> 经纪人管理 </strong> </h6>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong> 提示：</strong> 未启用的经纪人才能操作转移功能；并且只能单条转移 
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li{% if 1==type %} class="active"{% endif %}><a href="/realtor/index/1/"> 已启用端口经纪人 </a></li>
+            <li{% if 2==type %} class="active"{% endif %}><a href="/realtor/index/2/">未启用端口经纪人</a></li>
+            <li{% if 3==type %} class="active"{% endif %}><a href="/realtor/index/3/">已预约启用经纪人</a></li>
+            <li><a href="javascript:;" id="importExcel">批量注册经纪人</a></li>
+        </ul>
+        <form method="get" action="/realtor/index/{{ type }}/" id="filterCondition">
+            <table class="search_form mb15 mt10">
+                <tbody>
+                    <tr>
+                        <td width="120"> 
+                            <select class="form-control s" name="cityId" id="cityId" onchange="getDist('distId', 0, this.value, '城区');
+    getRegion('regId', 0, $('#distId').val(), '板块');
+    getXiaoshou('saleId', 0, this.value, '销售');
+    getKefu('CSId', 0, this.value, '客服');">
+                                <?=MyTags::options($citys, $params['cityId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="distId" id="distId" onchange="getRegion('regId', 0, this.value, '板块')">
+                                <option value="0">城区</option>
+                                <?=MyTags::options($districts, $params['distId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="regId" id="regId">
+                                <option value="0">板块</option> 
+                                <?=MyTags::options($regions, $params['regId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <input class=" form-control s" type="text" placeholder="所属公司" name="comName" value="{{ params['comName'] }}" /> 
+                        </td>
+                        <td> 
+                            <select class=" form-control s" name="saleId" id="saleId">
+                            </select>              
+                            <select  class=" form-control s widthl" name="CSId" id="CSId">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <input class=" form-control s" type="text" placeholder="门店名称" name="shopName" value="{{ params['shopName'] }}" /> </td>
+                        <td> <input class=" form-control s" type="text" placeholder=" 姓名" name="name" value="{{ params['name'] }}" /> </td>
+
+                        <td>
+                            <input class=" form-control s" type="text" placeholder="  帐号" name="account" value="{{ params['account'] }}" /> 
+                        </td>
+                        <td>
+                            <input class=" form-control s" type="text" placeholder=" 手机号" name="mobile" value="{{ params['mobile'] }}" /> 
+                        </td>
+                        <td>
+                            <span class="left vm" style=" line-height:27px;"> 停用时间: </span>
+                            <div class="timecol">
+                                <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="stopTime" value="{{ params['stopTime'] }}">
+                            </div>
+                            <button class="btn btn-gray widthxl" type="submit">搜 索</button>
+                            <button class="btn btn-default widthxl" type="button" onclick="emptyCondition();">清 空</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            {% if 1==type %}
+                            <a class="btn btn-danger " id='stopPort'>批量停止经纪人</a> 
+                            <!--<a class="btn btn-warning widthl" id='delayPort'>批量延续经纪人</a> -->
+                            {% elseif 2==type %}
+                            <a class="btn btn-danger " id="openPort">立即启用经纪人</a> 
+                            <a class="btn btn-warning widthl" id="orderPort">预约启用经纪人</a> 
+                            {% elseif 3==type %}
+                            <a class="btn btn-danger " id="openOrderPort">立即启用经纪人</a> 
+                            <a class="btn btn-warning widthl" id="cancelOrder">取消预约</a> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+            <tr class="toptt">
+                <th rowspan="2" class="checkboxwrap" style=" width:80px;"> <input type="checkbox" /> ID</th>
+                <th rowspan="2" style=" width:12%;">所属公司</th>
+                <th rowspan="2" style=" width:12%;">所属门店</th>
+                <th rowspan="2" style=" min-width:70px;">姓名</th>
+                <th rowspan="2" style=" min-width:70px;">手机号</th>
+                <th rowspan="2" style=" min-width:80px;">帐号</th>
+                <th colspan="2" style=" min-width:80px; padding:0 10px;">端口数量</th>
+                <th rowspan="2" style=" min-width:60px;">所属板块</th>
+                <th rowspan="2" style=" min-width:60px;">销售</th>
+                <th rowspan="2" style=" min-width:60px;">客服</th>
+                <th rowspan="2" style=" min-width:150px;">时间</th>
+                <th rowspan="2">操作</th>
+            </tr>
+            <tr class="toptt">
+                <th align="center" style=" padding:0 10px;">售</th>
+                <th align="center" style=" padding:0 10px;">租</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的经济公司 </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">
+            <tr class="toptt">
+                <th rowspan="2" class="checkboxwrap" style=" width:80px;"> <input type="checkbox" class="checkall" /> ID</th>
+                <th rowspan="2" style=" width:12%;">所属公司</th>
+                <th rowspan="2" style=" width:12%;">所属门店</th>
+                <th rowspan="2" style=" min-width:70px;">姓名</th>
+                <th rowspan="2" style=" min-width:70px;">手机号</th>
+                <th rowspan="2" style=" min-width:80px;">帐号</th>
+                <th colspan="2" style=" min-width:80px; padding:0 10px;">端口数量</th>
+                <th rowspan="2" style=" min-width:60px;">所属板块</th>
+                <th rowspan="2" style=" min-width:60px;">销售</th>
+                <th rowspan="2" style=" min-width:60px;">客服</th>
+                <th rowspan="2" style=" min-width:150px;">时间</th>
+                <th rowspan="2">操作</th>
+            </tr>
+            <tr class="toptt">
+                <th align="center" style=" padding:0 10px;">售</th>
+                <th align="center" style=" padding:0 10px;">租</th>
+            </tr>
+            {% for list in lists %}
+            <tr realtorId="{{ list['id'] }}">  	  	  	  	 
+                <td title="{{ list['id'] }}"> <input class="checkone" type="checkbox" value="{{ list['id'] }}" />{{ list['id'] }}</td>
+                <td>{{ companys[list['comId']]['abbr'] }}</td>
+                <td>{{ shops[list['shopId']]['name'] }}</td>
+                <td align="center">{{ list['name'] }}</td>
+                <td align="center">{{ list['mobile'] }}</td>
+                <td align="center">{{ accounts[list['id']]['name'] }}</td>
+                <td align="center">{{ realPort[list['id']]['salePortNum']|default(0) }}</td>
+                <td align="center">{{ realPort[list['id']]['rentPortNum']|default(0) }}</td>
+                <td align="center">{{ realtorRegions[list['regId']]['name']|default('-') }}</td>
+                <td align="center">{{ users[allocation[list['id']]['toId1']]['name']|default('-') }}</td>
+                <td align="center">{{ users[allocation[list['id']]['toId2']]['name']|default('-') }}</td>
+                <td align="center">{{ realPort[list['id']]['startDate']|default('-') }} 至 {{ realPort[list['id']]['expiryDate']|default('-') }}</td>
+                <td class="operate">
+                    {% if 1==type %}
+                    <a href="<?=Url::getRealtorFakeLoginUrl($accounts[$list['id']]['name'])?>" target="_blank">伪登陆</a>
+                    <a class=" widthl" href="{{ list['realUrl'] }}" target="_blank">查看</a>
+                    <a class="widthl td_merge">合并</a>
+                    <div class="arrow_tipswrap">                      
+                    </div>                     
+                    {% elseif 2==type %}
+                    <a href="<?=Url::getRealtorFakeLoginUrl($accounts[$list['id']]['name'])?>" target="_blank">伪登陆</a>
+                    <a class=" widthl" href="{{ list['realUrl'] }}" target="_blank">查看</a>
+                    <div class=" arrow_tipswrap"> 
+                        <a class="widthl td_delete">删除</a>
+                    </div> 
+                    {% if list['isOrder'] %}
+                    <a href="javascript:void();" class="widthl td_cancel" style='color:red;'> 取消预约 </a>
+                    {% else %}
+                    <a class="widthl td_move"> 转移房源 </a>
+                    <div class="arrow_tipswrap"> 
+                    {% endif %}
+                    <!--
+                    <div class=" arrow_tipswrap widthl"> 
+                        <a class="widthl td_convert">转为独立经纪人</a>
+                    </div>
+                    -->
+                    {% elseif 3==type %}
+                    <a href="<?=Url::getRealtorFakeLoginUrl($accounts[$list['id']]['name'])?>" target="_blank">伪登陆</a>
+                    <a class=" widthl" href="{{ list['realUrl'] }}" target="_blank">查看</a>
+                    <div class=" arrow_tipswrap"> 
+                        <a class="widthl td_delete">删除</a>
+                    </div> 
+                    <a href="javascript:void();" class="widthl td_cancel" > 取消预约 </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br/><a href="javascript:;"><p id="export">导出当前数据表为Excel表&gt;</p></a>
+        {{ page }} 
+        {% endif %}
+
+    </div>
+</div>
+
+{% if 1==type %}
+<!-- 合并经纪人 -->
+<div style="display:none;"  class="arrow_tipsinner merge_tips arrow_tips" id="merge_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle title">合并至目标经纪人</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><input type="text" name="account" class=" form-control" placeholder="输入账号"/> </p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+           <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+{% endif %}
+
+{% if 2==type %}
+<!-- 转移房源 -->
+<div style="display:none;"  class="arrow_tipsinner merge_tips arrow_tips" id="merge_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle title">转移至目标经纪人</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><input type="text" name="account" class=" form-control" placeholder="输入账号"/> </p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+           <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+{% endif %}
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle title">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm message"> 确认删除该经纪人吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm message"> 删除经纪人成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回经纪人列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除经纪人失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回重新操作</a></p>
+    </div>
+</div>
+
+<!-- 立即预约经纪人 -->
+<div class="modal fade" id="appointment" tabindex="-1" role="dialog" aria-labelledby="yuyueLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="yuyueLabel"> 立即预约经纪人 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <form id="form1" onsubmit="return false" form_tittle="端口" method="post" action="">
+                        <table class="edittable">
+                            <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                            </div>
+                            <tr class=" tipsup">
+                                <td align="right" width="140">
+                                    分配端口:
+                                </td>
+                                <td>
+                                    <select class=" form-control widthl" name="portId" id="portId" onchange="changePort($(this).val());">                                    
+                                    </select>
+                                    <!--
+                                    <select class=" form-control widthl" name="portType" id="portType" onchange="getPort('portId', 0, $('#cityId').val(), $(this).val());"> 
+                                        <?=MyTags::options($portTypes, 0)?>
+                                    </select>
+                                    -->
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="right" width="140">
+                                    权限预览(出售 ):
+                                </td>
+                                <td>
+                                    <input class=" form-control s" type="text" placeholder="发布" name="saleRelease" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="精品" name="saleBold" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="标签" name="saleTag" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="刷新" name="saleRefresh" readonly="true" />
+                                    <!--<em class=" required"> * </em>-->
+                                </td>
+                            </tr>
+                            <tr class=" tipsup">
+                                <td align="right" width="140">
+                                    还可拆分(出租):
+                                </td>
+                                <td>
+                                    <input class=" form-control s" type="text" placeholder="发布" name="rentRelease" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="精品" name="rentBold" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="标签" name="rentTag" readonly="true" />
+                                    <input class=" form-control s widthl" type="text" placeholder="刷新" name="rentRefresh" readonly="true" />                                 
+                                </td>
+                            </tr>
+                            <tr class=" tips "> 
+                                <td> </td>
+                                <td> <span class=" font12 text-info widthl">备注：还可拆分不含系统赠送权限，此赠送权限会自动添加到经纪人后台中</span> </td>
+                            </tr>
+                            
+                            <tr id="validDate">
+                                <td align="right" width="140">
+                                    有效时间:
+                                </td>
+                                <td>
+                                    <div class="timecol preshow">
+                                        <input class="Wdate form-control" type="text" placeholder="开始时间" onClick="WdatePicker()" name="startTime">
+                                    </div>
+                                    <!--
+                                    <span class="my_tittle font_gray left widthxl preshow">  — </span>
+                                    <div class="timecol" >
+                                        <input class="Wdate form-control" type="text" placeholder="停用时间" onClick="WdatePicker()" name="stopTime">
+                                    </div>
+                                    -->
+                                    <em class=" required widthl"> * </em>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="realIds" value="" />
+                        <input type="hidden" name="equivalent" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton" type="submit" formid='form1'>保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量延续经纪人 -->
+<div class="modal fade" id="delayall" tabindex="-1" role="dialog" aria-labelledby="yanxuLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:450px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="yanxuLabel"> 批量延续经纪人 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <form id="form2" onsubmit="return false" form_tittle="端口" method="post" action="">
+                        <table class="edittable">
+                            <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                            </div>
+                            <tr>
+                                <td align="right" width="140">
+                                    有效期至:
+                                </td>
+                                <td>
+                                    <div class="timecol">
+                                        <input name='expiryDate' notnull='true' info='有效期' type="text" onclick="WdatePicker()" class="Wdate form-control">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="realIds" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton" type="submit" formid='form2'>保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量导入 -->
+<div class="modal fade" id="import_modal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="zhuanyiLabel">批量导入经纪人</h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <p class="errortips" id="errortips" style="display: none;"> <em class=" icon icon_tips"> </em><span class="notice-info">批量注册失败</span> </p>
+                    <form enctype="multipart/form-data" action="/realtor/registe/" target="e_f_l" method="post" id='formimport'>
+                        <table class="edittable">
+                            <tr>
+                                <td width="140" style=" padding-left:13px;">
+                                    <input name="filecsv" type="file" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=" padding-left:13px;">
+                                    <input type="hidden" name="act" value="" />
+                                    <button type="button" class="btn btn-primary" id="save_import">确 认</button>
+                                    <button type="button" class="btn btn-default widthl2" data-dismiss="modal">取 消</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <iframe id="e_f_l" name="e_f_l" style="display:none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="exportCsvForm" method="post" action="/realtor/exportCsv/">
+    <input type="hidden" value="" name="data" id="exportCsv" />
+</form>
+
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'realtor';
+    var cityId = $("select[name=cityId]").val();
+    var cururl = base_url + "realtor/";
+
+    getXiaoshou('saleId', '{{ saleId }}', cityId, '销售');
+    getKefu('CSId', '{{ CSId }}', cityId, '客服');
+
+    function initModal() {
+        $("#appointment").find("form")[0].reset();
+    }
+   
+    function initEeditModal(data) {
+        $("#form1 input[name=saleRelease]").val(data.esfRelease);
+        $("#form1 input[name=saleBold]").val(data.esfBold);
+        $("#form1 input[name=saleTag]").val(data.esfTags);
+        $("#form1 input[name=saleRefresh]").val(data.esfRefresh);
+        $("#form1 input[name=rentRelease]").val(data.rentRelease);
+        $("#form1 input[name=rentBold]").val(data.rentBold);
+        $("#form1 input[name=rentTag]").val(data.rentTags);
+        $("#form1 input[name=rentRefresh]").val(data.rentRefresh);
+        $("#form1 input[name=equivalent]").val(data.equivalent);
+    }
+
+    function getCheckOption() {
+        var str = '';
+        $("input[class=checkone]:checked").each(function() {
+            str += $(this).val() + "_";
+        })
+        var len = str.length;
+        if (len > 0) {
+            str = str.substr(0, len - 1);
+        }
+
+        return str;
+    }
+
+    function changePort(portId) {
+        $.request({
+            url: cururl + "openport/" + portId + "/",
+            callback: function(msg) {
+                if (msg.status == 0) {
+                    initEeditModal(msg.data);
+                }
+            }
+        });
+    }
+    
+    function emptyCondition() {           
+        $("#filterCondition input").val("");
+        getDist('distId', 0, $("#filterCondition select[name=cityId]").val(), '城区');
+        getRegion('regId', 0, $("#filterCondition select[name=cityId]").val(), '板块');
+        getXiaoshou('saleId', 0, $("#filterCondition select[name=cityId]").val(), '销售');
+        getKefu('CSId', 0, $("#filterCondition select[name=cityId]").val(), '客服');
+    }
+    
+    $(function() {
+        $.fn.extend({
+            mergeConfirm: function(callback) {
+                if ($(".merge_tips:visible").length > 0)
+                    return false;
+
+                $(this).next().append($("#merge_tips").clone().attr("id", "_merge_tips"));
+                $("#_merge_tips").fadeIn("fast");
+                $("#_merge_tips .close_mylabel").click(function() {
+                    $("#_merge_tips").fadeOut().remove();
+                });
+                $("#_merge_tips .btn-no").click(function() {
+                    $("#_merge_tips").fadeOut().remove();
+                });
+                $("#_merge_tips .btn-yes").click(function(result) {
+                    if (callback)
+                        callback(true);
+                });
+                return;
+            },
+            mergeSuccess: function(message) {
+                if (message == null)
+                    message = '成功啦~_~';
+                $("#_merge_tips").remove();
+                $(this).after($("#del_success_tips").clone().attr("id", "_del_success_tips"));
+                $("#_del_success_tips .message").html(message);
+                $("#_del_success_tips").fadeIn("fast");
+                $("#_del_success_tips .close_mylabel").click(function() {
+                    $("#_del_success_tips").fadeOut("fast").remove();
+                });
+                $("#_del_success_tips .btn-no").click(function() {
+                    $("#_del_success_tips").fadeOut("fast").remove();
+                });
+                window.setTimeout(function() {
+                    $("#_del_success_tips").fadeOut("fast").remove();
+                    location.reload(false);
+                }, 2000);
+            },
+            mergeFail: function(message) {
+                if (message == null)
+                    message = '失败啦~_~';
+                $("#_merge_tips").remove();
+                $(this).after($("#del_fail_tips").clone().attr("id", "_del_fail_tips"));
+                $("#_del_fail_tips .message").html(message);
+                $("#_del_fail_tips").fadeIn("fast");
+                $("#_del_fail_tips .close_mylabel").click(function() {
+                    $("#_del_fail_tips").fadeOut().remove();
+                });
+                $("#_del_fail_tips .btn-no").click(function() {
+                    $("#_del_fail_tips").fadeOut().remove();
+                });
+            },
+        });
+        $('.td_merge').click(function() {
+            var realtorId = $(this).parent("td").parent("tr").attr("realtorId");
+            var _this = $(this);
+
+            _this.mergeConfirm(function(result) {         
+                if (result == true) {
+                    var account = $("#_merge_tips input[name=account]").val();
+                    $.request({
+                        data: "realId="+realtorId+"&account="+account,
+                        type: "post",
+                        url:  cururl + "merge/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.mergeSuccess("合并成功");
+                            } else {
+                                _this.mergeFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+        
+        $('.td_delete').click(function() {
+            var realtorId = $(this).parent().parent("td").parent("tr").attr("realtorId");
+            var _this = $(this);
+
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + realtorId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+        
+        $('.td_convert').click(function() {
+            var realtorId = $(this).parent().parent("td").parent("tr").attr("realtorId");
+            var _this = $(this);
+
+            _this.delConfirm("转移确认", "确定要转为独立经纪人吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "convert/" + realtorId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("转移成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#openPort,#openOrderPort").click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            initModal();
+            getPort('portId', 0, $("#cityId").val(), $("#portType").val())
+            var portId = $("#portId").val();
+            $(".preshow").hide();
+            $("#appointment").smodal({title: "立即启用经纪人", act: 'openport'});
+            $("#form1 input[name=realIds]").val(checkStr);
+            $("#validDate").hide();
+            changePort(portId);
+        });
+
+        $("#orderPort").click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            initModal();
+            getPort('portId', 0, $("#cityId").val(), $("#portType").val())
+            var portId = $("#portId").val();
+            $(".preshow").show();
+            $("#appointment").smodal({title: "预约启用经纪人", act: 'orderport'});
+            $("#form1 input[name=realIds]").val(checkStr);
+            $("#validDate").show();
+            changePort(portId);
+        });
+
+        $("#delayPort").click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            $("#delayall").smodal({title: "批量停止经纪人", act: 'delayport'});
+            $("#form2 input[name=realIds]").val(checkStr);
+        });
+        
+        $("#stopPort").click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            if(confirm('确定要停止经纪人吗？')) {
+                $.request({
+                    data: "realIds="+checkStr+"&cityId="+cityId,
+                    type: "post",
+                    url: cururl + "stopport/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            var info = msg.info ? msg.info : '取消成功';
+                            alert(info);
+                            location.reload(false);
+                        } else {
+                            var info = msg.info ? msg.info : '取消成功';
+                            alert(info);
+                        }
+                    }
+                });
+            };
+        });
+        
+        $("#cancelOrder").click(function() {
+            var checkStr = getCheckOption();
+            if (!checkStr) {
+                alert('请选择需要处理的数据！');
+                return false;
+            }
+            
+            if(confirm('确定要取消预约吗？取消预约可将该经纪人恢复到预约之前的状态和日期')) {
+                $.request({
+                    data: "realIds="+checkStr+"&cityId="+cityId,
+                    type: "post",
+                    url: cururl + "cancelOrder/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            var info = msg.info ? msg.info : '取消成功';
+                            alert(info);
+                            location.reload(false);
+                        } else {
+                            var info = msg.info ? msg.info : '取消成功';
+                            alert(info);
+                        }
+                    }
+                });
+            };
+        });
+        
+        $('.td_cancel').click(function() {
+            var realtorId = $(this).parent("td").parent("tr").attr("realtorId");
+            var _this = $(this);
+
+            _this.delConfirm("取消确认", "确定要取消预约吗?", function(result) {
+                $.request({
+                    data: "realIds="+realtorId+"&cityId="+cityId,
+                    type: "post",
+                    url: cururl + "cancelOrder/",
+                    callback: function(msg) {
+                        if (msg.status == 0) {
+                            _this.delSuccess("取消预约成功");
+                        } else {
+                            _this.delFail(msg.info);
+                        }
+                    }
+                });
+            });
+        });
+        
+        $('.td_move').click(function() {
+            var realtorId = $(this).parent("td").parent("tr").attr("realtorId");
+            var _this = $(this);
+
+            _this.mergeConfirm(function(result) {     
+                if (result == true) {
+                    var account = $("#_merge_tips input[name=account]").val();
+                    $.request({
+                        data: "realId="+realtorId+"&account="+account,
+                        type: "post",
+                        url:  cururl + "move/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.mergeSuccess("转移成功");
+                            } else {
+                                _this.mergeFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+        
+        $(".saveButton").click(function() {
+            var formid = $(this).attr("formid");
+            _do = $("#"+formid).find("input[name=act]").val();
+            $("#"+formid).ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+        
+        //导出
+		$("#export").click(function(){
+			window.location.href = window.location.pathname + "?" + _excelQueryString();
+			return false;
+		});
+        
+        //点击导入
+        $("#importExcel").click(function() {
+            $.clearError("errortips");
+            $("#import_modal").smodal({title: "", act: 'import'});
+        });
+        
+        $("#save_import").click(function() {
+            $.clearError();
+            if ($("input[name=filecsv]").val() == "") {
+                $.error("请选择上传的csv文件");
+
+                return false;
+            }
+            $("#formimport").get(0).submit();
+            //window.setTimeout(modal_hide, 1000);
+        });      
+    });
+    
+    function modal_hide() {
+        $("#import_modal").modal("hide");
+    }
+    
+    function doframe(str, wrongValue) {
+        if (str) {
+            $.error(str);
+        }
+        if(wrongValue) {
+            $("#exportCsv").val(wrongValue);
+        }
+    }
+    function exportCsv() {
+        $("#exportCsvForm").get(0).submit();
+    }
+</script>
+

@@ -1,0 +1,310 @@
+/* 重构后去除 */
+.article_body strong {
+	font-weight: 700;
+}
+.article_body i, .article_body em {
+	font-style: italic;
+}
+
+/* 业内动态 */
+.daogou_detail {
+	border-top: 1px solid #b8d2ec;
+	padding-top: 10px;
+}
+.article_title { 
+	font: 28px/45px \5fae\8f6f\96c5\9ed1; 
+	padding: 20px 40px; 
+	text-align: center; 
+}
+.article_source { 
+	border-bottom: 1px dotted #a5a5a5;
+	padding: 0 20px 10px 20px; 
+}
+.article_source span { 
+	color: #666;
+	display: inline-block; 
+	line-height: 20px;
+	margin-right: 10px;
+}
+.article_body { 
+	font-size: 14px; 
+	line-height: 30px; 
+	padding: 10px 20px; 
+}
+.article_body img {
+	max-width: 600px;
+	max-height: 450px;
+	_width:expression(this.scrollWidth > 600 ? "600px" : (this.scrollWidth < 1? "1px" : "auto"));
+	_height:expression(this.scrollWidth > 450 ? "450px" : (this.scrollWidth < 1? "1px" : "auto"));
+}
+
+/* 房源精选单页 */
+.houseChoice_top {
+	background: #f7f7f7 url(../img/daogou_bg01.png) no-repeat right bottom;
+	padding: 15px 20px;
+	position: relative;
+	margin-bottom: 20px;
+	height: 165px;
+}
+.houseChoice_top .title {
+	font-size: 28px;
+	font-weight: 500;
+	font-family:\5fae\8f6f\96c5\9ed1;
+	line-height: 35px;
+}
+.houseChoice_top .source {
+	position: absolute;
+	right: 20px;
+	top: 30px;
+	color: #666;
+}
+.houseChoice_top .tags {
+	margin-top: 15px;
+}
+.houseChoice_top .intro {
+	font-size: 14px;
+	line-height: 28px;
+	margin-top: 10px;
+}
+
+.houseChoice .main{
+	width: 730px;
+	overflow: hidden;
+}
+
+.houseChoice_list {
+	width: 750px;
+}
+.houseChoice_list .items {
+	margin: 0 20px 20px 0;
+	float: left;
+	width: 355px;
+	overflow: hidden;
+	position: relative;
+}
+.houseChoice_list .items_link {
+	background: url(about:blank) fixed;
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;	
+	display: block;
+	width: 100%;
+	z-index: 1;
+	height: 377px;
+}
+.houseChoice_list .layer_a {
+	position: relative;
+	overflow: hidden;
+	height: 246px;
+}
+.houseChoice_list .info {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: url(../img/alpha_c50.png) repeat left top;
+	color: #fff;
+	line-height: 35px;
+}
+.houseChoice_list .info .name {
+	float: left;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: 10px;
+}
+.houseChoice_list .info .attr {
+	float: right;	
+	margin-right: 10px;
+}
+.houseChoice_list .layer_b {
+	background-color: #f7f7f7;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-color: #f7f7f7 #f7f7f7 #d6d6d6 #f7f7f7;
+	padding: 15px 10px;
+	height: 100px;
+	overflow: hidden;
+}
+.houseChoice_list .reason {
+	line-height: 22px;
+	height: 44px;
+	overflow: hidden;
+}
+.houseChoice_list .reason span {
+	color: #666;
+}
+.houseChoice_list .agent {
+	position: relative;
+	font-size: 12px;
+	line-height: 26px;
+	padding: 6px 0 0 52px;
+	margin-top: 10px;
+	float: left;
+	z-index: 2;
+}
+.houseChoice_list .agent a {
+	color: #035fa7;
+}
+.houseChoice_list .agent a:hover {
+	color: #ff4600;
+}
+.houseChoice_list .agent strong {
+	font-weight: 700;
+	font-size: 14px;
+}
+.houseChoice_list .avator {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	border: 1px solid #dadada;
+	height: 42px;
+	width: 42px;
+	overflow: hidden;
+	margin-right: 10px;
+	-moz-border-radius: 42px;
+	-webkit-border-radius: 42px;
+	border-radius: 42px;
+}
+.houseChoice_list .ie_avator {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: #f7f7f7;
+	display: block;
+	height: 45px;
+	width: 45px;
+	overflow: hidden;
+	margin-right: 10px;
+}
+
+/* focus */
+.houseChoice_list .focus {
+	width: 730px;
+	margin-bottom: 20px;
+}
+.houseChoice_list .focus .items_link {
+	height: 414px;
+}
+.houseChoice_list .focus .layer_a {
+	height: 313px;
+}
+.houseChoice_list .focus .tags {
+	position: absolute;
+	left: 10px;
+	top: 40px;
+	font-family: \5fae\8f6f\96c5\9ed1;
+	width: 135px;
+}
+.houseChoice_list .focus .tags li {
+	background: url(../img/alpha_b80.png) repeat left top;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	height: 36px;
+	line-height: 36px;
+	margin-bottom: 1px;
+	padding-left: 15px;
+	text-shadow: 0 1px rgba(0,0,0,.4);	
+}
+.houseChoice_list .focus .tags i {
+	display: inline-block;
+	float: left;
+	background: url(../img/icon_alpha.png) no-repeat 0 0;
+	_background-position: -30px 0;
+	height: 20px;
+	width: 20px;
+	margin: 8px 5px 0 0;
+	overflow: hidden;
+}
+.houseChoice_list .focus .info {
+	left: 10px;
+	bottom: 65px;
+	background: url(../img/alpha_c60.png) repeat left top;
+	color: #000;
+	font-family: \5fae\8f6f\96c5\9ed1;
+	line-height: 30px;
+	padding: 8px 10px;
+}
+.houseChoice_list .focus .info .name {
+	float: none;
+	font-size: 20px;
+	margin-left: 0;
+}
+.houseChoice_list .focus .info .attr {
+	float: none;
+	font-size: 14px;
+	margin-right: 0;
+}
+.houseChoice_list .focus .info .attr em {
+	font-size: 18px;
+}
+
+.houseChoice_list .focus .layer_b {
+	padding: 20px;
+	height: 60px;
+}
+.houseChoice_list .focus .agent {
+	font-size: 14px;
+	line-height: 26px;
+	padding-left: 70px;
+	width: 110px;
+	margin-top: 0;
+}
+.houseChoice_list .focus .avator {
+	height: 60px;
+	width: 60px;
+	-moz-border-radius: 60px;
+	-webkit-border-radius: 60px;
+	border-radius: 60px;
+}
+.houseChoice_list .focus .ie_avator {
+	background-color: #fff;
+	height: 65px;
+	width: 65px;
+}
+
+.houseChoice_list .focus .reason {
+	position: relative;
+	float: right;
+	width: 430px;
+	padding: 5px 35px;
+	line-height: 26px;
+	height: 50px;
+	overflow: hidden;
+}
+.houseChoice_list .focus .reason sup, .houseChoice_list .focus .reason sub {
+	position: absolute;
+	background-image: url(../img/icon_daogou.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 20px;
+	width: 30px;
+}
+.houseChoice_list .focus .reason sup {
+	left: 0;
+	top: 0;
+	background-position: -20px 0;
+}
+.houseChoice_list .focus .reason sub {
+	right: 0;
+	bottom: 0;
+	background-position: -60px 0;
+}
+.houseChoice_list li.hover .layer_b {
+	background-color: #fff;
+	border-color: #f7f7f7 #d6d6d6 #d6d6d6 #d6d6d6;
+}
+.houseChoice_list li.hover .info {
+	background: url(../img/alpha_c80.png) repeat left top;
+}
+.houseChoice_list li.focus .info{
+	background: url(../img/alpha_c60.png) repeat left top;
+}
+/* pages */
+.houseChoice .pages {
+	margin: 10px auto 30px auto;
+	padding: 0;
+	text-align: center;
+}
+

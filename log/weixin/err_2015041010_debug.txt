@@ -1,0 +1,1 @@
+2015-04-10 10:09:09		/user	 Message: syntax error, unexpected '$this' (T_VARIABLE)	 File: E:\wechat2.0\weixin\app\controllers\UserController.php	 Line: 10

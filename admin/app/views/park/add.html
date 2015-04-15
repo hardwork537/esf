@@ -1,0 +1,434 @@
+<script src="{{ src_url }}js/ueditor.config.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/ueditor.all.min.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/lang/zh-cn/zh-cn.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://app.mapabc.com/apis?&t=ajaxmap&v=2.1.2&key={{ map_key }}"></script>
+<script type="text/javascript" src="{{ src_url }}js/map51f.js"></script>
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 新增小区楼盘 </strong> </h6>
+        <div class="edittable">
+            <div class="alert alert-warning alert-dismissible" role="alert" id="errortips" style="display: none;">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+            </div>
+
+            <!--小区基本信息  start-->
+            <div class="panel panel-default">
+                
+                <div class="panel-body">
+                    <form id="form1" onsubmit="return false" form_tittle="小区" method="post" action="">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="96">
+                                    小区名称:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="name" notnull="true" info="小区名称" value="{{ park_info['name'] }}" />
+                                    <em class="required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    小区别名:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="alias" value="{{ park_info['alias'] }}" />
+                                </td>
+                            </tr>
+                            {% if not parkId %}
+                            <tr>
+                                <td align="right">
+                                    小区来源:
+                                </td>
+                                <td>
+                                    <select class="form-control m widthl" min="1" name="source" notnull="true" info="小区来源">
+                                            <?=MyTags::options($sourceTypes, $defaultSource)?>
+                                    </select>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td align="right">
+                                    本月均价:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="avgPrice" value="{{ park_info['salePrice'] }}" /> 元/平米
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    城市/区域/板块
+                                </td>
+                                <td>
+                                    <select class="form-control m" min="1" name="cityId" notnull="true" info="城市" onchange="getDist('distId', 0, this.value); getRegion('regId', 0, $('#distId').val())">
+                                        <?=MyTags::options($citys, $cityId)?>
+                                    </select>
+                                    <select class="form-control m widthl" min="1" name="distId" notnull="true" info="区域" id="distId" onchange="getRegion('regId', 0, this.value)">
+                                        <?=MyTags::options($districts, $distId)?>
+                                    </select>
+                                    <select class="form-control m widthl" min="1" name="regId" notnull="true" info="板块" id="regId">
+                                        <?=MyTags::options($regions, $regId)?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    小区地址:
+                                </td>
+                                <td>
+                                    <input class="form-control l " type="text" name="address" notnull="true" info="小区地址" value="{{ park_info['address'] }}" />
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    焦点小区ID:
+                                </td>
+                                <td>
+                                    <input class="form-control l " type="text" name="projId" value="{% if parkId %}{{ parkBbs['projId']|default(0) }}{% endif %}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    焦点论坛ID:
+                                </td>
+                                <td>
+                                    <input class="form-control l " type="text" name="groupId" value="{% if parkId %}{{ parkBbs['groupId']|default(0) }}{% endif %}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    <span class="red"> 物业类型: </span>
+                                </td>
+                                <td>
+                                    <select name="type" class=" form-control" style=" width:130px;">
+                                        <?=MyTags::options($types, $typeId)?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    <span class="red"> 建筑年代: </span>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="buildYear" value="{{ park_info['buildYear'] }}" notnull="true" rule="/^[1-9][0-9]{3}$/" info="建筑年代" /> 年
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+								  <td align="right" >
+									  X经度坐标:
+								  </td>
+								  <td>
+									 <input class="form-control s" type="text" id="x" name="x"  readonly="" value="{{ park_info['X'] }}" notnull="true" info="经纬度坐标"   />
+									  <em class=" required"> * </em>
+									  <span class=" font12 text-info"> 请点下方按钮获取坐标 </span>
+								  </td>
+							  </tr>
+							  <tr>
+								  <td align="right" >
+									  Y纬度坐标:
+								  </td>
+								  <td>
+									 <input class="form-control s" type="text"  id="y" name="y" readonly="" value="{{ park_info['Y'] }}" notnull="true" info="经纬度坐标"  />
+									  <em class=" required"> * </em>
+								  </td>
+							  </tr>
+							 <tr>
+								<td colspan="2">
+									<div class="map_l">
+										<input name="s_name" id="s_name" type="text" class=" form-control"/> <input id="s_search" type="button" value="查询"class="btn btn-gray widthl" />
+										<ul id="s_result" class="search_result"></ul>
+									</div>
+									<div class="map_m">&nbsp;</div>
+									<div id="map" class="map_r"></div>
+								</td>
+							  </tr>
+                        <!--
+                        </table>
+                </div>
+            </div>
+            小区基本信息  end
+
+
+            小区扩展信息  start
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">小区扩展信息</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="edittable">-->
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 绿化率: </span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="greenRate" value="{{ park_info['GR'] }}" /> %
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <span class="red"> 容积率: </span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="floorAreaRate" value="{{ park_info['FAR'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                总建筑面积:
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="grossFloorArea" value="{{ park_info['GFA'] }}" /> 平米
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                占地面积:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="landArea" value="{{ park_info['landArea'] }}" /> 平米
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                车位数:
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="pCount" value="{{ park_info['pCount'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <span class="red">总户数:</span>
+                            </td>
+                            <td>
+                                <input class="form-control s" type="text" name="houses" value="{{ park_info['houses'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <span class="red">物业公司:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="propertyCompany" value="{{ parkExt['物业公司'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                物业电话:
+                            </td>
+                            <td>
+                                <input class="form-control" type="tel" name="propertyTel" value="{{ parkExt['物业电话'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 物业费:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="fee" value="{{ park_info['fee'] }}" /> 元/平米·月
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 开发商:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="developer" value="{{ parkExt['开发商'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 开盘时间:</span>
+                            </td>
+                            <td>
+                                <input onclick="WdatePicker()" class="Wdate form-control" type="text" name="openDate" value="{{ parkExt['开盘时间'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 入住时间:</span>
+                            </td>
+                            <td>
+                                <input onclick="WdatePicker()" class="Wdate form-control" type="text" name="checkinDate" value="{{ parkExt['入住时间'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 预售许可证:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="presalePermit" value="{{ parkExt['预售许可证'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 产权年限:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="propertyAge" value="{{ parkExt['产权年限'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" >
+                                <span class="red"> 400电话:</span>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="tel400" value="{{ parkExt['400电话'] }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top">
+                                <span class="red"> 公交线路:</span>
+                            </td>
+                            <td>
+                                <div class="widthl">
+                                    <script id="editor1" name="busLine" type="text/plain" style="width:600px;height:300px;" class="ueditor_list">{{ parkMore['周边公交'] }}</script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right"  valign="top" >
+                                周边设施:
+                            </td>
+                            <td>
+                                <div class="widthl">
+                                    <script id="editor2" class="ueditor_list" type="text/plain" style="width:600px;height:300px;" name="aroundFacility">{{ parkMore['周边设施'] }}</script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right"  valign="top" >
+                                内部设施:
+                            </td>
+                            <td>
+                                <div class="widthl">
+                                    <script id="editor3" class="ueditor_list" type="text/plain" style="width:600px;height:300px;" name="insideFacility">{{ parkMore['内部设施'] }}</script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="right" valign="top">
+                                小区设施:
+                            </td>
+                            <td>
+                                <div class="widthl">
+                                    <script id="editor4" class="ueditor_list" type="text/plain" style="width:600px;height:300px;" name="parkFacility">{{ parkMore['小区设施'] }}</script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td> </td>
+                            <td>
+                                <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+                                <button type="button" class="btn btn-default widthl" data-dismiss="modal" id="cancelButton">取 消</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="parkId" value="{{ parkId }}" />
+                    {% if parkId %}<input type="hidden" name="source" value="{{ source }}" />{% endif %}
+                    <input type="hidden" name="act" value="{% if parkId %}edit{% else %}add{% endif %}" />
+                    </form>
+                </div>
+            </div>
+            <!--小区扩展信息  end-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var mapObj = null;
+    var map = new map51f('map');
+    $(document).ready(function () {
+        map.initialize();
+        map.setCtrlPanel(SMALL); //加载小心工具条
+        map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
+        map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
+        map.addEventListener(MOUSE_CLICK, MClick);
+        {% if park_info['X'] and park_info['Y'] %}
+			map.setPoint({{ park_info['X'] }}, {{ park_info['Y'] }});
+			map.setCenter({{ park_info['X'] }}, {{ park_info['Y'] }});
+		{% else %}
+			map.setCenterByCity("上海");
+		{% endif %}
+
+        $("#s_search").click(function () {
+            map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city: $("select[name=cityId]").find("option:selected").text() });
+            //map.getSearch($("#s_name").val(), keywordSearch_CallBack, 'beijing');
+            $("#s_result").html("<li>加载数据中……</li>");
+        });
+        $('div', $('Mapabc.Layer.TMS_16'));
+
+    });
+
+    function keywordSearch_CallBack(data) {
+        try {
+            if (data.poilist.length == 0) {
+                $("#s_result").html("<li>未查找到任何结果!</li>");
+            } else {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
+                    $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
+                });
+            }
+        } catch (e) {
+            $("#s_result").html("<li>数据异常！</li>");
+        }
+    }
+    function setPosition(x, y) {
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
+    }
+    function MClick(data) {
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
+    }
+</script>
+<script type="text/javascript">
+    var menu = 'menu2';
+    var moudle = 'park';
+
+    $(function() {
+        var cururl = base_url + "park/";
+        _do = $("input[name=act]").val();
+
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "totop": true,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        self.location=document.referrer;
+                    } else {
+                        $.error(msg.info);
+                        $.toTop();
+                    }
+                }
+            });
+        });
+
+        $("#cancelButton").click(function() {
+            location.href="/park/";
+        });  ;
+    });
+
+    $(".ueditor_list").each(function(i, ele) {
+        var obj_id = $(this).attr("id");
+
+        var ue = UE.getEditor(obj_id, {
+            autoHeight: false,
+            toolbars: [
+                ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+            ]
+        });
+    });
+</script>

@@ -1,0 +1,47 @@
+<!-- 删除提示 -->
+<div class="arrow_tips" id="arrow_tips" style="display: none;">
+    <!-- 删除弹出框 -->
+    <div style="display:block;" class="arrow_tipsinner">
+        <h5 class="tittle title">删除门店</h5>
+        <a class="close_mylabel icon icon_xx"> </a>
+        <div class="words">
+            <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm message"> 确认删除吗？ </span></p>
+            <p class="btnwrap">
+                <button type="button" class="btn btn-primary btn-xs btn-yes">确认</button>
+               <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="arrow_tips" id="del_success_tips" style="display: none;">
+    <!-- 删除成功的弹出框 -->
+    <div  class="arrow_tipsinner">
+        <h5 class="tittle">系统提示</h5>
+        <a class="close_mylabel icon icon_xx"> </a>
+        <div class="words">
+            <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm message"> 删除门店成功 </span></p>
+            <p class="btnwrap mt10"><a href="#"></a></p>
+        </div>
+    </div>
+</div>
+
+<div class="arrow_tips" id="del_fail_tips" style="display: none;">
+    <!-- 删除错误的弹出框 -->
+    <div  class="arrow_tipsinner">
+        <h5 class="tittle">系统提示</h5>
+        <a class="close_mylabel icon icon_xx"> </a>
+        <div class="words">
+            <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除门店失败！ </span></p>
+            <p class="btnwrap mt10"><a href="#"></a></p>
+        </div>
+    </div>
+</div>
+<div class="foot items">
+	<hr />
+	<div class="items totopwrap"> <a id="toTop"> </a> </div>
+	Copyright © 2015 Sohu.com Inc. All rights reserved. 搜狐公司 版权所有 <br />
+	增值电信业务经营许可证B2-20040144 京ICP证030367号 互联网新闻信息服务许可证
+</div>
+</body>
+</html>

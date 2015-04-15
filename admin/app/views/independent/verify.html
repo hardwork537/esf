@@ -1,0 +1,121 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 独立经纪人管理  &gt; <strong class="font_gold">{% if 4==type %}认证失败{% else %}等待认证{% endif %}</strong> </h6>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong> 提示：</strong>“等待认证”新注册的经纪人第一次提交认证，或认证失败后再次提交的个人信息
+        </div>
+
+        <div class="row mt10">
+            <div class="col-md-4">
+                <h5><b> 经纪人名片 </b></h5>
+                <img width="255" height="156" src="{{ card|default('http://img1.f.itc.cn/esf/14748/600x450_147486109.jpg') }}">
+                <hr />
+                <h5 class=" mt15"><b> 经纪人头像照片 </b></h5>
+                <img  src="{{ photo|default('http://img2.f.itc.cn/esf/14748/180x120_147485946.jpg') }}">
+            </div>
+            
+            <div class="col-md-8">
+                <div class="edittable"> 
+                    <form action='/independent/verifysave/' method="post" />
+                    <table class="edittable">
+                        <tr>
+                            <td align="right" width="140">
+                                姓名：
+                            </td>
+                            <td>
+                                <span class=" widthl"> <b>{{ name }}</b>（{{ email }}） </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                手机号码：
+                            </td>
+                            <td>
+                                <span class=" widthl"> <b>{{ mobile }}</b> </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                所属公司：
+                            </td>
+                            <td>
+                                <span class=" widthl"> <b>{{ comName }}</b> </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                所属门店：
+                            </td>
+                            <td>
+                                <span class=" widthl"> {{ shopName }} </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                服务区域：
+                            </td>
+                            <td>
+                                <span class=" widthl"> {{ distName }} {{ regName }} </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                提交时间：
+                            </td>
+                            <td>
+                                <span class=" widthl">{% if validation %}{{ date('Y-m-d H:i:s', validation) }}{% endif %}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                销售客服：
+                            </td>
+                            <td>
+                                <select class="form-control m" name='saleId'> 
+                                    <?=MyTags::options($sales, $saleId)?>
+                                </select>
+                                <select class="form-control m widthl" name='CSId'> 
+                                    <?=MyTags::options($CSs, $CSId)?>
+                                </select>
+                                <select class="form-control m widthl" onchange="javascript:saletype(this.value,'reason_type')" name="rz">
+                                    <?=MyTags::options($verifyTypes, $verify)?>
+                                </select>
+                                <select class="form-control m widthl" name='rejectReason' id="reason_type" style='display: none;'>
+                                    <?=MyTags::options($rejectReason, 0)?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                            <td align="right"> </td>
+                            <td> 
+                                <input type='hidden' name='realId' value='{{ id }}' />
+                                <input type='hidden' name='cityId' value='{{ cityId }}' />
+                                <input type='hidden' name='type' value='{{ type }}' />
+                                <button type="submit" class="btn btn-success widthl">确 定</button>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    menu = 'menu5';
+    moudle = 'independent{{ type }}';
+    var cururl = base_url + "independent/";
+    
+    function saletype(str,obj){
+        if(str=="1"){
+            document.getElementById(obj).style.display = "";
+        }else{
+            document.getElementById(obj).style.display ="none";
+        }      
+    }
+</script>

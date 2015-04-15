@@ -1,0 +1,113 @@
+<div class="maininner">
+
+<h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 真房源认证  </strong> </h6>
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+    <strong> 提示：</strong>
+    经纪人使用手机客户端，并针对某套出售房源上传房源委托书，由运营人员进行审核该房源的真实性。通过认证的房源会赠送积分，并在前端对该房源打上认证标示。
+</div>
+<form>
+    <table class="search_form mb15">
+        <tr>
+            <td width="120">
+                <select class="form-control" style="width:100px;" name="cityId">
+                    <?=MyTags::options($citys, $selectData['cityId'])?>
+                </select>
+            </td>
+            <td width="140">
+                <input class="form-control" type="text" placeholder="  经纪人帐号" name="realAccount" value="{% if selectData['realAccount'] %}{{selectData['realAccount']}}{%endif%}">
+            </td>
+            <td width="140">
+                <input class="form-control" type="text" placeholder="  房源编号" name="houseId" value="{% if selectData['houseId'] %}{{selectData['houseId']}}{%endif%}">
+            </td>
+            <td>
+                <button class="btn btn-gray" type="submit">搜 索</button>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" name="status" value="{{selectData['status']}}">
+</form>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li class="{%if selectData['status'] ==0 %}active{%endif%}"><a href="javascript:;getNewurl('/realtorapp/?status=0')" > 等待认证 </a></li>
+    <li class="{%if selectData['status'] ==1 %}active{%endif%}"><a href="javascript:;getNewurl('/realtorapp/?status=1')" >成功认证</a></li>
+    <li class="{%if selectData['status'] ==-1 %}active{%endif%}"><a href="javascript:;getNewurl('/realtorapp/?status=-1')" >认证失败</a></li>
+    <li class="{%if selectData['status'] ==2 %}active{%endif%}"><a href="javascript:;getNewurl('/realtorapp/?status=2')" >认证记录</a></li>
+</ul>
+
+
+<!-- Tab panes -->
+<div class="tab-content">
+<div class="tab-pane active" id="home">
+    <!-- tab1 start -->
+    {% if houseList %}
+    <table class="table mt10">
+        <tr>
+            <th style="min-width:80px;">房源编号</th>
+            <th style="min-width:80px;">类型</th>
+            <th style="min-width:180px;">房源基本信息</th>
+            <th style="min-width:100px;">{%if selectData['status']!=2 %}公司简称{%else%}经纪人账号{%endif%}</th>
+            <th style="min-width:80px;">{%if selectData['status']!=2 %}经纪人帐号{%else%}提交认证时间{%endif%}</th>
+            <th style="min-width:80px;">认证时间</th>
+            <th>{%if selectData['status']==-1 %}拒绝理由{%elseif selectData['status']==2%}认证状态{%else%}操作{%endif%}</th>
+        </tr>
+        {% for house in houseList %}
+        <tr>
+            <td align="center">{{house['houseId']}}</td>
+            <td align="center">{%if house['rpType']==2 %}出售{%elseif house['rpType']==1 %}出租{%endif%}</td>
+            <td align="center"><strong>{{house['parkName']}}</strong> &nbsp;&nbsp; {{house['houseBedRoom']}}室{{house['houseLivingRoom']}}厅{{house['houseBathRoom']}}卫 &nbsp;&nbsp; {{house['houseBA']}}㎡ &nbsp;&nbsp; <strong class="font_red">{{house['totalPrice']}}</strong></td>
+            <td align="center">{%if selectData['status']!=2 %}{{house['comAbbr']}}{%else%}{{house['VaName']}}{%endif%}</td>
+            <td align="center">{%if selectData['status']!=2 %}{{house['VaName']}}{%else%}{{house['rpTime']}}{%endif%}</td>
+            <td align="center">
+                {%if selectData['status']==0 %}
+                {{house['rpTime']}}
+                {%else%}
+                {{house['rpAuthTime']}}
+                {%endif%}
+            </td>
+            <td align="center" class="operate">
+                {%if selectData['status']==-1 %}
+                {{house['rpMsg']}}
+                {%elseif selectData['status']==2%}
+                {{house['statusName']}}
+                {%elseif selectData['status']==1%}
+                <a href="/realtorapp/?status=2&cityId={{selectData['cityId']}}">记录</a>
+                {%else%}
+                <a href="/realtorapp/auditing/{{house['rpId']}}">认证</a>
+                {%endif%}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <table class="table table-striped table-hover mt10">
+        <tr>
+            <th style="min-width:80px;">房源编号</th>
+            <th style="min-width:80px;">类型</th>
+            <th style="min-width:180px;">房源基本信息</th>
+            <th style="min-width:100px;">公司简称</th>
+            <th style="min-width:80px;">经纪人帐号</th>
+            <th style="min-width:80px;">认证时间</th>
+            <th>操作</th>
+        </tr>
+    </table>
+    <div class="noreascout">
+        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+    </div>
+    {% endif %}
+    <!--分页开始-->
+ {{ page }}
+    <!--分页结束-->
+    <!-- tab1 end -->
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'realtorapp';
+    function getNewurl(url){
+        var cityId = $("select[name='cityId']").val();
+        location.href = url+"&cityId="+cityId;
+    }
+</script>

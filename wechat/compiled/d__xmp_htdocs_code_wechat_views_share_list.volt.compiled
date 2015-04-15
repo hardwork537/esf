@@ -1,0 +1,51 @@
+<?php $v17897127201iterated = false; ?><?php foreach ($arrUnitList as $it) { ?><?php $v17897127201iterated = true; ?>
+<li>
+  <div class="col_middle"> 
+	<hgroup>
+	<span class="tittle"> <?php echo $it['parkName']; ?> </span>
+	<span class="green ml3"><?php if ($it['imgcount'] > 0) { ?>( <?php echo $it['imgcount']; ?>图)<?php } ?></span>
+    <?php if ($it['quality'] == 2) { ?><span class="sign sign_green green ml5">优质</span><?php } ?>
+	<?php if ($it['quality'] == 3) { ?><span class="sign sign_green green ml5">高清</span><?php } ?>
+    <?php if ($it['houseType'] == 20) { ?><span class="sign_orange sign ml5"> 新房 </span><?php } ?>
+	</hgroup>
+
+	<p>
+	<span class="colwords colw1"> <?php echo $UNIT_BEDROOM[$it['bedRoom']]; ?>  <?php echo $UNIT_LIVING_ROOM[$it['livingRoom']]; ?> </span>
+	<span class="colwords colw2"> <?php echo $it['bA']; ?>平 </span>
+	<span class="colwords colw3">
+		<?php if ($unittype == 'Rent') { ?>
+			<?php echo $it['price']; ?> 元/月
+		<?php } else { ?>
+			<?php echo $it['price']; ?>万
+		<?php } ?>
+	</span>
+	</p>
+	<div class="clicknumwrap">
+	    <p class="clicknum">点击（次）：<?php echo $it['day']; ?>/<?php echo $it['week']; ?>/<?php echo $it['month']; ?> （日/周/月）</p> <!--  统计 -->
+	</div>
+	<p class=" gray_666">
+	<span class="colwords colw4"> 发布：<?php echo $it['create']; ?> </span>
+	<span class="colwords colw5"> <?php if ($it['refreshTime']) { ?>刷新：<?php echo $it['refreshTime']; ?> <?php } else { ?>尚未刷新<?php } ?> </span>
+	</p>
+  </div>
+
+  <div class="col_right">  
+	<a class="round_share"> </a> 
+  </div>
+  <?php if ($unittype == 'Sale') { ?>
+	<a class="mask" onclick="houseDetail('http://<?php echo $city_pinyin_abbr; ?>.esf.focus.cn/view/<?php echo $it['id']; ?>.html?c=n'); return false;" hl="http://<?php echo $city_pinyin_abbr; ?>.esf.focus.cn/view/<?php echo $it['id']; ?>.html?c=n" href="javascript:void(0);"> </a>
+  <?php } else { ?>
+	<a class="mask" onclick="houseDetail('http://<?php echo $city_pinyin_abbr; ?>.zu.focus.cn/view/<?php echo $it['id']; ?>.html?c=n'); return false;" hl="http://<?php echo $city_pinyin_abbr; ?>.esf.focus.cn/view/<?php echo $it['id']; ?>.html?c=n" href="javascript:void(0);"> </a>
+  <?php } ?>
+
+</li>
+<?php } if (!$v17897127201iterated) { ?>
+<li>
+	<div class="nomsg"> 
+		<p style="text-align:center;"> <img src="<?php echo ViewHelper::staticUrl('wechat/images/no-msg.png'); ?>"/> </p>
+		<p style="text-align:center;"> 暂无房源 </p>
+	</div>
+</li>
+<?php } ?>
+
+

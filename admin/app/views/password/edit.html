@@ -1,0 +1,142 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 修改密码 </strong> </h6>
+        <div class="edittable">
+
+            <form id="form1"  method="post" action="" onsubmit="return checklogin()">
+                    <table class="edittable">
+
+                        <tr>
+		            <td align="right" width="68">
+                                原始密码:
+                            </td>
+			    <td>
+				<input class="form-control" type="password" name="original" value="{{ original}}" id='original'/>
+				
+	         	    </td>
+		        </tr>
+                        <tr>
+			    <td align="right">
+                                新密码:
+                            </td>
+		            <td>
+				<input class="form-control" type="password" name="new" value="{{ new }}" id='new'/>
+                                
+		            </td>
+		        </tr>
+                        <tr>
+	     		    <td align="right">
+                                重新输入:
+                            </td>
+	         	    <td>
+				<input class="form-control" type="password" name="again" value="{{ again }}" id='again'/>
+                                
+		       	    </td>
+			</tr>
+
+                   	<tr>
+	      		    <td></td>
+				<td>
+  				    <button type="button" class="btn btn-success widthl saveButton">保 存</button>
+		    		    <button type="button" class="btn btn-default widthxl cancelButton">取消</button>
+				</td>
+			</tr>
+                    </table>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+        var menu = 'menu9';
+	var moudle = 'password';
+    function checklogin() {
+        
+        if ($("input[name=original]").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        
+        if ($("input[name=original]").val().length < 6) {
+            alert("密码输入小于6");
+            return false;
+        }
+        
+        if (/[\u4E00-\u9FA5]/i.test($("input[name=original]").val())) {
+            alert("请勿使用中文设置密码");
+            return false;
+        }
+
+        if ($("input[name=new]").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        
+        if ($("input[name=new]").val().length < 6) {
+            alert("密码输入小于6");
+            return false;
+        }
+        if (/[\u4E00-\u9FA5]/i.test($("input[name=new]").val())) {
+            alert("请勿使用中文设置密码");
+            return false;
+        }
+        if ($("input[name=again]").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        
+        if ($("input[name=again]").val().length < 6) {
+            alert("密码输入小于6");
+            return false;
+        }
+        if (/[\u4E00-\u9FA5]/i.test($("input[name=again]").val())) {
+            alert("请勿使用中文设置密码");
+            return false;
+        }
+        if ($("input[name=again]").val() != $("input[name=new]").val()) {
+            alert("两次输入密码不相同");
+            return false;
+        }
+        return true;
+    }
+
+    $(function() {
+        var cururl = base_url + "password/";
+       
+        
+        $(".saveButton").click(function() {
+                if(checklogin()) {
+                    
+                    $("#form1").ajaxSubmit({
+                    "url": cururl,
+
+                    "callback": function(msg) {
+                        
+                        if (msg.status == 0) {
+                            alert("修改成功");
+                            self.location=cururl;
+                        } else {
+                            alert(msg.info);
+                            $.error(msg.info);
+                        }
+                    }
+                }); 
+                }
+                else
+                {
+                   // $("input").val("");
+                }
+  
+        });
+        
+        $(".cancelButton").click(function() {
+            //$("input").val("");
+        }); 
+    }); 
+
+    
+
+   
+
+</script>

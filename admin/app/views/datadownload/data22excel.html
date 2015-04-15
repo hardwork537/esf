@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<table border=1>
+<tr><td>城区</td><td>板块</td><td>搜索排名</td><td>发布房源总量</td><td>点击总量</td><td>付费人数</td>{% if comInfo%} {% for c in comInfo  %}<td>{{ c['abbr'] }}房源量</td><td>{{ c['abbr'] }}房源占比</td><td>{{ c['abbr'] }}点击量</td><td>{{ c['abbr'] }}使用人数</td>{% endfor %}{% endif %}</tr>
+{% for l in list %}
+<tr>
+<td>{{ l['distName'] }}</td>
+<td>{{ l['regName'] }}</td>
+<td>{{ loop.index  }}</td>
+<td>{{ l['totalHouse'] }}</td>
+<td>{{ l['totalClick'] }}</td>
+<td>{{ l['totalPayReal'] }}</td>
+{% if l['comInfo']%}
+{% for k,v in l['comInfo'] %}
+<td>{{ v['totalHouse'] }}</td>
+<td>{{ v['totalHouseBi'] }}</td>
+<td>{{ v['totalClick'] }}</td>
+<td>{{ v['totalReal'] }}</td>
+{% endfor %}
+{% endif %}
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

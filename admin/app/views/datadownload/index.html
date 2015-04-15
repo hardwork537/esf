@@ -1,0 +1,442 @@
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 企业统计  &gt; <strong class="font_gold"> 数据报表下载  </strong> </h6>
+    <form action="/datadownload/" method="get">
+    <table class="search_form mb15">
+        <tr>
+            <td>
+                <select class="form-control s" name="cityId">
+                    <?=MyTags::options($citys, $selectData['cityId'])?>
+                </select>
+                <button class="btn btn-gray widthl" type="submit">搜 索</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+    
+    <h5><strong> 2.1 城区搜索排名&amp;各经纪公司使用人数、点击量、房源占比</strong></h5>
+    <p>说明：查看城区覆盖情况及各公司使用人数、点击量、房源占比；可导出最近15天内的合计数据</p>
+    <form action="/datadownload/data21" method="post" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj"  attr="tj_2_1" maxnum="1000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div></div>
+        <select class=" form-control s" name="houseType" ><option value="1">出售</option><option value="2">出租</option></select>
+        <input type="hidden" name="cityId" value="{{ selectData['cityId'] }}">
+        <input type="hidden" name="comId" class="comId">
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 2.2 板块搜索排名&amp;各经纪公司使用人数、点击量、房源占比</strong></h5>
+    <p>说明：查看城区覆盖情况及各公司使用人数、点击量、房源占比；可导出最近15天内的合计数据</p>
+    <form action="/datadownload/data22" method="post" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj"  attr="tj_2_2" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div></div>
+        <select class=" form-control s" name="houseType" ><option value="1">出售</option><option value="2">出租</option></select>
+        <input type="hidden" name="cityId" value="{{ selectData['cityId'] }}">
+        <input type="hidden" name="comId" class="comId">
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+        </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 2.3 小区搜索排名&各公司使用人数、点击量、刷新量、房源占比</strong></h5>
+    <p>说明：查看小区覆盖情况及各公司使用人数、点击量、刷新量、房源占比；可导出最近15天内的合计数据</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj" attr="tj_2_3" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" class="Wdate form-control" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text"  class="Wdate form-control" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})">
+            </div>
+        </div>
+        <select class=" form-control s" name="houseType"><option value="1">出售</option><option value="2">出租</option></select>
+        <input type="hidden" name="method" value="exportParkStatis23" />
+        <input type="hidden" name="comId" class="comId">
+        <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+    
+    <h5><strong> 2.4 小区房源情况（按居室）各公司使用人数、点击量、刷新量、房源占比</strong></h5>
+    <p>说明：查看小区覆盖情况(按居室)及各公司使用人数、点击量、刷新量、房源占比；可导出最近15天内的合计数据</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj" attr="tj_2_4" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left widthl timecolwrap">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div></div>
+        <select class=" form-control s" name="houseType" ><option value="1">出售</option><option value="2">出租</option></select>
+        <input type="hidden" name="method" value="exportParkStatis24" />
+        <input type="hidden" name="comId" class="comId">
+        <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 3.2 面积搜索排名比例&各公司房源占比</strong></h5>
+    <p>说明：查看面积搜索条件下排名及各公司房源占比情况；可导出最近15天内的平均数据</p>
+    <div class=" mt10 clearfix datatj"  attr="tj_3_2" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <form action="/datadownload/data32" method="post" onsubmit="return checkform(this)">
+            <div class="pull-left timecolwrap widthl">
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control" name="startTime">
+                </div>
+            
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control" name="endTime">
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}">
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </form>
+    </div>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 3.3 价格搜索排名比例&各公司房源占比</strong></h5>
+    <p>说明：查看价格搜索条件下排名及各公司房源占比情况；可导出最近15天内的平均数据</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj" attr="tj_3_3" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+        </div>
+        <select class=" form-control s" name="houseType" ><option value="1">出售</option><option value="2">出租</option></select>
+
+        <input type="hidden" name="method" value="exportPriceHouseStatis33" />
+        <input type="hidden" name="comId" class="comId">
+        <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 4.1 地铁线路搜索排名比例&公司房源占比</strong></h5>
+    <p>说明：查看地铁线路的搜索排名以及各公司房源占比情况；可导出最近10天内的平均数据</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj" attr="tj_4_1" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-10),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-10),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div></div>
+        <select class=" form-control s" name="houseType"  ><option value="1">出售</option><option value="2">出租</option></select>
+
+        <input type="hidden" name="method" value="exportMetroHouseStatis41" />
+        <input type="hidden" name="comId" class="comId">
+        <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 4.2 地铁站点搜索排名比例&公司房源占比</strong></h5>
+    <p>说明：查看地铁站点的搜索排名以及各公司房源占比情况；可导出最近10天内的平均数据</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+    <div class=" mt10 clearfix datatj" attr="tj_4_2" maxnum="5000">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <div class="pull-left timecolwrap widthl">
+            <div class="timecol">
+                <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-10),maxDate:GetDateStr(-1)})"  class="Wdate form-control">
+            </div>
+            <span class="my_tittle font_gray pull-left">  &mdash; </span>
+            <div class="timecol">
+                <input type="text" name="endTime" onclick="WdatePicker({minDate:GetDateStr(-10),maxDate:GetDateStr(-1)})" class="Wdate form-control">
+            </div></div>
+        <select class=" form-control s" name="houseType"><option value="1">出售</option><option value="2">出租</option></select>
+        <input type="hidden" name="method" value="exportMetroStationHouseStatis42" />
+        <input type="hidden" name="comId" class="comId">
+        <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+        <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+    </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 5.1 经纪人信息-小区房源量及刷新量统计</strong></h5>
+    <p>说明：查看某一家公司经纪人昨天之前的小区房源量及刷新量情况；可导出最近15天内的数据</p>
+    <div class=" mt10 clearfix datatj" attr="tj_5_1" maxnum="1">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <form action="/datadownload/data51" method="post" onsubmit="return checkform(this)">
+            <div class="pull-left widthl">
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-15),maxDate:GetDateStr(-1)})" class="Wdate form-control" name="searchTime">
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}">
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </form>
+    </div>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 5.1.1 经纪人信息-小区房源刷新量统计</strong></h5>
+    <p>说明：查看某一家公司经纪人昨天之前的小区房源刷新量情况；可导出最近3天内的数据</p>
+    <div class=" mt10 clearfix datatj" attr="tj_5_11" maxnum="1">
+        <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+        <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+        <form action="/datadownload/data511" method="post" onsubmit="return checkform(this)">
+            <div class="pull-left widthl">
+                <div class="timecol">
+                    <input type="text" onclick="WdatePicker({minDate:GetDateStr(-3),maxDate:GetDateStr(-1)})" class="Wdate form-control" name="searchTime">
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}">
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </form>
+    </div>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong>5.2 经纪人信息-刷新量时段分布</strong></h5>
+    <p>说明：查看某一家公司经纪人7日内的刷新量时段分布情况；</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+        <div class=" mt10 clearfix datatj"  attr="tj_5_2" maxnum="1">
+            <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+            <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+
+            <div class="pull-left widthl">
+                <div class="timecol">
+                    <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-7),maxDate:GetDateStr(-1)})" class="Wdate form-control" >
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="method" value="exportRealtorStatis52" />
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 5.3 各经纪公司-刷新量时段占比</strong></h5>
+    <p>说明：查看各经纪公司7日内的刷新量时段占比；</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+        <div class=" mt10 clearfix datatj"  attr="tj_5_3" maxnum="5000">
+            <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+            <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+
+            <div class="pull-left widthl">
+                <div class="timecol">
+                    <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-7),maxDate:GetDateStr(-1)})" class="Wdate form-control" >
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="method" value="exportComStatis53" />
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </div>
+    </form>
+    <hr class=" mt15 mb15" />
+
+    <h5><strong> 7.1经纪人信息-房源新鲜度统计</strong></h5>
+    <p>说明：查看某一家经纪公司下有效经纪人发布时间30天内的房源在总房源中占比</p>
+    <form action="{{biUrl}}" method="get" onsubmit="return checkform(this)">
+        <div class=" mt10 clearfix datatj"  attr="tj_7_1" maxnum="1">
+            <span class=" pull-left heightm">  已选择 <b class=" font_red">0</b> 家经纪公司</span>
+            <a  class="btn btn-success btn-xs pull-left widthl heightm checkButton" >选择或修改&gt;</a>
+            <div class="pull-left widthl">
+                <div class="timecol">
+                    <input type="text" name="startTime" onclick="WdatePicker({minDate:GetDateStr(-30),maxDate:GetDateStr(-1)})" class="Wdate form-control" >
+                </div>
+            </div>
+            <select class=" form-control s" name="houseType" >
+                <option value="1">出售</option>
+                <option value="2">出租</option>
+            </select>
+            <input type="hidden" name="method" value="exportAgentHouseStatis71" />
+            <input type="hidden" name="comId" class="comId">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+            <input type="submit"  class="btn btn-default btn-xs vm"  value="导出">
+        </div>
+    </form>
+</div>
+
+<script src="{{src_url}}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+
+<!-- 公司列表 -->
+<div class="modal fade" id="tongguo" tabindex="-1" role="dialog" aria-labelledby="tongguoLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="tongguoLabel"> 公司列表 </h5>
+            </div>
+            <div class="modal-body">
+                <div style="height:400px; overflow-y:auto;">
+                    <form id="form1" onsubmit="return false"  method="post" action="" >
+                    <input type="hidden" name="act" value="">
+                    <table>
+                        {% if hotCompany %}
+                        <tr>
+                            <?php foreach ($hotCompany as $k=>$v) { ?>
+                            <td title="<?=$v['name']?>"><input type="checkbox" value="<?=$v['id']?>" >&nbsp;<span class="red"><strong><?=$v['name']?></strong>&nbsp;</span></td>
+                            <?php if(($k+1)%4==0) echo '</tr><tr>'; ?>
+                            <?php } ?>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td colspan="4"><hr style=" margin:10px 0"/></td>
+                        </tr>
+                        {% if company %}
+                        <tr>
+                            <?php foreach ($company as $k=>$v) { ?>
+                            <td title="<?=$v['name']?>"><input type="checkbox" value="<?=$v['id']?>" >&nbsp;<?=$v['name']?></td>
+                            <?php if(($k+1)%4==0) echo '</tr><tr>'; ?>
+                            <?php } ?>
+                        </tr>
+                        {% endif %}
+                    </table>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="selectCompany" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var menu = 'menu7';
+    var moudle = 'datadownload';
+    
+    $(function(){
+        $(".comId").val("");
+        $("#selectCompany").click(function(){
+             _attr = $("#tongguo input[name=act]").val();
+            var _com = $("div[attr="+_attr+"]").find(".comId");
+             _maxnum = $("div[attr="+_attr+"]").attr("maxnum");
+             _len = $("#tongguo input[type='checkbox']:checked").length;
+            if(_len > _maxnum){
+                alert("只能选择"+_maxnum+"个公司");
+                return false;
+            }
+            $(".comId").val("");
+            $(".font_red").text("0");
+            $("div[attr="+_attr+"]").find(".font_red").text(_len);
+            $("#tongguo input[type='checkbox']:checked").each(function(){
+                if(_com.val()==""){
+                    _com.val($(this).val());
+                }else{
+                    _com.val(_com.val()+","+$(this).val());
+                }
+                $('#tongguo').modal('hide');
+            });
+        });
+        
+    });
+    
+    $(".checkButton").click(function() {
+            //$("#tongguo input[type='checkbox']").attr("checked",false);
+            _attr = $(this).parent().attr("attr");
+            $("#tongguo").smodal({
+                    title : "选择公司",
+                    act : _attr
+            });
+    });
+    
+    function checkform(obj){
+        obj = $(obj);
+        if(obj.find("input[name=startTime]").val()==""){
+            alert("请选择开始时间");
+            return false;
+        }
+        if(obj.find("input[name=endTime]").val()==""){
+            alert("请选择结束时间");
+            return false;
+        }
+        if(obj.find("input[name=searchTime]").val()==""){
+            alert("请选择开始时间");
+            return false;
+        }
+        if(obj.find("input[name=cityId]").val()==""){
+            alert("城市ID不正确,请刷新页面");
+            return false;
+        }
+        if(obj.find("input[name=comId]").val()==""){
+            alert("请选择公司");
+            return false;
+        }
+        return true;
+    }
+    //获取几天前的时间
+    function GetDateStr(AddDayCount)
+    {
+        var dd = new Date();
+        dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+        var m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+        var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate(); //获取当前几号，不足10补0
+        var y = dd.getFullYear();
+        return y+"-"+m+"-"+d;
+    }
+</script>

@@ -1,0 +1,109 @@
+﻿<div class="maininner" style=" padding-top:2px;">
+
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt;  接口管理  &gt; <strong class="font_gold"> 未匹配房源  </strong> </h6>
+
+          <div role="alert" class="alert alert-warning alert-dismissible">
+          <button data-dismiss="alert" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <strong> 提示：</strong> 使用开放API接口公司请技术负责添加，否则无法进行管理。
+        </div>
+		<form action="/nomatchpark/index/{{ houseType }}/" method="get" id="forms" name="forms">
+          <table class="search_form mb15 mt10">
+              <tbody><tr>
+                  <td width="120">
+                     <select name="cityId" id="cityId" class="form-control s">
+                            <?=MyTags::options($citys, $params['cityId'])?>
+                        </select>
+                  </td>
+                   <td>
+                     <button type="submit" class="btn btn-success ">加载分析未知楼盘数据</button>
+                   </td>
+
+              </tr>
+          </tbody></table>
+            </form>
+			{% if companyInfo%}
+			{% for key,item in companyInfo %}
+        		<span class="sp"{% if params['comId'] == item['id'] %} style="background-color:#FF9900;"{% endif %} ><a href="/nomatchpark/index/{{ houseType }}/?cityId={{ params['cityId']|default(1) }}&comId={{ item['id'] }}">{{ item['abbr'] }}</a></span>
+        	{% endfor %}
+			{% endif %}
+			{% if !houseInfo%}
+          <table class="table table-striped table-hover mt10">
+                   <tbody><tr>
+                      <th>小区名称</th>
+                        <th>目的城区</th>
+				        <th>操作</th>
+                    </tr>
+
+              </tbody></table>
+
+                  <div class="noreascout">
+                    <div> <p>  <strong class="font14"> 很抱歉，没有数据  </strong></p>
+                      <p class=" mt10 gray"> 请先选择城市，加载接口公司，然后再添加楼盘匹配数据！ </p></div>
+
+                  </div>
+		{% else %}
+		<table class="table table-hover mt10">
+
+				<tbody><tr>
+				   <th>小区名称</th>
+                        <th>目的小区</th>
+				        <th>操作</th>
+				</tr>
+              {% for key,item in houseInfo  %}
+              <tr class="tr_body_color">
+                <td attr="fromParkName">{{ item }}</td>
+                <td><input type="text" name="toParkName" value=""></td>
+                <td class="operate" align="center">
+					<div class=" arrow_tipswrap">
+                        <a class="widthl td_delete">转移房源</a>
+                    </div>
+				</td>
+              </tr>
+              {% endfor %}
+			  </tbody></table>
+			  {{ page }}
+		{% endif %}
+     </div>
+	 <script type="text/javascript">
+    var menu = 'menu11';
+	{% if houseType=='sale' %}
+    var moudle = 'nomatchpark_63';
+	{% else %}
+	var moudle = 'nomatchpark_64';
+	{% endif %}
+
+    $(function() {
+        var cururl = base_url + "nomatchpark/";
+
+        $('.td_delete').click(function() {
+            var trs = $(this).parent().parent("td").parent("tr");
+			var fromParkName = trs.find("[attr=fromParkName]").text();
+			var toParkName = trs.find("td input[name=toParkName]").val();
+			trs.find();
+            var _this = $(this);
+            _this.delConfirm("转移确认", "确定要转移吗?", function(result) {
+                if (result == true) {
+                    $.request({
+						data:"cityId={{ params['cityId'] }}&comId={{ params['comId'] }}&&fromParkName="+fromParkName+"&toParkName="+toParkName,
+                        url: cururl + "move/{{ houseType }}/",
+						method:"post",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("转移成功");
+                                location.reload(false);
+                            } else {
+                                _this.delFail(msg.info);
+                                //alert("删除失败!")
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    //alert(2)
+                }
+            });
+        });
+    });
+
+</script>

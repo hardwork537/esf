@@ -1,0 +1,334 @@
+<div class="maininner">
+
+    <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; <strong class="font_gold"> 经纪人房源审核 </strong></h6>
+
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <strong> 提示：</strong>
+        1、待审核区：新发布和修改过的所有发布的房源；
+        2、违规房源：手动或自动设置为违规的发布房源；如修改后则立即进入待审核区，且不扣除积分；
+        3、已审核区：手动“通过审核”的发布房源；
+    </div>
+    <!--
+    <form action="/audithouse/" method="get">
+    <table class="search_form mb15">
+        <tbody>
+        <tr>
+            <td width="120">
+                <select class="form-control" style="width:100px;" name="cityId">
+                    <?=MyTags::options($citys, $selectData['cityId'])?>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-gray" type="submit">搜 索</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>-->
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+
+        <li class="{% if selectData['verification'] ==0 %}active{% endif %}">
+            <a href="/audithouse/?verification=0&cityId={{selectData['cityId']}}">待审核区</a></li>
+        <li class="{% if selectData['verification'] ==-1 %}active{% endif %}">
+            <a href="/audithouse/?cityId={{selectData['cityId']}}&verification=-1">违规房源</a></li>
+        <li class="{% if selectData['verification'] ==1 %}active{% endif %}">
+            <a href="/audithouse/?verification=1&cityId={{selectData['cityId']}}">已审核区</a></li>
+    </ul>
+
+    <div class="panel panel-default  search_form mb15 mt10">
+        <form action="/audithouse/" method="get">
+            <input type="hidden" name="cityId" value="{{selectData['cityId']}}"/>
+
+            <div class="">
+                <table>
+                    <tr>
+                        <td width="140">
+                            <select class="form-control" name="cityId" id="cityId">
+                                <?=MyTags::options($citys, $selectData['cityId'])?>
+                            </select>
+                        </td>
+                        <td width="140">
+                            <select name="housetype" class="form-control">
+                                <?=MyTags::options($houseExt['houseType'], $selectData['houseType'])?>
+                            </select>
+                        </td>
+
+                        <td width="120">
+                            <div class="inputwrap">
+                                <input class=" form-control s autoComplete" url="/ajax/getCompanyInfo/1" toName="comId" nums=10 type="text" placeholder="公司名称" name="companyName" value="{{ selectData['companyName'] }}" autocomplete="off"/>
+                                <input id="comId" type="hidden" value="{{ selectData['comId'] }}" name="comId">
+                            </div>
+                        </td>
+                        <td width="140">
+                            <input class="form-control" type="text" placeholder=" 经纪人帐号" name="realAccount" value="{{selectData['realAccount']}}"/>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" placeholder="  经纪人手机" name="realMobile" value="{{selectData['realMobile']}}"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="text" placeholder="  经纪人姓名 " name="realName" value="{{selectData['realName']}}"/>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" placeholder="   房源编号 " name="houseId" value="{{selectData['houseId']}}"/>
+                        </td>
+                        <td colspan="3">
+                            <div class="timecol">
+                                <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="startTime" value="{{selectData['startTime']}}">
+                            </div>
+                            <span class="my_tittle font_gray widths">  &mdash; </span>
+
+                            <div class="timecol">
+                                <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="endTime" value="{{selectData['endTime']}}">
+                            </div>
+                            <input type="hidden" name="verification" value="{{selectData['verification']}}">
+                            <button class="btn btn-gray widthxl" type="submit">搜 索</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">
+            <!-- tab1 start -->
+            {% if selectData['verification'] ==0 %}
+
+            <div class="operaterow">
+                <button type="button" class="btn btn-success btn-success-ok" data-toggle="modal" data-target="#tongguo"> 通过审核</button>
+                <button type="button" class="btn btn-danger widthxl" data-toggle="modal" data-target="#weigui"> 设为违规</button>
+            </div>
+            {% elseif selectData['verification'] ==1 %}
+            <div class="operaterow">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#weigui"> 设为违规</button>
+            </div>
+            {% elseif selectData['verification'] ==-1 %}
+            <div class="operaterow">
+                <button type="button" class="btn btn-success btn-success-ok" data-toggle="modal" data-target="#tongguo"> 通过审核</button>
+                <!--<button type="button" class="btn btn-default widthl" > 导出违规房源 </button>-->
+            </div>
+            {% endif %}
+            {% if houseList %}
+            <table class="table mt10">
+
+                <tr>
+                    <th class="checkboxwrap" style=" width:10%;"><input type="checkbox" class="selectAll"/> 房源编号</th>
+                    <th style=" width:20%;">房源封面图</th>
+                    <th style=" width:15%;">房源基本信息</th>
+                    <th style=" width:15%;">经纪人账号</th>
+                    <th style=" width:15%;">公司全称</th>
+                    <th>
+                        {% if selectData['verification'] ==0 %}
+                        发布时间
+                        {% else %}
+                        审核时间
+                        {% endif %}
+                    </th>
+                    {% if selectData['verification'] ==-1 %}
+                    <th>违规原因</th>
+                    {% endif %}
+                </tr>
+
+                {% for house in houseList %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="houseIds" value="{{house['id']}}" class="checkBoxClass">
+                        {{house['id']}}
+                    </td>
+                    <td align="center">
+                        <div class="tablediv_in hoverimg">
+                            <img width="120" height="90" alt="" src="{{houseExt['image'][house['id']]['small']}}">
+
+                            <div class="imgbig">
+                                <img width="600" height="450" src="{{houseExt['image'][house['id']]['big']}}"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="http://{{houseExt['cityInfo']['pinyinAbbr']}}.esf.focus.cn/view/{{house['id']}}.html" target="_blank">{{houseExt['housePark'][house['parkId']]['name']}}/{{house['bedRoom']}}室{{house['price']}}万元 </a>
+                    </td>
+                    <td align="center">
+                        {{houseExt['houseReal'][house['realId']]['name']}}
+                    </td>
+                    <td>
+                        {{houseExt['company'][house['comId']]['name']}}
+                    </td>
+                    <td align="center" class="tablediv_td">
+                        <div class="tablediv_in">
+                            {% if selectData['verification'] ==0 %}
+                            {{ house['create'] }}
+                            {% else %}
+                            {{ house['auditing'] }}
+                            {% endif %}
+                        </div>
+                    </td>
+                    {% if selectData['verification'] ==-1 %}
+                    <td>{{houseAuditAll[house['opValue']]}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <table class="table table-striped table-hover mt10">
+                <tr>
+
+                    <th class="checkboxwrap" style=" width:10%;"><input type="checkbox"/> 房源编号</th>
+                    <th style=" width:20%;">房源封面图</th>
+                    <th style=" width:15%;">房源基本信息</th>
+                    <th style=" width:15%;">经纪人账号</th>
+                    <th style=" width:15%;">公司全称</th>
+                    <th>
+                        {% if selectData['verification'] ==0 %}
+                        发布时间
+                        {% else %}
+                        审核时间
+                        {% endif %}
+                    </th>
+                    {% if selectData['verification'] ==-1 %}
+                    <th>违规原因</th>
+                    {% endif %}
+                </tr>
+            </table>
+
+            <div class="noreascout">
+                <div><p><strong class="font14"> 很抱歉，没有找到符合条件的房源 </strong></p>
+
+                    <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果 </p></div>
+            </div>
+            {% endif %}
+            <!-- tab1 end -->
+        </div>
+    </div>
+
+
+    <!--分页开始-->
+    {{page}}
+    <!--分页结束-->
+</div>
+<!-- 设为违规 -->
+<div class="modal fade" id="weigui" tabindex="-1" role="dialog" aria-labelledby="weiguiLabel" aria-hidden="true">
+    <form name="form1" id="form1" method="post">
+        <div class="modal-dialog" style=" width:450px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="weiguiLabel"> 房源违规 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="edittable">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    违规理由:
+                                </td>
+                                <td>
+                                    <select id="reasons" name="reasons" class="form-control">
+                                        <?=MyTags::options($houseExt['auditingInfo'])?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" width="140" valign="top">
+                                    备注信息:
+                                </td>
+                                <td>
+                                    <textarea class="form-control" name="remark"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="houseIds" value="">
+                    <button type="button" class="btn btn-success btn-success-weigui">保 存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var menu = 'menu6';
+    var moudle = 'audithouse';
+    var cururl = base_url + "audithouse/";
+    function getCheckBox() {
+        var value = $("input[name='houseIds']");
+        var ids = new Array();
+        var y = 0;
+        for (var i in value) {
+            if (value[i].checked) {
+                ids[y] = value[i].value;
+                y++;
+            }
+        }
+        ;
+        if (ids.length == 0) {
+            alert("请选择要操作的房源！");
+            return false;
+        }
+        return ids;
+    }
+    //审核通过
+    $('.btn-success-ok').click(function () {
+        var idArray = getCheckBox();
+        if (!idArray) return false;
+        var idsStr = idArray.join('-');
+        $.request({
+            url: cururl + "saveAuditing/" + idsStr + "/",
+            callback: function (msg) {
+                if (msg.status == 0) {
+                    //_this.delSuccess("取消成功");
+                    alert("操作成功！");
+                    location.reload(false);
+                } else {
+                    alert(msg.info);
+                    location.reload(false);
+                }
+            }
+        });
+    });
+    //审核不通过
+    $(".btn-danger").click(function () {
+        var idArray = getCheckBox();
+        if (!idArray) return false;
+        console.log(idArray);
+        var idsStr = idArray.join('-');
+        $("input[name='houseIds']").val(idsStr);
+        $("#weigui").show();
+    });
+    $(".btn-success-weigui").click(function () {
+        $("#weigui").hide();
+        var _this = this;
+        $("#form1").ajaxSubmit({
+            "url": cururl + "AuditingNo/",
+            "callback": function (msg) {
+                if (msg.status == 0) {
+                    $(_this).delSuccess("修改成功");
+                    return false;
+                } else {
+                    alert(msg.info);
+                    location.reload(false);
+                }
+            }
+        });
+    });
+    var all = $('.selectAll'), ckb_user = $('.checkBoxClass');
+    all.click(function () {
+        var flag = $(this).prop("checked");
+        ckb_user.each(function () {
+            $(this).prop("checked", flag);
+        });
+    })
+
+
+</script>

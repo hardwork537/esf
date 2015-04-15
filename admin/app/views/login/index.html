@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> login </title>
+<link href="{{src_url}}css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="{{src_url}}css/signin.css" rel="stylesheet" type="text/css" />
+<script src="{{src_url}}js/jquery.min.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        $("#name").focus(function () {
+            $(".input-group-addon").css({ "color": "#222222" ,"border-color":"#66AFE9"});
+        })
+        $("#name").blur(function () {
+            $(".input-group-addon").css({"color": "#ADADAD","border-color":"#ccc"});
+        });
+        $("#flush_authcode").click(function() {
+            var timestamp = (new Date()).valueOf();
+            $("#authcode").attr({ src: "/checkcode/?t=" + timestamp, alt: "刷新验证码" });
+        });
+    });
+
+    function checklogin() {
+        if ($("input[name=name]").val()=="") {
+            alert("用户名不能为空");
+            return false;
+        }
+
+        var re = /^[0-9a-zA-Z_\-]+$/;
+        if (!re.test($("input[name=name]").val())) {
+            alert("用户名输入错误");
+            return false;
+        }
+        if ($("input[name=password]").val() == "") {
+            alert("密码不能为空");
+            return false;
+        }
+
+        if ($("input[name=password]").val().length < 6) {
+            alert("密码输入错误");
+            return false;
+        }
+        if ($("input[name=yanzheng]").val() == "") {
+            alert("验证码不能为空");
+            return false;
+        }
+        if ($("input[name=yanzheng]").val().length != 4) {
+            alert("验证码输入错误");
+            return false;
+        }
+        $.ajax({
+            type: "post",
+            data: $("#form1").serialize(),
+            url: "/login/in/",
+            success: function(msg) {
+                if (typeof msg != "object") {
+                    try {
+                        msg = $.parseJSON(msg);
+                        if (msg.status != 0) {
+                            alert(msg.info);
+                        } else {
+                     		location.href = "/";
+                     		return false;
+                        }
+
+                    } catch (e) {
+                        alert("登陆失败,请重试");
+                       location.reload(false);
+                    }
+                }
+                return false;
+            }
+
+        });
+        return false;
+    }
+</script>
+</head>
+<body>
+<div class="topbg">
+
+</div>
+<div class="signinitem">
+   <h1 class="logo"> <strong> <img src="{{src_url}}images/logo_login.png" /> </strong> <span>后台管理系统</span></h1>
+    <div class="signinitem_in">
+         <form name="form1" id="form1" class="form-horizontal form-signin"  role="form" action="/login/index/inAction" method="post" target="iframe1" onsubmit="return checklogin()">
+            <iframe id="iframe1" name="iframe1" style="display:none;"></iframe>
+          <div class="form-group" style=" margin-bottom:5px;">
+            <label for="inputEmail3" class="col-sm-2 control-label">账&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+            <div class="col-sm-10">
+              <input class="form-control" id="name" name="name">
+            </div>
+          </div>
+           <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10 font-gray">
+              
+            </div>
+          </div>
+          <div class="form-group" style=" margin-bottom:30px;">
+            <label for="inputPassword3" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" name="password">
+            </div>
+          </div>
+          <div class="form-group" style=" margin-bottom:30px;">
+            <label for="inputPassword3" class="col-sm-2 control-label">验证码：</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" name="yanzheng">
+            </div>
+            <div class="col-sm-5">
+               <img id="authcode" style=" float:left; margin:7px 8px 5px 5px;"  src="/checkcode/">
+               <a class="change" id="flush_authcode" style=" line-height:16px; display:inline-block; margin:4px 0 0 0;">看不清<br />换一张</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="hidden" name="action" value="1" />
+              <button type="submit" class="btn btn-success">登&nbsp;&nbsp;&nbsp;&nbsp;录 </button>
+            </div>
+          </div>
+        </form>
+        <div class="noticeblock">
+            <div class=" clearfix">
+                <em></em>
+                <p>
+                   怎样查看近期门店情况？<br />
+                   开通ADMIN权限，持搜狐邮箱账号登录 </p>
+            </div>
+            <div class="p2 clearfix">
+                <em></em>
+                <p>
+                     数据字典：城市、城区词典、小区图片审核等
+                    <br />
+                    房源管理：房源图片审核、房源违规、经纪人出售等一目了然</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="foot">
+Copyright © 2014 Sohu.com Inc. All rights reserved. 搜狐公司 版权所有 <br />
+增值电信业务经营许可证B2-20040144 京ICP证030367号 互联网新闻信息服务许可证
+</div>
+
+
+</body>
+</html>

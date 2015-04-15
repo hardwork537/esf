@@ -1,0 +1,173 @@
+<div class="main">
+    <div class="maininner"> 
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 功能管理  &gt; <strong class="font_gold"> 企业经纪人资料认证 </strong> </h6>
+
+        <ul class="nav nav-tabs">
+            <li{% if 1==type %} class="active"{% endif %}><a href="/realtorverify/index/1/">待认证</a></li>
+            <li{% if 2==type %} class="active"{% endif %}><a href="/realtorverify/index/2/">成功认证</a></li>
+            <li{% if 3==type %} class="active"{% endif %}><a href="/realtorverify/index/3/">认证失败</a></li>
+        </ul>
+        <form method="get" action="/realtorverify/index/{{ type }}/">
+            <table class="search_form mb15 mt10">
+                <tbody>
+                    <tr>
+                        <td width="120"> 
+                            <select class="form-control s" name="cityId" id="cityId" onchange="getDist('distId', 0, this.value, '城区');
+    getRegion('regId', 0, $('#distId').val(), '板块');
+    getXiaoshou('saleId', 0, this.value, '销售');
+    getKefu('CSId', 0, this.value, '客服');">
+                                <?=MyTags::options($citys, $params['cityId'])?>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="distId" id="distId" onchange="getRegion('regId', 0, this.value, '板块')">
+                                <option value="0">城区</option>
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <select class="form-control s" name="regId" id="regId">
+                                <option value="0">板块</option> 
+                            </select>	
+                        </td>
+                        <td width="120"> 
+                            <input class=" form-control s" type="text" placeholder="所属公司" name="comName" value="{{ params['comName'] }}" /> 
+                        </td>
+                        <td> 
+                            <select class=" form-control s" name="saleId" id="saleId">
+                            </select>              
+                            <select  class=" form-control s widthl" name="CSId" id="CSId">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <input class=" form-control s" type="text" placeholder="门店名称" name="shopName" value="{{ params['shopName'] }}" /> </td>
+                        <td> <input class=" form-control s" type="text" placeholder=" 姓名" name="name" value="{{ params['name'] }}" /> </td>
+
+                        <td>
+                            <input class=" form-control s" type="text" placeholder="  帐号" name="account" value="{{ params['account'] }}" /> 
+                        </td>
+                        <td>
+                            <input class=" form-control s" type="text" placeholder=" 手机号" name="mobile" value="{{ params['mobile'] }}" /> 
+                        </td>
+                        <td>    
+                            <input name="exportData" type="hidden" value="0" id="exportData"/>
+                            <button class="btn btn-gray" type="submit" id="search">搜 索</button>
+                            <button class="btn btn-success widthxl" type="submit" id="export">导 出</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        {% if lists is empty %}
+
+        <table class="table table-striped table-hover mt10"> 	 	 	 	 	
+            <tr class="toptt">
+                <th rowspan="2" style=" width:80px;">经纪人id</th>
+                <th rowspan="2" style=" width:10%;">公司</th>
+                <th rowspan="2" style=" width:10%;">门店</th>
+                <th rowspan="2" style=" min-width:60px;">姓名</th>
+                <th rowspan="2" style=" min-width:80px;">手机</th>
+                <th rowspan="2" style=" min-width:60px;">帐号</th>
+                <th colspan="2" style=" min-width:80px; padding:0 10px;">端口数</th>
+                <th rowspan="2" style=" min-width:60px;">区域 板块</th>
+                <th rowspan="2" style=" min-width:60px;">销售</th>
+                <th rowspan="2" style=" min-width:60px;">客服</th>
+                <th rowspan="2" style=" min-width:100px;">认证时间</th>
+                <th rowspan="2" style=" min-width:100px;">到期时间</th>
+                <th rowspan="2">操作</th>
+            </tr>
+            <tr class="toptt">
+                <th align="center" style=" padding:0 10px;">售</th>
+                <th align="center" style=" padding:0 10px;">租</th>
+            </tr>
+        </table>
+        
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的数据 </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">  
+            <tr class="toptt">
+                <th rowspan="2" style=" width:80px;">经纪人id</th>
+                <th rowspan="2" style=" width:10%;">公司</th>
+                <th rowspan="2" style=" width:10%;">门店</th>
+                <th rowspan="2" style=" min-width:60px;">姓名</th>
+                <th rowspan="2" style=" min-width:80px;">手机</th>
+                <th rowspan="2" style=" min-width:60px;">帐号</th>
+                <th colspan="2" style=" min-width:80px; padding:0 10px;">端口数</th>
+                <th rowspan="2" style=" min-width:60px;">区域 板块</th>
+                <th rowspan="2" style=" min-width:60px;">销售</th>
+                <th rowspan="2" style=" min-width:60px;">客服</th>
+                <th rowspan="2" style=" min-width:100px;">认证时间</th>
+                <th rowspan="2" style=" min-width:100px;">到期时间</th>
+                <th rowspan="2">操作</th>
+            </tr>
+            <tr class="toptt">
+                <th align="center" style=" padding:0 10px;">售</th>
+                <th align="center" style=" padding:0 10px;">租</th>
+            </tr>
+            {% for id,list in lists %}
+            <tr realtorId="{{ list['id'] }}">  	  	  	  	 
+                <td>{{ id }}</td>
+                <td>{{ companys[list['comId']]['abbr'] }}</a></td>
+                <td>{{ shops[list['shopId']]['name'] }}</a></td>
+                <td align="center">{{ list['name'] }}</a></td>
+                <td align="center">{{ list['mobile'] }}</td>
+                <td align="center">{{ accounts[id]['name'] }}</td>
+                <td align="center">{{ realPort[id]['salePortNum']|default(0) }}</td>
+                <td align="center">{{ realPort[id]['rentPortNum']|default(0) }}</td>
+                <td align="center">{{ dists[list['distId']]['name'] }} - {{ regions[list['regId']]['name'] }}</td>
+                <td align="center">{% if allocation[id]['toId1'] %}{{ users[allocation[id]['toId1']]['name'] }}{% endif %}</td>
+                <td align="center">{% if allocation[id]['toId2'] %}{{ users[allocation[id]['toId2']]['name'] }}{% endif %}</td>
+                <td align="center">{{ date('Y-m-d H:i:s', list['validation']) }}</td>
+                <td align="center">{% if '0000-00-00'==realPort[id]['expiryDate'] %}无限制{% else %}{{ realPort[id]['expiryDate'] }}{% endif %}</td>  
+                <td align="center" class="operate">
+                    {% if 1!=type %}<a href='/realtorverify/certify/{{ id }}/'>重新认证</a>{% endif %}
+                </td>   
+            </tr>
+            {% endfor %}
+        </table>
+        
+        {{ page }} 
+        {% endif %}
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu4';
+    var moudle = 'realtorverify';
+    var cityId = $("select[name=cityId]").val();
+    var cururl = base_url + "realtoraudit/";
+    
+    getDist('distId', '{{ params["distId"] }}', cityId, '城区'); 
+    getRegion('regId', '{{ params["regId"] }}', $('#distId').val(), '板块');
+    getXiaoshou('saleId', '{{ params["saleId"] }}', cityId, '销售');
+    getKefu('CSId', '{{ params["CSId"] }}', cityId, '客服');
+    
+    $(function() {
+        $('.realaudit').change(function(){
+            if(2 == $(this).val()) {
+                $(this).siblings('select').show();
+            } else {
+                $(this).siblings('select').hide();
+            }
+        })
+
+    $("#search").click(function(){
+
+        $("#exportData").val(0);
+    })
+            //导出
+    $("#export").click(function(){
+
+        $("#exportData").val(1);
+    })
+    })
+</script>
+
