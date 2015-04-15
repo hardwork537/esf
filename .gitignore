@@ -3,6 +3,6 @@
 .idea/*
 .settings/*
 nbproject/*
-weixin/app/compiled/*
+admin/app/compiled/*
 config/*
 crontab/tmp/*
