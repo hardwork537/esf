@@ -5,10 +5,6 @@ class AdminUser extends CrmBaseModel
     //用户状态
     const STATUS_VALID = 1; // 有效
     const STATUS_INVALID = 2; // 无效
-    
-    const ROLE_SALE = 4; //销售
-    const ROLE_CS = 3; //客服
-    const CRM_ROLE_SALE = 4; //销售
 
     public $error;
     public $id;
@@ -20,7 +16,7 @@ class AdminUser extends CrmBaseModel
     protected $cityId = 0;
     protected $status = 0;
     protected $email = '';
-    protected $crmTeamId = 0;
+    //protected $crmTeamId = 0;
     protected $crmRoleId = 0;
     protected $addTime = '0000-00-00 00:00:00';
 
@@ -36,7 +32,7 @@ class AdminUser extends CrmBaseModel
             'cityId' => 'cityId',
             'userStatus' => 'status',
             'userEmail' => 'email',
-            'crmTeamId' => 'crmTeamId',
+            //'crmTeamId' => 'crmTeamId',
             'crmRoleId' => 'crmRoleId',
             'userAddTime' => 'addTime'
         );
@@ -79,7 +75,7 @@ class AdminUser extends CrmBaseModel
             'cityId' => intval($arr["cityId"]),
             'adminRoleId' => intval($arr["adminRoleId"]),
             'crmRoleId' => intval($arr["crmRoleId"]),
-            'crmTeamId' => intval($arr["crmTeamId"]),
+            //'crmTeamId' => intval($arr["crmTeamId"]),
             'tel' => $arr["tel"],
             'status' => 1,
             'addTime' => time(),
