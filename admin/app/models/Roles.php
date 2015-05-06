@@ -2,6 +2,16 @@
 
 class Roles extends BaseModel
 {
+    //角色
+    const ROLE_SUPER_MANAGER = 1;  //系统管理员
+    const ROLE_CITY_MANAGER = 2; //城市管理员
+    const ROLE_CUSTOM_SERVICE = 3; //客服
+    const ROLE_SALE = 4; //销售
+    const ROLE_HOUSE_EDITOR = 5; //楼盘编辑
+    const ROLE_NEWS_EDITOR = 6; //各站新闻编辑
+    const ROLE_NEWS_MANAGER = 7; //新闻总编
+    const ROLE_COLLEGE_MANAGER = 8; //新闻大学管理员
+    
     public $id;
     public $name;
     public $power;

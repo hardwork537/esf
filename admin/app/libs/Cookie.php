@@ -2,13 +2,10 @@
 
 /**
  * @abstract  Cookie
- * @copyright Sohu-inc Team.
- * @author    Rady (yifengcao@sohu-inc.com)
- * @date      2014-10-22 16:10:06
- * @version   admin 1.0
  */
 class Cookie
 {
+
     /**
      * 获取Cookie
      * @param  string $key
@@ -19,12 +16,11 @@ class Cookie
         $arrBackData = array();
         if(isset($_COOKIE[$key]))
         {
-            $strCookie   = $_COOKIE[$key];
-            $strCookie   = base64_decode(substr($strCookie, 27));
+            $strCookie = $_COOKIE[$key];
+            $strCookie = base64_decode(substr($strCookie, 27));
             $arrBackData = unserialize($strCookie);
             return $arrBackData;
-        }
-        else
+        } else
         {
             return '';
         }
@@ -37,9 +33,9 @@ class Cookie
      * @param string $domain Cookie域
      * @return  bool
      */
-    public static function set($name, $value, $expiration = 0, $path = "/", $domain = ".focus.cn")
+    public static function set($name, $value, $expiration = 0, $path = "/", $domain = _COOKIE_BASE_DOMAIN)
     {
-        $value = substr(md5(COOKIE_KEY), 5).base64_encode(serialize($value));
+        $value = substr(md5(COOKIE_KEY), 5) . base64_encode(serialize($value));
         $expiration !== 0 && $expiration += time();
 
         return setcookie($name, $value, $expiration, $path, $domain, 0);
@@ -58,7 +54,9 @@ class Cookie
 
     final private function __construct()
     {
-
+        
     }
 
-} // End cookie
+}
+
+// End cookie

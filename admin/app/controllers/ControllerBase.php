@@ -77,28 +77,37 @@ class ControllerBase extends ControllerCore
             $_powers = json_decode($_powers, true);
             foreach($_powers as $v)
             {
-                if(!$_menu = Menu::findFirst(array(
-                        "id=" . $v['menuId'],
-                        "cache" => array("key" => "admin-db-menu-" . crc32("id=" . $v['menuId']), "lifetime" => 3600)
-                    ))
-                )
+                //一级菜单 menu
+                $menuKey = "admin-db-menu-id-" . $v['menuId'];
+                $_menu = Mem::Instance()->Get($menuKey);
+                if(empty($_menu))
                 {
-                    continue;
+                    $_menu = Menu::findFirst("id={$v['menuId']}", 0)->toArray();
+                    if(empty($_menu))
+                    {
+                        continue;
+                    }
+                    $res = Mem::Instance()->Set($menuKey, $_menu, 3600);
                 }
-                $_menu = $_menu->toArray();
-                if(!$_moudel = Moudel::findFirst(array(
-                        "id=" . $v['moudelId'],
-                        "cache" => array("key" => "admin-db-moudel-" . crc32("id=" . $v['moudelId']), "lifetime" => 3600)
-                    ))
-                )
+                
+                //二级菜单 moudel
+                $moudelKey = "admin-db-moudel-id-" . $v['moudelId'];
+                $_moudel = Mem::Instance()->Get($moudelKey);
+                if(empty($_moudel))
                 {
-                    continue;
-                } else if($_moudel->isShow != 1)
+                    $_moudel = Moudel::findFirst("id={$v['moudelId']}", 0)->toArray();
+                    if(empty($_moudel))
+                    {
+                        continue;
+                    }
+                    $res = Mem::Instance()->Set($moudelKey, $_moudel, 3600);
+                }
+                
+                if($_moudel['isShow'] != 1)
                 {
                     $this->_urlPowerArr[] = $_moudel->path;
                     continue;
                 }
-                $_moudel = $_moudel->toArray();
                 $_arr[$v['menuId']]['menu'] = $_menu;
                 $_arr[$v['menuId']]['moudel'][] = $_moudel;
                 $this->_urlPowerArr[] = $_moudel['path'];
@@ -108,7 +117,7 @@ class ControllerBase extends ControllerCore
         $this->_urlPowerArr = array_map(function ($v) {
             return trim(str_replace('\\', '/', $v), "/");
         }, array_flip(array_flip(array_filter($this->_urlPowerArr))));
-
+        //echo '<pre>';var_dump($this->_urlPowerArr,$_arr);exit;
         return $_arr;
     }
 
@@ -227,6 +236,18 @@ class ControllerBase extends ControllerCore
                 "src_url" => SRC_URL,
                 "map_key" => MAPABC_KEY,
         ]);
+    }
+
+    /**
+     * 获取加密后的密码
+     * @param type $userName
+     * @return type
+     */
+    protected function _getPasswordStr($userName)
+    {
+        $password = md5(md5('$asdf@@#js234_' . $userName . '_asd##(23^'));
+
+        return substr($password, 3, 28);
     }
 
 }

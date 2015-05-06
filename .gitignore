@@ -6,3 +6,4 @@ nbproject/*
 admin/app/compiled/*
 config/*
 crontab/tmp/*
+log/*

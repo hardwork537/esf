@@ -6,7 +6,8 @@
 //日志根目录
 define('LOG_PATH', __DIR__ . "/../log/");
 
-class Log {
+class Log
+{
 
     /**
      * 日志写入函数，根据项目名称写入相应日志文件
@@ -16,17 +17,22 @@ class Log {
      * @param $message 日志信息
      * @param $file_name 指定的文件名
      */
-    public static function LogWrite($page, $message, $file_name) {
+    public static function LogWrite($page, $message, $file_name)
+    {
         //$WRITE_LOG为日志记录开关，config.inc.php中定义，默认为true
-        if (!$GLOBALS['_WRITE_LOG']) {
+        if(!$GLOBALS['_WRITE_LOG'])
+        {
             exit();
         }
-        if (!file_exists($file_name)) {
+        if(!file_exists($file_name))
+        {
             $handle = fopen($file_name, 'w');
-            if (!$handle) {
+            if(!$handle)
+            {
                 // exit ( "create file fail" );
                 return;
-            } else {
+            } else
+            {
                 chmod($file_name, 0777);
             }
             fclose($handle);
@@ -48,9 +54,11 @@ class Log {
      * @param $message 日志信息
      * @param $file_name 指定的文件名
      */
-    public static function ErrorWrite($project, $page, $message, $filename = '') {
+    public static function ErrorWrite($project, $page, $message, $filename = '')
+    {
         //$WRITE_LOG为日志记录开关，config.inc.php中定义，默认为true
-        if (!$GLOBALS['_WRITE_ERROR_LOG']) {
+        if(!$GLOBALS['_WRITE_ERROR_LOG'])
+        {
             return;
         }
 
@@ -59,14 +67,16 @@ class Log {
         self::LogWrite($page, $message, $filename);
     }
 
-    public static function SuccessWrite($project, $page, $message, $filename = '') {
+    public static function SuccessWrite($project, $page, $message, $filename = '')
+    {
         //$WRITE_LOG为日志记录开关，config.inc.php中定义，默认为true
-        if (!$GLOBALS['_WRITE_SUCCESS_LOG']) {
+        if(!$GLOBALS['_WRITE_SUCCESS_LOG'])
+        {
             return;
         }
 
         $filename = self::LogPath($project) . self::LogFile($filename, 'success');
-        
+
         self::LogWrite($page, $message, $filename);
     }
 
@@ -76,10 +86,12 @@ class Log {
      * @param string $project 项目名称vip/www/admin
      * @return string $file_path 文件夹路径
      */
-    private static function LogPath($project) {
-        
+    private static function LogPath($project)
+    {
+
         $file_path = LOG_PATH;
-        switch ($project) {
+        switch($project)
+        {
             case 'admin':
                 $file_path .= 'admin/';
                 break;
@@ -104,18 +116,23 @@ class Log {
      * @param string  $type 日志类型 error/success
      * @return string $file_name 文件名
      */
-    private static function LogFile($file_name, $type) {
-        if ($type == 'error') {
+    private static function LogFile($file_name, $type)
+    {
+        if($type == 'error')
+        {
             $pre = 'err_';
         }
 
-        if ($type == 'success') {
+        if($type == 'success')
+        {
             $pre = 'suc_';
         }
 
-        if ($file_name == '') {
+        if($file_name == '')
+        {
             $file_name = $pre . date("YmdH") . "_log.txt";
-        } else {
+        } else
+        {
             $file_name = $pre . date("YmdH") . "_" . $file_name;
         }
 
