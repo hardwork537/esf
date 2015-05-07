@@ -41,43 +41,30 @@ class Menu extends BaseModel
     {
         return 'admin_menu';
     }
-
-
+    
     /**
-     * 添加菜单
-     * @param array $arr
-     * @return boolean
+     * 获取一级菜单信息
+     * @param type $menuId
+     * @return type
      */
-    public function add($arr)
+    public static function getMenu($menuId = 0)
     {
-        $rs         = self::instance();
-        $rs->name   = $arr["name"];
-        $rs->weight = intval($arr["weight"]);
-
-        if($rs->create())
+        $memKey = MemKey::ADMIN_MENU_LIST;
+        $menuList = Mem::Instance()->Get($memKey);
+        if(empty($menuList))
         {
-            return true;
+            $menuList = array();
+            $condition = array(
+                'conditions' => null,
+                'order' => 'weight asc'
+            );
+            $menus = self::find($condition, 0)->toArray();
+            foreach($menus as $value)
+            {
+                $menuList[$value['id']] = $value;
+            }
         }
-        return false;
-    }
-
-    /**
-     * 编辑菜单
-     * @param unknown $cityId
-     * @param unknown $arr
-     * @return boolean
-     */
-    public function edit($id, $arr)
-    {
-        $id         = intval($id);
-        $rs         = self::findfirst($id);
-        $rs->name   = $arr["name"];
-        $rs->weight = intval($arr["weight"]);
-
-        if($rs->update())
-        {
-            return true;
-        }
-        return false;
+        
+        return $menuId ? $menuList[$menuId] : $menuList;
     }
 }

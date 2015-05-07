@@ -1,0 +1,105 @@
+<link href="{{ src_url }}css/main.css" rel="stylesheet" type="text/css" />
+<link href="{{ src_url }}css/user.css" rel="stylesheet" type="text/css" />
+
+<div class="maininner">
+    <div class="title">
+        <b class="fm">权限设置</b>
+    </div>
+    <div class="table-responsive" style="margin-top: 28px;">
+        <table class="table table-bordered table_reset">
+            <thead>
+                <tr>
+                    <th>角色</th>
+                    {% for value in menuList %}
+                    <th>{{ value['name'] }}</th>
+                    {% endfor %}
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for roleId,value in roles %}
+                <tr role_id="{{ roleId }}">
+                    <td class="fw">{{ value['name'] }}</td>
+                    {% for id,v in menuList %}
+                    <td><i {% if id in value['menuId'] %}class="normal"{% endif %} ids="{{ id }}"></i></td>
+                    {% endfor %}
+                    <td><a class="authority_edit f003fd8 poi" href="javascript:;">权限设置</a><input type="hidden" value="" /></td>
+                    <!--
+                    {% if roleId==1 %}
+                    <td><a class="f003fd8 poi" href="javascript:;" style="display: none;">权限设置</a><input type="hidden" value="" /></td>
+                    {% else %}
+                    <td><a class="authority_edit f003fd8 poi" href="javascript:;">权限设置</a><input type="hidden" value="" /></td>
+                    {% endif %}  
+                    -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var menu = 'menu6';
+    var moudle = 'rolelist';
+    
+    var checkedList = new Array();
+    //权限设置
+    var authority_edit = $('.authority_edit');
+    authority_edit.click(function(){
+        editAuthority($(this));
+
+        $(this).html('保存');
+        var role_id = $(this).parents('tr').attr("role_id");
+        $(this).unbind("click").bind("click", function() {
+            checkedList = new Array();
+            $(this).parents("tr").find('.checked').each(function(){
+                checkedList.push($(this).attr('ids'));
+                jQuery.unique( checkedList ); //去重
+            });       
+            sendData(role_id, checkedList);
+        })
+    });
+
+
+/**
+     * 权限设置
+     * @param obj 当前点击的对象
+     */
+    function editAuthority(obj){
+        var pat = obj.parents('tr');
+
+        pat.find('i').each(function(){
+            $(this).addClass('checked_before');
+            if($(this).hasClass('normal')){
+                $(this).addClass('checked');
+            }
+            $(this).click(function(){
+                var me = $(this);
+                me.toggleClass('checked');
+
+//                checkedList = new Array();
+//                pat.find('.checked').each(function(){
+//                    checkedList.push($(this).attr('ids'));
+//                    jQuery.unique( checkedList ); //去重
+//                });       
+            });
+        });
+    }
+
+    function sendData(role_id, data){
+        $.request({
+            type:"post",
+            url :"/role/edit",
+            data:"roleId="+role_id+"&menuId="+data.join("_"),
+            callback:function(msg){               
+                if(msg.status==0){
+                    alert(msg.info);
+                    location.reload(false);
+                }else{
+                    alert(msg.info);
+                    location.reload(false);
+                }
+            }
+        });
+    }
+</script>

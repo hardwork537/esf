@@ -1,5 +1,5 @@
 <?php
-define("SRC_URL", "http://src.esf.itc.cn/admin/");
+define("SRC_URL", "http://src.taoyun.com/admin/");
 define("BASE_URL", "/");
 define("SUBJECT_URL", "http://upload.zhuanti.esf.focus.cn");
     

@@ -74,50 +74,51 @@ class ControllerBase extends ControllerCore
         $_powers = Roles::findFirst($this->_userInfo['roleId'])->power;
         if($_powers)
         {
+            //获取所有一级菜单和二级菜单
+            $menuList = Menu::getMenu();
+            $moudelList = Moudel::getMoudel();
+            
+            $list = array();
+            foreach($moudelList as $value)
+            {
+                $list[$value['menuId']][] = $value;
+            }
+            
+            $_arr = array();
             $_powers = json_decode($_powers, true);
+            $powerIds = array();
+            
             foreach($_powers as $v)
             {
-                //一级菜单 menu
-                $menuKey = "admin-db-menu-id-" . $v['menuId'];
-                $_menu = Mem::Instance()->Get($menuKey);
-                if(empty($_menu))
+                $powerIds[] = $v['menuId'];
+            }
+            
+            foreach($menuList as $id=>$value)
+            {
+                if(!in_array($id, $powerIds))
                 {
-                    $_menu = Menu::findFirst("id={$v['menuId']}", 0)->toArray();
-                    if(empty($_menu))
-                    {
-                        continue;
-                    }
-                    $res = Mem::Instance()->Set($menuKey, $_menu, 3600);
-                }
-                
-                //二级菜单 moudel
-                $moudelKey = "admin-db-moudel-id-" . $v['moudelId'];
-                $_moudel = Mem::Instance()->Get($moudelKey);
-                if(empty($_moudel))
-                {
-                    $_moudel = Moudel::findFirst("id={$v['moudelId']}", 0)->toArray();
-                    if(empty($_moudel))
-                    {
-                        continue;
-                    }
-                    $res = Mem::Instance()->Set($moudelKey, $_moudel, 3600);
-                }
-                
-                if($_moudel['isShow'] != 1)
-                {
-                    $this->_urlPowerArr[] = $_moudel->path;
                     continue;
                 }
-                $_arr[$v['menuId']]['menu'] = $_menu;
-                $_arr[$v['menuId']]['moudel'][] = $_moudel;
-                $this->_urlPowerArr[] = $_moudel['path'];
+                
+                $moudel = $list[$id];
+                foreach($moudel as $_moudel)
+                {
+                    if($_moudel['isShow'] != 1)
+                    {
+                        $this->_urlPowerArr[] = $_moudel['url'];
+                        continue;
+                    }
+                    $_arr[$id]['menu'] = $menuList[$id];
+                    $_arr[$id]['moudel'][] = $_moudel;
+                    $this->_urlPowerArr[] = $_moudel['url'];    
+                }           
             }
         }
 
         $this->_urlPowerArr = array_map(function ($v) {
             return trim(str_replace('\\', '/', $v), "/");
         }, array_flip(array_flip(array_filter($this->_urlPowerArr))));
-        //echo '<pre>';var_dump($this->_urlPowerArr,$_arr);exit;
+        
         return $_arr;
     }
 
@@ -127,6 +128,8 @@ class ControllerBase extends ControllerCore
     private function _checkPower()
     {
         $_currentUrl = $this->dispatcher->getControllerName();
+        $_currentUrl .= '/' . $this->dispatcher->getActionName();
+        
         if(!in_array($_currentUrl, $this->_urlPowerArr))
         {
             return $this->response->redirect('/error/noaccess', true);
@@ -234,7 +237,6 @@ class ControllerBase extends ControllerCore
                 "userinfo" => $this->_userInfo,
                 "base_url" => BASE_URL,
                 "src_url" => SRC_URL,
-                "map_key" => MAPABC_KEY,
         ]);
     }
 

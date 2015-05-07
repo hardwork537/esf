@@ -10,89 +10,62 @@ class RoleController extends ControllerBase
             "order" => "weight asc",
         );
         //一级菜单信息
-        $data['menuList'] = Menu::find($condition, 0)->toArray();
+        $data['menuList'] = Menu::getMenu();        
         //角色信息
-        $roleList = Roles::instance()->getRoleMoudel();
-        $roles = array();
-        foreach($roleList as $v)
+        $roleList = Roles::find(null, 0)->toArray();
+        
+        foreach($roleList as $value)
         {
-            $power = json_decode($v['power'], true);
-            $powers = array();
-            $roles[$v['id']] = array(
-                'name' => $v['name']
-            ); 
-            foreach($power as $v)
+            $powers = json_decode($value['power'], true);
+            $menuId = array();
+            foreach($powers as $v)
             {
-                $powers['menuId'] = $v['menuId'];
+                $menuId[] = $v['menuId'];
             }
+            $roles[$value['id']] = array(
+                'name' => $value['name'],
+                'menuId' => $menuId
+            );
         }
-
-        foreach($powers as $v)
-        {
-            $powerList[$v['roleId']]['roleId'] = $v['roleId'];
-            $powerList[$v['roleId']]['roleName'] = $roleList[$v['roleId']]['name'];
-            $powerList[$v['roleId']]['moudelIds'][] = $v['moudelId'];
-        }
-        foreach($roleList as $v)
-        {
-            if(!isset($powerList[$v['id']]))
-            {
-                $powerList[$v['id']] = array(
-                    'roleId' => $v['id'],
-                    'roleName' => $v['name'],
-                    'moudelIds' => array()
-                );
-            }
-        }
-        $data['powerList'] = $powerList;
-
+        
+        $data['roles'] = $roles;
+        
         $this->show(null, $data);
     }
 
     public function editAction()
     {
         $roleId = $this->request->getPost('roleId', 'int', 0);
-        $moudelId = trim($this->request->getPost('moudelId', 'string', ''));
-        $moudels = array();
-        if(!$moudelId)
+        $menuId = trim($this->request->getPost('menuId', 'string', ''));
+
+        if(!$menuId)
         {
-            $moudelId = array();
+            $menuIds = array();
         } else
         {
-            $moudelId = explode('_', $moudelId);
+            $menuIds = explode('_', $menuId);
         }
 
-        $roleInfo = CmsRole::instance()->getRoleForOption();
+        $roleInfo = Roles::instance()->getRoleForOption();
         if(!array_key_exists($roleId, $roleInfo))
         {
             $this->show("ERROR", '非法操作！');
         }
 
-        $moudelInfo = CmsMoudel::find(array('columns' => 'id,menuId'), 0)->toArray();
-        $moudelList = array();
-        foreach($moudelInfo as $v)
-        {
-            $moudelList[$v['id']] = $v;
-        }
+        $menuList = Menu::getMenu();
 
-        if(empty($moudelId))
+        if(!empty($menuIds))
         {
-            $moudels = array();
-        } else
-        {
-            foreach($moudelId as $v)
+            foreach($menuIds as $v)
             {
-                if(array_key_exists($v, $moudelList))
-                {
-                    $moudels[] = $moudelList[$v];
-                } else
+                if(!array_key_exists($v, $menuList))
                 {
                     $this->show("ERROR", '非法操作！');
                 }
             }
         }
 
-        $updateRes = CmsPower::instance()->updatePower($roleId, $moudels);
+        $updateRes = Roles::instance()->updateRolePower($roleId, $menuIds);
         if($updateRes)
         {
             $this->show("JSON", array("status" => 0, "info" => "{$roleInfo[$roleId]}权限修改成功！"));

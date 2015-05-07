@@ -4,31 +4,22 @@ class Moudel extends BaseModel
 {
 
     public $id;
-
     public $name;
-
     public $url;
-
     public $path;
-
-
     public $weight;
-
-
     public $menuId;
-
     public $isShow;
-
 
     public function columnMap()
     {
         return array(
-            'moudelId'     => 'id',
-            'moudelName'   => 'name',
-            'moudelUrl'    => 'url',
+            'moudelId' => 'id',
+            'moudelName' => 'name',
+            'moudelUrl' => 'url',
             'moudelWeight' => 'weight',
-            'moudelPath'   => 'path',
-            'menuId'       => 'menuId',
+            'moudelPath' => 'path',
+            'menuId' => 'menuId',
             'moudelIsShow' => 'isShow',
         );
     }
@@ -53,51 +44,30 @@ class Moudel extends BaseModel
     {
         return 'admin_moudel';
     }
-
+    
     /**
-     * 添加菜单
-     * @param array $arr
-     * @return boolean
+     * 获取二级菜单信息
+     * @param type $menuId
+     * @return type
      */
-    public function add($arr)
+    public static function getMoudel($moudelId = 0)
     {
-        $rs         = self::instance();
-        $rs->name   = $arr["name"];
-        $rs->weight = intval($arr["weight"]);
-        $rs->url    = $arr["url"];
-        $rs->path   = $arr["path"];
-        $rs->menuId = intval($arr["menuId"]);
-        $rs->isShow = intval($arr["isShow"]);
-
-        if($rs->create())
+        $memKey = MemKey::ADMIN_MOUDEL_LIST;
+        $moudelList = Mem::Instance()->Get($memKey);
+        if(empty($moudelList))
         {
-            return true;
+            $moudelList = array();
+            $condition = array(
+                'conditions' => null,
+                'order' => 'weight asc'
+            );
+            $moudels = self::find($condition, 0)->toArray();
+            foreach($moudels as $value)
+            {
+                $moudelList[$value['id']] = $value;
+            }
         }
-        return false;
+        
+        return $moudelId ? $moudelList[$moudelId] : $moudelList;
     }
-
-    /**
-     * 编辑菜单
-     * @param unknown $cityId
-     * @param unknown $arr
-     * @return boolean
-     */
-    public function edit($id, $arr)
-    {
-        $id         = intval($id);
-        $rs         = self::findfirst($id);
-        $rs->name   = $arr["name"];
-        $rs->weight = intval($arr["weight"]);
-        $rs->url    = $arr["url"];
-        $rs->path   = $arr["path"];
-        $rs->menuId = intval($arr["menuId"]);
-        $rs->isShow = intval($arr["isShow"]);
-
-        if($rs->update())
-        {
-            return true;
-        }
-        return false;
-    }
-
 }
