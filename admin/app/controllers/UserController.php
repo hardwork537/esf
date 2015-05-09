@@ -2,12 +2,17 @@
 
 class UserController extends ControllerBase
 {
-    public function indexAction()
+    public function listAction()
     {
-        $user = User::instance()->find(null, 0)->toArray();
+        $user = AdminUser::find(null, 0)->toArray();
         var_dump($user);exit;
         
         $this->show(null, $data);
+    }
+    
+    public function showAction()
+    {
+        echo 'aaa';
     }
 
 }

@@ -17,7 +17,8 @@ class ControllerBase extends ControllerCore
     protected $_pagesize = 15;
     protected $_offset = 0;
     protected $_cityCheck = true; // 是否需要根据城市获取数据
-    private $_urlPowerArr = array();
+    //private $_urlPowerArr = array();
+    private $_controllerPowerArr = array();
     private $_menuArr = array();
 
     protected function initialize()
@@ -103,23 +104,38 @@ class ControllerBase extends ControllerCore
                 $moudel = $list[$id];
                 foreach($moudel as $_moudel)
                 {
+                    //$this->_urlPowerArr[] = $_moudel['url'];
+                    list($controller, $action) = explode('/', trim($_moudel['url'], '/'));
+                    //有权限的controller
+                    $this->_controllerPowerArr[] = $controller;
+                    
                     if($_moudel['isShow'] != 1)
-                    {
-                        $this->_urlPowerArr[] = $_moudel['url'];
+                    {                        
                         continue;
                     }
                     $_arr[$id]['menu'] = $menuList[$id];
                     $_arr[$id]['moudel'][] = $_moudel;
-                    $this->_urlPowerArr[] = $_moudel['url'];    
                 }           
             }
         }
-
-        $this->_urlPowerArr = array_map(function ($v) {
-            return trim(str_replace('\\', '/', $v), "/");
-        }, array_flip(array_flip(array_filter($this->_urlPowerArr))));
+        
+        $this->_controllerPowerArr = array_flip(array_flip($this->_controllerPowerArr));
+//        $this->_urlPowerArr = array_map(function ($v) {
+//            return trim(str_replace('\\', '/', $v), "/");
+//        }, array_flip(array_flip(array_filter($this->_urlPowerArr))));
         
         return $_arr;
+    }
+    
+    /**
+     * 增、删、改 操作权限验证
+     * @return type
+     */
+    protected function checkActPower()
+    {
+        $_currentUrl = $this->dispatcher->getControllerName();
+        
+        return in_array($_currentUrl, $this->_controllerPowerArr) ? true : false;
     }
 
     /**
@@ -128,9 +144,9 @@ class ControllerBase extends ControllerCore
     private function _checkPower()
     {
         $_currentUrl = $this->dispatcher->getControllerName();
-        $_currentUrl .= '/' . $this->dispatcher->getActionName();
+        //$_currentUrl .= '/' . $this->dispatcher->getActionName();
         
-        if(!in_array($_currentUrl, $this->_urlPowerArr))
+        if(!in_array($_currentUrl, $this->_controllerPowerArr))
         {
             return $this->response->redirect('/error/noaccess', true);
         }
