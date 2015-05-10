@@ -25,4 +25,6 @@ define("LOGIN_KEY", 'admin_esf_loginInfo');
 
 //域名信息
 define("_COOKIE_BASE_DOMAIN", '.taoyun.com');
+//默认密码
+$GLOBALS['defaultPwd'] = '123456';
 
