@@ -5,7 +5,7 @@ class City extends BaseModel
 
     protected $id;
     protected $name;
-    protected $abbr;
+    protected $abbr = '';
     protected $pinyin;
     protected $pinyinAbbr;
     protected $status;
@@ -83,6 +83,21 @@ class City extends BaseModel
     }
 
     /**
+     * 返回状态
+     * @param type $status
+     * @return type
+     */
+    public static function getStatus($status = 0)
+    {
+        $allStatus = array(
+            self::STATUS_ENABLED => '启用',
+            self::STATUS_DISABLED => '未启用',
+            self::STATUS_WASTED => '废弃'
+        );
+        
+        return $status ? $allStatus[$status] : $allStatus;
+    }
+    /**
      * 添加城市
      *
      * @param array $arr
@@ -92,12 +107,11 @@ class City extends BaseModel
     {
         $rs = self::instance();
         $rs->name = $arr["name"];
-        $rs->abbr = $arr["abbr"];
         $rs->pinyin = $arr["pinyin"];
         $rs->weight = $arr["weight"];
         $rs->pinyinAbbr = $arr["pinyinAbbr"];
         $rs->status = intval($arr["status"]);
-        $rs->update = date("Y-m-d H:i:s");
+        $rs->updateTime = date("Y-m-d H:i:s");
 
         if($rs->create())
         {
@@ -118,12 +132,11 @@ class City extends BaseModel
         $cityId = intval($cityId);
         $rs = self::findfirst($cityId);
         $rs->name = $arr["name"];
-        $rs->abbr = $arr["abbr"];
         $rs->pinyin = $arr["pinyin"];
         $rs->weight = $arr["weight"];
         $rs->pinyinAbbr = $arr["pinyinAbbr"];
         $rs->status = intval($arr["status"]);
-        $rs->update = date("Y-m-d H:i:s");
+        $rs->updateTime = date("Y-m-d H:i:s");
 
         if($rs->update())
         {

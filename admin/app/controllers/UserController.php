@@ -116,6 +116,7 @@ class UserController extends ControllerBase
         $params['cityId'] = $cityId;
         $params['roleId'] = $roleId;     
         $params['password'] = $this->_getPasswordStr($pwd);
+        $params['editPwd'] = $rePwd ? $params['password'] : ''; //修改时用
 
         return array( 'status' => 0, 'params' => $params );
     }

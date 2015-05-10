@@ -2,7 +2,7 @@
 define("SRC_URL", "http://src.taoyun.com/admin/");
 define("BASE_URL", "/");
 define("SUBJECT_URL", "http://upload.zhuanti.esf.focus.cn");
-    
+define("MAPABC_KEY", "4706805b4dac4acdeddafabe13079a4d8099793ef5ce0f49b2f9153d82a4594af912c23f25f0cfee"); 
 
 if($_GET['debug'])
 {

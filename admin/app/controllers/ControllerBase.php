@@ -253,6 +253,7 @@ class ControllerBase extends ControllerCore
                 "userinfo" => $this->_userInfo,
                 "base_url" => BASE_URL,
                 "src_url" => SRC_URL,
+                "map_key"  => MAPABC_KEY,
         ]);
     }
 

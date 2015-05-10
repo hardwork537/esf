@@ -244,7 +244,7 @@
 
         $(".editmodal").click(function () {
             initModal();
-            var user_id = $("input[name='id']").val();
+            var user_id = $(this).parent().parent().attr('userId');
             $("#newmodal").smodal({title: "修改账号", act: 'edit'});
             $.request({
                 url: cururl + "edit/" + user_id + "/",

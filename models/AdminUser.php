@@ -101,7 +101,7 @@ class AdminUser extends CrmBaseModel
         }
         
         $editData = $checkRes['data'];
-        if(!$data['password'])
+        if(!$data['editPwd'])
         {
             unset($editData['password']);
         }
