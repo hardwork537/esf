@@ -52,7 +52,7 @@
             {% for list in lists %}
             <tr>
                 <td align="center">{{ list['id'] }}</td>
-                <td align="center"><a title="{{ list['name'] }}" href="#">{{ list['name'] }}</a></td>
+                <td align="center">{{ list['name'] }}</td>
                 <td align="center" title="{{ lines[list['metroId']] }}">{{ lines[list['metroId']] }}</td>
                 <td align="center">{{ list['weight'] }}</td>
                 <td align="center" class="operate">

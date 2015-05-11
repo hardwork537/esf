@@ -35,17 +35,13 @@ class SubwaysiteController extends ControllerBase
 
         if($this->request->isPost())
         {
-            $check_ret = $this->_filter_params();
-            if(0 != $check_ret['status'])
+            $checkRes = $this->_filterParams();
+            if(0 != $checkRes['status'])
             {
-                $this->show("JSON", $check_ret);
+                $this->show("JSON", $checkRes);
             }
-            $addRes = MetroStation::instance()->add($check_ret['params']);
-            if(0 === $addRes['status'])
-            {
-                //成功，添加log日志
-                $logRes = $this->addAdminLog('subwaysite', "新增了轨道站点：{$check_ret['params']['msName']}");
-            }
+            $addRes = MetroStation::instance()->add($checkRes['params']);
+            
             $this->show("JSON", $addRes);
         }
         $data['metroId'] = $this->request->get("metroId", int, 0);
@@ -57,26 +53,21 @@ class SubwaysiteController extends ControllerBase
     public function editAction($id = 0)
     {
         $cityId         = $_REQUEST['cityId'] ? intval($_REQUEST['cityId']) : $this->_userInfo['cityId'];
-        $cityId         = $this->checkAdminCity(intval($cityId));
         $data['cityId'] = $cityId;
-        $data['citys']  = City::getOptions($this->_userInfo['cityId']);
+        $data['citys']  = City::getOptions();
 
         if($this->request->isPost())
         {
             //提交修改
             $id        = intval($this->request->getPost("msId", "int"));
-            $check_ret = $this->_filter_params();
-            if(0 != $check_ret['status'])
+            $checkRes = $this->_filterParams();
+            if(0 != $checkRes['status'])
             {
-                $this->show("JSON", $check_ret);
+                $this->show("JSON", $checkRes);
             }
 
-            $rs = MetroStation::instance()->edit($id, $check_ret['params']);
-            if(0 === $rs['status'])
-            {
-                //成功，添加log日志
-                $logRes = $this->addAdminLog('subwaysite', "修改了轨道站点：{$check_ret['params']['msName']}");
-            }
+            $rs = MetroStation::instance()->edit($id, $checkRes['params']);
+            
             $this->show("JSON", $rs);
         }
         //进入修改页面
@@ -89,7 +80,7 @@ class SubwaysiteController extends ControllerBase
         }
         else
         {
-            return $this->response->redirect('subwaysite/index');
+            return $this->response->redirect('subwaysite/list');
         }
         $data['msId']    = $id;
         $data['metroId'] = $data['site_info']['metroId'];
@@ -101,7 +92,7 @@ class SubwaysiteController extends ControllerBase
     /**
      * 添加、修改时 参数验证
      */
-    private function _filter_params()
+    private function _filterParams()
     {
         $params = array();
         //验证 轨道站点

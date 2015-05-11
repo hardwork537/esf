@@ -149,13 +149,16 @@
 
     $(function() {
         var cururl = base_url + "subwaysite/";
+        var listUrl = base_url + 'subwaysite/list?cityId={{ cityId }}&metroId={{ metroId }}'
         _do = $("#form1").find("input[name=act]").val();
         $(".saveButton").click(function() {
             $("#form1").ajaxSubmit({
                 "url": cururl + _do,
                 "callback": function(msg) {
                     if (msg.status == 0) {
-                        self.location=cururl;
+                        var action = 'add' == _do ? '新增轨交站点' : '修改轨交站点';
+                        alert(action + '成功');
+                        self.location = listUrl;
                     } else {
                         $.error(msg.info);
                     }
