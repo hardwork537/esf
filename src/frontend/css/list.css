@@ -1,0 +1,93 @@
+﻿
+.form-control.halfwidth{ width:60px;}
+select.input-sm{ height:35px; line-height:35px; padding:5px 2px 3px; }
+input[type="text"]{ padding:0 5px;}
+
+
+.input-group-addon{ padding:0 4px 2px; font-size:12px; cursor:pointer; color:#222;}
+.input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child)
+{border-radius: 3px;}   
+.input-group-addon:last-child{border-left:solid 1px #CCCCCC;}
+.input-search{  background-color:#888888;  padding: 0 15px 2px 18px;padding: 3px 15px 1px 18px\9\0; line-height:18px\9\0; border:solid 1px #777777; color:#fff; font-size:14px; font-weight:bold;}
+.input-search:hover{border-color:#666; background-color:#777777; }    
+
+
+
+.btn-sm{ padding:0 10px 2px; line-height:20px;padding:3px 10px 1px\9\0; line-height:18px\9\0;}   
+.btn-xs {padding:1px 13px 3px; line-height: 18px;} 
+.btn-primary {background-color: #1771D2;}
+.btn-primary:hover,.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {background-color: #1463BA;}
+.btn-warning{ background-color:#FF8E1E; border-color:#F77B00; font-weight:bold;}
+.btn-warning:hover,.btn-warning:focus,.btn-warning:active,.btn-warning.active,.open .dropdown-toggle.btn-warning {
+  color: #ffffff;
+  background-color: #F97C00;
+  border-color: #EC7600;
+}
+.btn-warning:active,
+.btn-warning.active,
+.open .dropdown-toggle.btn-warning {
+  background-image: none;
+}
+.dropdown-menu{border-radius:3px;box-shadow: 0 0 0 rgba(0, 0, 0, 0.176); margin-left:2px; font-size:12px;} 
+
+.timecol .input-group-addon{}
+
+hr{ border-color: #cccccc;}
+.menu_1{ height:12px; background-position:0 0;margin-right:10px;}
+.menu_2{ height:16px; background-position:0 -14px;margin-right:10px;}
+.menu_3{ height:15px; background-position:0 -33px;margin-right:10px;}
+.icon_download{ width:10px; height:10px; background-position:-3px -144px;}
+.icon_tips{ width:13px; height:16px; background-position:-2px -85px; margin-right:10px; margin-top:-2px;}
+.btn-default:hover .icon_download{background-position:-3px -157px;}
+
+
+.btn-default{background-color: #ebebeb;color:#666;}
+.topcheckwrap{ margin:20px 0 15px;}
+.topcheckwrap .btn{ background-color:#EBEBEB; border-color:#CCCCCC; font-weight:bold; color:#666666; font-size:12px; margin-left:5px; padding: 5px 12px 7px;}
+.topcheckwrap .btn:hover,.topcheckwrap .btn:focus,.topcheckwrap .btn:active{ background-color:#DDDDDD; border-color:#BBBBBB;}
+.roundborder { display: inline-block; margin-bottom: 0;font-weight: normal; text-align: center;vertical-align: middle;cursor: pointer; background-image: none; border: 1px solid transparent; padding: 5px 12px 7px; font-size: 12px;border-radius: 4px; border:solid 1px #CCCCCC;}
+
+
+
+.my_left{ float:left;}
+.my_right{ float:right;}
+
+
+
+/*====角色管理====*/
+.rolewrap2{ height:240px; overflow-y:auto; width:360px; padding:15px 10px 15px 10px; border:solid 1px #CCCCCC;  -webkit-border-radius:4px;-moz-border-radius:4px; border-radius:4px;}
+.rolewrap li,.rolewrap ul{ float:left; list-style:none;}
+.rolewrap li.col1{width:92px;}
+.rolewrap li.col2{width:228px; color:#666666;}
+.rolewrap li.col2a{ width:130px;}
+.rolewrap li.col2b{ width:87px;}
+.rolewrap ul{ margin-bottom:8px;}
+.rolewrap ul p{ margin-bottom:8px;}
+.rolewrap{ padding-top:20px; border-top:solid 1px #ccc;}
+.rolewrap:first-child{padding-top:0; border-top:none;}
+.rolewrap .triangle-right{ position:relative; top:-1px; margin-left:3px;}
+.rolewrap input{ margin-right:5px;}
+
+
+
+/*添加用户*/
+.addnewuserwrap{ position:relative;}
+.addnewuserwrap .form-control{ width:120px; padding-right:15px; background:url(../images/downarrow.png) no-repeat 95% 50%;}
+.addnewuserwrap .addnew_btn{ position:absolute; left:263px; top:2px; display:none; z-index:100;}
+.btngroup_wrap{ text-align:right; margin:15px 0 15px 0;}
+.btngroup_wrap .btn-default{ background-image:none; background-color:#fff; width:110px; height:36px; line-height:24px; text-align:center;}
+.btngroup_wrap .btn-default:hover { color: #333333;background-color: #ebebeb;border-color: #adadad;}
+.btngroup_wrap .active,.btngroup_wrap .active:hover{ color: #fff; font-weight:bold;background-color:#2A8ADE; border-color:#1771D2;}
+
+
+/*============tab==========*/
+.nav-tabs{ border-color:#B3CFEA;}
+.nav-tabs > li{ margin-right:3px;}
+.nav-tabs > li > a{ background-color:#F2F9FF; border-color:#B3CFEA; color:#333; width:120px; text-align:center; font-size:14px;}
+.nav > li > a:hover,.nav > li > a:focus { text-decoration: none; background-color: #F2F9FF;}
+.nav-tabs > li > a:hover { border-color: #B3CFEA ;}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{ border-color:#B3CFEA; border-bottom-color:#fff; background-color:#fff; font-weight:bold; color:#333;}
+.nav > li > a{ padding:7px 15px;}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>后台管理系统_二手房</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="css/common.css" rel="stylesheet" type="text/css" />
+    <link href="css/house_edit_more.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="head ">
+    <div class="headinner">
+        <div class="items">
+            <a class="logo" href="/">
+                <img src="images/logo.png" />
+            </a>
+            <div class=" user_login">
+                <div class=" user_login">
+                    您好，<strong class="font_yellow">test</strong>  <span class="widthl"> 城市: 上海</span> <span class=" widthm"> | </span>  <span class="widthl"> 角色: 管理员</span> <span class=" widthm"> | </span><a href="javascript:;" class="widthm" onclick="return loginout();"> 退出 </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; 房源编辑 &gt; <strong class="font_gold"> 更多信息 </strong> </h6>
+            
+            <!-- house more edit begin -->
+            <form class="house-edit-more" name="" id="" method="post" action="">
+            	<div class="form-group">
+                	<label>房源等级：</label>
+                	<input id="" class="form-control" type="text" value="A">
+                	<label class="col-xs-offset-1">房源状态：</label>
+                    <select class="form-control" id="">
+                    	<option value="0">在线</option>
+                    </select>
+                    <select class="form-control" id="">
+                    	<option value="0">下架</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                	<label>房源标签：</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox1" value="option1"> 标签1</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox2" value="option2"> 标签1</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="inlineCheckbox3" value="option3"> 标签1</label>
+                </div>
+            </form>
+            <!-- house more edit end -->
+            
+        </div>
+    </div>
+    <div class=" sidebar">
+        <ul class="sidebar_inner">
+            <li id="menu1">
+                <span> <s class="icon icon_set"></s> <strong>房源管理</strong> </span>
+                <ul>
+                    <li><a  class="" href="#">房源列表</a></li>
+                    <li><a  class="active" href="#">房源编辑</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
