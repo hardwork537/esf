@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>后台管理系统_二手房</title>
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="css/common.css" rel="stylesheet" type="text/css" />
+        <link href="css/house_edit_basic.css" rel="stylesheet" type="text/css" />
+        <!--<script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/ueditor.config.js"  type="text/javascript"></script>
+        <script src="js/ueditor.all.min.js"  type="text/javascript"></script>
+        <script src="js/lang/zh-cn/zh-cn.js"  type="text/javascript"></script>-->
+    </head>
+
+    <body>
+        <div class="head ">
+            <div class="headinner">
+                <div class="items">
+                    <a class="logo" href="/">
+                        <img src="images/logo.png" />
+                    </a>
+                    <div class=" user_login">
+                        <div class=" user_login">
+                            您好，<strong class="font_yellow">test</strong>  <span class="widthl"> 城市: 上海</span> <span class=" widthm"> | </span>  <span class="widthl"> 角色: 管理员</span> <span class=" widthm"> | </span><a href="javascript:;" class="widthm" onclick="return loginout();"> 退出 </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mainout items">
+            <div class="main">
+                <div class="maininner">
+                    <h6 class="maintt">
+                        您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; 房源编辑 &gt; <strong class="font_gold"> 字段信息 </strong>
+                    </h6>
+
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <strong> 提示：</strong>
+                        <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+
+                    <form id="form1" onsubmit="return false" method="post" action="#">
+                        <!-- 基本信息 BEGIN -->
+                        <div class="main_filter clearfix">
+                            <b>基本信息</b>
+                            <div class="btngroup_wrap">
+                                <div class="btn-group">
+                                    <a class="btn btn-default active" href="javascript:;">字段信息</a>
+                                    <a class="btn btn-default" href="house_edit_img.html">房源图片</a>
+                                    <a class="btn btn-default" href="house_edit_more.html">更多信息</a>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="main_form">
+                            <li class="form_group clearfix">
+                                <em class="sp_em"><i>*</i>小区名称：</em>
+                                <div class="input_group">
+                                    <input type="text" datatype="*" notnull="true" info="请选择小区!" id="park_name" name="park_name" autocomplete="off" class="form_control input_l Validform_error" value="">
+                                    <div style="display: none;" id="suggest" class="lenovo"></div>
+                                </div>
+                                <em class="sp_em">房源编号：</em>
+                                <input type="text" name="property_number" value="" />
+                            </li>
+                            <li class="form_group clearfix">
+                                <em class="sp_em"><i>*</i>物业类型：</em>
+                                <select class="form-control" name="park_wuye" notnull="true">
+                                    <option value="1">公寓</option>
+                                    <option value="2">独栋别墅</option>
+                                </select>
+                                <em class="sp_em"><i>*</i>建筑类型：</em>
+                                <select class="form-control" name="park_jianzhu" notnull="true">
+                                    <option value="1">低层</option>
+                                    <option value="2">多层</option>
+                                    <option value="3">小高层</option>
+                                    <option value="4">高层</option>
+                                </select>
+                                <em class="sp_em"><i>*</i>朝向：</em>
+                                <select class="form-control" name="park_chaoxiang" notnull="true">
+                                    <option value="1">东</option>
+                                    <option value="2">南</option>
+                                    <option value="3">西</option>
+                                    <option value="4">北</option>
+                                    <option value="5">南北</option>
+                                </select>
+                                <em class="sp_em"><i>*</i>装修状况：</em>
+                                <select class="form-control" name="park_zhuangxiu" notnull="true">
+                                    <option value="1">精装修</option>
+                                    <option value="2">普通装修</option>
+                                    <option value="3">毛坯</option>
+                                </select>
+                                <em class="sp_em"><i>*</i>楼层位置：</em>
+                                <select class="form-control" name="park_louceng" notnull="true">
+                                    <option value="1">低区</option>
+                                    <option value="2">中区</option>
+                                    <option value="3">高区</option>
+                                </select>
+                            </li>
+                            <li class="form_group clearfix">
+                                <em class="sp_em">总楼层：</em>
+                                <input class="w60 mr45" type="text" value="" name="total_ceng" />
+                                <em class="sp_em">电梯数量：</em>
+                                <input class="w60 mr45" type="text" value="" name="dianti" />
+                                <em class="sp_em"><i>*</i>单元号：</em>
+                                <input class="w60 mr45" type="text" value="" name="danyuan" notnull="true" info="请输入单元号!" />
+                                <em class="sp_em"><i>*</i>室号：</em>
+                                <input class="w60 mr45" type="text" value="" name="shihao" notnull="true" info="请输入室号!" />
+                                <em class="sp_em"><i>*</i>户型：</em>
+                                <input class="w40" type="text" value="" name="huxing_shi" notnull="true" info="请输入室" />
+                                <em class="em_one">室</em>
+                                <input class="w40" type="text" value="" name="huxing_ting" notnull="true" info="请输入厅" />
+                                <em class="em_one">厅</em>
+                                <input class="w40" type="text" value="" name="huxing_wei" notnull="true" info="请输入卫" />
+                                <em class="em_one">卫</em>
+                            </li>
+                            <li class="form_group clearfix">
+                                <em class="sp_em"><i>*</i>建筑面积：</em>
+                                <input class="w89 mr15" type="text" value="" name="area_jianzhu" notnull="true" info="请输入建筑面积!" />
+                                <em class="sp_em">使用面积：</em>
+                                <input class="w89 mr15" type="text" value="" name="area_shiyong" />
+                            </li>
+                        </ul>
+                        <!-- 基本信息 END -->
+
+                        <!-- 价格信息 BEGIN -->
+                        <div class="main_filter clearfix">
+                            <b>价格信息</b>
+                        </div>
+                        <ul class="main_form">
+                            <li class="form_group clearfix">
+                                <em class="sp_em">产权人：</em>
+                                <input class="w110 mr15" type="text" value="" name="chanquan" />
+                                <em class="sp_em">联系方式：</em>
+                                <input class="w110 mr15" type="text" value="" name="chanquan_tel" />
+                                <em class="sp_em">境外人士：</em>
+                                <select class="form-control" name="is_jingwai">
+                                    <option value="1">否</option>
+                                    <option value="2">是</option>
+                                </select>
+                            </li>
+                            <li class="form_group clearfix">
+                                <em class="sp_em">代理人：</em>
+                                <input class="w110 mr15" type="text" value="" name="daili" />
+                                <em class="sp_em">联系方式：</em>
+                                <input class="w110 mr15" type="text" value="" name="daili_tel" />
+                            </li>
+                        </ul>
+                        <!-- 价格信息 END -->
+
+                        <!-- 附加信息 BEGIN -->
+                        <div class="main_filter clearfix">
+                            <b>附加信息</b>
+                        </div>
+                        <ul class="main_form">
+                            <li class="form_group clearfix">
+                                <em class="sp_em">租约：</em>
+                                <select class="form-control" name="zuyue">
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                                <em class="sp_em">月租金：</em>
+                                <input class="w110 mr15" type="text" name="month_price" />
+                                <em class="sp_em">到期时间：</em>
+                                <input class="w110 mr15" type="text" name="daoqi_date" />
+                                <em class="sp_em">车位：</em>
+                                <select class="form-control" name="chewei">
+                                    <option value="1">无车位</option>
+                                    <option value="2">地上车位</option>
+                                    <option value="3">地下车位</option>
+                                </select>
+                                <em class="sp_em">价格：</em>
+                                <input class="w110 mr15" type="text" name="price" />
+                            </li>
+                            <li class="form_group clearfix">
+                                <em class="sp_em">抵押：</em>
+                                <select class="form-control" name="diya">
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                                <em class="sp_em">户口：</em>
+                                <select class="form-control" name="hukou">
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                                <em class="sp_em">赠送明细：</em>
+                                <select class="form-control" name="zengsong">
+                                    <option value="1">无</option>
+                                    <option value="2">固定部分</option>
+                                    <option value="3">全部</option>
+                                </select>
+                                <em class="sp_em">备注：</em>
+                                <input class="w110" type="text" name="beizhu" />
+                            </li>
+                        </ul>
+                        <!-- 附加信息 END -->
+
+                        <!-- 房源描述 BEGIN -->
+                        <div class="main_filter clearfix">
+                            <b>详细描述</b>
+                        </div>
+                        <div class="main_form main_info clearfix">
+                            <em class="sp_em"><i>*</i>房源描述：</em>
+                            <div class="info_inner">
+                                <script id="editorContainer" name="editor_comment" type="text/plain" style="width:98%; height:300px;"></script>
+                            </div>
+                        </div>
+                        <!-- 房源描述 END -->
+
+                        <div class="main_form lst_form" style="text-align: center;">
+                            <input type="button" class="btn btn-success mr15" value="保存" />
+                            <input type="button" class="btn btn-success" value="保存并发布" />
+                        </div>
+
+                        <!-- 存放一些值 -->
+                        <input type="hidden" />
+                        <input type="hidden" />
+                    </form>
+                </div>
+            </div>
+
+            <!-- 左侧导航 BEGIN -->
+            <div class="sidebar">
+                <ul class="sidebar_inner">
+                    <li id="menu1">
+                        <span> <s class="icon icon_set"></s> <strong>房源管理</strong> </span>
+                        <ul>
+                            <li><a  class="" href="#">房源列表</a></li>
+                            <li><a  class="active" href="#">房源编辑</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- 左侧导航 END -->
+        </div>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.js" type="text/javascript"></script>
+        <script src="js/common.js" type="text/javascript"></script>
+        <script src="js/global.js" type="text/javascript"></script>
+        <script src="js/jquery.ext.js" type="text/javascript"></script>
+        <script src="js/ueditor.config.js"  type="text/javascript"></script>
+        <script src="js/ueditor.all.min.js"  type="text/javascript"></script>
+        <script src="js/lang/zh-cn/zh-cn.js"  type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var ue = UE.getEditor('editorContainer', {
+                    autoHeight: false,
+                    toolbars: [
+                        ['source','undo','redo','justifyleft','justifyright','justifycenter','justifyjustify','bold', 'italic', 'underline','removeformat', 'formatmatch', '|', 'cleardoc']
+                    ],
+                    elementPathEnabled: false
+                });
+
+                ue = UE.getEditor("editor_comment", {
+                    autoHeight: false,
+                    toolbars: [
+                        ['source', '|' ,'cleardoc']
+                    ],
+                    elementPathEnabled: false
+                });
+            });
+        </script>
+    </body>
+</html>

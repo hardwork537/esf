@@ -36,7 +36,7 @@ input.error{border:solid 1px red;}
 .headinner{height:60px;background-color:#2a8ade; }
 .head .items{background-color:#2a8ade;}
 .head *{ line-height:60px; color:#fff;}
-.head .logo{ width:220px;  padding:13px 0 16px; float:left; background-color:#1771d2; color:#FFFFFF; font-size:40px; font-weight:bold; font-family:Arial; text-align:center; display:block;}
+.head .logo{ width:220px;  /*padding:13px 0 16px;*/ float:left; background-color:#1771d2; color:#FFFFFF; font-size:40px; font-weight:bold; font-family:Arial; text-align:center; display:block;}
 .head .user_login{ float:right; color:#fff; padding-right:20px;}
 .head .user_login a:hover{ color:#fff;}
 .sidebar{ float:left; width:220px; margin-left:-100%; background-color:#EEEEEE;font-size:14px;  }
