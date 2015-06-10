@@ -1,0 +1,14 @@
+@charset "utf-8";
+/* CSS Document */
+.house-edit-more input[type="checkbox"] {
+	float: none;
+}
+.house-edit-more .checkbox-inline {
+	vertical-align: top;
+	margin-right: 20px;
+}
+.btn-group .active, .btn-group .active:hover {
+  background-color: #2A8ADE;
+  border-color: #1771D2;
+  color: #fff;
+}
