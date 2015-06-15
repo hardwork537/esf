@@ -24,7 +24,6 @@ class CityDistrict extends BaseModel
     const STATUS_DISABLED = 0; // 未启用
     const STATUS_WASTED = - 1; // 废弃
 
-
     public function getSource()
     {
         return 'city_district';
@@ -81,10 +80,10 @@ class CityDistrict extends BaseModel
             self::STATUS_DISABLED => '未启用',
             self::STATUS_WASTED => '废弃'
         );
-        
+
         return $status ? $allStatus[$status] : $allStatus;
     }
-    
+
     /**
      * 添加城区
      *
@@ -93,26 +92,27 @@ class CityDistrict extends BaseModel
      */
     public function add($arr)
     {
-		$bxy = BaiduMap::instance()->getLonLat($arr["X"],$arr["Y"]);
-		$this->BX = $bxy['x'];
+        $bxy = BaiduMap::instance()->getLonLat($arr["X"], $arr["Y"]);
+        $this->BX = $bxy['x'];
         $this->BY = $bxy['y'];
         $this->cityId = $arr["cityId"];
         $this->name = $arr["name"];
         $this->abbr = $arr["abbr"];
         $this->pinyin = $arr["pinyin"];
-		$this->weight = $arr["weight"];
-        $this->X= intval($arr["X"]);
-        $this->Y= intval($arr["Y"]);
+        $this->weight = $arr["weight"];
+        $this->X = intval($arr["X"]);
+        $this->Y = intval($arr["Y"]);
         $this->status = intval($arr["status"]);
         $this->weight = intval($arr["weight"]);
         $this->updateTime = date("Y-m-d H:i:s");
 
-        if ($this->create()) {
+        if($this->create())
+        {
             return true;
         }
         return false;
     }
-    
+
     /**
      * 编辑城区信息
      *
@@ -120,28 +120,56 @@ class CityDistrict extends BaseModel
      * @param unknown $arr
      * @return boolean
      */
-    public function edit ($distId, $arr)
+    public function edit($distId, $arr)
     {
         $distId = intval($distId);
-		$bxy = BaiduMap::instance()->getLonLat($arr["X"],$arr["Y"]);
+        $bxy = BaiduMap::instance()->getLonLat($arr["X"], $arr["Y"]);
         $rs = self::findfirst($distId);
         $rs->cityId = $arr["cityId"];
         $rs->name = $arr["name"];
         $rs->abbr = $arr["abbr"];
         $rs->pinyin = $arr["pinyin"];
-		$rs->weight = $arr["weight"];
+        $rs->weight = $arr["weight"];
         $rs->X = floatval($arr["X"]);
         $rs->Y = floatval($arr["Y"]);
-		$rs->BX = $bxy['x'];
+        $rs->BX = $bxy['x'];
         $rs->BY = $bxy['y'];
         $rs->status = intval($arr["status"]);
         $rs->weight = intval($arr["weight"]);
         $rs->updateTime = date("Y-m-d H:i:s");
 
-        if ($rs->save()) {
+        if($rs->save())
+        {
             return true;
         }
 
         return false;
     }
+
+    /**
+     * 根据城市Id获城区信息
+     * 不传cityID则获取所有城市的城区信息
+     */
+    public function getDistrict($intCityID)
+    {
+        if(!$intCityID)
+            return array();
+
+        $arrBackData = array();
+
+        $strCond = "cityId = {$intCityID} and status=" . self::STATUS_ENABLED;
+
+        $objRes = self::find($strCond);
+
+        if(!empty($objRes))
+        {
+
+            foreach($objRes->toArray() as $district)
+            {
+                $arrBackData[$district['id']] = $district['name'];
+            }
+        }
+        return $arrBackData;
+    }
+
 }

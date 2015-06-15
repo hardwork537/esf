@@ -168,4 +168,46 @@ class CityRegion extends BaseModel
         return false;
     }
 
+    /**
+     * 根据城区ID获取该城区下的所有板块数据
+     * @param int $distId
+     */
+    public function getRegionByDistrict($distId)
+    {
+        if(empty($distId))
+        {
+            return false;
+        }
+
+        $arr = array();
+        $arrRegion = self::find(" distId=" . $distId . " and status=" . self::STATUS_ON, 0)->toArray();
+        foreach($arrRegion as $value)
+        {
+            $arr[$value['id']] = $value;
+        }
+        return $arr;
+    }
+
+    /**
+     * 根据城区id取板块信息 key=>板块id，value=>板块名
+     * @param int $distId
+     * @return array
+     */
+    public function getRegionForOptionByDistId($distId)
+    {
+        $distId = intval($distId);
+        if(!$distId)
+        {
+            return array();
+        }
+        $arr = array();
+        $regions = $this->getRegionByDistrict($distId);
+        foreach($regions as $regId => $value)
+        {
+            $arr[$regId] = $value['name'];
+        }
+
+        return $arr;
+    }
+
 }
