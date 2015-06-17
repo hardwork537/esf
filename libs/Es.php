@@ -2,7 +2,8 @@
 
 require dirname(__FILE__) . "/../vendor/autoload.php";
 
-class Es {
+class Es
+{
 
     private $_index = 'esf';
     private $_type = 'house';
@@ -94,9 +95,9 @@ class Es {
         "multiFields" => 'multiFields',
         "currency" => "houseCurrency",
         "rentCurrency" => "houseCurrency",
-        "hoId"          =>  "hoId",
-        "rentType"  =>  "rentType",
-        "rentTypeTo"    =>  "rentTypeTo",
+        "hoId" => "hoId",
+        "rentType" => "rentType",
+        "rentTypeTo" => "rentTypeTo",
     );
     private $_parkNameMap = array(
         'id' => 'id',
@@ -135,205 +136,259 @@ class Es {
         "multiFields" => 'multiFields',
     );
 
-    function __construct($param = array()) {
-        if (isset($param['index']) && $param['index']) {
+    function __construct($param = array())
+    {
+        if(isset($param['index']) && $param['index'])
+        {
             $this->_index = $param['index'];
             unset($param['index']);
         }
-        if (isset($param['type']) && $param['type']) {
+        if(isset($param['type']) && $param['type'])
+        {
             $this->_type = $param['type'];
             unset($param['type']);
         }
         $this->_connection = new Elasticsearch\Client($param);
     }
 
-    public static function instance($param = array(), $cache = true) {
-        if ($cache) {
-            if (isset(self::$_instanceCache)) {
+    public static function instance($param = array(), $cache = true)
+    {
+        if($cache)
+        {
+            if(isset(self::$_instanceCache))
+            {
                 return self::$_instanceCache;
             }
             self::$_instanceCache = new self($param);
             return self::$_instanceCache;
-        } else {
+        } else
+        {
             return new self($param);
         }
     }
 
-    function setIndex($indexName) {
-        if (!$indexName)
+    function setIndex($indexName)
+    {
+        if(!$indexName)
             return;
         $this->_index = $indexName;
     }
 
-    function getIndex() {
+    function getIndex()
+    {
         return $this->_index;
     }
 
-    function setType($typeName) {
-        if (!$typeName)
+    function setType($typeName)
+    {
+        if(!$typeName)
             return;
         $this->_type = $typeName;
     }
 
-    function getType() {
+    function getType()
+    {
         return $this->_type;
     }
 
-    function get($pararms) {
+    function get($pararms)
+    {
         
     }
 
     //
-    function createIndex($indexName) {
+    function createIndex($indexName)
+    {
         $this->_connection->indices()->create(array('index' => $indexName));
     }
 
-    function deleteIndex($indexName) {
+    function deleteIndex($indexName)
+    {
         $this->_connection->indices()->delete(array('index' => $indexName));
     }
 
-    function createMapping($arMapping) {
+    function createMapping($arMapping)
+    {
         $param['index'] = $this->_index;
         $param['type'] = $this->_type;
-        if ($this->existsType($param))
+        if($this->existsType($param))
             return false;
         $param['body'][$this->_type] = $arMapping;
-        try {
+        try
+        {
             $this->_connection->indices()->putMapping($param);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
+            var_dump($e);
             return false;
         }
     }
 
-    function existsType($param) {
-        try {
+    function existsType($param)
+    {
+        try
+        {
             return $this->_connection->indices()->existsType($param);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             return false;
         }
     }
 
-    function update($param) {
-        if (!$param || !is_array($param) || !isset($param['id']) || !isset($param['data']) || !$param['data'] || !is_array($param['data']))
+    function update($param)
+    {
+        if(!$param || !is_array($param) || !isset($param['id']) || !isset($param['data']) || !$param['data'] || !is_array($param['data']))
             return false;
         $updateParam = $this->getTypeIndex($param);
 
         $updateParam['id'] = $param['id'];
         unset($param['id']);
         $updateParam['body']['doc'] = $param['data'];
-        try {
+        try
+        {
             return $this->_connection->update($updateParam);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             //print_r($e->getMessage());
             return false;
         }
     }
 
-    public function insert($param) {
-        if (!$param || !is_array($param) || empty($param['id']))
+    public function insert($param)
+    {
+        if(!$param || !is_array($param) || empty($param['id']))
             return false;
         $insertData = $this->getTypeIndex($param);
-        if (isset($param['id'])) {
-            if ($param['id']) {
+        if(isset($param['id']))
+        {
+            if($param['id'])
+            {
                 $insertData['id'] = $param['id'];
             }
             unset($param['id']);
         }
         $insertData['body'] = $param;
-        try {
+        try
+        {
             return $this->_connection->index($insertData);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             echo $e->getMessage();
             return false;
         }
     }
 
     //有问题
-    public function bulk($param) {
-        if (!$param || !is_array($param))
+    public function bulk($param)
+    {
+        if(!$param || !is_array($param))
             return false;
         $insertData = $this->getTypeIndex($param);
         $insertData['body'] = $param;
-        try {
+        try
+        {
             return $this->_connection->bulk($insertData);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             echo $e->getMessage();
             return false;
         }
     }
 
-    public function delete($param = array()) {
-        if (!$param || !is_array($param) || !isset($param['id']) || !$param['id'])
+    public function delete($param = array())
+    {
+        if(!$param || !is_array($param) || !isset($param['id']) || !$param['id'])
             return false;
         $deleteParam = $this->getTypeIndex($param);
 
         $deleteParam['id'] = $param['id'];
-        try {
+        try
+        {
             return $this->_connection->delete($deleteParam);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             return false;
         }
     }
 
-    public function deleteByQuery($param) {
-        if (!$param || !is_array($param))
+    public function deleteByQuery($param)
+    {
+        if(!$param || !is_array($param))
             return false;
         $deleteParam = $this->getTypeIndex($param);
-        if (isset($param['where']) && $param['where'] && is_array($param['where'])) {
+        if(isset($param['where']) && $param['where'] && is_array($param['where']))
+        {
             $arQuery = $this->buildCondition($param['where']);
-            if ($arQuery) {
+            if($arQuery)
+            {
                 $deleteParam['body'] = $arQuery;
             }
-        } else {
+        } else
+        {
             return false;
         }
-        try {
+        try
+        {
             return $this->_connection->deleteByQuery($deleteParam);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             return false;
         }
     }
 
-    function search($param) {
+    function search($param)
+    {
         $searchParam = $this->getTypeIndex($param);
-        if (isset($param['select']) && $param['select']) {
+        if(isset($param['select']) && $param['select'])
+        {
             $searchParam['fields'] = is_array($param['select']) ? join(',', $param['select']) : $param['select'];
         }
 
-        if (isset($param['order']) && $param['order']) {
+        if(isset($param['order']) && $param['order'])
+        {
             $searchParam['sort'] = $param['order'];
         }
-        if (isset($param['limit']) && $param['limit']) {
-            if (is_array($param['limit'])) {
+        if(isset($param['limit']) && $param['limit'])
+        {
+            if(is_array($param['limit']))
+            {
                 $searchParam['from'] = count($param['limit']) == 2 ? $param['limit'][0] : 0;
                 $searchParam['size'] = array_pop($param['limit']);
-            } else if (is_numeric($param['limit'])) {
+            } else if(is_numeric($param['limit']))
+            {
                 $searchParam['from'] = 0;
                 $searchParam['size'] = $param['limit'];
             }
         }
-        if (isset($param['where']) && $param['where'] && is_array($param['where'])) {
+        if(isset($param['where']) && $param['where'] && is_array($param['where']))
+        {
             $arQuery = $this->buildCondition($param['where']);
-            if ($arQuery) {
+            if($arQuery)
+            {
                 $searchParam['body'] = $arQuery;
             }
-        } else {
+        } else
+        {
             $searchParam['body']['query'] = array("match_all" => array());
         }
-        try {
+        try
+        {
             //  var_dump($searchParam);die();
             $info = $this->_connection->search($searchParam);
-            if (!$info)
+            if(!$info)
                 return array('status' => '404');
             $info = $info['hits'];
             $data = array();
-            foreach ($info['hits'] as $value) {
+            foreach($info['hits'] as $value)
+            {
                 $data[] = $value['_source'];
             }
             return array('total' => $info['total'], 'data' => $data, 'status' => '200');
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             echo $e->getMessage();
-            if ($this->_debug) {
+            if($this->_debug)
+            {
                 echo $e->getMessage();
             }
             return false;
@@ -341,8 +396,9 @@ class Es {
     }
 
     //
-    function buildCondition($where) {
-        if (!$where || !is_array($where))
+    function buildCondition($where)
+    {
+        if(!$where || !is_array($where))
             return false;
         //  $return['query']['bool'] = array();
         $arOperateor = array(">", ">=", "<", "<=");
@@ -353,16 +409,21 @@ class Es {
             "<=" => "lte"
         );
         $return = array();
-        foreach ($where as $fieldName => $v) {
-            if (is_numeric($v) || is_string($v)) {
+        foreach($where as $fieldName => $v)
+        {
+            if(is_numeric($v) || is_string($v))
+            {
                 $return['query']['bool']['must'][] = array(
                     'term' => array(
                         $fieldName => trim($v)
                     )
                 );
-            } elseif (is_array($v)) {
-                foreach ($v as $operator => $values) {
-                    if (in_array(trim($operator), $arOperateor) && is_numeric($values)) {
+            } elseif(is_array($v))
+            {
+                foreach($v as $operator => $values)
+                {
+                    if(in_array(trim($operator), $arOperateor) && is_numeric($values))
+                    {
                         $return['query']['bool']['must'][] = array(
                             "range" => array(
                                 $fieldName => array(
@@ -370,9 +431,11 @@ class Es {
                                 )
                             )
                         );
-                    } elseif (trim($operator) == 'in') {
+                    } elseif(trim($operator) == 'in')
+                    {
                         $arValue = $values;
-                        if (!is_array($values)) {
+                        if(!is_array($values))
+                        {
                             $arValue = array($values);
                         }
                         $return['query']['bool']['must'][] = array(
@@ -381,9 +444,11 @@ class Es {
                                 "minimum_should_match" => 1, //ֻҪ��1���Ϳ���
                             )
                         );
-                    } elseif (trim($operator) == 'not in') {
+                    } elseif(trim($operator) == 'not in')
+                    {
                         $arValue = $values;
-                        if (!is_array($values)) {
+                        if(!is_array($values))
+                        {
                             $arValue = array($values);
                         }
                         $return['query']['bool']['must_not'][] = array(
@@ -392,14 +457,17 @@ class Es {
                             //  "minimum_should_match"  =>  count($arValue),//ֻҪ��1���Ϳ���
                             )
                         );
-                    } elseif (trim($operator) == '!=' && is_numeric($values)) {
+                    } elseif(trim($operator) == '!=' && is_numeric($values))
+                    {
                         $return['query']['bool']['must_not'][] = array(
                             'term' => array(
                                 $fieldName => trim($values)
                             )
                         );
-                    } elseif (trim($operator) == 'like') {
-                        if (is_string($values)) {
+                    } elseif(trim($operator) == 'like')
+                    {
+                        if(is_string($values))
+                        {
                             $return['query']['bool']['must'][] = array(
                                 'match' => array(
                                     $fieldName => array(
@@ -408,7 +476,8 @@ class Es {
                                     )
                                 ),
                             );
-                        } elseif (is_array($values)) {
+                        } elseif(is_array($values))
+                        {
                             $return['query']['bool']['must'][] = array(
                                 'multi_match' => array(
                                     "query" => $values['query'],
@@ -417,8 +486,10 @@ class Es {
                                 ),
                             );
                         }
-                    } elseif (trim($operator) == 'minlike') {
-                        if (is_string($values)) {
+                    } elseif(trim($operator) == 'minlike')
+                    {
+                        if(is_string($values))
+                        {
                             $return['query']['bool']['must'][] = array(
                                 'match' => array(
                                     $fieldName => array(
@@ -428,9 +499,12 @@ class Es {
                                 ),
                             );
                         }
-                    } elseif (trim($operator) == 'likeand') {
-                        if (is_array($values)) {
-                            foreach ($values as $v) {
+                    } elseif(trim($operator) == 'likeand')
+                    {
+                        if(is_array($values))
+                        {
+                            foreach($values as $v)
+                            {
                                 $return['query']['bool']['must'][] = array(
                                     'match' => array(
                                         $fieldName => array(
@@ -441,9 +515,11 @@ class Es {
                                 );
                             }
                         }
-                    } elseif (trim($operator) == 'likeor') {
+                    } elseif(trim($operator) == 'likeor')
+                    {
                         //请不要改成类似likeand的形式
-                        if (is_array($values)) {
+                        if(is_array($values))
+                        {
                             $return['query']['bool']['must'][] = array(
                                 "query_string" => array(
                                     "fields" => array($fieldName),
@@ -452,15 +528,18 @@ class Es {
                                 )
                             );
                         }
-                    } elseif (trim($operator) == 'prefix' && is_string($values)) {
+                    } elseif(trim($operator) == 'prefix' && is_string($values))
+                    {
                         $return['query']['bool']['must'][] = array(
                             'prefix' => array(
                                 $fieldName => trim($values)
                             )
                         );
-                    } else {
+                    } else
+                    {
                         $arValue = $values;
-                        if (!is_array($values)) {
+                        if(!is_array($values))
+                        {
                             $arValue = array($values);
                         }
                         $return['query']['bool']['must'][] = array(
@@ -477,92 +556,117 @@ class Es {
         return $return;
     }
 
-    public function index($param) {
-        try {
+    public function index($param)
+    {
+        try
+        {
             $this->_connection->index($param);
-        } catch (Exception $e) {
+        } catch(Exception $e)
+        {
             return false;
         }
     }
 
-    public function getTypeIndex(&$param) {
-        if (!isset($param['index']) || !$param['index']) {
+    public function getTypeIndex(&$param)
+    {
+        if(!isset($param['index']) || !$param['index'])
+        {
             $return['index'] = $this->_index;
-        } else {
+        } else
+        {
             $return['index'] = $param['index'];
             unset($param['index']);
         }
 
-        if (!isset($param['type']) || !$param['type']) {
+        if(!isset($param['type']) || !$param['type'])
+        {
             $return['type'] = $this->_type;
-        } else {
+        } else
+        {
             $return['type'] = $param['type'];
             unset($param['type']);
         }
         return $return;
     }
 
-    public function close() {
+    public function close()
+    {
         
     }
 
     //格式化房源数据
-    public function houseFormat($arrData, $flag = 1) {
+    public function houseFormat($arrData, $flag = 1)
+    {
         //房源ID
 
-        if (!$arrData)
+        if(!$arrData)
             return false;
 
         $arrHouse = array();
-        foreach ($arrData as $key => $value) {
-            if (isset($this->_rhNameMap[$key])) {
+        foreach($arrData as $key => $value)
+        {
+            if(isset($this->_rhNameMap[$key]))
+            {
                 $arrHouse[$this->_rhNameMap[$key]] = $value;
             }
         }
-        if ($flag == 1) {
+        if($flag == 1)
+        {
             //索引编号
-            if (empty($arrData['id']) && !empty($arrData['houseId'])) {
+            if(empty($arrData['id']) && !empty($arrData['houseId']))
+            {
                 $arrHouse['id'] = intval($arrData['houseId']);
             }
             //房屋总价
-            if (isset($arrData['price'])) {
+            if(isset($arrData['price']))
+            {
                 $arrHouse['housePrice'] = intval($arrData['price']);
             }
-            if (isset($arrHouse['housePrice'])) {
+            if(isset($arrHouse['housePrice']))
+            {
                 $arrHouse['housePrice'] = intval($arrHouse['housePrice']);
             }
             //建筑面积
-            if (isset($arrData['bA'])) {
+            if(isset($arrData['bA']))
+            {
                 $arrHouse['houseBA'] = intval($arrData['bA']);
             }
             //房屋单价
-            if (isset($arrData['unit'])) {
+            if(isset($arrData['unit']))
+            {
                 $arrHouse['houseUnit'] = intval($arrData['unit']);
             }
             //创建时间
-            if (isset($arrData['create'])) {
+            if(isset($arrData['create']))
+            {
                 $arrHouse['houseCreate'] = $arrData['create'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['create']);
             }
             //更新时间
-            if (isset($arrData['houseUpdate'])) {
+            if(isset($arrData['houseUpdate']))
+            {
                 $arrHouse['houseUpdate'] = $arrData['houseUpdate'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['houseUpdate']);
             }
             //刷新时间
-            if (!empty($arrData['refreshTime'])) {
+            if(!empty($arrData['refreshTime']))
+            {
                 $arrHouse['houseRefreshTime'] = $arrData['refreshTime'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['refreshTime']);
-            } elseif (!empty($arrHouse['houseCreate'])) {
+            } elseif(!empty($arrHouse['houseCreate']))
+            {
                 $arrHouse['houseRefreshTime'] = $arrHouse['houseCreate']; //新发布房源没有刷新时间时默认以发布时间为值
             }
             //下架时间
-            if (isset($arrData['xiajia'])) {
+            if(isset($arrData['xiajia']))
+            {
                 $arrHouse['houseXiajia'] = $arrData['xiajia'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['xiajia']);
             }
             //下架时间
-            if (isset($arrData['houseXiajia'])) {
+            if(isset($arrData['houseXiajia']))
+            {
                 $arrHouse['houseXiajia'] = $arrData['houseXiajia'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['houseXiajia']);
             }
             //标签时间
-            if (isset($arrData['tagTime'])) {
+            if(isset($arrData['tagTime']))
+            {
                 $arrHouse['houseTagTime'] = $arrData['tagTime'] == '0000-00-00 00:00:00' ? 0 : strtotime($arrData['tagTime']);
             }
 //                //违规原因
@@ -570,7 +674,8 @@ class Es {
 //                    $arrHouse['failure'] = intval($arrData['failure']);
 //                }
             //小区周边的地铁线路及地铁站点
-            if (isset($arrData['parkId'])) {
+            if(isset($arrData['parkId']))
+            {
                 //小区地址
                 $arrPark = Park::instance()->getParkById($arrData['parkId']);
                 $arrHouse['houseAddress'] = isset($arrPark['address']) ? $arrPark['address'] : '';
@@ -590,13 +695,16 @@ class Es {
     }
 
     //格式化小区数据
-    public function parkFormat($arrData, $flag = 1) {
-        if (!$arrData)
+    public function parkFormat($arrData, $flag = 1)
+    {
+        if(!$arrData)
             return false;
 
         $arrPark = array();
-        foreach ($arrData as $key => $value) {
-            if (isset($this->_parkNameMap[$key])) {
+        foreach($arrData as $key => $value)
+        {
+            if(isset($this->_parkNameMap[$key]))
+            {
                 $arrPark[$this->_parkNameMap[$key]] = $value;
             }
         }

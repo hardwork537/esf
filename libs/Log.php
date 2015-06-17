@@ -130,10 +130,10 @@ class Log
 
         if($file_name == '')
         {
-            $file_name = $pre . date("YmdH") . "_log.txt";
+            $file_name = $pre . date("Ymd") . "_log.txt";
         } else
         {
-            $file_name = $pre . date("YmdH") . "_" . $file_name;
+            $file_name = $pre . date("Ymd") . "_" . $file_name;
         }
 
         return $file_name;

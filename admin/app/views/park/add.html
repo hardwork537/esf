@@ -81,6 +81,7 @@
                                     <em class=" required"> * </em>
                                 </td>
                             </tr>
+                            <!--
                             <tr>
                                 <td align="right" >
                                     焦点小区ID:
@@ -97,6 +98,7 @@
                                     <input class="form-control l " type="text" name="groupId" value="{% if parkId %}{{ parkBbs['groupId']|default(0) }}{% endif %}" />
                                 </td>
                             </tr>
+                            -->
                             <tr>
                                 <td align="right" >
                                     <span class="red"> 物业类型: </span>
@@ -350,12 +352,12 @@
         map.setCtrlPanelState(OVERVIEW_CTRL, MINIMIZE); //加载MINI鹰眼
         map.setCtrlPanelState(SCALE_CTRL, HIDE); //隐藏比例尺
         map.addEventListener(MOUSE_CLICK, MClick);
-        { % if park_info['X'] and park_info['Y'] % }
+        {% if park_info['X'] and park_info['Y'] %}
             map.setPoint({{ park_info['X'] }}, {{ park_info['Y'] }});
             map.setCenter({{ park_info['X'] }}, {{ park_info['Y'] }});
-        { % else % }
+        {% else %}
             map.setCenterByCity("上海");
-        { % endif % }
+        {% endif %}
 
         $("#s_search").click(function () {
             map.getSearch({ keyword: $("#s_name").val(), callBack: keywordSearch_CallBack, city: $("select[name=cityId]").find("option:selected").text() });
@@ -364,63 +366,63 @@
         });
         $('div', $('Mapabc.Layer.TMS_16'));
     });
-            function keywordSearch_CallBack(data) {
-            try {
+    function keywordSearch_CallBack(data) {
+        try {
             if (data.poilist.length == 0) {
-            $("#s_result").html("<li>未查找到任何结果!</li>");
+                $("#s_result").html("<li>未查找到任何结果!</li>");
             } else {
-            $("#s_result").html("");
-                    $.each(data.poilist, function (i, n) {
+                $("#s_result").html("");
+                $.each(data.poilist, function (i, n) {
                     $("#s_result").append("<li title=\"" + n.name + "\" onclick=\"setPosition(" + n.x + ", " + n.y + ");\">" + n.name + "</li>");
-                    });
+                });
             }
-            } catch (e) {
+        } catch (e) {
             $("#s_result").html("<li>数据异常！</li>");
-            }
-            }
+        }
+    }
     function setPosition(x, y) {
-    map.setPoint(x, y);
-            map.setCenter(x, y);
-            $("#x").val(x);
-            $("#y").val(y);
+        map.setPoint(x, y);
+        map.setCenter(x, y);
+        $("#x").val(x);
+        $("#y").val(y);
     }
     function MClick(data) {
-    map.setPoint(data.eventX, data.eventY);
-            $("#x").val(data.eventX);
-            $("#y").val(data.eventY);
+        map.setPoint(data.eventX, data.eventY);
+        $("#x").val(data.eventX);
+        $("#y").val(data.eventY);
     }
 
     var menu = 'menu5';
-            var moudle = 'parklist';
-            $(function() {
-            var cururl = base_url + "park/";
-                    _do = $("input[name=act]").val();
-                    $(".saveButton").click(function() {
+    var moudle = 'parklist';
+    $(function() {
+        var cururl = base_url + "park/";
+        _do = $("input[name=act]").val();
+        $(".saveButton").click(function() {
             $("#form1").ajaxSubmit({
-            "url": cururl + _do,
-                    "totop": true,
-                    "callback": function(msg) {
+                "url": cururl + _do,
+                "totop": true,
+                "callback": function(msg) {
                     if (msg.status == 0) {
-                    alert(msg.info);
-                            self.location = document.referrer;
+                        alert(msg.info);
+                        self.location = document.referrer;
                     } else {
-                    $.error(msg.info);
-                            $.toTop();
+                        $.error(msg.info);
+                        $.toTop();
                     }
-                    }
+                }
             });
-            });
-                    $("#cancelButton").click(function() {
+        });
+        $("#cancelButton").click(function() {
             location.href = "/park/";
-            }); ;
-            });
-            $(".ueditor_list").each(function(i, ele) {
-    var obj_id = $(this).attr("id");
-            var ue = UE.getEditor(obj_id, {
+        }); ;
+    });
+    $(".ueditor_list").each(function(i, ele) {
+        var obj_id = $(this).attr("id");
+        var ue = UE.getEditor(obj_id, {
             autoHeight: false,
-                    toolbars: [
-                            ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
-                    ]
-            });
+            toolbars: [
+                        ['source', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'simpleupload', 'insertframe', 'cleardoc']
+            ]
+        });
     });
 </script>

@@ -67,7 +67,7 @@ class ParkController extends ControllerBase
             {
                 //成功，添加log日志
                 $avgPrice = $check_ret['params']['avgPrice'] ? $check_ret['params']['avgPrice'] : 0;
-                $logRes   = $this->addAdminLog('park', "新增小区 {$check_ret['params']['name']}({$addRes['id']})，新增小区均价 {$avgPrice}");
+                //$logRes   = $this->addAdminLog('park', "新增小区 {$check_ret['params']['name']}({$addRes['id']})，新增小区均价 {$avgPrice}");
             }
             $this->show("JSON", $addRes);
         }
@@ -93,8 +93,8 @@ class ParkController extends ControllerBase
     public function editAction($id = 0)
     {
         $cityId        = $_REQUEST['cityId'] ? intval($_REQUEST['cityId']) : $this->_userInfo['cityId'];
-        $cityId        = $this->checkAdminCity(intval($cityId));
-        $data['citys'] = City::getOptions($this->_userInfo['cityId']);
+        //$cityId        = $this->checkAdminCity(intval($cityId));
+        $data['citys'] = City::getOptions();
 
         if($this->request->isPost())
         {
@@ -110,8 +110,8 @@ class ParkController extends ControllerBase
             {
                 //成功，添加log日志
                 $avgPrice = $check_ret['params']['avgPrice'] ? $check_ret['params']['avgPrice'] : 0;
-                $logRes   = $this->addAdminLog('park', "修改小区 {$check_ret['params']['name']}({$id})，修改小区均价 {$avgPrice}");
-            }
+                //$logRes   = $this->addAdminLog('park', "修改小区 {$check_ret['params']['name']}({$id})，修改小区均价 {$avgPrice}");
+            }          
             $this->show("JSON", $rs);
         }
         //进入修改页面
@@ -125,7 +125,7 @@ class ParkController extends ControllerBase
         }
         else
         {
-            return $this->response->redirect('park/index');
+            return $this->response->redirect('park/list');
         }
         $data['parkId'] = $id;
         $data['cityId'] = intval($data['park_info']['cityId']);
@@ -162,7 +162,7 @@ class ParkController extends ControllerBase
             }
         }
         //小区论坛信息
-        $data['parkBbs'] = ParkBbs::findFirst("parkId={$id} and status=".ParkBbs::STATUS_VALID, 0)->toArray();
+        //$data['parkBbs'] = ParkBbs::findFirst("parkId={$id} and status=".ParkBbs::STATUS_VALID, 0)->toArray();
 
         $this->show("add", $data);
     }
@@ -171,11 +171,11 @@ class ParkController extends ControllerBase
     {
         $id      = intval($id);
         $del_ret = Park::instance()->del($id);
-        if(0 === $del_ret['status'])
-        {
-            //成功，添加log日志
-            $logRes = $this->addAdminLog('park', "删除小区 {$del_ret['name']}({$id})");
-        }
+//        if(0 === $del_ret['status'])
+//        {
+//            //成功，添加log日志
+//            $logRes = $this->addAdminLog('park', "删除小区 {$del_ret['name']}({$id})");
+//        }
 
         $this->show("JSON", $del_ret);
     }
