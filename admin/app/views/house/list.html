@@ -1,0 +1,93 @@
+<link href="{{ src_url }}css/house_list.css" rel="stylesheet" type="text/css" />
+
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 房源列表 </strong> </h6>
+
+            <!-- search filters begin -->
+            <form class="" name="" id="" method="post" action="">
+                <div class="form-group">
+                    <input type="text" class="form-control wl" placeholder="输入小区名称...">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="">
+                        <option value="0">城区</option>
+                    </select>
+                    <select class="form-control" id="">
+                        <option value="0">板块</option>
+                    </select>
+                    <select class="form-control" id="">
+                        <option value="0">房源等级</option>
+                    </select>
+                    <select class="form-control" id="">
+                        <option value="0">归属人</option>
+                    </select>
+                    <select class="form-control" id="">
+                        <option value="0">房源状态</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+            <!-- search filters end -->
+            <!-- search result begin -->
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover table-house">
+                <colgroup>
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>房源编号</th>
+                        <th>城区</th>
+                        <th>板块</th>
+                        <th>小区</th>
+                        <th>户型</th>
+                        <th>面积</th>
+                        <th>价格</th>
+                        <th>图片张数</th>
+                        <th>归属人</th>
+                        <th>添加时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>00001</td>
+                        <td>长宁</td>
+                        <td>天山</td>
+                        <td>仁恒河滨花园</td>
+                        <td>4/2/2</td>
+                        <td>236</td>
+                        <td>1040</td>
+                        <td>10</td>
+                        <td>张三</td>
+                        <td>2015.3.30</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- search result end -->
+        </div>
+    </div>
+    <div class=" sidebar">
+        <ul class="sidebar_inner">
+            <li id="menu1">
+                <span> <s class="icon icon_set"></s> <strong>房源管理</strong> </span>
+                <ul>
+                    <li><a  class="" href="#">房源列表</a></li>
+                    <li><a  class="active" href="#">房源编辑</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="js/common.js" type="text/javascript"></script>
+<script src="js/global.js" type="text/javascript"></script>

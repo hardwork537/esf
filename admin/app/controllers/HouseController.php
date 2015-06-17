@@ -3,7 +3,7 @@
 class HouseController extends ControllerBase
 {
 
-    public function indexAction()
+    public function listAction()
     {
         $this->show(null, $data);
     }
