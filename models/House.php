@@ -6,6 +6,7 @@ class House extends BaseModel
 {
 
     //房源状态常量status
+    const STATUS_SAVE = 0; //保存待发布
     const STATUS_ONLINE = 1; //发布
     const STATUS_OFFLINE = 2; //下架   
     //审核状态status 0:待审核 1:审核过 -1:违规
@@ -39,7 +40,9 @@ class House extends BaseModel
     public $regId;
     public $distId;
     public $cityId;
+    public $userId;
     public $type;
+    public $level = '';
     public $price;
     public $handPrice;
     public $buyPrice;
@@ -77,12 +80,12 @@ class House extends BaseModel
     public $propertyType;
     public $verification;
     public $status;
-    public $delTime;
-    public $auditingTime;
-    public $xiajiaTime;
-    public $createTime;
-    public $updateTime;
-    public $deliverDate;
+    public $delTime = '0000-00-00 00:00:00';
+    public $auditingTime = '0000-00-00 00:00:00';
+    public $xiajiaTime = '0000-00-00 00:00:00';
+    public $createTime = '0000-00-00 00:00:00';
+    public $updateTime = '0000-00-00 00:00:00';
+    public $deliverDate = '0000-00-00';
 
     public function getSource()
     {
@@ -97,7 +100,9 @@ class House extends BaseModel
             'regId' => 'regId',
             'distId' => 'distId',
             'cityId' => 'cityId',
+            'userId' => 'userId',
             'houseType' => 'type',
+            'houseLevel' => 'level',
             'housePrice' => 'price',
             'houseHandPrice' => 'handPrice',
             'houseBuyPrice' => 'buyPrice',
@@ -167,8 +172,8 @@ class House extends BaseModel
     public static function getAllRentStatus()
     {
         return array(
-            self::IS_RENT => '是',
-            self::NO_RENT => '否'
+            self::NO_RENT => '否',
+            self::IS_RENT => '是'
         );
     }
     
@@ -191,8 +196,8 @@ class House extends BaseModel
     public static function getAllMortgageStatus()
     {
         return array(
-            self::IS_MORTGAGE => '是',
-            self::NO_MORTGAGE => '否'
+            self::NO_MORTGAGE => '否',
+            self::IS_MORTGAGE => '是'           
         );
     }
     
@@ -203,8 +208,8 @@ class House extends BaseModel
     public static function getAllHukouStatus()
     {
         return array(
-            self::HAS_HUKOU => '是',
-            self::NO_HUKOU => '否'
+            self::NO_HUKOU => '否',
+            self::HAS_HUKOU => '是'            
         );
     }
     
@@ -215,8 +220,8 @@ class House extends BaseModel
     public static function getAllForeignStatus()
     {
         return array(
-            self::IS_FOREIGN => '是',
-            self::NO_FOREIGN => '否'
+            self::NO_FOREIGN => '否',
+            self::IS_FOREIGN => '是'
         );
     }
     
@@ -227,8 +232,8 @@ class House extends BaseModel
     public static function getAllFiveYearStatus()
     {
         return array(
-            self::IS_FIVEYEAR => '是',
-            self::NO_FIVEYEAR => '否'
+            self::NO_FIVEYEAR => '否',
+            self::IS_FIVEYEAR => '是'            
         );
     }
     

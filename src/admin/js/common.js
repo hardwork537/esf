@@ -3,7 +3,7 @@
  * @param {type} attr
  * @returns {String}
  */
-base_url = "/";
+        base_url = "/";
 souce_url = "http://src.esf.focus.cn/upload/crm/";
 function _GET() {
     var _v = [];
@@ -12,19 +12,19 @@ function _GET() {
     } catch (e) {
         var $url = window.top.location.href;
     }
-    if($url.indexOf('?')<=0){
+    if ($url.indexOf('?') <= 0) {
         return false;
     }
     $start = $url.indexOf('?') + 1;
     $end = $url.length;
     $Query_String = $url.substring($start, $end);
-    
+
     $Get = $Query_String.split('&');
     for (var i in $Get) {
         $tmp = $Get[i].split('=');
-        _v[$tmp[0]] = $tmp[1]; 
+        _v[$tmp[0]] = $tmp[1];
         //_v = decodeURIComponent($tmp[1]);
-        
+
     }
     return _v;
 }
@@ -33,15 +33,15 @@ function _GET() {
  * 生成Excel导出Url参数
  * @returns {undefined}
  */
-function _excelQueryString(){
+function _excelQueryString() {
     var _vstr = [];
     var _v = _GET();
-    for(var i in _v){
-        if(i=="page"){
+    for (var i in _v) {
+        if (i == "page") {
             continue;
         }
-        _vstr.push(i+"="+_v[i]);
-    }    
+        _vstr.push(i + "=" + _v[i]);
+    }
     _vstr.push("action=export");
     return _vstr.join("&");
 }
@@ -54,9 +54,13 @@ function caculateh() {
 }
 
 $(function () {
-   
-   //图片放大效果
-    $(".hoverimg").hover(function () { $(this).find(".imgbig").show(); }, function () { $(this).find(".imgbig").hide(); })
+
+    //图片放大效果
+    $(".hoverimg").hover(function () {
+        $(this).find(".imgbig").show();
+    }, function () {
+        $(this).find(".imgbig").hide();
+    })
 
     //左右栏最小高度设置
     caculateh();
@@ -67,6 +71,28 @@ $(function () {
             $(this).parent().removeClass("open")
         } else {
             $(this).parent().addClass("open")
+        }
+
+    })
+
+    //===============输入框控制==================
+    $(".search_input").focus(function () {
+        if (!$(this).val() == '') {
+            var searchSib = $(this).siblings(".dropdown-menu")
+            if(searchSib.find('li').length > 0)
+                $(this).siblings(".dropdown-menu").fadeIn("fast");
+        } else {
+            $(this).siblings(".dropdown-menu").fadeOut("fast");
+        }
+
+    }).blur(function () {
+        $(this).siblings(".dropdown-menu").fadeOut("fast");
+
+    }).on('input', function (e) {
+        if (!$(this).val() == '') {
+            $(this).siblings(".dropdown-menu").fadeIn("fast");
+        } else {
+            $(this).siblings(".dropdown-menu").fadeOut("fast");
         }
 
     })
@@ -93,19 +119,21 @@ $(document).ready(function () {
 //返回顶部
 function gotoTop(min_height) {
     $("#toTop").click(
-        function () {
-            $('html,body').animate({ scrollTop: 0 }, 200);
-        })
-        min_height ? min_height = min_height : min_height = 0;
-        $(window).scroll(function () {
-            var s = $(window).scrollTop();
-            if (s > min_height) {
-                $("#toTop").fadeIn(100);
-            } else {
-                $("#toTop").fadeOut(200);
-            };
-        });
-};
+            function () {
+                $('html,body').animate({scrollTop: 0}, 200);
+            })
+    min_height ? min_height = min_height : min_height = 0;
+    $(window).scroll(function () {
+        var s = $(window).scrollTop();
+        if (s > min_height) {
+            $("#toTop").fadeIn(100);
+        } else {
+            $("#toTop").fadeOut(200);
+        }
+        ;
+    });
+}
+;
 $(function () {
     cacutetotopgap();
     gotoTop();
@@ -121,58 +149,58 @@ function cacutetotopgap() {
     var totopgap = 0;
     if (winwidth >= 1548) {
         totopgap = itemswidth / 2 + 10;
-       
+
     } else {
         totopgap = winwidth / 2 - 64;
-     
-    } 
+
+    }
     $("#toTop").css("margin-left", String(totopgap) + "px")
 }
 
 
 //table hover上去底色改变
 
- /*
-      * jQuery placeholder, fix for IE6,7,8,9
-      * @author JENA
-      * @since 20131115.1504
-      * @website ishere.cn
-      */
-      var JPlaceHolder = {
-          //检测
-          _check: function () {
-              return 'placeholder' in document.createElement('input');
-          },
-          //初始化
-          init: function () {
-              if (!this._check()) {
-                  this.fix();
-              }
-          },
-          //修复
-          fix: function () {
-              jQuery(':input[placeholder]').each(function (index, element) {
-                  var self = $(this), txt = self.attr('placeholder');
-                  self.wrap($('<div></div>').css({ position: 'relative', zoom: '1', border: 'none', background: 'none', padding: 'none', margin: 'none' }));
-                  var pos = self.position(), h = self.outerHeight(true), paddingleft = self.css('padding-left');
-                  var holder = $('<span></span>').text(txt).addClass("placeholder").css({ position: 'absolute', left: pos.left, top: pos.top, height: h, paddingLeft: paddingleft, color: '#aaa'}).appendTo(self.parent());
-                  self.focusin(function (e) {
-                      holder.hide();
-                  }).focusout(function (e) {
-                      if (!self.val()) {
-                          holder.show();
-                      }
-                  });
-                  holder.click(function (e) {
-                      holder.hide();
-                      self.focus();
-                  });
-              });
-          }
-      };
-      //执行
-      jQuery(function () {
-          JPlaceHolder.init();
-      });
+/*
+ * jQuery placeholder, fix for IE6,7,8,9
+ * @author JENA
+ * @since 20131115.1504
+ * @website ishere.cn
+ */
+var JPlaceHolder = {
+    //检测
+    _check: function () {
+        return 'placeholder' in document.createElement('input');
+    },
+    //初始化
+    init: function () {
+        if (!this._check()) {
+            this.fix();
+        }
+    },
+    //修复
+    fix: function () {
+        jQuery(':input[placeholder]').each(function (index, element) {
+            var self = $(this), txt = self.attr('placeholder');
+            self.wrap($('<div></div>').css({position: 'relative', zoom: '1', border: 'none', background: 'none', padding: 'none', margin: 'none'}));
+            var pos = self.position(), h = self.outerHeight(true), paddingleft = self.css('padding-left');
+            var holder = $('<span></span>').text(txt).addClass("placeholder").css({position: 'absolute', left: pos.left, top: pos.top, height: h, paddingLeft: paddingleft, color: '#aaa'}).appendTo(self.parent());
+            self.focusin(function (e) {
+                holder.hide();
+            }).focusout(function (e) {
+                if (!self.val()) {
+                    holder.show();
+                }
+            });
+            holder.click(function (e) {
+                holder.hide();
+                self.focus();
+            });
+        });
+    }
+};
+//执行
+jQuery(function () {
+    JPlaceHolder.init();
+});
 
 

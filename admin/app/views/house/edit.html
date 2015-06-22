@@ -1,0 +1,262 @@
+<script src="{{ src_url }}js/ueditor.config.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/ueditor.all.min.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/lang/zh-cn/zh-cn.js" type="text/javascript"></script>
+<link href="{{ src_url }}css/house_edit_basic.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .inputwrap .dropdown-menu {
+        left: 75px;
+        min-width: 120px;
+        max-width: 250px;
+        padding: 0;
+    }
+</style>
+
+
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt">
+                您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; 房源编辑 &gt; <strong class="font_gold"> 字段信息 </strong>
+            </h6>
+
+            <div class="alert alert-warning alert-dismissible errortips" role="alert" style="display: none" id='errortips'>
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <strong> 提示：</strong>
+                <span class="notice-info">您输入的内容有误！</span>
+            </div>
+
+            <form id="form1" onsubmit="return false" method="post" action="/house/add">
+                <!-- 基本信息 BEGIN -->
+                <div class="main_filter clearfix">
+                    <b>基本信息</b>
+                    <div class="btngroup_wrap">
+                        <div class="btn-group">
+                            <a class="btn btn-default active" href="javascript:;">字段信息</a>
+                            <a class="btn btn-default" href="house_edit_img.html">房源图片</a>
+                            <a class="btn btn-default" href="house_edit_more.html">更多信息</a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="main_form">
+                    <li class="form_group clearfix inputwrap">
+                        <em class="sp_em"><i>*</i>小区名称：</em>
+                        <div class="input_group">
+                            <input type="text" datatype="*" notnull="true" info="小区名称" id="parkName" name="parkName" autocomplete="off" class="form_control input_l Validform_error autoComplete search_input" url="/ajax/getParkName/" toName="comId" nums=10 value="">
+                            <input id="comId" type="hidden" value="{{ comId }}" name="comId">
+                        </div>
+                        {% if 'edit'==action %}
+                        <em class="sp_em">房源编号：</em>
+                        <input type="text" name="houseId" value="" />
+                        {% endif %}
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em"><i>*</i>物业类型：</em>
+                        <select class="form-control" name="propertyType" notnull="true" info='物业类型'>
+                            <?=MyTags::options($options['propertyType'])?>
+                        </select>
+                        <em class="sp_em"><i>*</i>建筑类型：</em>
+                        <select class="form-control" name="buildType" notnull="true" info='建筑类型'>
+                            <?=MyTags::options($options['buildType'])?>
+                        </select>
+                        <em class="sp_em"><i>*</i>朝向：</em>
+                        <select class="form-control" name="orientation" notnull="true" info='朝向'>
+                            <?=MyTags::options($options['buildType'])?>
+                        </select>
+                        <em class="sp_em"><i>*</i>装修状况：</em>
+                        <select class="form-control" name="decoration" notnull="true" info='装修状况'>
+                            <?=MyTags::options($options['decoration'])?>
+                        </select>
+                        <em class="sp_em"><i>*</i>楼层位置：</em>
+                        <select class="form-control" name="floorPosition" notnull="true" info='楼层位置'>
+                            <?=MyTags::options($options['floorPosition'])?>
+                        </select>
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em">总楼层：</em>
+                        <input class="w60 mr45" type="text" value="" name="floorMax" />
+                        <em class="sp_em">电梯数量：</em>
+                        <input class="w60 mr45" type="text" value="" name="listCount" />
+                        <em class="sp_em"><i>*</i>单元号：</em>
+                        <input class="w60 mr45" type="text" value="" name="unitNo" notnull="true" info="单元号" />
+                        <em class="sp_em"><i>*</i>室号：</em>
+                        <input class="w60 mr45" type="text" value="" name="roomNo" notnull="true" info="室号" />
+                        <em class="sp_em"><i>*</i>户型：</em>
+                        <input class="w40" type="text" value="" name="bedRoom" notnull="true" info="室" />
+                        <em class="em_one">室</em>
+                        <input class="w40" type="text" value="" name="livingRoom" notnull="true" info="厅" />
+                        <em class="em_one">厅</em>
+                        <input class="w40" type="text" value="" name="bathRoom" notnull="true" info="卫" />
+                        <em class="em_one">卫</em>
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em"><i>*</i>建筑面积：</em>
+                        <input class="w89 mr15" type="text" value="" name="bA" notnull="true" info="建筑面积" />
+                        <em class="sp_em">使用面积：</em>
+                        <input class="w89 mr15" type="text" value="" name="uA" />
+                    </li>
+                </ul>
+                <!-- 基本信息 END -->
+
+                <!-- 价格信息 BEGIN -->
+                <div class="main_filter clearfix">
+                    <b>价格信息</b>
+                </div>
+                <ul class="main_form">
+                    <li class="form_group clearfix">
+                        <em class="sp_em"><i>*</i>到手价：</em>
+                        <input class="w110 mr15" type="text" value="" name="handPrice" notnull="true" info="到手价" />
+                        <em class="sp_em">买入价：</em>
+                        <input class="w110 mr15" type="text" value="" name="buyPrice" />
+                        <em class="sp_em">营业税：</em>
+                        <input class="w110 mr15" type="text" value="" name="saleTax" />
+                        <em class="sp_em">个税：</em>
+                        <input class="w110 mr15" type="text" value="" name="tax" />
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em">满五年：</em>
+                        <select class="form-control" name="isFiveYear">
+                            <?=MyTags::options($options['isFiveYear'])?>
+                        </select>
+                        <em class="sp_em">唯一一套：</em>
+                        <select class="form-control" name="isOnlyOne">
+                            <?=MyTags::options($options['isOnlyOne'])?>
+                        </select>
+                    </li>
+                </ul>
+                <!-- 价格信息 END -->
+
+                <!-- 产权人信息 BEGIN -->
+                <div class="main_filter clearfix">
+                    <b>产权人信息</b>
+                </div>
+                <ul class="main_form">
+                    <li class="form_group clearfix">
+                        <em class="sp_em">产权人：</em>
+                        <input class="w110 mr15" type="text" value="" name="propertyOwner" />
+                        <em class="sp_em">联系方式：</em>
+                        <input class="w110 mr15" type="text" value="" name="propertyPhone" />
+                        <em class="sp_em">境外人士：</em>
+                        <select class="form-control" name="isForeign">
+                            <?=MyTags::options($options['isForeign'])?>
+                        </select>
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em">代理人：</em>
+                        <input class="w110 mr15" type="text" value="" name="agent" />
+                        <em class="sp_em">联系方式：</em>
+                        <input class="w110 mr15" type="text" value="" name="agentPhone" />
+                    </li>
+                </ul>
+                <!-- 价格信息 END -->
+
+                <!-- 附加信息 BEGIN -->
+                <div class="main_filter clearfix">
+                    <b>附加信息</b>
+                </div>
+                <ul class="main_form">
+                    <li class="form_group clearfix">
+                        <em class="sp_em">租约：</em>
+                        <select class="form-control" name="isRent">
+                            <?=MyTags::options($options['isRent'])?>
+                        </select>
+                        <em class="sp_em">月租金：</em>
+                        <input class="w110 mr15" type="text" name="rentPrice" />
+                        <em class="sp_em">到期时间：</em>
+                        <input class="w110 mr15" type="text" name="rentEndTime" />
+                        <em class="sp_em">车位：</em>
+                        <select class="form-control" name="hasPark">
+                            <?=MyTags::options($options['hasPark'])?>
+                        </select>
+                        <em class="sp_em">价格：</em>
+                        <input class="w110 mr15" type="text" name="price" />
+                    </li>
+                    <li class="form_group clearfix">
+                        <em class="sp_em">抵押：</em>
+                        <select class="form-control" name="isMortgage">
+                            <?=MyTags::options($options['isMortgage'])?>
+                        </select>
+                        <em class="sp_em">户口：</em>
+                        <select class="form-control" name="hasHukou">
+                            <?=MyTags::options($options['hasHukou'])?>
+                        </select>
+                        <em class="sp_em">赠送明细：</em>
+                        <select class="form-control" name="giveDetail">
+                            <?=MyTags::options($options['giveDetail'])?>
+                        </select>
+                        <em class="sp_em">备注：</em>
+                        <input class="w110" type="text" name="remark" />
+                    </li>
+                </ul>
+                <!-- 附加信息 END -->
+
+                <!-- 房源描述 BEGIN -->
+                <div class="main_filter clearfix">
+                    <b>详细描述</b>
+                </div>
+                <div class="main_form main_info clearfix">
+                    <em class="sp_em"><i>*</i>房源描述：</em>
+                    <div class="info_inner">
+                        <script id="editorContainer" name="houseDesc" type="text/plain" style="width:98%; height:300px;"></script>
+                    </div>
+                </div>
+                <!-- 房源描述 END -->
+
+                <div class="main_form lst_form" style="text-align: center;">
+                    <input type="button" class="btn btn-success mr15 saveButton" value="保存" />
+                    <input type="button" class="btn btn-success" value="保存并发布" />
+                </div>
+
+                <!-- 存放一些值 -->
+                <input type="hidden" name='act' value='{{ action }}' />
+                <input type="hidden" />
+                <input type='hidden' value='{{ cityId }}' id='cityId' />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu1';
+    var moudle = 'houseadd';
+    
+    $(function() {
+        var cururl = base_url + "house/";
+        _do = $("input[name=act]").val();
+        $(".saveButton").click(function() {
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "totop": true,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        self.location = document.referrer;
+                    } else {
+                        $.error(msg.info);
+                        $.toTop();
+                    }
+                }
+            });
+        });       
+    });
+    
+    $(document).ready(function () {              
+        var ue = UE.getEditor('editorContainer', {
+            autoHeight: false,
+            toolbars: [
+                ['source', 'undo', 'redo', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'bold', 'italic', 'underline', 'removeformat', 'formatmatch', '|', 'cleardoc']
+            ],
+            elementPathEnabled: false
+        });
+        /*
+         ue = UE.getEditor("editor_comment", {
+         autoHeight: false,
+         toolbars: [
+         ['source', '|', 'cleardoc']
+         ],
+         elementPathEnabled: false
+         });*/
+    });
+</script>

@@ -1,7 +1,7 @@
 <div class="main">
     <div class="maininner">
         <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据字典  &gt; <strong class="font_gold"> 小区楼盘字典 </strong> </h6>
-        <form method="get" action="/park/">
+        <form method="get" action="/park/list/">
         <table class="search_form mb15">
             <tbody>
                 <tr>
@@ -65,7 +65,8 @@
             {% for list in lists %}
             <tr parkId="{{ list['id'] }}">
                 <td align="center">{{ list['id'] }}&nbsp;</td>
-                <td><a title="{{ list['name'] }}" target="_blank" href="{{ list['parkUrl'] }}">{{ list['name'] }}</a>&nbsp;</td>
+                <!--<td><a title="{{ list['name'] }}" target="_blank" href="{{ list['parkUrl'] }}">{{ list['name'] }}</a>&nbsp;</td>-->
+                <td>{{ list['name'] }}&nbsp;</td>
                 <td align="center" class="operate">
                     <a href="/park/edit/{{ list['id'] }}/">修改</a>
                     <!--

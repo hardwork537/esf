@@ -1,0 +1,100 @@
+ul,li,dl,dt,dd{
+    list-style: none;
+}
+em,i,b{
+    font-style: normal;
+}
+.w110{
+    width: 110px;
+}
+.w89{
+    width: 89px;
+}
+.w60{
+    width: 60px;
+}
+.w40{
+    width: 40px;
+}
+.mr15{
+    margin-right: 15px;
+}
+.mr45{
+    margin-right: 45px;
+}
+
+/* reset bootstrap button */
+.btn-group .active, .btn-group .active:hover{
+    background-color: #2A8ADE;
+    border-color: #1771D2;
+    color: #fff;
+}
+
+/* main_filter */
+.main_filter{
+    line-height: 24px;
+}
+.main_filter b{
+    font-size: 16px;
+}
+.main_filter .btngroup_wrap{
+    float: right;
+}
+
+/* main_form */
+.main_form{
+    margin: 10px auto 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background: #f5f5f5;
+}
+.main_form .form_group {
+    margin-bottom: 15px;
+    clear: both;
+    display: block;
+    zoom: 1;
+    height: auto;
+    z-index: 0;
+    line-height: 35px;
+}
+.notice_warn {
+    color: #d80100;
+    margin-left: 5px;
+}
+.form_group .sp_em, .form_group .input_group, .form_group .form-control, .form_group .em_one, .main_info .sp_em, .main_info .info_inner{
+    float: left;
+}
+.form_group input[type="text"]{
+    padding: 7px 8px;
+    /*height: 23px;*/
+    line-height: 17px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    float: left;
+}
+.form_group .sp_em,  .main_info .sp_em{
+    width: 75px;
+    text-align: right;
+}
+    .sp_em i, .main_filter i{
+        margin-right: 3px;
+        color: #d80100;
+        vertical-align: middle;
+        font-weight: 700;
+    }
+.form_group .input_group{
+    width: 465px;/*285*/
+}
+.form_group .form-control{
+    margin-right: 10px;
+    width: 95px;
+}
+.form_group .em_one{
+    margin: 0 5px 0 10px;
+}
+.main_info .info_inner{
+    width: 850px;
+}
+.lst_form{
+    margin-bottom: 0;
+}

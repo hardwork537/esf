@@ -3,7 +3,7 @@ $router = new Phalcon\Mvc\Router();
 
 $router->add('/', array(
     "controller"    => 'house',
-    'action'        => 'index' 
+    'action'        => 'list' 
 ));
 
 
