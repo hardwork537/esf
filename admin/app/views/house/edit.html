@@ -63,7 +63,7 @@
                         </select>
                         <em class="sp_em"><i>*</i>朝向：</em>
                         <select class="form-control" name="orientation" notnull="true" info='朝向'>
-                            <?=MyTags::options($options['buildType'])?>
+                            <?=MyTags::options($options['orientation'])?>
                         </select>
                         <em class="sp_em"><i>*</i>装修状况：</em>
                         <select class="form-control" name="decoration" notnull="true" info='装修状况'>
@@ -76,26 +76,26 @@
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em">总楼层：</em>
-                        <input class="w60 mr45" type="text" value="" name="floorMax" />
+                        <input class="w60 mr45" type="text" value="" name="floorMax" onlyNum='true' />
                         <em class="sp_em">电梯数量：</em>
-                        <input class="w60 mr45" type="text" value="" name="listCount" />
+                        <input class="w60 mr45" type="text" value="" name="listCount" onlyNum='true' />
                         <em class="sp_em"><i>*</i>单元号：</em>
-                        <input class="w60 mr45" type="text" value="" name="unitNo" notnull="true" info="单元号" />
+                        <input class="w60 mr45" type="text" value="" name="unitNo" notnull="true" info="单元号" onlyNum='true' />
                         <em class="sp_em"><i>*</i>室号：</em>
-                        <input class="w60 mr45" type="text" value="" name="roomNo" notnull="true" info="室号" />
+                        <input class="w60 mr45" type="text" value="" name="roomNo" notnull="true" info="室号" onlyNum='true' />
                         <em class="sp_em"><i>*</i>户型：</em>
-                        <input class="w40" type="text" value="" name="bedRoom" notnull="true" info="室" />
+                        <input class="w40" type="text" value="" name="bedRoom" notnull="true" info="室" onlyNum='true' />
                         <em class="em_one">室</em>
-                        <input class="w40" type="text" value="" name="livingRoom" notnull="true" info="厅" />
+                        <input class="w40" type="text" value="" name="livingRoom" notnull="true" info="厅" onlyNum='true' />
                         <em class="em_one">厅</em>
-                        <input class="w40" type="text" value="" name="bathRoom" notnull="true" info="卫" />
+                        <input class="w40" type="text" value="" name="bathRoom" notnull="true" info="卫" onlyNum='true' />
                         <em class="em_one">卫</em>
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>建筑面积：</em>
-                        <input class="w89 mr15" type="text" value="" name="bA" notnull="true" info="建筑面积" />
+                        <input class="w89 mr15" type="text" value="" name="bA" notnull="true" info="建筑面积" onlyNum='true' />
                         <em class="sp_em">使用面积：</em>
-                        <input class="w89 mr15" type="text" value="" name="uA" />
+                        <input class="w89 mr15" type="text" value="" name="uA" onlyNum='true' />
                     </li>
                 </ul>
                 <!-- 基本信息 END -->
@@ -107,13 +107,13 @@
                 <ul class="main_form">
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>到手价：</em>
-                        <input class="w110 mr15" type="text" value="" name="handPrice" notnull="true" info="到手价" />
+                        <input class="w110 mr15" type="text" value="" name="handPrice" notnull="true" info="到手价" onlyNum='true' />
                         <em class="sp_em">买入价：</em>
-                        <input class="w110 mr15" type="text" value="" name="buyPrice" />
+                        <input class="w110 mr15" type="text" value="" name="buyPrice" onlyNum='true' />
                         <em class="sp_em">营业税：</em>
-                        <input class="w110 mr15" type="text" value="" name="saleTax" />
+                        <input class="w110 mr15" type="text" value="" name="saleTax" onlyNum='true' />
                         <em class="sp_em">个税：</em>
-                        <input class="w110 mr15" type="text" value="" name="tax" />
+                        <input class="w110 mr15" type="text" value="" name="tax" onlyNum='true' />
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em">满五年：</em>
@@ -171,7 +171,7 @@
                             <?=MyTags::options($options['hasPark'])?>
                         </select>
                         <em class="sp_em">价格：</em>
-                        <input class="w110 mr15" type="text" name="price" />
+                        <input class="w110 mr15" type="text" name="price" onlyNum='true' />
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em">抵押：</em>
@@ -212,7 +212,7 @@
                 <!-- 存放一些值 -->
                 <input type="hidden" name='act' value='{{ action }}' />
                 <input type="hidden" />
-                <input type='hidden' value='{{ cityId }}' id='cityId' />
+                <input type='hidden' value='{{ cityId }}' id='cityId' name='cityId' />
             </form>
         </div>
     </div>
@@ -223,6 +223,10 @@
     var moudle = 'houseadd';
     
     $(function() {
+        $("input[onlyNum=true]").keyup(function(){
+            $(this).val($(this).val().replace(/[^\.0-9]/g,''));
+        })
+        
         var cururl = base_url + "house/";
         _do = $("input[name=act]").val();
         $(".saveButton").click(function() {
