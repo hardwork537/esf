@@ -26,7 +26,7 @@ class HouseController extends ControllerBase
         {
             $data['users'][$v['id']] = $v['name'];
         }
-            
+
         $filterRes = $this->_filterParams();
         $data['params'] = $filterRes['params'];
         if(0 != $filterRes['status'])
@@ -126,95 +126,130 @@ class HouseController extends ControllerBase
         $this->show('edit', $data);
     }
 
-    public function editAction()
+    public function editAction($id = 0)
     {
         $data = array();
         if($this->request->isPost())
         {
+            $id = $this->request->getPost('houseId', 'int', 0);
+            $checkRes = $this->_checkParams('edit');
             
+            if($checkRes['status'] != 0)
+            {
+                $this->show('JSON', $checkRes);
+            }
+            
+            $updateRes = House::instance()->editHouse($id, $checkRes['params']);
+            $this->show('JSON', $updateRes);
         }
+        $id = intval($id);
+        //房源基本信息
+        $house = House::findFirst($id, 0)->toArray();
+        if(empty($house))
+        {
+            echo "<script>alert('房源不存在');location.href='/house/list/'</script>";
+            exit;
+        }
+        //小区信息
+        $park = Park::findFirst($house['parkId'], 0)->toArray();
+        $house['parkName'] = $park['name'];
+        //房源描述信息
+        $houseMore = HouseMore::findFirst("houseId={$house['id']} and name='".HouseMore::$descColumnName."'", 0)->toArray();
+        $house['desc'] = $houseMore['text'];
+        
+        $data['house'] = $house;
+        
         $data['action'] = 'edit';
+        $data['cityId'] = $this->_cityId;
         $data['options'] = $this->_getOption();
         
         $this->show(null, $data);
     }
     
-    private function _checkParams()
+    private function _checkParams($type = 'add')
     {
-        //验证城市
-        $cityId = $this->request->getPost('cityId', 'int', 0);
-        $where = "id={$cityId} and status=".City::STATUS_ENABLED;
-        $cityNum = City::count($where);
-        if($cityNum == 0)
-            return array('status' => 1, 'info' => '城市无效');
-        //验证区域
-        $distId = $this->request->getPost('distId', 'int', 0);
-        $where = "id={$distId} and cityId={$cityId} and status=".CityDistrict::STATUS_ENABLED;
-        $distNum = CityDistrict::count($where);
-        if($distNum == 0)
-            return array('status' => 1, 'info' => '区域无效');
-        //验证板块
-        $regId = $this->request->getPost('regId', 'int', 0);
-        $where = "id={$regId} and cityId={$cityId} and distId={$distId} and status=".CityRegion::STATUS_ON;
-        $regNum = CityRegion::count($where);
-        if($regNum == 0)
-            return array('status' => 1, 'info' => '板块无效');
-        //验证小区
-        $parkName = trim($this->request->getPost('parkName', 'string', ''));
-        $where = "name='{$parkName}' and cityId={$cityId}";
-        $park = Park::findFirst($where, 0)->toArray();
-        if(empty($park))
-            return array('status' => 1, 'info' => '该城市不存在该小区');
-        
         $options = $this->_getOption();
-        //验证物业类型
-        $propertyType = $this->request->getPost('propertyType', 'int', 0);
-        if(!array_key_exists($propertyType, $options['propertyType']))
-            return array('status' => 1, 'info' => '无效的物业类型');
-        //验证建筑类型
-        $buildType = $this->request->getPost('buildType', 'int', 0);
-        if(!array_key_exists($buildType, $options['buildType']))
-            return array('status' => 1, 'info' => '无效的建筑类型');
-        //验证朝向
-        $orientation = $this->request->getPost('orientation', 'int', 0);
-        if(!array_key_exists($orientation, $options['orientation']))
-            return array('status' => 1, 'info' => '无效的朝向');
-        //验证装修状况
-        $decoration = $this->request->getPost('decoration', 'int', 0);
-        if(!array_key_exists($decoration, $options['decoration']))
-            return array('status' => 1, 'info' => '装修状况');
-        //验证楼层位置
-        $floorPosition = $this->request->getPost('floorPosition', 'int', 0);
-        if(!array_key_exists($floorPosition, $options['floorPosition']))
-            return array('status' => 1, 'info' => '无效的楼层位置');
+        
+        if('edit' != $type)
+        {
+            /** 编辑时，这些字段不需要判断 **/
+            //验证城市
+            $cityId = $this->request->getPost('cityId', 'int', 0);
+            $where = "id={$cityId} and status=".City::STATUS_ENABLED;
+            $cityNum = City::count($where);
+            if($cityNum == 0)
+                return array('status' => 1, 'info' => '城市无效');
+            //验证区域
+            $distId = $this->request->getPost('distId', 'int', 0);
+            $where = "id={$distId} and cityId={$cityId} and status=".CityDistrict::STATUS_ENABLED;
+            $distNum = CityDistrict::count($where);
+            if($distNum == 0)
+                return array('status' => 1, 'info' => '区域无效');
+            //验证板块
+            $regId = $this->request->getPost('regId', 'int', 0);
+            $where = "id={$regId} and cityId={$cityId} and distId={$distId} and status=".CityRegion::STATUS_ON;
+            $regNum = CityRegion::count($where);
+            if($regNum == 0)
+                return array('status' => 1, 'info' => '板块无效');
+            //验证小区
+            $parkName = trim($this->request->getPost('parkName', 'string', ''));
+            $where = "name='{$parkName}' and cityId={$cityId}";
+            $park = Park::findFirst($where, 0)->toArray();
+            if(empty($park))
+                return array('status' => 1, 'info' => '该城市不存在该小区');
+            //验证物业类型
+            $propertyType = $this->request->getPost('propertyType', 'int', 0);
+            if(!array_key_exists($propertyType, $options['propertyType']))
+                return array('status' => 1, 'info' => '无效的物业类型');
+            //验证建筑类型
+            $buildType = $this->request->getPost('buildType', 'int', 0);
+            if(!array_key_exists($buildType, $options['buildType']))
+                return array('status' => 1, 'info' => '无效的建筑类型');
+            //验证朝向
+            $orientation = $this->request->getPost('orientation', 'int', 0);
+            if(!array_key_exists($orientation, $options['orientation']))
+                return array('status' => 1, 'info' => '无效的朝向');
+            //验证装修状况
+            $decoration = $this->request->getPost('decoration', 'int', 0);
+            if(!array_key_exists($decoration, $options['decoration']))
+                return array('status' => 1, 'info' => '装修状况');
+            //验证楼层位置
+            $floorPosition = $this->request->getPost('floorPosition', 'int', 0);
+            if(!array_key_exists($floorPosition, $options['floorPosition']))
+                return array('status' => 1, 'info' => '无效的楼层位置');
+            //单元号
+            $unitNo = $this->request->getPost('unitNo', 'int', 0);
+            if($unitNo < 1)
+                return array('status' => 1, 'info' => '单元号不能为空');
+            //室号
+            $roomNo = $this->request->getPost('roomNo', 'int', 0);
+            if($roomNo < 1)
+                return array('status' => 1, 'info' => '室号不能为空');
+            //室
+            $bedRoom = $this->request->getPost('bedRoom', 'int', 0);
+            //厅
+            $livingRoom = $this->request->getPost('livingRoom', 'int', 0);
+            //卫
+            $bathRoom = $this->request->getPost('bathRoom', 'int', 0);
+            //建筑面积
+            $bA = $this->request->getPost('bA', 'int', 0);
+            if($bA < 1)
+                return array('status' => 1, 'info' => '建筑面积不能为空');
+            //到手价
+            $handPrice = $_REQUEST['handPrice'];
+            if($handPrice < 1)
+                return array('status' => 1, 'info' => '到手价不能为空');
+            //房源描述
+            $houseDesc = $_POST['houseDesc'];
+            if(!$houseDesc)
+                return array('status' => 1, 'info' => '房源描述不能为空');
+        }                             
         //总楼层
         $floorMax = intval($this->request->getPost('floorMax', 'int', 0));
         //电梯数量
-        $listCount = $this->request->getPost('listCount', 'int', 0);
-        //单元号
-        $unitNo = $this->request->getPost('unitNo', 'int', 0);
-        if($unitNo < 1)
-            return array('status' => 1, 'info' => '单元号不能为空');
-        //室号
-        $roomNo = $this->request->getPost('roomNo', 'int', 0);
-        if($roomNo < 1)
-            return array('status' => 1, 'info' => '室号不能为空');
-        //室
-        $bedRoom = $this->request->getPost('bedRoom', 'int', 0);
-        //厅
-        $livingRoom = $this->request->getPost('livingRoom', 'int', 0);
-        //卫
-        $bathRoom = $this->request->getPost('bathRoom', 'int', 0);
-        //建筑面积
-        $bA = $this->request->getPost('bA', 'int', 0);
-        if($bA < 1)
-            return array('status' => 1, 'info' => '建筑面积不能为空');
+        $listCount = $this->request->getPost('listCount', 'int', 0);      
         //使用面积
-        $uA = $this->request->getPost('uA', 'int', 0);
-        //到手价
-        $handPrice = $_REQUEST['handPrice'];
-        if($handPrice < 1)
-            return array('status' => 1, 'info' => '到手价不能为空');
+        $uA = $this->request->getPost('uA', 'int', 0);       
         //买入价
         $buyPrice = $_REQUEST['buyPrice'];
         //营业税
@@ -269,11 +304,10 @@ class HouseController extends ControllerBase
         //价格
         $price = trim($this->request->getPost('price', 'string', ''));
         //备注
-        $remark = trim($this->request->getPost('remark', 'string', ''));
-        //房源描述
-        $houseDesc = trim($this->request->getPost('houseDesc', 'string', ''));
-        if(!$houseDesc)
-            return array('status' => 1, 'info' => '房源描述不能为空');
+        $remark = trim($this->request->getPost('remark', 'string', ''));      
+        //是否发布
+        $publish = $this->request->getPost('publish', 'string', '');
+        $isPublish = '1' == $publish ? true : false;
         
         $params = array(
             'cityId' => $cityId,
@@ -315,7 +349,8 @@ class HouseController extends ControllerBase
             'isMortgage' => $isMortgage,
             'giveDetail' => $giveDetail,
             'remark' => $remark,
-            'houseDesc' => $houseDesc
+            'houseDesc' => $houseDesc,
+            'isPublish' => $isPublish
         );
         
         return array('status' => 0, 'params' => $params);

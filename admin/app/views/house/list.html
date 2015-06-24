@@ -7,11 +7,12 @@
 
             <!-- search filters begin -->
             <form class="" name="" id="" method="get" action="/house/list">
-                <div class="form-group">
-                    <input type="text" name="parkName" class="form-control wl" placeholder="输入小区名称...">
+                <div class="form-group input_group inputwrap">
+                    <input type="text" name="parkName" class="form-control wl autoComplete search_input" placeholder="输入小区名称..." url="/ajax/getParkName/" toName="comId" nums=10 value="{{ params['parkName'] }}">
+                    <input id="comId" type="hidden" value="" name="comId">
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="distId" name="distId" onchange="getRegion('regId', 0, $(this).val());">
+                    <select class="form-control" id="distId" name="distId" onchange="getRegion('regId', 0, $(this).val(), '板块');">
                         <option value="0">城区</option>
                     </select>
                     <select class="form-control" id="regId" name="regId">
@@ -19,11 +20,11 @@
                     </select>
                     <select class="form-control" name="level">
                         <option value="0">房源等级</option>
-                        <?=MyTags::options($levels, $level)?>
+                        <?=MyTags::options($levels, $params['level'])?>
                     </select>
                     <select class="form-control" name="userId">
                         <option value="0">归属人</option>
-                        <?=MyTags::options($users, $userId)?>
+                        <?=MyTags::options($users, $params['userId'])?>
                     </select>
                     <select class="form-control" name="status">
                         <option value="0">房源状态</option>
@@ -36,14 +37,15 @@
             <!-- search result begin -->          
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover table-house">
                 <colgroup>
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
-                    <col width="10%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
+                    <col>
                 </colgroup>
                 <thead>
                     <tr>
@@ -57,23 +59,18 @@
                         <th>图片张数</th>
                         <th>归属人</th>
                         <th>添加时间</th>
+                        <th>操作</th>
                     </tr>
                 </thead> 
                 <tbody>
                     {% if lists is empty %}
                     <tr class="noreascout">
-                        <td colspan='11'>
-                            <p><strong class="font14">很抱歉，没有找到符合条件的标签</strong></p>
-                        <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
+                        <td colspan='11' height='300px;'>
+                            <p style='margin-top: 80px;'><strong class="font14">很抱歉，没有找到符合条件的标签</strong></p>
+                            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
                         </td>
                         
                     </tr>
-                    <!--
-                    <div class="noreascout">
-                        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
-                        <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
-                    </div>
-                    -->
                     {% else %}
                     {% for id,value in lists %}
                     <tr>
@@ -85,8 +82,12 @@
                         <td>{{ value['bA'] }}</td>
                         <td>{{ value['price'] }}</td>
                         <td>10</td>
-                        <td>张三</td>
+                        <td>{{ users[value['userId']] }}</td>
                         <td>{{ value['createTime'] }}</td>
+                        <td align="center" class="operate">
+                            <a href="/house/edit/{{ id }}/">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a href="/park/edit/{{ list['id'] }}/">查看</a>
+                        </td>
                     </tr>
                     {% endfor %}
                     {% endif %}                    
@@ -106,5 +107,5 @@
     var regId = {{ params['regId'] }};
     var cityId = {{ cityId }};
     getDist('distId', distId, cityId, '城区');
-    //getRegion('regId', regId, cityId, '板块');
+    getRegion('regId', regId, distId, '板块');
 </script>

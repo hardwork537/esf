@@ -307,6 +307,8 @@ class House extends BaseModel
         
         $this->begin();
         $houseObj = self::instance();
+        $insertData['data']['createTime'] = date('Y-m-d H:i:s'); //创建时间
+        $insertData['data']['status'] = $data['isPublish'] ? self::STATUS_ONLINE : self::STATUS_OFFLINE; //房源状态，是否发布
         
         if(!$houseObj->save($insertData['data']))
         {
@@ -372,7 +374,7 @@ class House extends BaseModel
         isset($data['price']) && $insertData['price'] = $data['price']; //价格
         isset($data['isMortgage']) && $insertData['isMortgage'] = $data['isMortgage']; //抵押
         isset($data['giveDetail']) && $insertData['give'] = $data['giveDetail']; //赠送细节
-        isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注
+        isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注        
         
         if($insertData['parkId'] && $insertData['unitNo'] && $insertData['roomNo'])
         {
@@ -381,8 +383,71 @@ class House extends BaseModel
             {
                 return array('status' => 1, 'info' => '该套房源已存在');
             }
+        }       
+        
+        return array('status' => 0, 'data' => $insertData);
+    }
+    
+    /**
+     * 编辑房源
+     * @param int  $id
+     * @param type $data
+     * @return type
+     */
+    public function editHouse($id, $data)
+    {
+        $updateData = $this->_getUpdateData($data);
+        if(empty($data) || empty($updateData))
+        {
+            return array('status' => 1, 'info' => '数据为空');
         }
-        $insertData['createTime'] = date('Y-m-d H:i:s');
+        if(0 != $updateData['status'])
+        {
+            return $updateData;
+        }
+        $house = self::findFirst($id);
+        if(!$house)
+        {
+            return array('status' => 1, 'info' => '房源不存在');
+        }
+        
+        if(!$house->update($updateData['data']))
+        {
+            return array('status' => 1, 'info' => '编辑房源失败');
+        }
+        
+        return array('status' => 0, 'info' => '编辑房源成功');
+    }
+    
+    private function _getUpdateData($data, $houseId = 0)
+    {   
+        isset($data['floorMax']) && $insertData['floorMax'] = $data['floorMax']; //总楼层
+        isset($data['listCount']) && $insertData['liftCount'] = $data['listCount']; //电梯数量
+        isset($data['uA']) && $insertData['uA'] = $data['uA']; //使用面积
+        isset($data['buyPrice']) && $insertData['buyPrice'] = $data['buyPrice']; //买入价
+        isset($data['saleTax']) && $insertData['saleTax'] = $data['saleTax']; //营业税
+        isset($data['tax']) && $insertData['tax'] = $data['tax']; //个税
+        isset($data['isFiveYear']) && $insertData['isFiveYear'] = $data['isFiveYear']; //是否满五年
+        isset($data['isOnlyOne']) && $insertData['isOnlyOne'] = $data['isOnlyOne']; //是否唯一一套
+        isset($data['propertyOwner']) && $insertData['propertyOwner'] = $data['propertyOwner']; //产权人
+        isset($data['propertyPhone']) && $insertData['propertyPhone'] = $data['propertyPhone']; //产权人联系方式
+        isset($data['agent']) && $insertData['agent'] = $data['agent']; //代理人
+        isset($data['agentPhone']) && $insertData['agentPhone'] = $data['agentPhone']; //代理人联系方式
+        isset($data['isRent']) && $insertData['isRent'] = $data['isRent']; //租约
+        isset($data['rentPrice']) && $insertData['rentPrice'] = $data['rentPrice']; //月租金
+        isset($data['rentEndTime']) && $insertData['rentEndTime'] = $data['rentEndTime']; //租约到期时间
+        isset($data['hasPark']) && $insertData['hasPark'] = $data['hasPark']; //车位
+        isset($data['hasHukou']) && $insertData['hasHukou'] = $data['hasHukou']; //户口
+        isset($data['isForeign']) && $insertData['isForeign'] = $data['isForeign']; //境外人士
+        isset($data['price']) && $insertData['price'] = $data['price']; //价格
+        isset($data['isMortgage']) && $insertData['isMortgage'] = $data['isMortgage']; //抵押
+        isset($data['giveDetail']) && $insertData['give'] = $data['giveDetail']; //赠送细节
+        isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注 
+        if($data['isPublish'])
+        {
+            $insertData['status'] = self::STATUS_ONLINE;
+        }
+        $insertData['updateTime'] = date('Y-m-d H:i:s');
         
         return array('status' => 0, 'data' => $insertData);
     }
