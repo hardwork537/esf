@@ -40,7 +40,7 @@
         formCheck: function(_config) {
             var config = {
                 showType: "error",
-                callback: "",
+                callback: ""
             };
             _config && $.extend(config, _config);
             var _requires = $(this).find("[notnull=true]");
@@ -269,7 +269,7 @@
                 title: "",
                 async: true,
                 type: "get",
-                callback: '',
+                callback: ''
             }
             _option && $.extend(option, _option);
             option.data && (option.data = "_t=" + $.time() + "&" + option.data);
@@ -295,7 +295,7 @@
                     $.isFunction(option.callback) && option.callback(data);
                 },
                 timeout: 30000,
-                dataType: "html",
+                dataType: "html"
             };
             $.extend(ajax_option, option);
             $.ajax(ajax_option);
