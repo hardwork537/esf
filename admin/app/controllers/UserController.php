@@ -158,4 +158,27 @@ class UserController extends ControllerBase
         $this->show('JSON', $delRes);
     }
 
+    /**
+     * 重置密码 
+     * @param type $userId
+     * @return type
+     */
+    public function resetpwdAction($userId)
+    {
+        $userId = intval($userId);
+        $user = AdminUser::findFirst($userId);
+        if(!$user)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'用户不存在'));
+        }
+        $newPwd = $this->_getPasswordStr($GLOBALS['defaultPwd']);
+        $resetRes = $user->update(array('password'=>$newPwd));
+        
+        if($resetRes)
+        {
+            $this->show('JSON', array('status'=>0, 'info'=>'重置密码成功'));
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'重置密码失败'));
+        }       
+    }
 }

@@ -35,7 +35,7 @@ class LoginController extends ControllerBase
             
             $rs = AdminUser::findFirst("accname='$name' and status=" . AdminUser::STATUS_VALID);
             
-            if($rs->password != $this->_getPasswordStr($name))
+            if($rs->password != $this->_getPasswordStr($passwd))
             {
                 $this->show("ERROR", "用户名或密码错误");
             }

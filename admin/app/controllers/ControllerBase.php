@@ -146,7 +146,7 @@ class ControllerBase extends ControllerCore
         $_currentUrl = $this->dispatcher->getControllerName();
         //$_currentUrl .= '/' . $this->dispatcher->getActionName();
         
-        if(!in_array($_currentUrl, $this->_controllerPowerArr))
+        if(!in_array($_currentUrl, $this->_controllerPowerArr) && 'home' != $_currentUrl)
         {
             return $this->response->redirect('/error/noaccess', true);
         }

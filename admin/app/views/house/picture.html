@@ -1,0 +1,63 @@
+<link href="{{ src_url }}css/house_edit_img.css" rel="stylesheet" type="text/css" />    
+<script src="{{ src_url }}js/plupload.full.min.js" type="text/javascript"></script>
+<script src="{{ src_url }}js/imgedit.js" type="text/javascript"></script>
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; 房源编辑 &gt; <strong class="font_gold"> 房源图片 </strong> </h6>
+
+            <div id="container" class="clearfix">
+                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#uploadModal">上传图片</button>
+                <button class="btn btn-default" type="button">删除图片</button>
+                <div class="btngroup_wrap fr">
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="house_edit_basic.html">字段信息</a>
+                        <a class="btn btn-default active" href="javascript:;">房源图片</a>
+                        <a class="btn btn-default" href="house_edit_more.html">更多信息</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- img list begin -->
+            <ul id="imgList" class="clearfix house-img-list">
+                <li>
+                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
+                    <i class="check"></i>
+                </li>
+                <li>
+                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
+                    <i class="check"></i>
+                </li>
+                <li>
+                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
+                    <i class="check"></i>
+                </li>
+            </ul>
+            <!-- img list end -->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="uploadModalLabel">上传图片</h4>
+            </div>
+            <div class="modal-body">
+                <div id="uploadList" class="clearfix upload-list">
+                    <div id="container" class="fl"><button id="pickFiles" type="button" class="btn-pickfiles"></button></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="uploadFiles" type="button" class="btn btn-primary">开始上传</button>
+                <span id="console" class="fr"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+

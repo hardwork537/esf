@@ -389,4 +389,11 @@ class HouseController extends ControllerBase
         
         return $type ? $options[$type] : $options;
     }
+    
+    public function pictureAction($houseId)
+    {
+        $id = intval($houseId);
+        
+        $this->show(null, $data);
+    }
 }

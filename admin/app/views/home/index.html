@@ -1,0 +1,141 @@
+<style type="text/css">
+    .welcome{
+        margin: 150px auto;
+        padding: 50px;
+        text-align: center;
+        width: 600px;
+        border: 1px solid #ddd;
+        font-size: 18px;
+        line-height: 28px;
+        border-radius: 5px;
+    }
+    .welcome span{
+        color: #06c;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 14px;
+    }
+</style>
+
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt">
+                您的位置：
+                <strong class="font_gold"> 首页 </strong>
+            </h6>
+            <div class="welcome">
+                <b>欢迎使用，{{ user['name'] }}</b><br/>
+                <span id="modifyPwd" class='editmodal'>修改登录密码</span>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <ul class="sidebar_inner">
+            <li id="menu1">
+                <span> <s class="icon icon_set"></s> <strong>房源管理</strong> </span>
+                <ul>
+                    <li><a  class="" href="#">房源列表</a></li>
+                    <li><a  class="active" href="#">房源编辑</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- 添加账号 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增账号 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable">
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert">
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="用户" method="post" action="">
+                        <table class="edittable">  
+                            <tr>
+                                <td align="right">
+                                    旧密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="password" name="oldpassword"  info="旧密码" />
+                                </td>                              
+                            </tr>
+                            <tr>                             
+                                <td align="right">
+                                    新密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="password" name="password"  info="新密码" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" >
+                                    确认密码:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="password"  name="repassword"  info="确认密码"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="userId" value="{{ user['id'] }}" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    (function () {
+        $(".editmodal").click(function () {
+            var user_id = $(this).parent().parent().attr('userId');
+            $("#newmodal").smodal({title: "修改密码", act: 'edit'});
+        });
+        
+        $(".saveButton").click(function () {
+            var password = $("input[name=password]").val();
+            var repassword = $("input[name=repassword]").val();
+            if(!password) {
+                $.error('新密码不能为空');
+                return false;
+            }
+            if(!repassword) {
+                $.error('确认密码不能为空');
+                return false;
+            }
+            if(password || repassword) {
+                if(repassword != password) {
+                    $.error('密码不一致');
+                    return false;
+                }
+                var pwdStr = /^\S{6,}$/;
+                if(!pwdStr.test(password)) {
+                    $.error('密码只能为不少于六位数的数字、字母组合');
+                    return false;
+                }
+            }
+            $("#form1").ajaxSubmit({
+                "url": '/ajax/modifypwd/',
+                "callback": function (msg) {
+                    if (msg.status == 0) {
+                        alert('修改密码成功');
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+    })();
+</script>

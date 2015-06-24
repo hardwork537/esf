@@ -108,5 +108,45 @@ class AjaxController extends ControllerBase
         $this->_json['data'] = $list;
         $this->show("JSON");
     }
+    
+    /**
+     * 修改密码
+     */
+    public function modifypwdAction()
+    {
+        $userId = $this->request->getPost('userId', 'int', 0);
+        $oldpassword = $this->request->getPost('oldpassword', 'string', '');
+        $password = $this->request->getPost('password', 'string', '');
+        $repassword = $this->request->getPost('repassword', 'string', '');
+        
+        if($password != $repassword)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'新密码两次输入不一致'));
+        }
+        if(!preg_match('/^\S{6,}$/', $password))
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'密码只能为不少于六位数的数字、字母组合'));
+        }
+        $user = AdminUser::findFirst($userId);
+        if(!$user)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'用户不存在'));
+        }
+        $pwd = $this->_getPasswordStr($oldpassword);
+        if($pwd != $user->password)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'旧密码错误'));
+        }
+        
+        $newPwd = $this->_getPasswordStr($password);
+        $updateRes = $user->update(array('password'=>$newPwd));
+        
+        if($updateRes)
+        {
+            $this->show('JSON', array('status'=>0, 'info'=>'修改密码成功'));
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'修改密码失败'));
+        }
+    }
 
 }

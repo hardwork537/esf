@@ -1,0 +1,122 @@
+@charset "utf-8";
+.btn-group .active, .btn-group .active:hover {
+  background-color: #2A8ADE;
+  border-color: #1771D2;
+  color: #fff;
+}
+
+.house-img-list {
+	list-style: none;
+	padding-top: 30px;
+}
+.house-img-list li {
+	position: relative;
+	float: left;
+	margin: 0 20px 20px 0;
+	width: 164px;
+	border: 2px solid #fff;
+}
+.house-img-list li img {
+	height: 120px;
+	width: 160px;
+}
+.check {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: inline-block;
+	background-color: #fff;
+	border: 1px solid #999;
+	height: 20px;
+	width: 20px;
+	overflow: hidden;
+}
+.house-img-list li.item-checked {
+	border: 2px solid #2375C8;
+}
+.item-checked .check {
+	background-color: #67B1EA;
+	border-color: #2375C8
+}
+.item-checked .check::before, .item-checked .check::after {
+	position: absolute;
+	content: '\20';
+	background-color: #fff;
+}
+.item-checked .check::before {
+	left: 2px;
+	top: 11px;
+	height: 2px;
+	width: 7px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.item-checked .check::after {
+	left: 10px;
+	top: 3px;
+	width: 2px;
+	height: 12px;
+	-webkit-transform: rotate(40deg);
+	-moz-transform: rotate(40deg);
+	-ms-transform: rotate(40deg);
+	-o-transform: rotate(40deg);
+	transform: rotate(40deg);
+}
+.btn-pickfiles {
+	background: url(../images/btn-upload.png) no-repeat 0 0;
+	height: 124px;
+	width: 164px;
+	border: 2px solid #fff;
+	outline: 0;
+}
+/* for modal */
+.modal-dialog {
+	width: 80%;
+}
+.modal-footer {
+	text-align: left;
+}
+.upload-item {
+	position: relative;
+	float: left;
+	border: 2px solid #fff;
+	margin: 0 20px 20px 0;
+	width: 164px;
+	height: 124px;
+}
+.upload-item .del {
+	display: none;
+	position: absolute;
+	right: 10px;
+	bottom: 20px;
+	background-color: #fff;
+	cursor: pointer;
+	height: 2px;
+	width: 14px;
+}
+.upload-item .del::before, .upload-item .del::after {
+	content: '\20';
+	display: inline-block;
+	position: absolute;
+}
+.upload-item .del::before {
+	right: 5px;
+	top: -2px;
+	height: 2px;
+	width: 4px;
+	background-color: #fff;
+}
+.upload-item .del::after {
+	right: 0;
+	top: 3px;
+	height: 12px;
+	width: 14px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	border: 2px solid #fff;
+}

@@ -31,7 +31,10 @@
                 <div class=" arrow_tipswrap">
                     <a class="td_delete">删除</a>
                 </div>
-                <a class="widthl editmodal">重置密码</a>
+                &nbsp;&nbsp;&nbsp;
+                <div class=" arrow_tipswrap">
+                    <a class="resetPwd">重置密码</a>
+                </div>              
             </td>
         </tr>
         {% endfor %}
@@ -163,7 +166,7 @@
     <h5 class="tittle">系统提示</h5>
     <a class="close_mylabel icon icon_xx"> </a>
     <div class="words">
-        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该账号吗？ </span></p>
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm message"> 确认删除该账号吗？ </span></p>
         <p class="btnwrap">
             <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
             <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
@@ -269,6 +272,32 @@
                                 location.reload(false);
                             } else {
                                 var info = msg.info ? msg.info : '删除失败';
+                                _this.delFail(info);
+                                //alert("删除失败!")
+                            }
+
+                        }
+                    });
+                }
+                else {
+                    //alert(2)
+                }
+            });
+        });
+        
+        $('.resetPwd').click(function () {
+            var hsId = $(this).parent().parent("td").parent("tr").attr("userId");
+            var _this = $(this);
+            _this.delConfirm("重置确认", "确定要重置密码吗?", function (result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "resetpwd/" + hsId + "/",
+                        callback: function (msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("重置密码成功");
+                                location.reload(false);
+                            } else {
+                                var info = msg.info ? msg.info : '重置密码失败';
                                 _this.delFail(info);
                                 //alert("删除失败!")
                             }
