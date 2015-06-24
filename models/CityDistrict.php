@@ -171,5 +171,43 @@ class CityDistrict extends BaseModel
         }
         return $arrBackData;
     }
+    
+    /**
+     * 根据区域id获取信息
+     * @param int|array $distIds
+     * @param string    $columns
+     * @param int       $status
+     * @return array
+     */
+    public function getDistByIds($distIds, $columns = '', $status = self::STATUS_ENABLED)
+    {
+        if(empty($distIds))
+        {
+            return array();
+        }
+        if(is_array($distIds))
+        {
+            $arrBind = $this->bindManyParams($distIds);
+            $arrCond = "id in({$arrBind['cond']}) and status={$status}";
+            $arrParam = $arrBind['param'];
+            $condition = array(
+                $arrCond,
+                "bind" => $arrParam,
+            );
+        }
+        else
+        {
+            $condition = array('conditions'=>"id={$distIds} and status={$status}");
+        }
+        $columns && $condition['columns'] = $columns;
+        $arrDist  = self::find($condition,0)->toArray();
+        $arrRdist = array();
+        foreach($arrDist as $value)
+        {
+        	$arrRdist[$value['id']] = $value;
+        }
+        
+        return $arrRdist;
+    }
 
 }

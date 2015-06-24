@@ -41,6 +41,48 @@ function getMetro(obj_id, check_id, city_id, default_name)
 }
 
 /**
+ * 异步加载区域
+ */
+function getDist(obj_id, check_id, city_id, default_name)
+{
+    if (typeof (obj_id) == "undefined") {
+        return false;
+    }
+    if (typeof (check_id) == "undefined") {
+        check_id = 0;
+    }
+    if (typeof (city_id) == "undefined" || city_id == "") {
+        city_id = 1;
+    }
+    if (typeof (default_name) == "undefined" || default_name == "") {
+        default_name = '';
+    }
+    $.request({
+        url: "/ajax/getDistByCityId/" + city_id + "/",
+        data: "",
+        async: false,
+        callback: function (msg) {
+            $("#" + obj_id).empty();
+            if (default_name) {
+                $("<option value=\"0\">" + default_name + "</option>").appendTo("#" + obj_id);
+            }
+
+            if (msg.data == null) {
+                return false;
+            }
+            $.each(msg.data, function (i, n) {
+                if (i == check_id) {
+                    $("<option value=" + i + " selected>" + n + "</option>").appendTo("#" + obj_id);
+                } else {
+                    $("<option value=" + i + ">" + n + "</option>").appendTo("#" + obj_id);
+                }
+            });
+
+        }
+    });
+}
+
+/**
  * 异步获取板块
  */
 function getRegion(obj_id, check_id, district_id, default_name)

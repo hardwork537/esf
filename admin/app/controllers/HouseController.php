@@ -5,7 +5,102 @@ class HouseController extends ControllerBase
 
     public function listAction()
     {
+        $data = array();
+        $data['cityId'] = $this->_cityId;
+        
+        //房源等级
+        $data['levels'] = House::getAllLevelStatus();
+        //房源状态
+        $data['statuses'] = array(
+            House::STATUS_ONLINE => '在线',
+            House::STATUS_OFFLINE => '下架'
+        );
+        //归属人
+        $where = "cityId={$this->_cityId} and status=".  AdminUser::STATUS_VALID;
+        $condition = array(
+            'conditions' => $where,
+            'columns' => 'id,name'
+        );
+        $result = AdminUser::find($condition, 0)->toArray();
+        foreach($result as $v)
+        {
+            $data['users'][$v['id']] = $v['name'];
+        }
+            
+        $filterRes = $this->_filterParams();
+        $data['params'] = $filterRes['params'];
+        if(0 != $filterRes['status'])
+        {
+            $this->show(null, $data);
+            return;
+        }
+        $where = $filterRes['where'];
+        $result = House::find($where, 0)->toArray();
+        if(empty($result))
+        {
+            $this->show(null, $data);
+            return;
+        }
+        $list = $distIds = $regIds = $parkIds = $userIds = array();
+        foreach($result as $v)
+        {
+            $value = array();
+            $distIds[] = $value['distId'] = $v['distId'];
+            $regIds[] = $value['regId'] = $v['regId'];
+            $parkIds[] = $value['parkId'] = $v['parkId'];
+            $value['bedRoom'] = $v['bedRoom'];
+            $value['livingRoom'] = $v['livingRoom'];
+            $value['bathRoom'] = $v['bathRoom'];
+            $value['bA'] = $v['bA'];
+            $value['userId'] = $v['userId'];
+            $value['price'] = $v['price'];
+            $value['createTime'] = date('Y.m.d', $v['createTime']);
+            
+            $list[$v['id']] = $value;
+        }
+        $distIds = array_flip(array_flip($distIds));
+        $regIds = array_flip(array_flip($regIds));
+        $parkIds = array_flip(array_flip($parkIds));
+        //区域
+        $data['dists'] = CityDistrict::instance()->getDistByIds($distIds, 'id,name');
+        //板块
+        $data['regs'] = CityRegion::instance()->getRegionByIds($regIds, 'id,name');
+        //小区
+        $data['parks'] = Park::instance()->getParkByIds($parkIds, 'id,name');
+        
+        $data['lists'] = $list;
+        
         $this->show(null, $data);
+    }
+    
+    private function _filterParams()
+    {
+        $params = array();
+        $params['parkName'] = $parkName = trim($this->request->get('parkName', 'string', ''));
+        $params['distId'] = $distId = $this->request->get('distId', 'int', 0);
+        $params['regId'] = $regId = $this->request->get('regId', 'int', 0);
+        $params['level'] = $level = $this->request->get('level', 'int', 0);
+        $params['userId'] = $userId = $this->request->get('userId', 'int', 0);
+        $params['status'] = $status = $this->request->get('status', 'int', 0);
+        
+        $where = "cityId={$this->_cityId}";
+        if($parkName)
+        {
+            $parkWhere = "cityId={$this->_cityId} and name='{$parkName}' and status=".Park::STATUS_VALID;
+            $park = Park::findFirst($parkWhere, 0)->toArray();
+            if(empty($park))
+            {
+                return array('status'=>1, 'params' => $params);
+            }
+            $where .= " and parkId={$park['id']}";
+        }
+        $distId && $where .= " and distId={$distId}";
+        $regId && $where .= " and regId={$regId}";
+        $level && $where .= " and level='{$level}'";
+        $userId && $where .= " and userId={$userId}";
+        $status && $where .= " and status={$status}";
+        
+        return array('status'=>0, 'where'=>$where, 'params'=>$params);
     }
 
     public function addAction()
@@ -19,6 +114,9 @@ class HouseController extends ControllerBase
             {
                 $this->show('JSON', $checkRes);
             }
+            
+            $addRes = House::instance()->addHouse($checkRes['params']);
+            $this->show('JSON', $addRes);
         }
         
         $data['action'] = 'add';
@@ -49,6 +147,18 @@ class HouseController extends ControllerBase
         $cityNum = City::count($where);
         if($cityNum == 0)
             return array('status' => 1, 'info' => '城市无效');
+        //验证区域
+        $distId = $this->request->getPost('distId', 'int', 0);
+        $where = "id={$distId} and cityId={$cityId} and status=".CityDistrict::STATUS_ENABLED;
+        $distNum = CityDistrict::count($where);
+        if($distNum == 0)
+            return array('status' => 1, 'info' => '区域无效');
+        //验证板块
+        $regId = $this->request->getPost('regId', 'int', 0);
+        $where = "id={$regId} and cityId={$cityId} and distId={$distId} and status=".CityRegion::STATUS_ON;
+        $regNum = CityRegion::count($where);
+        if($regNum == 0)
+            return array('status' => 1, 'info' => '板块无效');
         //验证小区
         $parkName = trim($this->request->getPost('parkName', 'string', ''));
         $where = "name='{$parkName}' and cityId={$cityId}";
@@ -78,7 +188,7 @@ class HouseController extends ControllerBase
         if(!array_key_exists($floorPosition, $options['floorPosition']))
             return array('status' => 1, 'info' => '无效的楼层位置');
         //总楼层
-        $floorMax = $this->request->getPost('floorMax', 'int', 0);
+        $floorMax = intval($this->request->getPost('floorMax', 'int', 0));
         //电梯数量
         $listCount = $this->request->getPost('listCount', 'int', 0);
         //单元号
@@ -167,9 +277,12 @@ class HouseController extends ControllerBase
         
         $params = array(
             'cityId' => $cityId,
+            'distId' => $distId,
+            'regId' => $regId,
+            'userId' => $this->_userInfo['id'],
             'parkId' => $park['id'],
             'propertyType' => $propertyType,
-            'buildType' > $buildType,
+            'buildType' => $buildType,
             'orientation' => $orientation,
             'decoration' => $decoration,
             'floorPosition' => $floorPosition,

@@ -96,6 +96,14 @@
                         <input class="w89 mr15" type="text" value="" name="bA" notnull="true" info="建筑面积" onlyNum='true' />
                         <em class="sp_em">使用面积：</em>
                         <input class="w89 mr15" type="text" value="" name="uA" onlyNum='true' />
+                        <em class="sp_em"><i>*</i>区域：</em>
+                        <select class="form-control" name="distId" id="distId" notnull="true" info='区域'  onchange="getRegion('regId', 0, $(this).val());">
+                            <?=MyTags::options($options['floorPosition'])?>
+                        </select>
+                        <em class="sp_em"><i>*</i>板块：</em>
+                        <select class="form-control" name="regId" id="regId" notnull="true" info='板块'>
+                            <?=MyTags::options($options['floorPosition'])?>
+                        </select>
                     </li>
                 </ul>
                 <!-- 基本信息 END -->
@@ -221,6 +229,9 @@
 <script type="text/javascript">
     var menu = 'menu1';
     var moudle = 'houseadd';
+    
+    getDist('distId', 0, $("#cityId").val());
+    getRegion('regId', 0, $("#distId").val());
     
     $(function() {
         $("input[onlyNum=true]").keyup(function(){

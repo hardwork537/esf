@@ -6,7 +6,6 @@ class House extends BaseModel
 {
 
     //房源状态常量status
-    const STATUS_SAVE = 0; //保存待发布
     const STATUS_ONLINE = 1; //发布
     const STATUS_OFFLINE = 2; //下架   
     //审核状态status 0:待审核 1:审核过 -1:违规
@@ -34,6 +33,10 @@ class House extends BaseModel
     //是否有户口
     const HAS_HUKOU = 1;
     const NO_HUKOU = 0;
+    //房源等级
+    const LEVEL_A = 1;
+    const LEVEL_B = 2;
+    const LEVEL_C = 3;
     
     public $id;
     public $parkId;
@@ -41,45 +44,45 @@ class House extends BaseModel
     public $distId;
     public $cityId;
     public $userId;
-    public $type;
+    public $type = 0;
     public $level = '';
-    public $price;
-    public $handPrice;
-    public $buyPrice;
-    public $saleTax;
-    public $tax;
+    public $price = 0.00;
+    public $handPrice = 0.00;
+    public $buyPrice = 0.00;
+    public $saleTax = 0.00;
+    public $tax = 0.00;
     public $isFiveYear;
     public $isOnlyOne;
-    public $propertyOwner;
-    public $propertyPhone;
-    public $agent;
-    public $agentPhone;
+    public $propertyOwner = '';
+    public $propertyPhone = '';
+    public $agent = '';
+    public $agentPhone = '';
     public $isRent;
     public $rentPrice;
-    public $rentEndTime;
+    public $rentEndTime = '0000-00-00';
     public $hasPark;
     public $isMortgage;
     public $isForeign;
     public $hasHukou;
     public $give;
-    public $remark;
+    public $remark = '';
     public $bedRoom;
     public $livingRoom;
     public $bathRoom;
-    public $bA;
-    public $uA;
+    public $bA = 0;
+    public $uA = 0;
     public $decoration;
     public $orientation;
-    public $liftCount;
+    public $liftCount = 0;
     public $unitNo;
     public $roomNo;
-    public $floor;
-    public $floorMax;
+    public $floor = 0;
+    public $floorMax = 0;
     public $buildType;
     public $floorPosition;
     public $propertyType;
-    public $verification;
-    public $status;
+    public $verification = 0;
+    public $status = self::STATUS_ONLINE;
     public $delTime = '0000-00-00 00:00:00';
     public $auditingTime = '0000-00-00 00:00:00';
     public $xiajiaTime = '0000-00-00 00:00:00';
@@ -251,6 +254,20 @@ class House extends BaseModel
     }
     
     /**
+     * 房源等级
+     * @return type
+     */
+    public static function getAllLevelStatus()
+    {
+        return array(
+            self::LEVEL_A => 'A',
+            self::LEVEL_B => 'B',
+            self::LEVEL_C => 'C'
+        );
+    }
+
+
+    /**
      * 获取指定小区下所有的有效发布房源数量
      *
      */
@@ -283,11 +300,15 @@ class House extends BaseModel
         {
             return array('status' => 1, 'info' => '数据为空');
         }
+        if(0 != $insertData['status'])
+        {
+            return $insertData;
+        }
         
         $this->begin();
         $houseObj = self::instance();
         
-        if(!$houseObj->save($insertData))
+        if(!$houseObj->save($insertData['data']))
         {
             $this->rollback();
             return array('status' => 1, 'info' => '房源添加失败');
@@ -308,13 +329,16 @@ class House extends BaseModel
         }
         
         $this->commit();
-        return array('status' => 0);
+        return array('status' => 0, 'info' => '添加房源成功');
     }
     
     private function _getInsertData($data, $houseId = 0)
     {   
         isset($data['parkId']) && $insertData['parkId'] = $data['parkId']; //小区id
         isset($data['cityId']) && $insertData['cityId'] = $data['cityId']; //城市
+        isset($data['distId']) && $insertData['distId'] = $data['distId']; //区域
+        isset($data['regId']) && $insertData['regId'] = $data['regId']; //板块
+        isset($data['userId']) && $insertData['userId'] = $data['userId'];
         isset($data['propertyType']) && $insertData['propertyType'] = $data['propertyType']; //物业类型
         isset($data['buildType']) && $insertData['buildType'] = $data['buildType']; //建筑类型
         isset($data['orientation']) && $insertData['orientation'] = $data['orientation']; //朝向
@@ -347,7 +371,7 @@ class House extends BaseModel
         isset($data['isForeign']) && $insertData['isForeign'] = $data['isForeign']; //境外人士
         isset($data['price']) && $insertData['price'] = $data['price']; //价格
         isset($data['isMortgage']) && $insertData['isMortgage'] = $data['isMortgage']; //抵押
-        isset($data['giveDetail']) && $insertData['giveDetail'] = $data['giveDetail']; //赠送细节
+        isset($data['giveDetail']) && $insertData['give'] = $data['giveDetail']; //赠送细节
         isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注
         
         if($insertData['parkId'] && $insertData['unitNo'] && $insertData['roomNo'])
@@ -358,6 +382,7 @@ class House extends BaseModel
                 return array('status' => 1, 'info' => '该套房源已存在');
             }
         }
+        $insertData['createTime'] = date('Y-m-d H:i:s');
         
         return array('status' => 0, 'data' => $insertData);
     }

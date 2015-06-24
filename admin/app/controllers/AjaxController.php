@@ -14,6 +14,7 @@ class AjaxController extends ControllerBase
     /*
      * @desc 小区联想
      * */
+
     public function getParkNameAction()
     {
         $inputInfo = $this->request->getPost('keyword', string);
@@ -76,6 +77,36 @@ class AjaxController extends ControllerBase
         }
 
         echo json_encode($info);
+    }
+
+    public function getDistByCityIdAction($cityId = 1)
+    {
+        $list = [];
+        $cityId = intval($cityId);
+        $rs = CityDistrict::find("cityId=$cityId and status=" . CityDistrict::STATUS_ENABLED, 0)->toArray();
+        foreach($rs as $k => $v)
+        {
+            $list[$v['id']] = $v['name'];
+        }
+        $this->_json['data'] = $list;
+        $this->show("JSON");
+    }
+
+    /**
+     * 根据$distId获取对应的板块
+     * @param number $distId
+     */
+    public function getRegByDistIdAction($distId = 1)
+    {
+        $list = [];
+        $distId = intval($distId);
+        $rs = CityRegion::find("distId=$distId and status=" . CityRegion::STATUS_ON, 0)->toArray();
+        foreach($rs as $k => $v)
+        {
+            $list[$v['id']] = $v['name'];
+        }
+        $this->_json['data'] = $list;
+        $this->show("JSON");
     }
 
 }

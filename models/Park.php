@@ -726,4 +726,41 @@ class Park extends BaseModel
         return array("status" => 1, "info" => "删除失败!");
     }
 
+    /**
+     * 根据小区id获取信息
+     * @param int|array $parkIds
+     * @param string    $columns
+     * @param int       $status
+     * @return array
+     */
+    public function getParkByIds($parkIds, $columns = '', $status = self::STATUS_VALID)
+    {
+        if(empty($parkIds))
+        {
+            return array();
+        }
+        if(is_array($parkIds))
+        {
+            $arrBind = $this->bindManyParams($parkIds);
+            $arrCond = "id in({$arrBind['cond']}) and status={$status}";
+            $arrParam = $arrBind['param'];
+            $condition = array(
+                $arrCond,
+                "bind" => $arrParam,
+            );
+        }
+        else
+        {
+            $condition = array('conditions'=>"id={$parkIds} and status={$status}");
+        }
+        $columns && $condition['columns'] = $columns;
+        $arrPark  = self::find($condition,0)->toArray();
+        $arrRPark = array();
+        foreach($arrPark as $value)
+        {
+        	$arrRPark[$value['id']] = $value;
+        }
+        
+        return $arrRPark;
+    }
 }

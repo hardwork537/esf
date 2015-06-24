@@ -209,5 +209,42 @@ class CityRegion extends BaseModel
 
         return $arr;
     }
+    
+    /**
+     * @abstract 批量获取板块信息
+     * @param array  $ids
+     * @param string $columns
+     * @return array
+     *
+     */
+	public function getRegionByIds($ids, $columns = '', $status = self::STATUS_ON)
+	{
+		if(empty($ids))
+            return array();
+		if(is_array($ids))
+		{
+			$arrBind = $this->bindManyParams($ids);
+			$arrCond = "id in({$arrBind['cond']}) and status={$status}";
+			$arrParam = $arrBind['param'];
+            $condition = array(
+					$arrCond,
+					"bind" => $arrParam,
+			);            
+		}
+		else
+		{
+            $condition = array(
+                'conditions' => "id={$ids} and status={$status}"
+            );
+		}
+        $columns && $condition['columns'] = $columns;
+        $arrRegion  = self::find($condition, 0)->toArray();
+		$arrRregion = array();
+		foreach($arrRegion as $value)
+		{
+			$arrRregion[$value['id']] = $value;
+		}
+		return $arrRregion;
+	}
 
 }

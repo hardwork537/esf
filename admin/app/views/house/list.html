@@ -6,31 +6,34 @@
             <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理  &gt; <strong class="font_gold"> 房源列表 </strong> </h6>
 
             <!-- search filters begin -->
-            <form class="" name="" id="" method="post" action="">
+            <form class="" name="" id="" method="get" action="/house/list">
                 <div class="form-group">
-                    <input type="text" class="form-control wl" placeholder="输入小区名称...">
+                    <input type="text" name="parkName" class="form-control wl" placeholder="输入小区名称...">
                 </div>
                 <div class="form-group">
-                    <select class="form-control" id="">
+                    <select class="form-control" id="distId" name="distId" onchange="getRegion('regId', 0, $(this).val());">
                         <option value="0">城区</option>
                     </select>
-                    <select class="form-control" id="">
+                    <select class="form-control" id="regId" name="regId">
                         <option value="0">板块</option>
                     </select>
-                    <select class="form-control" id="">
+                    <select class="form-control" name="level">
                         <option value="0">房源等级</option>
+                        <?=MyTags::options($levels, $level)?>
                     </select>
-                    <select class="form-control" id="">
+                    <select class="form-control" name="userId">
                         <option value="0">归属人</option>
+                        <?=MyTags::options($users, $userId)?>
                     </select>
-                    <select class="form-control" id="">
+                    <select class="form-control" name="status">
                         <option value="0">房源状态</option>
+                        <?=MyTags::options($statuses, $params['status'])?>
                     </select>
                     <button type="submit" class="btn btn-primary">搜索</button>
                 </div>
             </form>
             <!-- search filters end -->
-            <!-- search result begin -->
+            <!-- search result begin -->          
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover table-house">
                 <colgroup>
                     <col width="10%">
@@ -55,22 +58,41 @@
                         <th>归属人</th>
                         <th>添加时间</th>
                     </tr>
-                </thead>
+                </thead> 
                 <tbody>
+                    {% if lists is empty %}
+                    <tr class="noreascout">
+                        <td colspan='11'>
+                            <p><strong class="font14">很抱歉，没有找到符合条件的标签</strong></p>
+                        <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
+                        </td>
+                        
+                    </tr>
+                    <!--
+                    <div class="noreascout">
+                        <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                        <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+                    </div>
+                    -->
+                    {% else %}
+                    {% for id,value in lists %}
                     <tr>
-                        <td>00001</td>
-                        <td>长宁</td>
-                        <td>天山</td>
-                        <td>仁恒河滨花园</td>
-                        <td>4/2/2</td>
-                        <td>236</td>
-                        <td>1040</td>
+                        <td>{{ id }}</td>
+                        <td>{{ dists[value['distId']]['name'] }}</td>
+                        <td>{{ regs[value['regId']]['name'] }}</td>
+                        <td>{{ parks[value['parkId']]['name'] }}</td>
+                        <td>{{ value['bedRoom'] }}/{{ value['livingRoom'] }}/{{ value['bathRoom'] }}</td>
+                        <td>{{ value['bA'] }}</td>
+                        <td>{{ value['price'] }}</td>
                         <td>10</td>
                         <td>张三</td>
-                        <td>2015.3.30</td>
+                        <td>{{ value['createTime'] }}</td>
                     </tr>
+                    {% endfor %}
+                    {% endif %}                    
                 </tbody>
             </table>
+            
             <!-- search result end -->
         </div>
     </div>
@@ -79,4 +101,10 @@
 <script>
     var menu = 'menu1';
     var moudle = 'houselist';
+    
+    var distId = {{ params['distId'] }};
+    var regId = {{ params['regId'] }};
+    var cityId = {{ cityId }};
+    getDist('distId', distId, cityId, '城区');
+    //getRegion('regId', regId, cityId, '板块');
 </script>
