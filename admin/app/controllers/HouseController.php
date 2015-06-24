@@ -392,8 +392,160 @@ class HouseController extends ControllerBase
     
     public function pictureAction($houseId)
     {
-        $id = intval($houseId);
+        $data = array();
+        $data['id'] = intval($houseId);
         
         $this->show(null, $data);
+    }
+    
+    public function moreAction($houseId)
+    {
+        $data = array();
+        $data['id'] = intval($houseId);
+        //房源基本信息
+        $house = House::findFirst($id, 0)->toArray();
+        if(empty($house))
+        {
+            echo "<script>alert('房源不存在');location.href='/house/list/'</script>";
+            exit;
+        }
+        $data['house'] = $house;
+        $data['statuses'] = array(House::STATUS_ONLINE => '在线', House::STATUS_OFFLINE=>'下架');
+        $data['online'] = House::STATUS_ONLINE;
+        $data['offline'] = House::STATUS_OFFLINE;
+        $data['xiajiaReason'] = array(
+            0 => '下架原因'
+        );
+        $data['xiajiaReason'] += House::getAllOfflineReason();
+        //房源标签
+        $tags = HouseTag::find("cityId={$house['cityId']}", 0)->toArray();
+        $houseTag = array();
+        foreach($tags as $v)
+        {
+            $houseTag[$v['id']] = $v['name'];
+        }
+        $data['houseTag'] = $houseTag;
+        //该套房源标签
+        $result = HouseExtTag::find("houseId={$house['id']}", 0)->toArray();
+        $tagList = array();
+        foreach($result as $v)
+        {
+            $tagList[] = $v['tag'];
+        }
+        $data['tagList'] = $tagList;
+        
+        $this->show(null, $data);
+    }
+    
+    /**
+     * 上下架房源
+     * @param type $type
+     * @param type $reason
+     */
+    public function operateAction($houseId, $type, $reason = 0)
+    {
+        $id = intval($houseId);
+        $house = House::findFirst($id);
+        if(!$house)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'房源不存在'));
+        }
+        if(House::STATUS_ONLINE == $type)
+        {
+            //上线房源
+            $data = array(
+                'status' => House::STATUS_ONLINE
+            );
+            $res = $house->update($data);
+            if($res)
+            {
+                $this->show('JSON', array('status'=>0, 'info'=>'上线成功'));
+            } else {
+                $this->show('JSON', array('status'=>1, 'info'=>'上线失败'));
+            }
+            
+        } elseif(House::STATUS_OFFLINE == $type) {
+            //下架房源
+            $reason = intval($reason);
+            $reasons = House::getAllOfflineReason();
+            if(!array_key_exists($reason, $reasons))
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'无效的下架原因'));
+            }
+            $data = array(
+                'status' => House::STATUS_OFFLINE,
+                'xiajiaReason' => $reason,
+                'xiajiaTime' => date('Y-m-d H:i:s')
+            );
+            $res = $house->update($data);
+            if($res)
+            {
+                $this->show('JSON', array('status'=>0, 'info'=>'下架成功'));
+            } else {
+                $this->show('JSON', array('status'=>1, 'info'=>'下架失败'));
+            }
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'无效操作'));
+        }
+    }
+    
+    public function tagAction($type, $houseId, $tagId)
+    {
+        if(!in_array($type, array('add', 'del')))
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'无效操作'));
+        }
+        $houseId = intval($houseId);
+        $house = House::findFirst($houseId, 0)->toArray();
+        if(empty($house))
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'房源不存在'));
+        }
+        
+        $tagId = intval($tagId);
+        if('add' == $type)
+        {
+            //添加标签
+            $tag = HouseTag::findFirst($tagId);
+        
+            if(!$tag)
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'标签不存在'));
+            }
+            $tagNum = HouseExtTag::count("houseId={$houseId}");
+            if($tagNum >= 3)
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'最多只能选择 3 个标签'));
+            }
+            $tag = HouseExtTag::instance();
+            $data = array(
+                'cityId' => $house['cityId'],
+                'houseId' => $houseId,
+                'tag' => $tagId,
+                'addTime' => date('Y-m-d H:i:s')
+            );
+            $addRes = $tag->create($data);
+            if($addRes)
+            {
+                $this->show('JSON', array('status'=>0, 'info'=>'标签添加成功'));
+            } else {
+                $this->show('JSON', array('status'=>1, 'info'=>'标签添加失败'));
+            }
+            
+        } elseif('del' == $type) {
+            //删除标签
+            $houseTag = HouseExtTag::findFirst("houseId={$houseId} and tag={$tagId}");
+            if(!$houseTag)
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'该房源标签不存在'));
+            }
+            $delRes = $houseTag->delete();
+            if($delRes)
+            {
+                $this->show('JSON', array('status'=>0, 'info'=>'标签取消成功'));
+            } else {
+                $this->show('JSON', array('status'=>1, 'info'=>'标签取消失败'));
+            }
+        }      
     }
 }

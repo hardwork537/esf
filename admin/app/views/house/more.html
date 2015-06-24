@@ -1,0 +1,119 @@
+<link href="{{ src_url }}css/house_edit_more.css" rel="stylesheet" type="text/css" />
+
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 房源管理 &gt; 房源编辑 &gt; <strong class="font_gold"> 更多信息 </strong> </h6>
+
+            <div class="clearfix">
+                <div class="btngroup_wrap fr">
+                    <div class="btn-group">
+                        <a class="btn btn-default" href="/house/edit/{{ house['id'] }}/">字段信息</a>
+                        <a class="btn btn-default" href="/house/picture/{{ house['id'] }}/">房源图片</a>
+                        <a class="btn btn-default active" href="javascript:;">更多信息</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- house more edit begin -->
+            <form class="house-edit-more" name="" id="" method="post" action="">
+                <div class="form-group">
+                    <label>房源等级：</label>
+                    <input id="" class="form-control" type="text" value="{{ house['level'] }}" disabled="disabled">
+                    <label class="col-xs-offset-1">房源状态：</label>
+                    <select class="form-control" id="houseStatus" onchange="modifyHouseStatus();">
+                        <?=MyTags::options($statuses, $house['status'])?>
+                    </select>   
+                    <select onchange="offlineHouse();" class="form-control" id="offlineReason" {% if offline!=house['status'] %}style="display:none;"{% endif %}>
+                        <?=MyTags::options($xiajiaReason, $house['xiajiaReason'])?>
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label>房源标签：</label>
+                    {% for tagId,tagName in houseTag %}
+                    <label class="checkbox-inline">
+                        <input<?php if(!empty($tagList) && in_array($tagId, $tagList)) { ?> checked="checked"<?php } ?> type="checkbox" class="houseTag" value="{{ tagId }}">{{ tagName }}</label>
+                    {% endfor %}
+                </div>
+            </form>
+            <!-- house more edit end -->
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var menu = 'menu1';
+    var moudle = 'houseadd';
+    var houseId = {{ house['id'] }};
+    var online = {{ online }};
+    var offline = {{ offline }};
+    
+    function modifyHouseStatus() {
+        var houseStatus = $("#houseStatus").val();
+        if(offline == houseStatus) {
+            $("#offlineReason").show();
+            alert('请选择下架原因');
+        } else {
+            $("#offlineReason").hide();
+            onlineHouse();
+        }
+    }
+    function onlineHouse() {
+        if(confirm('确定要上线房源吗')) {
+            $.request({
+                url: '/house/operate/' + houseId + '/' + online + '/',
+                callback: function (msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        location.reload(false);
+                    } else {
+                        alert(msg.info);
+                    }
+                }
+            });
+        }
+    }
+    function offlineHouse() {
+        if(confirm('确定要下架房源吗')) {
+            $.request({
+                url: '/house/operate/' + houseId + '/' + offline + '/' + $("#offlineReason").val() + '/',
+                callback: function (msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        location.reload(false);
+                    } else {
+                        alert(msg.info);
+                    }
+                }
+            });
+        }
+    }
+    
+    $(function(){ 
+        $(".houseTag").change(function() {           
+            var isCheck = $(this).is(':checked');
+            if(isCheck) {
+                var checkNum = $("input:checked").length;
+                if(checkNum >= 4) {
+                    alert('最多只能选 3 个标签');
+                    $(this).removeAttr('checked');
+                    return false;
+                }
+            }
+            var type = isCheck ? 'add' : 'del';
+            var tagId = $(this).val();
+            $.request({
+                url: '/house/tag/' + type + '/' + houseId + '/' + tagId + '/',
+                callback: function (msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        //location.reload(false);
+                    } else {
+                        alert(msg.info);
+                    }
+                }
+            });
+        }); 
+    }); 
+</script>

@@ -37,6 +37,11 @@ class House extends BaseModel
     const LEVEL_A = 1;
     const LEVEL_B = 2;
     const LEVEL_C = 3;
+    //下架原因
+    const OFFLINE_SOLD = 1; //已售
+    const OFFLINE_WAITING = 2; //暂缓出售
+    const OFFLINE_INVALID = 3; //无效号码
+    const OFFLINE_AGENT = 4; //中介
     
     public $id;
     public $parkId;
@@ -86,6 +91,7 @@ class House extends BaseModel
     public $delTime = '0000-00-00 00:00:00';
     public $auditingTime = '0000-00-00 00:00:00';
     public $xiajiaTime = '0000-00-00 00:00:00';
+    public $xiajiaReason = 0;
     public $createTime = '0000-00-00 00:00:00';
     public $updateTime = '0000-00-00 00:00:00';
     public $deliverDate = '0000-00-00';
@@ -146,6 +152,7 @@ class House extends BaseModel
             'houseDelTime' => 'delTime',
             'houseAuditing' => 'auditingTime',
             'houseXiajia' => 'xiajiaTime',
+            'houseXiajiaReason' => 'xiajiaReason',
             'houseCreate' => 'createTime',
             'houseUpdate' => 'updateTime',
             'houseDeliverDate' => 'deliverDate'
@@ -266,6 +273,19 @@ class House extends BaseModel
         );
     }
 
+    /**
+     * 下架原因
+     * @return type
+     */
+    public static function getAllOfflineReason()
+    {
+        return array(
+            self::OFFLINE_SOLD => '已售',
+            self::OFFLINE_WAITING => '暂缓出售',
+            self::OFFLINE_INVALID => '无效号码',
+            self::OFFLINE_AGENT => '中介'
+        );
+    }
 
     /**
      * 获取指定小区下所有的有效发布房源数量
@@ -383,7 +403,8 @@ class House extends BaseModel
             {
                 return array('status' => 1, 'info' => '该套房源已存在');
             }
-        }       
+        } 
+        $insertData['level'] = 'C';
         
         return array('status' => 0, 'data' => $insertData);
     }
