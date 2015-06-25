@@ -172,4 +172,42 @@ class AdminUser extends CrmBaseModel
         
         return array('status' => $status);
     }
+    
+    /**
+     * 根据userid获取信息
+     * @param int|array $userIds
+     * @param string    $columns
+     * @param int       $status
+     * @return array
+     */
+    public function getUserByIds($userIds, $columns = '', $status = self::STATUS_VALID)
+    {
+        if(empty($userIds))
+        {
+            return array();
+        }
+        if(is_array($userIds))
+        {
+            $arrBind = $this->bindManyParams($userIds);
+            $arrCond = "id in({$arrBind['cond']}) and status={$status}";
+            $arrParam = $arrBind['param'];
+            $condition = array(
+                $arrCond,
+                "bind" => $arrParam,
+            );
+        }
+        else
+        {
+            $condition = array('conditions'=>"id={$userIds} and status={$status}");
+        }
+        $columns && $condition['columns'] = $columns;
+        $arrUser  = self::find($condition,0)->toArray();
+        $arrRUser = array();
+        foreach($arrUser as $value)
+        {
+        	$arrRUser[$value['id']] = $value;
+        }
+        
+        return $arrRUser;
+    }
 }
