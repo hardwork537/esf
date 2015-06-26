@@ -41,6 +41,11 @@ class AjaxController extends ControllerBase
         $this->show("JSON");
     }
 
+    public function uploadImageAction()
+    {
+        var_dump($_REQUEST);
+        var_dump($_FILES);
+    }
     public function ueditUploadImageAction()
     {
 

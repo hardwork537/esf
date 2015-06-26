@@ -2,7 +2,7 @@ var uploader = new plupload.Uploader({
     runtimes: 'html5,flash,silverlight,html4', //用来指定上传方式，指定多个上传方式请使用逗号隔开
     browse_button: 'pickFiles', // 触发文件选择对话框的按钮，为那个元素id
     container: document.getElementById('container'), // ... or DOM Element itself
-    url: 'upload.php', //服务器端的上传页面地址
+    url: '/ajax/uploadImage/', //服务器端的上传页面地址
     flash_swf_url: '../js/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
     silverlight_xap_url: '../js/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
     max_retries: 0, //当发生plupload.HTTP_ERROR错误时的重试次数，为0时表示不重试
@@ -36,7 +36,7 @@ var uploader = new plupload.Uploader({
                 $(html).prependTo('#uploadList');
                 //实现图片预览功能
                 previewImage(file, function (imgsrc) {
-                    $('#' + file.id).find('.img').append('<img src="' + imgsrc + '" />');
+                    $('#' + file.id).find('.img').append('<img height="120px" width="160px" src="' + imgsrc + '" />');
                 })
             });
 
