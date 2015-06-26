@@ -1,0 +1,352 @@
+@charset "utf-8";
+/* for search */
+.search {
+	margin-top: 35px;
+	margin-bottom: 20px;
+}
+.search-hot {
+	position: relative;
+	color: #666;
+	font-size: 16px;
+	margin-bottom: 20px;
+}
+.search-hot a {
+	color: #666;
+	text-decoration: none;
+}
+.search-box .input-box {
+	position: relative;
+	float: left;
+	background: #fff url(../img/input-bg.png) repeat-x left top;
+	border: 1px solid #e5e5e5;
+	height: 48px;
+    width: 886px;
+	overflow: hidden;
+}
+.search-box .input-box,
+.search-box .btn {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.search-box .input-txt {
+	background-color: #fff;
+	border: 0;
+    color: #aeaeae;
+    font-size: 15px;
+    height: 24px;
+    line-height: 24px;
+	margin: 13px 15px 0 15px;
+	width: 856px;
+}
+.search-box .btn {
+	float: right;
+	border: 0;
+	background-color: #ff8143;
+	cursor: pointer;
+	color: #fff;
+	font-size: 16px;
+	height: 50px;
+	width: 200px;
+	text-align: center;
+	box-shadow: 1px 1px 2px rgba(200,200,200,.5);
+}
+
+/* for filters */
+.filters {
+	font-size: 14px;
+	line-height: 24px;
+}
+.filter-item {
+	clear: both; 
+	display: block; 
+	zoom: 1; 
+	height: auto; 
+	margin-bottom: 30px;
+}
+.filter-item:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden; 
+}
+.filter-item dt {
+	color: #666;
+	float: left;
+	width: 65px;
+}
+.filter-item dd {
+	float: right;
+	width: 1030px;
+}
+.filter-item dd a {
+	display: inline-block;
+	color: #2b2b2b;
+	text-decoration: none;
+	padding: 0 10px;
+	height: 24px;
+	line-height: 24px;
+	margin: 0 5px;
+	vertical-align: top;
+}
+.filter-item dd a:hover { color: #ff8143; }
+.filter-item dd a.selected {
+	background-color: #ff8143;
+	color: #fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.sub-area {
+	position: relative;
+	display: none;
+	border: 1px solid #e3e3e3;
+	border-top-color: #d0d0d0;
+	margin-top: 10px;
+	padding: 0 10px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+.sub-area .arrow {
+	position: absolute;
+	left: 80px;
+	top: -7px;
+	background: url(../img/arrow.png) no-repeat left top;
+	display: inline-block;
+	height: 7px;
+	width: 16px;
+}
+.filter-item dd .sub-area a {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* for house list */
+.house-list {
+	background-color: #f5f5f5;
+	border-top: 1px solid #edecec;
+}
+.house-list .crumb {
+	color: #f26432;
+	font-size: 14px;
+	height: 54px;
+	line-height: 54px;
+}
+.house-list .crumb a {
+	color: #f26432;
+	text-decoration: none;
+}
+.house-list .crumb span { color: #666; }
+
+.result-filters {
+	background-color: #fff;
+	box-shadow: 1px 1px 3px 0 rgba(200,200,200,.2);
+	padding: 25px;
+}
+.result-filters a {
+	text-decoration: none;
+}
+.result-sort {
+	float: left;
+}
+.result-sort a {
+	display: inline-block;
+	background-color: #fff;
+	border: 1px solid #e5e5e5;
+	color: #2b2b2b;
+	font-size: 14px;
+	height: 50px;
+	line-height: 50px;
+	margin-right: 20px;
+	padding: 0 24px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.result-sort a:hover {
+	border-color: #ff8143;
+}
+.result-sort a.selected {
+	background-color: #ff8143;
+	border-color: #ff8143;
+	color: #fff;
+}
+.result-sort i {
+	display: inline-block;
+	height: 12px;
+	width: 12px;
+	background: url(../img/icon-list.png) no-repeat 0 0;
+	margin-left: 8px;
+}
+.result-sort i.icon-down { background-position: 0 -20px;}
+
+/* for result pages */
+.result-pages {
+	float: right;
+	font-size: 16px;
+	margin-top: 20px;
+}
+.result-pages .txt {
+	position: relative;
+	top: 8px;
+	margin-right: 20px;
+}
+.result-pages .txt em {
+	color: #ff8143;
+	font-style: normal;
+}
+.result-pages .prev,
+.result-pages .next,
+.result-pages .num {
+	position: relative;
+	display: inline-block;
+	height: 28px;
+	line-height: 28px;
+	width: 28px;
+	background-color: #fff;
+	border: 1px solid #bbb;
+	color: #bbb;
+	text-align: center;
+	margin: 0 2px;
+	vertical-align: top;
+}
+.result-pages a:hover {
+	color: #ff8143;
+	border-color: #fbab4a;
+}
+.result-pages .on {
+	border: 1px solid #f1f1f1;
+	background-color: #f1f1f1;
+	color: #2b2b2b;
+}
+.result-pages .prev i,
+.result-pages .next i {
+	position: absolute;
+	left: 0;
+	top: 6px;
+	display: inline-block;
+	height: 0;
+	width: 0;
+	border-style: solid;
+	border-width: 8px;
+	border-color: transparent #bbb transparent transparent;
+	font-size: 0;
+	overflow: hidden;
+}
+.result-pages a.prev:hover i {
+	border-color: transparent #ff8143 transparent transparent;
+}
+.result-pages .next i { 
+	border-color: transparent transparent transparent #bbb; 
+	left: 11px;
+}
+.result-pages a.next:hover i {
+	border-color: transparent transparent transparent #ff8143; 
+}
+
+/* for result list */
+.result-list { padding-bottom: 30px; }
+.result-list ul { margin-top: 20px; }
+.result-list li {
+	position: relative;
+	background-color: #fff;
+	box-shadow: 1px 1px 3px 0 rgba(200,200,200,.2);
+	color: #666;
+	font-size: 20px;
+	margin-bottom: 20px;
+	height: 240px;
+}
+.result-list .house-pic {
+	float: left;
+	width: 360px;
+}
+.result-list .house-pic img { display: block; }
+.result-list .house-info {
+	float: left;
+	padding: 30px 40px 0 40px;
+}
+.result-list .title { margin-bottom: 30px; }
+.result-list h3 {
+	float: left;
+	color: #2b2b2b;
+	font-size: 28px;
+	font-weight: normal;
+}
+.result-list h3 a { 
+	color: #2b2b2b;
+	text-decoration: none;
+}
+.result-list h3 a:hover {
+	color: #fb8715;
+	text-decoration: underline;
+}
+.result-list .area {
+	display: inline-block;
+	background-color: #fb8715;
+	color: #fff;
+	font-size: 16px;
+	height: 24px;
+	line-height: 24px;
+	margin: 10px 0 0 35px;
+	padding: 0 13px;
+	vertical-align: top;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.result-list .address,
+.result-list .attr {
+	height: 24px;
+	line-height: 24px;
+	margin-bottom: 20px;
+}
+.result-list .address i,
+.result-list .attr i {
+	display: inline-block;
+	vertical-align: top;
+	background: url(../img/icon-list.png) no-repeat 0 -40px;
+	width: 20px;
+	height: 24px;
+	margin-right: 10px;
+}
+.result-list .attr i { background-position: 0 -70px; }
+.result-list .attr span { margin-right: 50px; }
+.result-list .desc {
+	border-top: 1px solid #bbb;
+	color: #ff8143;
+	font-size: 14px;
+	height: 46px;
+	line-height: 46px;
+	overflow: hidden;
+	width: 456px;
+}
+.result-list .house-price {
+	position: absolute;
+	right: 40px;
+	bottom: 46px;
+	color: #2b2b2b;
+	font-size: 16px;
+	text-align: right;
+}
+.result-list .house-price strong {
+	color: #ff0000;
+	font-size: 28px;
+	font-weight: normal;
+}
+.result-list .favorite {
+	position: absolute;
+	right: 40px;
+	top: 40px;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	background: url(../img/icon-list.png) no-repeat 0 -110px;
+	cursor: pointer;
+}
+.result-list .favorite-on { background-position: 0 -150px; }
+.result-list .result-filters {
+	margin-top: 165px;
+}
