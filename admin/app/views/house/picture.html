@@ -7,7 +7,7 @@
 
             <div id="container" class="clearfix">
                 <button class="btn btn-default" type="button" data-toggle="modal" data-target="#uploadModal">上传图片</button>
-                <button class="btn btn-default" type="button">删除图片</button>
+                <button class="btn btn-default" type="button" id="deletePic">删除图片</button>
                 <div class="btngroup_wrap fr">
                     <div class="btn-group">
                         <a class="btn btn-default" href="/house/edit/{{ id }}/">字段信息</a>
@@ -19,18 +19,14 @@
 
             <!-- img list begin -->
             <ul id="imgList" class="clearfix house-img-list">
-                <li>
-                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
+            {% if pictures is not empty %}
+            {% for value in pictures %}
+                <li imgId="{{ value['id'] }}">
+                    <img src="{{ value['url'] }}" height="120" width="160">
                     <i class="check"></i>
                 </li>
-                <li>
-                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
-                    <i class="check"></i>
-                </li>
-                <li>
-                    <img src="{{ src_url }}images/pic.jpg" height="120" width="160">
-                    <i class="check"></i>
-                </li>
+            {% endfor %}
+            {% endif %}
             </ul>
             <!-- img list end -->
         </div>
@@ -58,6 +54,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    var menu = 'menu1';
+    var moudle = 'houseadd';
+    //下面图片用到
+    var type = 'house';
+    var typeId = '{{ id }}';
+    var from = '{{ from }}';
+    var fromId = '{{ userId }}';
+    
+    $(function(){
+        $("#deletePic").click(function(){
+            var selectPicNum = $(".item-checked").length;
+            if(selectPicNum < 1) {
+                alert('请选择要删除的图片');
+                return false;
+            }
+            var ids = '';
+            $(".item-checked").each(function(){
+                ids += '_' + $(this).attr('imgId');
+            })
+            if(!confirm('确定要删除选中的图片吗？')) {
+                return false;
+            }
+            $.request({
+                url: "/house/delpic/",
+                type: 'post',
+                data: 'houseId=' + typeId + '&ids=' + ids,
+                callback: function (msg) {
+                    if (msg.status == 0) {
+                        alert(msg.info);
+                        location.reload(false);
+                    } else {
+                        alert(msg.info);
+                    }
+                }
+            });
+        })
+    })
+</script>
 
 <script src="{{ src_url }}js/plupload.full.min.js" type="text/javascript"></script>
 <script src="{{ src_url }}js/imgedit.js" type="text/javascript"></script>

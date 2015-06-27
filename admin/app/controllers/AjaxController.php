@@ -41,11 +41,37 @@ class AjaxController extends ControllerBase
         $this->show("JSON");
     }
 
+    /**
+     * 上传图片
+     */
     public function uploadImageAction()
     {
-        var_dump($_REQUEST);
-        var_dump($_FILES);
+        $fromId = $this->request->get('fromId', 'int', 0);
+        $from = $this->request->get('from', 'int', 0);
+        $type = $this->request->get('type', 'string', '');
+        $typeId = $this->request->get('typeId', 'int', 0);
+        $data = array();
+        
+        $imageRes = Scs::Instance()->uploadImage('file', $fromId, $from);
+        
+        if(isset($imageRes['error']))
+        {
+            $data   = $imageRes['error'];
+            $status = 1;
+        }
+        else
+        {
+            $imageId = $imageRes['id'];
+            $imageExt = $imageRes['ext'];
+            
+            if('house' == $type)
+            {
+                $uploadRes = HousePicture::instance()->saveHousePicture($typeId, $imageId, $imageExt);
+                $this->show('JSON', $uploadRes);
+            }
+        }
     }
+        
     public function ueditUploadImageAction()
     {
 

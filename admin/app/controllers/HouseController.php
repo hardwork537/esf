@@ -393,7 +393,28 @@ class HouseController extends ControllerBase
     public function pictureAction($houseId)
     {
         $data = array();
-        $data['id'] = intval($houseId);
+        $data['id'] = $houseId = intval($houseId);
+        $data['userId'] = $this->_userInfo['id'];
+        $data['from'] = Image::FROM_CRM_HOUSE;
+        //房源图片
+        $result = HousePicture::find("houseId={$houseId} and status=".HousePicture::STATUS_OK, 0)->toArray();
+        if(empty($result))
+        {
+            $this->show(null, $data);
+        }
+        
+        $pictures = array();
+        foreach($result as $v)
+        {
+            $value = array(
+                'id' => $v['imgId'],
+                'ext' => $v['imgExt'],
+                'url' => ImageUtility::getImgUrl(PICTURE_PRODUCT_NAME, $v['imgId'], $v['imgExt'])
+            );
+            //var_dump($value);exit;
+            $pictures[] = $value;
+        }
+        $data['pictures'] = $pictures;
         
         $this->show(null, $data);
     }
@@ -547,5 +568,23 @@ class HouseController extends ControllerBase
                 $this->show('JSON', array('status'=>1, 'info'=>'标签取消失败'));
             }
         }      
+    }
+    
+    public function delpicAction()
+    {
+        $houseId = $this->request->getPost('houseId', 'int', 0);
+        $ids = trim($this->request->getPost('ids', 'string', ''));
+        
+        $house = House::count($houseId);
+        if($house < 1)
+        {
+            $this->show("JSON", array('status'=>1, 'info'=>'房源不存在'));
+        }
+        $id = substr($ids, 1);
+        $picIds = explode('_', $id);
+        
+        $delRes = HousePicture::instance()->delHousePicture($houseId, $picIds);
+            
+        $this->show("JSON", $delRes);        
     }
 }

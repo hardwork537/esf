@@ -6,7 +6,8 @@ class HousePicture extends BaseModel
     //房源的图片类型
     const IMG_HUXING = 1; //户型图
     //房源的图片状态
-    const STATUS_OK = 1; //有效
+    const STATUS_TOPASS = 1; //待审核
+    const STATUS_OK = 2; //审核通过
     const STATUS_DEL = -1; //删除
     const STATUS_NOPASS = 0; //审核失败
 
@@ -15,13 +16,12 @@ class HousePicture extends BaseModel
     protected $imgId;
     protected $imgExt;
     protected $parkId = 0;
-    protected $type;
-    protected $desc;
-    protected $meta;
-    protected $seq;
+    protected $type = 0;
+    protected $desc = '';
+    protected $meta = '';
+    protected $seq = 0;
     protected $status;
-    protected $picUpdate;
-    private $mNotDealImage = array();
+    protected $updateTime;
 
     public function getSource()
     {
@@ -94,5 +94,94 @@ class HousePicture extends BaseModel
         
         return $list;
     }
+    
+    /**
+     * 保存房源图片
+     * @param type $houseId
+     * @param type $picId
+     * @param type $picExt
+     * @return type
+     */
+    public function saveHousePicture($houseId, $picId, $picExt)
+    {
+        $house = House::findFirst($houseId, 0)->toArray();
+        if(empty($house))
+        {
+            return array('status' => 1, 'info' => '房源不存在');
+        }
+        
+        $housePicture = self::findFirst("houseId={$houseId} and imgId={$picId} and imgExt='{$picExt}'");
+        $data = array(
+            'houseId' => $houseId,
+            'imgId' => $picId,
+            'imgExt' => $picExt,
+            'parkId' => $house['parkId'],
+            'status' => HousePicture::STATUS_TOPASS,
+            'updateTime' => date('Y-m-d H:i:s')
+        );
+        
+        if($housePicture)
+        {
+            $res = $housePicture->update($data);
+        } else {
+            $housePicture = self::instance();
+            $res = $housePicture->create($data);
+        }
+        
+        if($res)
+        {
+            return array('status' => 0, 'info' => '上传成功');
+        } else {
+            return array('status' => 1, 'info' => '上传失败');
+        }
+    }
 
+    /**
+     * 删除图片
+     * @param type $houseId
+     * @param type $picIds
+     * @return type
+     */
+    public function delHousePicture($houseId, $picIds)
+    {
+        if(!$houseId || empty($picIds))
+        {
+            return array('status'=>1, 'info'=>'缺少参数');
+        }
+        $picId = implode(',', $picIds);
+        $where = is_array($picIds) ? "houseId={$houseId} and imgId in({$picId})" : "houseId={$houseId} and imgId={$picId}";
+        $pictures = self::find($where);
+        if(!$pictures)
+        {
+            return array('status'=>1, 'info'=>'图片不存在');
+        }
+        
+        $this->begin();
+        foreach($pictures as $picture)
+        {
+            $picture->status = self::STATUS_DEL;
+            $picture->updateTime = date('Y-m-d H:i:s');
+            if(!$picture->update())
+            {
+                $this->rollback();
+                return array('status'=>1, 'info'=>'删除失败');
+            }
+        }
+        
+        //删除 image 表中的数据
+        $where = is_array($picIds) ? "imgId in($picId)" : "imgId=$picId";
+        $images = Image::find($where);
+        foreach($images as $image)
+        {
+            $image->status = Image::STATUS_DEL;
+            $image->updateTime = date('Y-m-d H:i:s');
+            if(!$image->update())
+            {
+                return array('status'=>1, 'info'=>'删除失败');
+            }
+        }
+        
+        $this->commit();
+        return array('status'=>0, 'info'=>'删除成功');
+    }
 }

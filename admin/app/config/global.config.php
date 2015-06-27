@@ -14,11 +14,12 @@ else
 }
 
 //超时自动登出
-define('LOGIN_LIFETIME',3600);
+define('LOGIN_LIFETIME',86400);
 
 define("HEAD_CITY_NAME", "全国");
 
 define("HEAD_CITY", 999);
+define("PICTURE_PRODUCT_NAME", 'esf');
 
 //登陆 cookie KEY
 define("LOGIN_KEY", 'admin_esf_loginInfo');

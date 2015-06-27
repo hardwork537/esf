@@ -1,8 +1,22 @@
+var param = '';
+if(typeof from != 'undefined')
+    param += "from=" + from;
+if(typeof fromId != 'undefined')
+    param += param ? "&fromId="+fromId : "fromId="+fromId;
+if(typeof type != 'undefined')
+    param += param ? "&type="+type : "type="+type;
+if(typeof typeId != 'undefined')
+    param += param ? "&typeId="+typeId : "typeId="+typeId;
+
+var url = '/ajax/uploadImage/';
+if(param)
+    url += "?" + param;
+
 var uploader = new plupload.Uploader({
     runtimes: 'html5,flash,silverlight,html4', //用来指定上传方式，指定多个上传方式请使用逗号隔开
     browse_button: 'pickFiles', // 触发文件选择对话框的按钮，为那个元素id
     container: document.getElementById('container'), // ... or DOM Element itself
-    url: '/ajax/uploadImage/', //服务器端的上传页面地址
+    url: url, //服务器端的上传页面地址
     flash_swf_url: '../js/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
     silverlight_xap_url: '../js/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
     max_retries: 0, //当发生plupload.HTTP_ERROR错误时的重试次数，为0时表示不重试
@@ -55,13 +69,18 @@ var uploader = new plupload.Uploader({
             });
         },
         UploadComplete: function (up, files) {
-
             //上传完以后的coding...
             $('#uploadModal').modal('toggle');
+            $('.js-upload-item .del').each(function () {
+                var fileId = $(this).parent().attr('id');
+                uploader.removeFile(fileId);
+                $(this).parent().remove();
+            });
 
         },
         Error: function (up, err) {
-            $('#console').html(err.code + ": " + err.message);
+            alert(err.message);
+            //$('#console').html(err.code + ": " + err.message);
         }
     }
 });
