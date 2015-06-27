@@ -1,0 +1,76 @@
+@charset "utf-8";
+.main {
+	padding: 120px;
+}
+.main h3 {
+	color: #000;
+	font-size: 24px;
+	font-weight: normal;
+	margin-bottom: 40px;
+	text-align: center;
+}
+.login-form {
+	color: #000;
+	margin-left: 255px;
+}
+.form-group {
+	height: 50px;
+	margin-bottom: 10px;
+}
+.form-control {
+	display: inline-block;
+	float: left;
+	font-size: 18px;
+	line-height: 48px;
+	margin-right: 20px;
+	width: 120px;
+	text-align: right;
+}
+.form-input {
+	float: left;
+	background: #fff url(../img/input-bg.png) repeat-x left top;
+	border: 1px solid #e5e5e5;
+	color: #000;
+	font-size: 14px;
+	height: 20px;
+	line-height: 20px;
+	padding: 14px 15px;
+	width: 290px;
+	overflow: hidden;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+.form-btn {
+	padding-left: 140px;
+	padding-top: 20px;
+}
+.form-btn input {
+	border: 0;
+	background-color: #ff8143;
+	cursor: pointer;
+	color: #fff;
+	font-size: 14px;
+	height: 50px;
+	width: 320px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.form-group .msg {
+	display: inline-block;
+	line-height: 50px;
+	margin-left: 20px;
+}
+.form-group .msg i {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	background: url(../img/icon-login.png) no-repeat 0 0;
+	vertical-align: top;
+	margin-top: 15px;
+	margin-right: 8px;
+}
+.form-group .msg-error i {
+	background-position: 0 -30px;
+}
