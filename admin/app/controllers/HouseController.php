@@ -19,7 +19,11 @@ class HouseController extends ControllerBase
         $where = "cityId={$this->_cityId} and status=".  AdminUser::STATUS_VALID;
         $condition = array(
             'conditions' => $where,
-            'columns' => 'id,name'
+            'columns' => 'id,name',
+            'limit' => array(
+                'offset' => $this->_offset,
+                'number' => $this->_pagesize
+            )
         );
         $result = AdminUser::find($condition, 0)->toArray();
         foreach($result as $v)
@@ -67,6 +71,9 @@ class HouseController extends ControllerBase
         $data['regs'] = CityRegion::instance()->getRegionByIds($regIds, 'id,name');
         //小区
         $data['parks'] = Park::instance()->getParkByIds($parkIds, 'id,name');
+        
+        $totalNum = House::count($where);
+        $data['page'] = Page::create($totalNum, $this->_pagesize);
         
         $data['lists'] = $list;
         

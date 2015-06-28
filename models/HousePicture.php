@@ -167,7 +167,7 @@ class HousePicture extends BaseModel
                 return array('status'=>1, 'info'=>'删除失败');
             }
         }
-        
+        /*
         //删除 image 表中的数据
         $where = is_array($picIds) ? "imgId in($picId)" : "imgId=$picId";
         $images = Image::find($where);
@@ -180,8 +180,89 @@ class HousePicture extends BaseModel
                 return array('status'=>1, 'info'=>'删除失败');
             }
         }
-        
+        */
         $this->commit();
         return array('status'=>0, 'info'=>'删除成功');
+    }
+    
+    /**
+     * 根据自增id删除图片
+     * @param array $ids
+     * @return type
+     */
+    public function delImageById($ids)
+    {
+        if(empty($ids) || !is_array($ids))
+        {
+            return array('status'=>1, 'info'=>'缺少参数');
+        }
+        $where = 1==count($ids) ? "id={$ids[0]}" : "id in(".  implode(',', $ids).")";
+        $pictures = self::find($where);
+        if(!$pictures)
+        {
+            return array('status'=>1, 'info'=>'图片不存在');
+        }
+        
+        $this->begin();
+        foreach($pictures as $picture)
+        {
+            $picture->status = self::STATUS_DEL;
+            $picture->updateTime = date('Y-m-d H:i:s');
+            if(!$picture->update())
+            {
+                $this->rollback();
+                return array('status'=>1, 'info'=>'删除失败');
+            }
+        }
+        /*
+        //删除 image 表中的数据
+        $where = is_array($picIds) ? "imgId in($picId)" : "imgId=$picId";
+        $images = Image::find($where);
+        foreach($images as $image)
+        {
+            $image->status = Image::STATUS_DEL;
+            $image->updateTime = date('Y-m-d H:i:s');
+            if(!$image->update())
+            {
+                return array('status'=>1, 'info'=>'删除失败');
+            }
+        }
+        */
+        $this->commit();
+        return array('status'=>0, 'info'=>'删除成功');
+    }
+    
+    /**
+     * 图片通过审核
+     * @param type $id
+     * @return type
+     */
+    public function passAudit($ids)
+    {
+        if(empty($ids) || !is_array($ids))
+        {
+            return array('status'=>1, 'info'=>'缺少参数');
+        }
+        $where = 1==count($ids) ? "id={$ids[0]}" : "id in(".  implode(',', $ids).")";
+        $pictures = self::find($where);
+        if(!$pictures)
+        {
+            return array('status'=>1, 'info'=>'图片不存在');
+        }
+        
+        $this->begin();
+        foreach($pictures as $picture)
+        {
+            $picture->status = self::STATUS_OK;
+            $picture->updateTime = date('Y-m-d H:i:s');
+            if(!$picture->update())
+            {
+                $this->rollback();
+                return array('status'=>1, 'info'=>'审核失败');
+            }
+        }
+        
+        $this->commit();
+        return array('status'=>0, 'info'=>'审核成功');
     }
 }
