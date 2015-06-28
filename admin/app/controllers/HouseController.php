@@ -59,6 +59,7 @@ class HouseController extends ControllerBase
             $value['userId'] = $v['userId'];
             $value['price'] = $v['price'];
             $value['createTime'] = date('Y.m.d', $v['createTime']);
+            $value['picNum'] = $v['picNum'];
             
             $list[$v['id']] = $value;
         }
@@ -103,7 +104,14 @@ class HouseController extends ControllerBase
         }
         $distId && $where .= " and distId={$distId}";
         $regId && $where .= " and regId={$regId}";
-        $level && $where .= " and level='{$level}'";
+        if($level)
+        {
+            $levelCon = House::getAllLevel($level);
+            foreach($levelCon as $k=>$v)
+            {
+                $where .= " and picNum{$k}{$v}";
+            }
+        }
         $userId && $where .= " and userId={$userId}";
         $status && $where .= " and status={$status}";
         

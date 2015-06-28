@@ -157,14 +157,35 @@ class HousePicture extends BaseModel
         }
         
         $this->begin();
+        $housePics = array();
         foreach($pictures as $picture)
         {
+            if(isset($housePics[$picture->houseId]))
+            {
+                $housePics[$picture->houseId]++;
+            } else {
+                $housePics[$picture->houseId] = 1;
+            }
             $picture->status = self::STATUS_DEL;
             $picture->updateTime = date('Y-m-d H:i:s');
             if(!$picture->update())
             {
                 $this->rollback();
                 return array('status'=>1, 'info'=>'删除失败');
+            }
+        }
+        
+        //更新房源图片
+        $houseIds = array_keys($housePics);
+        $where = 1==count($houseIds) ? "id={$houseIds[0]}" : "id in(".  implode(',', $houseIds).")";
+        $houses = House::find($where);
+        foreach($houses as $house)
+        {
+            $house->picNum = $house->picNum > $housePics[$house->id] ? $house->picNum-$housePics[$house->id] : 0;
+            if(!$house->update())
+            {
+                $this->rollback();
+                return array('status'=>1, 'info'=>'更新图片失败');
             }
         }
         /*
@@ -213,7 +234,7 @@ class HousePicture extends BaseModel
                 $this->rollback();
                 return array('status'=>1, 'info'=>'删除失败');
             }
-        }
+        }        
         /*
         //删除 image 表中的数据
         $where = is_array($picIds) ? "imgId in($picId)" : "imgId=$picId";
@@ -251,14 +272,34 @@ class HousePicture extends BaseModel
         }
         
         $this->begin();
+        $housePics = array();
         foreach($pictures as $picture)
         {
             $picture->status = self::STATUS_OK;
             $picture->updateTime = date('Y-m-d H:i:s');
+            if(isset($housePics[$picture->houseId]))
+            {
+                $housePics[$picture->houseId]++;
+            } else {
+                $housePics[$picture->houseId] = 1;
+            }
             if(!$picture->update())
             {
                 $this->rollback();
                 return array('status'=>1, 'info'=>'审核失败');
+            }
+        }
+        //更新房源图片
+        $houseIds = array_keys($housePics);
+        $where = 1==count($houseIds) ? "id={$houseIds[0]}" : "id in(".  implode(',', $houseIds).")";
+        $houses = House::find($where);
+        foreach($houses as $house)
+        {
+            $house->picNum += $housePics[$house->id];
+            if(!$house->update())
+            {
+                $this->rollback();
+                return array('status'=>1, 'info'=>'更新图片失败');
             }
         }
         

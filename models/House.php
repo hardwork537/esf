@@ -83,6 +83,7 @@ class House extends BaseModel
     public $roomNo;
     public $floor = 0;
     public $floorMax = 0;
+    public $picNum = 0;
     public $buildType;
     public $floorPosition;
     public $propertyType;
@@ -144,6 +145,7 @@ class House extends BaseModel
             'houseRoomNo' => 'roomNo',
             'houseFloor' => 'floor',
             'houseFloorMax' => 'floorMax',
+            'housePicNum' => 'picNum',
             'houseBuildType' => 'buildType',
             'houseFloorPosition' => 'floorPosition',
             'housePropertyType' => 'propertyType',
@@ -287,6 +289,27 @@ class House extends BaseModel
         );
     }
 
+    /**
+     * 图片数量跟等级关系
+     * @return type
+     */
+    public static function getAllLevel($level = 0)
+    {
+        $levels = array(
+            self::LEVEL_A => array(
+                '>=' => 5,
+            ),
+            self::LEVEL_B => array(
+                '>=' => 1,
+                '<' => 5
+            ),
+            self::LEVEL_C => array(
+                '=' => 0
+            )
+        );
+        
+        return $level ? $levels[$level] : $levels;
+    }
     /**
      * 获取指定小区下所有的有效发布房源数量
      *
