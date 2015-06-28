@@ -115,7 +115,8 @@ class Scs
             $imageArrPath = $this->mProduct . "/" . ImageUtility::hashFile($imgInfo['imgId']) . $imgInfo['imgId'] . "." . $imgInfo['imgExt'];
             $img_info['id'] = $imgInfo['imgId'];
             $img_info['ext'] = $imgInfo['imgExt'];
-            $img_info['upload_url'] = $_IMG_CLUSTER_URL_PRE[0] . $imageArrPath;
+            $img_info['uploadUrl'] = $_IMG_CLUSTER_URL_PRE[0] . $imageArrPath;
+            
             return $img_info;
         }
         //var_dump($image_ext,$this->size, $this->file_size);exit;

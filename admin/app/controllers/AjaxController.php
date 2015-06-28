@@ -82,7 +82,7 @@ class AjaxController extends ControllerBase
         } else if($action == 'uploadimage')
         {
             $this->_userInfo = Cookie::get(LOGIN_KEY);
-            $imageRes = Scs::Instance()->uploadImage('upfile', Image::FROM_ADMIN, $this->_userInfo["id"]);
+            $imageRes = Scs::Instance()->uploadImage('upfile', Image::FROM_UEDITOR, $this->_userInfo["id"]);
 
             if(isset($imageRes['error']))
             {
@@ -98,7 +98,7 @@ class AjaxController extends ControllerBase
             {
                 $info = array(
                     "state" => "SUCCESS",
-                    "url" => $imageRes['upload_url'],
+                    "url" => $imageRes['uploadUrl'],
                     "title" => "",
                     "original" => "",
                     "type" => $imageRes['ext'],
