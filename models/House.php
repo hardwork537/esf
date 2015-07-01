@@ -372,6 +372,49 @@ class House extends BaseModel
                 return array('status' => 1, 'info' => '房源添加失败');
             }
         }
+        $v = $insertData['data'];
+        $value = array();
+        $value['id'] = (int) $houseObj->id;
+        $value['houseId'] = (int) $houseObj->id;
+        $value['parkId'] = (int) $v['parkId'];
+        $value['distId'] = (int) $v['distId'];
+        $value['regId'] = (int) $v['regId'];
+        $value['housePrice'] = (float) $v['price'];
+        $value['houseBuildType'] = (int) $v['buildType'];
+        $value['houseBA'] = (float) $v['bA'];
+        $value['houseBedRoom'] = (int) $v['bedRoom'];
+        $value['houseLivingRoom'] = (int) $v['livingRoom'];
+        $value['houseBathRoom'] = (int) $v['bathRoom'];
+        $value['houseOrientation'] = (int) $v['orientation'];
+        $value['houseDecoration'] = (int) $v['decoration'];
+        $value['status'] = (int) $v['status'];
+        $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
+        $value['houseUpdate'] = 0;
+        $value['houseUnit'] = (float) ('0.00');
+        $value['subwayLine'] = '';
+        $value['subwaySite'] = '';
+        $value['subwaySiteLine'] = '';
+        $value['housePropertyType'] = (int) $v['propertyType'];
+        $value['houseFeatures'] = '';
+        $value['houseFloor'] = (int) $v['floor'];
+        $value['houseFloorMax'] = (int) $v['floorMax'];
+        $value['housePicId'] = 0;
+        $value['housePicExt'] = '';
+        $value['houseType'] = (int) $v['type'];
+        $value['houseTags'] = (int) $v['parkId'];
+        $value['cityId'] = (int) $v['cityId'];
+        
+        $parkInfo = Park::findFirst($v['parkId'], 0)->toArray();
+        $value['parkName'] = $parkInfo['name'];
+        $value['parkAlias'] = $parkInfo['alias'];
+        $value['houseAddress'] = $parkInfo['address'];
+        
+        $esRes = $this->addEs($value, 'house');
+        if(!$esRes)
+        {
+            $this->rollback();
+            return array('status' => 1, 'info' => '房源添加失败~');
+        }
         
         $this->commit();
         return array('status' => 0, 'info' => '添加房源成功');
@@ -454,7 +497,24 @@ class House extends BaseModel
         {
             return array('status' => 1, 'info' => '房源不存在');
         }
+             
+        $esData = array();
+        $editData = $updateData['data'];
+        isset($editData['floorMax']) && $esData['houseFloorMax'] = $editData['floorMax']; //总楼层
+        isset($editData['price']) && $esData['housePrice'] = (float)$editData['price']; //价格
+        isset($editData['status']) && $esData['status'] = $editData['status']; //状态
+        $esData['houseUpdate'] = time();
         
+        $arrEsData = array(
+            'id' => (int)$id,
+            'data' => $esData
+        );
+        $esRes = $this->editEs($arrEsData, 'house');
+        
+        if(!$esRes)
+        {
+            return array('status' => 1, 'info' => '编辑房源失败~');
+        }
         if(!$house->update($updateData['data']))
         {
             return array('status' => 1, 'info' => '编辑房源失败');

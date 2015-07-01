@@ -58,7 +58,7 @@ class HouseController extends ControllerBase
             $value['bA'] = $v['bA'];
             $value['userId'] = $v['userId'];
             $value['price'] = $v['price'];
-            $value['createTime'] = date('Y.m.d', $v['createTime']);
+            $value['createTime'] = date('Y.m.d', strtotime($v['createTime']));
             $value['picNum'] = $v['picNum'];
             
             $list[$v['id']] = $value;
@@ -315,7 +315,7 @@ class HouseController extends ControllerBase
         $rentPrice = trim($this->request->getPost('rentPrice', 'string', ''));
         //到期时间
         $rentEndTime = trim($this->request->getPost('rentEndTime', 'string', ''));
-        $rentEndTime = date('Y-m-d', strtotime($rentEndTime));
+        $rentEndTime = $rentEndTime ? date('Y-m-d', strtotime($rentEndTime)) : '0000-00-00';
         //价格
         $price = trim($this->request->getPost('price', 'string', ''));
         //备注
@@ -439,7 +439,7 @@ class HouseController extends ControllerBase
         $data = array();
         $data['id'] = intval($houseId);
         //房源基本信息
-        $house = House::findFirst($id, 0)->toArray();
+        $house = House::findFirst($data['id'], 0)->toArray();
         if(empty($house))
         {
             echo "<script>alert('房源不存在');location.href='/house/list/'</script>";
@@ -492,6 +492,20 @@ class HouseController extends ControllerBase
             $data = array(
                 'status' => House::STATUS_ONLINE
             );
+            //修改ES
+            $esData = array(
+                'id' => (int)$houseId,
+                'data' => array(
+                    'status' => House::STATUS_ONLINE,
+                    'houseUpdate' => time()
+                )
+            );
+            $houseObj = new House();
+            if(!$houseObj->editEs($esData, 'house'))
+            {
+                var_dump($esData);
+                $this->show('JSON', array('status'=>1, 'info'=>'上线失败~'));
+            }
             $res = $house->update($data);
             if($res)
             {
@@ -513,6 +527,20 @@ class HouseController extends ControllerBase
                 'xiajiaReason' => $reason,
                 'xiajiaTime' => date('Y-m-d H:i:s')
             );
+            //修改ES
+            $esData = array(
+                'id' => (int)$houseId,
+                'data' => array(
+                    'status' => House::STATUS_OFFLINE,
+                    'houseUpdate' => time()
+                )
+            );
+            $houseObj = new House();
+            if(!$houseObj->editEs($esData, 'house'))
+            {
+                var_dump($esData);
+                $this->show('JSON', array('status'=>1, 'info'=>'上线失败~'));
+            }
             $res = $house->update($data);
             if($res)
             {

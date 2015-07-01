@@ -3,42 +3,54 @@
 /**
  * Model基类
  */
-class BaseModel extends Phalcon\Mvc\Model {
+class BaseModel extends Phalcon\Mvc\Model
+{
 
     private static $_instanceCache;
 
-    public function __set($name, $value) {
-        if (method_exists($this, "set" . ucfirst($name))) {
+    public function __set($name, $value)
+    {
+        if(method_exists($this, "set" . ucfirst($name)))
+        {
             $this->{"set" . ucfirst($name)}($value);
         }
-        if (property_exists($this, $name)) {
+        if(property_exists($this, $name))
+        {
             $this->{$name} = $value;
         }
     }
 
-    public function __get($name) {
-        if (method_exists($this, "get" . ucfirst($name))) {
+    public function __get($name)
+    {
+        if(method_exists($this, "get" . ucfirst($name)))
+        {
             $this->{"get" . ucfirst($name)}();
         }
-        if (property_exists($this, $name)) {
+        if(property_exists($this, $name))
+        {
 
             return $this->{$name};
         }
         return false;
     }
 
-    public function __call($name, $arguments = null) {
+    public function __call($name, $arguments = null)
+    {
         $propertyName = lcfirst(str_replace(array(
             'set',
             'get'
-                        ), '', $name));
-        if (property_exists($this, $propertyName)) {
-            if (strpos($name, 'set') === 0) {
+                ), '', $name));
+        if(property_exists($this, $propertyName))
+        {
+            if(strpos($name, 'set') === 0)
+            {
                 $this->{$name} = $arguments[0];
-            } else {
+            } else
+            {
                 return $this->{$name};
             }
-        } else {
+        } else
+        {
             return false;
         }
     }
@@ -49,20 +61,23 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param string $type
      *            esf|crm|weixin|cms|vip|admin
      */
-    protected function setConn($type = 'wx') {
+    protected function setConn($type = 'wx')
+    {
         $this->setWriteConnectionService($type . 'Master');
         $this->setReadConnectionService($type . 'Slave');
     }
 
-    static public function findFirst($param = null, $objectFlag = 1) {
-        if ($objectFlag)
+    static public function findFirst($param = null, $objectFlag = 1)
+    {
+        if($objectFlag)
             return parent::findFirst($param);
         $info = parent::findFirst($param);
         return $info ? $info : new obj();
     }
 
-    static public function find($param = null, $objectFlag = 1) {
-        if ($objectFlag)
+    static public function find($param = null, $objectFlag = 1)
+    {
+        if($objectFlag)
             return parent::find($param);
         $info = parent::find($param);
         return $info ? $info : new obj();
@@ -80,16 +95,19 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param string $cachekey
      * @return []
      */
-    public static function getAll($where = null, $order = "", $offset = 0, $limit = 0, $select = "", $cachetime = 0, $cachekey = "") {
+    public static function getAll($where = null, $order = "", $offset = 0, $limit = 0, $select = "", $cachetime = 0, $cachekey = "")
+    {
         $con = self::packageCon($where, $order, $offset, $limit, $select, $cachetime, $cachekey);
         $rs = self::find($con);
         return $rs->toArray();
     }
 
-    public static function getOne($where = null, $toArray = true) {
+    public static function getOne($where = null, $toArray = true)
+    {
         $con = self::packageCon($where);
         $rs = self::findfirst($con);
-        if ($rs && $toArray === true) {
+        if($rs && $toArray === true)
+        {
             return $rs->toArray();
         }
 
@@ -102,7 +120,8 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param array $where
      * @return number
      */
-    public static function getCount($where = null) {
+    public static function getCount($where = null)
+    {
         $con = self::packageCon($where);
         return self::count($con);
     }
@@ -113,7 +132,8 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param unknown $where
      * @return boolean
      */
-    public function deleteAll($where) {
+    public function deleteAll($where)
+    {
         $con = self::packageCon($where);
         return $this->getWriteConnection()->delete($this->getSource(), $con['conditions']);
     }
@@ -125,8 +145,10 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param unknown $data
      * @return boolean
      */
-    public function updateAll($where, $data) {
-        if (empty($data)) {
+    public function updateAll($where, $data)
+    {
+        if(empty($data))
+        {
             return false;
         }
         $con = self::packageCon($where);
@@ -142,7 +164,8 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param array $fileds
      * @return boolean
      */
-    public function insertAll($values, $fileds) {
+    public function insertAll($values, $fileds)
+    {
         return $this->getWriteConnection()->insert($this->getSource(), $values, $fileds);
     }
 
@@ -152,35 +175,43 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param string $sql
      * @return boolean
      */
-    public function execute($sql) {
+    public function execute($sql)
+    {
         return $this->getWriteConnection()->execute($sql);
     }
 
-    public function insertId() {
+    public function insertId()
+    {
         return $this->getWriteConnection()->lastInsertId();
     }
 
-    public function affectedRows() {
+    public function affectedRows()
+    {
         return $this->getWriteConnection()->affectedRows();
     }
 
-    public function fetchOne($sql, $mode = Phalcon\Db::FETCH_ASSOC) {
+    public function fetchOne($sql, $mode = Phalcon\Db::FETCH_ASSOC)
+    {
         return $this->getReadConnection()->fetchOne($sql, $mode);
     }
 
-    public function fetchAll($sql, $mode = Phalcon\Db::FETCH_ASSOC) {
+    public function fetchAll($sql, $mode = Phalcon\Db::FETCH_ASSOC)
+    {
         return $this->getReadConnection()->fetchAll($sql, $mode);
     }
 
-    public function begin() {
+    public function begin()
+    {
         $this->getWriteConnection()->begin();
     }
 
-    public function rollback() {
+    public function rollback()
+    {
         $this->getWriteConnection()->rollback();
     }
 
-    public function commit() {
+    public function commit()
+    {
         $this->getWriteConnection()->commit();
     }
 
@@ -196,32 +227,41 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param string $cachekey
      * @return multitype:string multitype:string number multitype:number
      */
-    public static function packageCon($where = null, $order = "", $offset = 0, $limit = 0, $select = "", $cachetime = 0, $cachekey = "") {
+    public static function packageCon($where = null, $order = "", $offset = 0, $limit = 0, $select = "", $cachetime = 0, $cachekey = "")
+    {
         $con = array();
-        if (!is_null($where)) {
-            if (is_array($where)) {
+        if(!is_null($where))
+        {
+            if(is_array($where))
+            {
                 $con['conditions'] = implode(" and ", $where);
-            } elseif (is_object($where)) {
+            } elseif(is_object($where))
+            {
                 $con['conditions'] = implode(" and ", (array) $where);
-            } else {
+            } else
+            {
                 $con['conditions'] = $where;
             }
         }
         $limit = intval($limit);
         $offset = intval($offset);
-        if ($limit > 0) {
+        if($limit > 0)
+        {
             $con['limit'] = array(
                 'number' => $limit,
                 'offset' => $offset
             );
         }
-        if (!empty($order)) {
+        if(!empty($order))
+        {
             $con['order'] = $order;
         }
-        if (!empty($select)) {
+        if(!empty($select))
+        {
             $con['columns'] = $select;
         }
-        if ($cachetime > 0 && !empty($cachekey)) {
+        if($cachetime > 0 && !empty($cachekey))
+        {
             $con['cache'] = array(
                 "lifetime" => intval($cachetime),
                 'key' => $cachekey
@@ -239,15 +279,20 @@ class BaseModel extends Phalcon\Mvc\Model {
      *            是否缓存
      * @return object
      */
-    protected static function _instance($className, $cache = false) {
-        if (true == $cache) {
-            if (isset(self::$_instanceCache[$className]) && is_subclass_of(self::$_instanceCache[$className], __CLASS__)) { // 已经实例化过了
+    protected static function _instance($className, $cache = false)
+    {
+        if(true == $cache)
+        {
+            if(isset(self::$_instanceCache[$className]) && is_subclass_of(self::$_instanceCache[$className], __CLASS__))
+            { // 已经实例化过了
                 return self::$_instanceCache[$className];
-            } elseif (class_exists($className)) { // 没有实例化而且存在这个类
+            } elseif(class_exists($className))
+            { // 没有实例化而且存在这个类
                 self::$_instanceCache[$className] = new $className();
                 return self::$_instanceCache[$className];
             }
-        } else {
+        } else
+        {
             return new $className();
         }
 
@@ -255,7 +300,8 @@ class BaseModel extends Phalcon\Mvc\Model {
     }
 
     // 数据库字段为NOT NULL时框架可不对其进行校验
-    public function onConstruct() {
+    public function onConstruct()
+    {
         parent::setup(array(
             'notNullValidations' => false
         ));
@@ -268,13 +314,15 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @return array|bool
      *
      */
-    public function bindManyParams($params) {
-        if (!is_array($params))
+    public function bindManyParams($params)
+    {
+        if(!is_array($params))
             return false;
         $strCond = '';
         $startNum = 1;
         $arrParam = array();
-        foreach ($params as $value) {
+        foreach($params as $value)
+        {
             $strCond .= '?' . $startNum . ',';
             $arrParam[$startNum] = $value;
             $startNum++;
@@ -299,47 +347,59 @@ class BaseModel extends Phalcon\Mvc\Model {
      * @param array $join  expamle:  array($model,$conditions,$alias,'inner'|'left'|'right')
      * @return array|bool 二维数组
      */
-    public function getSelectData($modelname, $columns, $whereStr, $WhereVal, $inWhereArr = array(), $orderby = '', $groupby = '', $having = '', $offset = 0, $limit = 0, $join = array()) {
+    public function getSelectData($modelname, $columns, $whereStr, $WhereVal, $inWhereArr = array(), $orderby = '', $groupby = '', $having = '', $offset = 0, $limit = 0, $join = array())
+    {
         $robots = self::getModelsManager()->createBuilder();
         $robots->from($modelname);
-        if (!empty($join))
+        if(!empty($join))
             $robots->join($join['model'], $join['conditions'], $join['alias'], $join['join']);
         $robots->columns($columns);
         $robots->where($whereStr, $WhereVal);
 
-        if (is_array($inWhereArr) && count($inWhereArr) > 0) {
-            foreach ($inWhereArr as $key => $value) {
+        if(is_array($inWhereArr) && count($inWhereArr) > 0)
+        {
+            foreach($inWhereArr as $key => $value)
+            {
                 $robots->inWhere($key, $value);
             }
         }
 
-        if (!empty($orderby)) {
+        if(!empty($orderby))
+        {
             $robots->orderBy($orderby);
         }
 
-        if (!is_array($groupby) && !empty($groupby)) {
+        if(!is_array($groupby) && !empty($groupby))
+        {
             $robots->groupBy($groupby);
-        } else {
-            if (count($groupby) > 0 && !empty($groupby)) {
+        } else
+        {
+            if(count($groupby) > 0 && !empty($groupby))
+            {
                 $robots->groupBy($groupby);
             }
         }
 
-        if (!empty($having)) {
+        if(!empty($having))
+        {
             $robots->having($having);
         }
 
-        if ($limit > 0) {
-            if ($offset > 0) {
+        if($limit > 0)
+        {
+            if($offset > 0)
+            {
                 $robots->limit($offset . ',' . $limit);
-            } else {
+            } else
+            {
                 $robots->limit($limit);
             }
         }
 
         $data = $robots->getQuery()->execute()->toArray();
         //查询返回空
-        if (count($data) == 0) {
+        if(count($data) == 0)
+        {
             $data = false;
         }
         return $data;
@@ -351,28 +411,37 @@ class BaseModel extends Phalcon\Mvc\Model {
     //  'xx'    =>  array('>'=>xx),
     //  'xx'    =>  not in |in 不支持,哈哈
     //)
-    public function getConditionByParam($param) {
-        if (!$param || !is_array($param))
+    public function getConditionByParam($param)
+    {
+        if(!$param || !is_array($param))
             return array();
 
         $arrCondition = array();
         $conditions = '1 ';
-        foreach ($param as $key => $value) {
-            if (is_array($value)) {
-                foreach ($value as $k => $v) {
-                    if ($k == 'in' || $k == 'not in')
+        foreach($param as $key => $value)
+        {
+            if(is_array($value))
+            {
+                foreach($value as $k => $v)
+                {
+                    if($k == 'in' || $k == 'not in')
                         continue;
-                    if (is_string($v)) {
+                    if(is_string($v))
+                    {
                         $conditions .= "and $key" . $k . "':" . $key . ":' ";
-                    } else {
+                    } else
+                    {
                         $conditions .= "and $key" . $k . ":$key:" . " ";
                     }
                     $arrCondition['bind'][$key] = $v;
                 }
-            } else {
-                if (is_string($value)) {
+            } else
+            {
+                if(is_string($value))
+                {
                     $conditions .= "and " . $key . "='" . ":$key:" . "' ";
-                } else {
+                } else
+                {
                     $conditions .= "and " . $key . "=" . ":$key:" . " ";
                 }
                 $arrCondition['bind'][$key] = $value;
@@ -382,8 +451,9 @@ class BaseModel extends Phalcon\Mvc\Model {
         return $arrCondition;
     }
 
-    public function getBuilder($param) {
-        if (!$param || !is_array($param))
+    public function getBuilder($param)
+    {
+        if(!$param || !is_array($param))
             return false;
 
         $builder = $this->getModelsManager()->createBuilder();
@@ -392,33 +462,43 @@ class BaseModel extends Phalcon\Mvc\Model {
         $builder->where(1);
 
 
-        foreach ($param as $key => $value) {
-            if (is_int($value)) {
+        foreach($param as $key => $value)
+        {
+            if(is_int($value))
+            {
                 $builder->andWhere($modelName . "." . $key . "=:$key:", array($key => $value));
-            } elseif (is_string($value)) {
+            } elseif(is_string($value))
+            {
                 $builder->andWhere($modelName . "." . $key . "=':$key:'", array($key => $value));
-            } elseif (is_array($value)) {
+            } elseif(is_array($value))
+            {
                 $overFlag = false;
                 $types = array('<', '<=', '>', '>=');
                 $keys = array_keys($value);
                 $i = 0;
-                foreach ($keys as $k) {
+                foreach($keys as $k)
+                {
                     $i++;
-                    if (in_array($k, $types, true)) {
+                    if(in_array($k, $types, true))
+                    {
                         $overFlag = true;
                         $builder->andWhere($modelName . "." . $key . "$k:$key" . $i . ":", array($key . $i => $value[$k]));
-                    } elseif ($k === '!=') {
+                    } elseif($k === '!=')
+                    {
                         $overFlag = true;
-                        if (is_array($value[$k])) {
+                        if(is_array($value[$k]))
+                        {
                             $builder->notInWhere($modelName . "." . $key, $value[$k]);
-                        } elseif (is_int($value[$k])) {
+                        } elseif(is_int($value[$k]))
+                        {
                             $builder->andWhere($modelName . "." . $key . "!=:$key:", array($key => $value[$k]));
-                        } elseif (is_string($value[$k])) {
+                        } elseif(is_string($value[$k]))
+                        {
                             $builder->andWhere($modelName . "." . $key . "=':$key:'", array($key => $value[$k]));
                         }
                     }
                 }
-                if ($overFlag)
+                if($overFlag)
                     continue;
                 $overFlag = true;
                 ;
@@ -426,6 +506,33 @@ class BaseModel extends Phalcon\Mvc\Model {
             }
         }
         return $builder;
+    }
+
+    /**
+     * 添加到ES
+     * @global type $sysES
+     * @param type $data
+     * @return type
+     */
+    public function addEs($data, $type = 'park', $index = 'esf')
+    {
+        global $sysES;
+        $configs = array('hosts' => $sysES['default']['hosts'], 'index' => $index, 'type' => $type);
+        $esRes = Es::instance($configs)->insert($data);
+
+        return $esRes;
+    }
+
+    /**
+     * 修改ES
+     */
+    public function editEs($data, $type = 'park', $index = 'esf')
+    {
+        global $sysES;
+        $configs = array('hosts' => $sysES['default']['hosts'], 'index' => $index, 'type' => $type);
+        $res = Es::instance($configs)->update($data);
+
+        return $res;
     }
 
 }

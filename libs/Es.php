@@ -249,7 +249,7 @@ class Es
             return $this->_connection->update($updateParam);
         } catch(Exception $e)
         {
-            //print_r($e->getMessage());
+            print_r($e->getMessage());
             return false;
         }
     }

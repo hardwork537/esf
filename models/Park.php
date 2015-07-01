@@ -273,21 +273,7 @@ class Park extends BaseModel
         $this->rollback();
         return array('status' => 1, 'info' => '添加小区失败！');
     }
-
-    /**
-     * 添加到ES
-     * @global type $sysES
-     * @param type $data
-     * @return type
-     */
-    private function addEs($data)
-    {
-        global $sysES;
-        $configs = array('hosts' => $sysES['default']['hosts'], 'index' => 'esf', 'type' => 'park');
-        $esRes = Es::instance($configs)->insert($data);
-        
-        return $esRes;
-    }
+   
     /**
      * 保存小区描述信息
      * @param type $parkId
@@ -634,19 +620,7 @@ class Park extends BaseModel
         }
         $this->rollback();
         return array('status' => 1, 'info' => '修改小区失败！');
-    }
-
-    /**
-     * 修改ES
-     */
-    private function editEs($data)
-    {
-        global $sysES;
-        $configs = array('hosts' => $sysES['default']['hosts'], 'index' => 'esf', 'type' => 'park');
-        $res = Es::instance($configs)->update($data);
-        
-        return $res;
-    }
+    }   
     
     private function isExistParkName($parkName, $cityId, $parkId = 0)
     {

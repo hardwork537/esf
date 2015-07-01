@@ -92,7 +92,7 @@
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>建筑面积：</em>
-                        <input class="w89 mr15" type="text" value="{{ house['bA'] }}" name="bA" notnull="true" info="建筑面积" onlyNum='true' disabled="disabled" />
+                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w89 mr15" type="text" value="{{ house['bA'] }}" name="bA" notnull="true" info="建筑面积" onlyNum='true'  />
                         <em class="sp_em">使用面积：</em>
                         <input class="w89 mr15" type="text" value="{{ house['uA'] }}" name="uA" onlyNum='true' />
                         <em class="sp_em"><i>*</i>区域：</em>
@@ -170,7 +170,7 @@
                         <em class="sp_em">月租金：</em>
                         <input class="w110 mr15" type="text" name="rentPrice" value="{{ house['rentPrice'] }}" />
                         <em class="sp_em">到期时间：</em>
-                        <input class="w110 mr15" type="text" name="rentEndTime" value="{{ house['rentEndTime'] }}" />
+                        <input class="w110 mr15" type="text" name="rentEndTime" value="{% if '0000-00-00'!=house['rentEndTime'] %}{{ house['rentEndTime'] }}{% endif %}" />
                         <em class="sp_em">车位：</em>
                         <select class="form-control" name="hasPark">
                             <?=MyTags::options($options['hasPark'], $house['hasPark'])?>
