@@ -95,8 +95,8 @@ class Log
             case 'admin':
                 $file_path .= 'admin/';
                 break;
-            case 'weixin':
-                $file_path .= 'weixin/';
+            case 'www':
+                $file_path .= 'www/';
                 break;
             case 'crondtab':
                 $file_path .= 'crondtab/';

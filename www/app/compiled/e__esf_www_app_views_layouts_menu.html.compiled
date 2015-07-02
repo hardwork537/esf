@@ -1,0 +1,14 @@
+<ul class="sidebar_inner">
+	<?php foreach ($navs as $k => $m) { ?>
+		<li id="menu<?php echo $k; ?>">
+			<span> <s class="icon icon_set"></s> <strong><?php echo $m['menu']['name']; ?> </strong> </span>
+			<ul>
+			<?php foreach ($m['moudel'] as $md) { ?>
+            <li><a  class="<?php echo trim($md['path']); ?> <?php echo trim($md['path']); ?>_<?php echo $md['id']; ?>" href="<?php echo $md['url']; ?>"><?php echo $md['name']; ?>  </a></li>
+			<?php } ?>
+			</ul>
+		</li>
+	<?php } ?>
+</ul>
+
+
