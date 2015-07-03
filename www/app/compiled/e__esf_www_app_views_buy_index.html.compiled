@@ -1,0 +1,407 @@
+<!-- main begin -->
+<div class="main">
+    <div class="wrap">
+        <!-- search begin -->
+        <div class="search">
+            <div class="search-hot">
+                热门搜索：
+                <a target="_blank" href="#">上海热门二手房</a>、
+                <a target="_blank" href="#">长宁</a>、
+                <a target="_blank" href="#">徐汇</a>、
+                <a target="_blank" href="#">浦东</a>、
+                <a target="_blank" href="#">普陀</a>、
+                <a target="_blank" href="#">精装修</a>、
+                <a target="_blank" href="#">地铁房</a>
+            </div>
+            <div class="search-box clearfix">
+                <form method="" action="">
+                    <span class="input-box">
+                        <input type="text" autocomplete="off" id="searchInput" placeholder="请输入小区名称或地址" value="" name="" class="input-txt">
+                    </span>
+                    <input type="submit" value="搜索" id="" class="btn">
+                    <ul id="searchLenove" class="search-lenove" style="display:none;">
+                    </ul>
+                </form>
+            </div>
+        </div>
+        <!-- search end -->
+
+        <!-- filters begin -->
+        <div class="filters">
+            <dl class="filter-item">
+                <dt>区域:</dt>
+                <dd>
+                    <a class="selected" href="/sale/">不限</a>
+                    <a class="j-area" href="/sale/pudong/">浦东</a>
+                    <a class="j-area" href="/sale/huangpu/">黄浦</a>
+                    <a class="j-area" href="/sale/xuhui/">徐汇</a>
+                    <a class="j-area" href="/sale/changning/">长宁</a>
+                    <a class="j-area" href="/sale/jingan/">静安</a>
+                    <a class="j-area" href="/sale/putuo/">普陀</a>
+                    <a class="j-area" href="/sale/hongkou/">虹口</a>
+                    <a class="j-area" href="/sale/yangpu/">杨浦</a>
+                    <a class="j-area" href="/sale/baoshan/">宝山</a>
+                    <a class="j-area" href="/sale/jiading/">嘉定</a>
+                    <a class="j-area" href="/sale/qingpu/">青浦</a>
+                    <a class="j-area" href="/sale/songjiang/">松江</a>
+                    <a class="j-area" href="/sale/jinshan/">金山</a>
+                    <a class="j-area" href="/sale/minxing/">闵行</a>
+                    <div class="sub-area">
+                        <span class="arrow"></span>
+                        <a href="/sale/tese/q111a30084">北蔡</a>
+                        <a href="/sale/tese/q111a30086">曹路</a>
+                        <a href="/sale/tese/q111a30085">碧云</a>
+                        <a href="/sale/tese/q111a30088">川沙</a>
+                        <a class="selected" href="/sale/tese/q111a30089">航头</a>
+                        <a href="/sale/tese/q111a30090">花木</a>
+                        <a href="/sale/tese/q111a30087">惠南</a>
+                        <a href="/sale/tese/q111a30092">金桥</a>
+                        <a href="/sale/tese/q111a30093">金杨</a>
+                        <a href="/sale/tese/q111a30091">康桥</a>
+                        <a href="/sale/tese/q111a30094">联洋</a>
+                        <a href="/sale/tese/q111a30095">临港新城</a>
+                        <a href="/sale/tese/q111a30723">六里</a>
+                        <a href="/sale/tese/q111a30096">陆家嘴</a>
+                        <a href="/sale/tese/q111a30716">南码头</a>
+                        <a href="/sale/tese/q111a30097">三林</a>
+                        <a href="/sale/tese/q111a30715">上南</a>
+                        <a href="/sale/tese/q111a30098">世博</a>
+                        <a href="/sale/tese/q111a30099">世纪公园</a>
+                        <a href="/sale/tese/q111a30930">孙桥</a>
+                        <a href="/sale/tese/q111a30100">塘桥</a>
+                        <a href="/sale/tese/q111a30101">唐镇</a>
+                        <a href="/sale/tese/q111a30102">外高桥</a>
+                        <a href="/sale/tese/q111a30103">潍坊</a>
+                        <a href="/sale/tese/q111a30104">新场</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl class="filter-item">
+                <dt>售价:</dt>
+                <dd>
+                    <a class="selected" href="#">不限</a>
+                    <a href="#">100万以下</a>
+                    <a href="#">100-120万</a>
+                    <a href="#">120-150万</a>
+                    <a href="#">150-200万</a>
+                    <a href="#">200-250万</a>
+                    <a href="#">250-300万</a>
+                    <a href="#">300-400万</a>
+                    <a href="#">400万以上</a>
+                </dd>
+            </dl>
+
+            <dl class="filter-item">
+                <dt>面积:</dt>
+                <dd>
+                    <a class="selected" href="#">不限</a>
+                    <a href="#">60平米以下</a>
+                    <a href="#">60-80平米</a>
+                    <a href="#">80-100平米</a>
+                    <a href="#">100-120平米</a>
+                    <a href="#">120-150平米</a>
+                    <a href="#">150-200平米</a>
+                    <a href="#">200平米以上</a>
+                </dd>
+            </dl>
+
+            <dl class="filter-item">
+                <dt>户型:</dt>
+                <dd>
+                    <a class="selected" href="#">不限</a>
+                    <a href="#">1房</a>
+                    <a href="#">2房</a>
+                    <a href="#">3房</a>
+                    <a href="#">4房</a>
+                    <a href="#">5房以上</a>
+                </dd>
+            </dl>
+
+            <dl class="filter-item">
+                <dt>特色:</dt>
+                <dd>
+                    <a class="selected" href="#">不限</a>
+                    <a href="#">地铁房</a>
+                    <a href="#">学区房</a>
+                    <a href="#">精装修</a>
+                    <a href="#">满5年唯一</a>
+                </dd>
+            </dl>
+
+        </div>
+        <!-- filters end -->
+    </div>
+
+    <!-- house list begin -->
+    <div class="house-list">
+        <div class="wrap">
+            <div class="crumb"><a href="#">首页</a> > <span>我要买房</span></div>
+            <div class="clearfix result-filters">
+                <div class="result-sort">
+                    <a class="selected" href="#">默认</a>
+                    <a href="#">总价<i class="icon-up"></i></a>
+                    <a href="#">面积<i class="icon-down"></i></a>
+                </div>
+                <div class="result-pages">
+                    <span class="txt">共找到<em>70</em>个房源</span>
+                    <span class="prev" href="#"><i></i></span>
+                    <span class="num on">1</span>
+                    <a href="#" class="num">2</a>
+                    <a href="#" class="num">3</a>
+                    <a class="next" href="#"><i></i></a>
+                </div>
+            </div>
+
+            <div class="result-list">
+                <ul class="clearfix">
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite favorite-on"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite favorite-on"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite favorite-on"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite favorite-on"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite"></span>
+                    </li>
+
+                    <li>
+                        <a class="house-pic" href="#"><img src="<?php echo $src_url; ?>img/pic2.png" height="240" width="360" /></a>
+                        <div class="house-info">
+                            <div class="clearfix title">
+                                <h3><a href="#">仁恒河滨花园</a></h3>
+                                <span class="area">长宁区</span>
+                            </div>
+                            <p class="address">
+                                <i></i>
+                                芙蓉江路388弄
+                            </p>
+                            <p class="attr">
+                                <i></i>
+                                <span>3室2厅1卫</span>
+                                <span>138平米</span>
+                                <span>楼层：3/22</span>
+                            </p>
+                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                        </div>
+                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <span class="j-favorite favorite favorite-on"></span>
+                    </li>
+
+                </ul>
+
+                <div class="clearfix result-filters">
+                    <div class="result-pages">
+                        <span class="txt">共找到<em>70</em>个房源</span>
+                        <a class="prev" href="#"><i></i></a>
+                        <span class="num on">1</span>
+                        <a href="#" class="num">2</a>
+                        <a href="#" class="num">3</a>
+                        <a class="next" href="#"><i></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- house list end -->
+</div>
+<!-- main end -->
+
+<script src="<?php echo $src_url; ?>js/list.js" type="text/javascript"></script>

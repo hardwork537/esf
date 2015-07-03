@@ -19,4 +19,4 @@
 </div>
 <!-- main end -->
 
-<script src="{{ src_url }}js/login.js" type="text/javascript"></script>
+<script src="<?php echo $src_url; ?>js/login.js" type="text/javascript"></script>

@@ -136,9 +136,12 @@ class ControllerBase extends ControllerCore
      */
     private function default_assign()
     {
+        $currController = $this->dispatcher->getControllerName();
+        
         $this->view->setVars(
             [
                 "src_url" => SRC_URL,
+                "currController" => $currController
         ]);
     }
 

@@ -19,16 +19,16 @@
                 <img class="header-logo" src="<?php echo $src_url; ?>img/logo.png" height="24" width="80" />
                 <div class="header-nav">
                     <ul>
-                        <li><a href="#">首页</a></li>
-                        <li><a href="#">我要买房</a></li>
-                        <li><a href="#">我要卖房</a></li>
-                        <li><a href="#" class="on">我要服务</a></li>
+                        <li><a href="/"<?php if ($currController == 'home') { ?> class="on"<?php } ?>>首页</a></li>
+                        <li><a href="/buy/"<?php if ($currController == 'buy') { ?> class="on"<?php } ?>>我要买房</a></li>
+                        <li><a href="/sell/"<?php if ($currController == 'sell') { ?> class="on"<?php } ?>>我要卖房</a></li>
+                        <li><a href="/service/"<?php if ($currController == 'service') { ?> class="on"<?php } ?>>我要服务</a></li>
                     </ul>
                 </div>
                 <div class="header-right">
                     <span>欢迎来到房易买！</span>
-                    <a href="#">注册</a>
-                    <a href="#">登录</a>
+                    <a href="/register/">注册</a>
+                    <a href="/login/">登录</a>
                     <!--<a href="#">jsdfoweurowlerlkdjsf@sohu-inc.com</a><a href="#">退出</a>-->
                 </div>
             </div>

@@ -4,6 +4,7 @@
 .settings/*
 nbproject/*
 admin/app/compiled/*
+www/app/compiled/*
 config/*
 crontab/tmp/*
 log/*
