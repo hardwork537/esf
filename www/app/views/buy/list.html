@@ -31,90 +31,58 @@
             <dl class="filter-item">
                 <dt>区域:</dt>
                 <dd>
-                    <a class="selected" href="/sale/">不限</a>
-                    <a class="j-area" href="/sale/pudong/">浦东</a>
-                    <a class="j-area" href="/sale/huangpu/">黄浦</a>
-                    <a class="j-area" href="/sale/xuhui/">徐汇</a>
-                    <a class="j-area" href="/sale/changning/">长宁</a>
-                    <a class="j-area" href="/sale/jingan/">静安</a>
-                    <a class="j-area" href="/sale/putuo/">普陀</a>
-                    <a class="j-area" href="/sale/hongkou/">虹口</a>
-                    <a class="j-area" href="/sale/yangpu/">杨浦</a>
-                    <a class="j-area" href="/sale/baoshan/">宝山</a>
-                    <a class="j-area" href="/sale/jiading/">嘉定</a>
-                    <a class="j-area" href="/sale/qingpu/">青浦</a>
-                    <a class="j-area" href="/sale/songjiang/">松江</a>
-                    <a class="j-area" href="/sale/jinshan/">金山</a>
-                    <a class="j-area" href="/sale/minxing/">闵行</a>
-                    <div class="sub-area">
+                    <a{% if params['distId']<1 %} class="selected"{% endif %} href="/buy{{ url['dist'][0] }}">不限</a>
+                    {% if filter['dist'] is not empty %}
+                    {% for value in filter['dist'] %}
+                    <a class="j-area{% if params['distId']==value['id'] %} selected{% endif %}" href="/buy{{ url['dist'][value['id']] }}">{{ value['name'] }}</a>
+                    {% endfor %}
+                    {% endif %}
+                    
+                    {% if filter['reg'] is not empty %}
+                    <div class="sub-area" style='display: block;'>
                         <span class="arrow"></span>
-                        <a href="/sale/tese/q111a30084">北蔡</a>
-                        <a href="/sale/tese/q111a30086">曹路</a>
-                        <a href="/sale/tese/q111a30085">碧云</a>
-                        <a href="/sale/tese/q111a30088">川沙</a>
-                        <a class="selected" href="/sale/tese/q111a30089">航头</a>
-                        <a href="/sale/tese/q111a30090">花木</a>
-                        <a href="/sale/tese/q111a30087">惠南</a>
-                        <a href="/sale/tese/q111a30092">金桥</a>
-                        <a href="/sale/tese/q111a30093">金杨</a>
-                        <a href="/sale/tese/q111a30091">康桥</a>
-                        <a href="/sale/tese/q111a30094">联洋</a>
-                        <a href="/sale/tese/q111a30095">临港新城</a>
-                        <a href="/sale/tese/q111a30723">六里</a>
-                        <a href="/sale/tese/q111a30096">陆家嘴</a>
-                        <a href="/sale/tese/q111a30716">南码头</a>
-                        <a href="/sale/tese/q111a30097">三林</a>
-                        <a href="/sale/tese/q111a30715">上南</a>
-                        <a href="/sale/tese/q111a30098">世博</a>
-                        <a href="/sale/tese/q111a30099">世纪公园</a>
-                        <a href="/sale/tese/q111a30930">孙桥</a>
-                        <a href="/sale/tese/q111a30100">塘桥</a>
-                        <a href="/sale/tese/q111a30101">唐镇</a>
-                        <a href="/sale/tese/q111a30102">外高桥</a>
-                        <a href="/sale/tese/q111a30103">潍坊</a>
-                        <a href="/sale/tese/q111a30104">新场</a>
+                        {% for value in filter['reg'] %}
+                        <a{% if params['regId']==value['id'] %} class="selected"{% endif %} href="/buy{{ url['reg'][value['id']] }}">{{ value['name'] }}</a>
+                        {% endfor %}
                     </div>
+                    {% endif %}
                 </dd>
             </dl>
 
             <dl class="filter-item">
                 <dt>售价:</dt>
+                
                 <dd>
-                    <a class="selected" href="#">不限</a>
-                    <a href="#">100万以下</a>
-                    <a href="#">100-120万</a>
-                    <a href="#">120-150万</a>
-                    <a href="#">150-200万</a>
-                    <a href="#">200-250万</a>
-                    <a href="#">250-300万</a>
-                    <a href="#">300-400万</a>
-                    <a href="#">400万以上</a>
-                </dd>
+                    <a{% if params['otherParam']['p']<1 %} class="selected"{% endif %} href="/buy{{ url['price'][0] }}">不限</a>
+                    {% if filter['price'] is not empty %}                  
+                    {% for key,value in filter['price'] %}
+                    <a{% if key==params['otherParam']['p'] %} class="selected"{% endif %} href="/buy{{ url['price'][key] }}">{{ params['otherParam']['p'] }}{{ value }}</a>
+                    {% endfor %}
+                    {% endif %}
+                </dd>                
             </dl>
 
             <dl class="filter-item">
                 <dt>面积:</dt>
                 <dd>
-                    <a class="selected" href="#">不限</a>
-                    <a href="#">60平米以下</a>
-                    <a href="#">60-80平米</a>
-                    <a href="#">80-100平米</a>
-                    <a href="#">100-120平米</a>
-                    <a href="#">120-150平米</a>
-                    <a href="#">150-200平米</a>
-                    <a href="#">200平米以上</a>
+                    <a{% if params['otherParam']['a']<1 %} class="selected"{% endif %} href="/buy{{ url['area'][0] }}">不限</a>
+                    {% if filter['area'] is not empty %}                  
+                    {% for key,value in filter['area'] %}
+                    <a{% if key==params['otherParam']['a'] %} class="selected"{% endif %} href="/buy{{ url['area'][key] }}">{{ value }}</a>
+                    {% endfor %}
+                    {% endif %}
                 </dd>
             </dl>
 
             <dl class="filter-item">
                 <dt>户型:</dt>
                 <dd>
-                    <a class="selected" href="#">不限</a>
-                    <a href="#">1房</a>
-                    <a href="#">2房</a>
-                    <a href="#">3房</a>
-                    <a href="#">4房</a>
-                    <a href="#">5房以上</a>
+                    <a{% if params['otherParam']['a']<1 %} class="selected"{% endif %} href="/buy{{ url['houseType'][0] }}">不限</a>
+                    {% if filter['houseType'] is not empty %}                  
+                    {% for key,value in filter['houseType'] %}
+                    <a{% if key==params['otherParam']['h'] %} class="selected"{% endif %} href="/buy{{ url['houseType'][key] }}">{{ value }}</a>
+                    {% endfor %}
+                    {% endif %}
                 </dd>
             </dl>
 

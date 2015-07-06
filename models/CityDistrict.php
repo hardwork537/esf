@@ -150,25 +150,42 @@ class CityDistrict extends BaseModel
      * 根据城市Id获城区信息
      * 不传cityID则获取所有城市的城区信息
      */
-    public function getDistrict($intCityID)
+    public function getDistrict($intCityID, $columns = '')
     {
         if(!$intCityID)
             return array();
 
         $arrBackData = array();
 
-        $strCond = "cityId = {$intCityID} and status=" . self::STATUS_ENABLED;
-
-        $objRes = self::find($strCond);
-
-        if(!empty($objRes))
+        $where = "cityId = {$intCityID} and status=" . self::STATUS_ENABLED;
+        if($columns)
         {
-
-            foreach($objRes->toArray() as $district)
+            $condition = array(
+                'conditions' => $where,
+                'columns' => $columns
+            );
+            $objRes = self::find($condition, 0)->toArray();
+            if(!empty($objRes))
             {
-                $arrBackData[$district['id']] = $district['name'];
-            }
-        }
+
+                foreach($objRes as $district)
+                {
+                    $arrBackData[$district['id']] = $district;
+                }
+            }          
+        } else {
+            $objRes = self::find($where, 0)->toArray();
+
+            if(!empty($objRes))
+            {
+
+                foreach($objRes as $district)
+                {
+                    $arrBackData[$district['id']] = $district['name'];
+                }
+            }           
+        }   
+        
         return $arrBackData;
     }
     

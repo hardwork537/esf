@@ -172,7 +172,7 @@ class CityRegion extends BaseModel
      * 根据城区ID获取该城区下的所有板块数据
      * @param int $distId
      */
-    public function getRegionByDistrict($distId)
+    public function getRegionByDistrict($distId, $column = '')
     {
         if(empty($distId))
         {
@@ -180,7 +180,13 @@ class CityRegion extends BaseModel
         }
 
         $arr = array();
-        $arrRegion = self::find(" distId=" . $distId . " and status=" . self::STATUS_ON, 0)->toArray();
+        $where = "distId=" . $distId . " and status=" . self::STATUS_ON;
+        $condition = array(
+            'conditions' => $where
+        );
+        $column && $condition['columns'] = $column;
+        
+        $arrRegion = self::find($condition, 0)->toArray();
         foreach($arrRegion as $value)
         {
             $arr[$value['id']] = $value;
