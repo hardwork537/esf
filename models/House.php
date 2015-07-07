@@ -403,10 +403,11 @@ class House extends BaseModel
         $value['houseType'] = (int) $v['type'];
         $value['houseTags'] = (int) $v['parkId'];
         $value['cityId'] = (int) $v['cityId'];
+        $value['houseRemark'] = $v['remark'];
         
         $parkInfo = Park::findFirst($v['parkId'], 0)->toArray();
         $value['parkName'] = $parkInfo['name'];
-        $value['parkAlias'] = $parkInfo['alias'];
+        //$value['parkAlias'] = $parkInfo['alias'];
         $value['houseAddress'] = $parkInfo['address'];
         
         $esRes = $this->addEs($value, 'house');
@@ -503,6 +504,7 @@ class House extends BaseModel
         isset($editData['floorMax']) && $esData['houseFloorMax'] = $editData['floorMax']; //总楼层
         isset($editData['price']) && $esData['housePrice'] = (float)$editData['price']; //价格
         isset($editData['status']) && $esData['status'] = $editData['status']; //状态
+        isset($editData['remark']) && $esData['houseRemark'] = $editData['remark']; //状态
         $esData['houseUpdate'] = time();
         
         $arrEsData = array(

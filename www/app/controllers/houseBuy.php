@@ -24,6 +24,7 @@ class houseBuy extends ControllerBase
 
     protected function initialize()
     {      
+        parent::initialize();
         $tmp = explode('.', $_SERVER['HTTP_HOST']);
         if('www' == $tmp[0])
         {
@@ -87,17 +88,17 @@ class houseBuy extends ControllerBase
         return array('filter' => $filters, 'url'=>$url, 'params' => (array)$resolveRes['filter']);
     }
     
-    private function _getPrice()
+    protected function _getPrice()
     {
         return $GLOBALS['TAB_PRICE'];
     }
     
-    private function _getArea()
+    protected function _getArea()
     {
         return $GLOBALS['TAB_AREA'];
     }
     
-    private function _getHouseType()
+    protected function _getHouseType()
     {
         return $GLOBALS['TAB_HOUSE_TYPE'];
     }
@@ -156,24 +157,39 @@ class houseBuy extends ControllerBase
         };
         //售价
         $otherfilter = $combine($this->otherParam, 'p');
-        $data['price'][0] = $otherfilter . '/';
+        $data['price'][0] = $otherfilter!='/' ? $otherfilter . '/' : '/';
         foreach($filters['price'] as $k=>$v)
         {
             $data['price'][$k] = $otherfilter . "p{$k}/" ;
         }
         //面积
         $otherfilter = $combine($this->otherParam, 'a');
-        $data['area'][0] = $otherfilter . '/';
+        $data['area'][0] = $otherfilter!='/' ? $otherfilter . '/' : '/';
         foreach($filters['area'] as $k=>$v)
         {
             $data['area'][$k] = $otherfilter . "a{$k}/" ;
         }
         //户型
         $otherfilter = $combine($this->otherParam, 'h');
-        $data['houseType'][0] = $otherfilter . '/';
+        $data['houseType'][0] = $otherfilter!='/' ? $otherfilter . '/' : '/';
         foreach($filters['houseType'] as $k=>$v)
         {
             $data['houseType'][$k] = $otherfilter . "h{$k}/" ;
+        }
+        //排序
+        $otherfilter = $combine($this->otherParam, 'o');
+        $data['order']['default'] = $otherfilter!='/' ? $otherfilter . '/' : '/';
+        if(2 == $this->otherParam['o'])
+        {
+            $data['order']['price'] = $otherfilter . "o1/" ;
+        } else {
+            $data['order']['price'] = $otherfilter . "o2/" ;
+        }
+        if(4 == $this->otherParam['o'])
+        {
+            $data['order']['area'] = $otherfilter . "o3/" ;
+        } else {
+            $data['order']['area'] = $otherfilter . "o4/" ;
         }
         
         return $data;

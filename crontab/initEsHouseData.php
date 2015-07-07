@@ -13,7 +13,8 @@ $createMapping = array(
     'index' => "esf",
     "type" => "house",
 );
-
+//$client->deleteByQuery(array('where'=>array('houseId'=>array('in'=>array(1,7)))));
+//exit;
 if(!$client->existsType($createMapping))
 {
     $mapType = array(
@@ -29,7 +30,7 @@ if(!$client->existsType($createMapping))
                 'type' => 'integer',
                 'store' => 'yes',
             ),
-            "parkName" => array(
+            "houseRemark" => array(
                 "type" => "string",
                 "index" => "analyzed",
                 "analyzer" => "mmseg",
@@ -215,6 +216,7 @@ foreach($house as $v)
     $value['houseType'] = (int) $v['type'];
     $value['houseTags'] = (int) $v['parkId'];
     $value['cityId'] = (int) $v['cityId'];
+    $value['houseRemark'] = $v['remark'];
 
     $houseList[$v['id']] = $value;
 }
@@ -226,11 +228,11 @@ foreach($houseList as $id => $v)
 {
     $data = $v;
     $data['parkName'] = $parks[$v['parkId']]['name'];
-    $data['parkAlias'] = $parks[$v['parkId']]['alias'];
+    //$data['parkAlias'] = $parks[$v['parkId']]['alias'];
     $data['houseAddress'] = $parks[$v['parkId']]['address'];
 
     $bulkData[] = array(
-        'index' => array('_id' => $bulkData['houseId'])
+        'index' => array('_id' => $data['houseId'])
     );
     $bulkData[] = $data;
 

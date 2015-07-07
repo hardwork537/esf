@@ -219,7 +219,7 @@ class Es
             $this->_connection->indices()->putMapping($param);
         } catch(Exception $e)
         {
-            var_dump($e);
+            //var_dump($e);
             return false;
         }
     }

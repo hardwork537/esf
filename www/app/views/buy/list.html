@@ -41,6 +41,7 @@
                     {% if filter['reg'] is not empty %}
                     <div class="sub-area" style='display: block;'>
                         <span class="arrow"></span>
+                        <a{% if params['regId']<1 %} class="selected"{% endif %} href="/buy{{ url['reg'][0] }}">不限</a>
                         {% for value in filter['reg'] %}
                         <a{% if params['regId']==value['id'] %} class="selected"{% endif %} href="/buy{{ url['reg'][value['id']] }}">{{ value['name'] }}</a>
                         {% endfor %}
@@ -56,7 +57,7 @@
                     <a{% if params['otherParam']['p']<1 %} class="selected"{% endif %} href="/buy{{ url['price'][0] }}">不限</a>
                     {% if filter['price'] is not empty %}                  
                     {% for key,value in filter['price'] %}
-                    <a{% if key==params['otherParam']['p'] %} class="selected"{% endif %} href="/buy{{ url['price'][key] }}">{{ params['otherParam']['p'] }}{{ value }}</a>
+                    <a{% if key==params['otherParam']['p'] %} class="selected"{% endif %} href="/buy{{ url['price'][key] }}">{{ value }}</a>
                     {% endfor %}
                     {% endif %}
                 </dd>                
@@ -77,7 +78,7 @@
             <dl class="filter-item">
                 <dt>户型:</dt>
                 <dd>
-                    <a{% if params['otherParam']['a']<1 %} class="selected"{% endif %} href="/buy{{ url['houseType'][0] }}">不限</a>
+                    <a{% if params['otherParam']['h']<1 %} class="selected"{% endif %} href="/buy{{ url['houseType'][0] }}">不限</a>
                     {% if filter['houseType'] is not empty %}                  
                     {% for key,value in filter['houseType'] %}
                     <a{% if key==params['otherParam']['h'] %} class="selected"{% endif %} href="/buy{{ url['houseType'][key] }}">{{ value }}</a>
@@ -104,268 +105,49 @@
     <!-- house list begin -->
     <div class="house-list">
         <div class="wrap">
-            <div class="crumb"><a href="#">首页</a> > <span>我要买房</span></div>
+            <div class="crumb"><a href="/">首页</a> > <span>我要买房</span></div>           
             <div class="clearfix result-filters">
                 <div class="result-sort">
-                    <a class="selected" href="#">默认</a>
-                    <a href="#">总价<i class="icon-up"></i></a>
-                    <a href="#">面积<i class="icon-down"></i></a>
+                    <a <?php if(!in_array($params['otherParam']['o'], array(1,2,3,4))) { echo 'class="selected"'; } ?> href="/buy{{ url['order']['default'] }}">默认</a>
+                    <a <?php if(in_array($params['otherParam']['o'], array(1,2))) { echo 'class="selected"'; } ?> href="/buy{{ url['order']['price'] }}">总价<i class="{% if 1==params['otherParam']['o'] %}icon-up{% else %}icon-down{% endif %}"></i></a>
+                    <a <?php if(in_array($params['otherParam']['o'], array(3,4))) { echo 'class="selected"'; } ?> href="/buy{{ url['order']['area'] }}">面积<i class="{% if 3==params['otherParam']['o'] %}icon-up{% else %}icon-down{% endif %}"></i></a>
                 </div>
-                <div class="result-pages">
-                    <span class="txt">共找到<em>70</em>个房源</span>
-                    <span class="prev" href="#"><i></i></span>
-                    <span class="num on">1</span>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a class="next" href="#"><i></i></a>
-                </div>
+                {{ page }}
             </div>
-
+            {% if list is not empty %}
             <div class="result-list">
                 <ul class="clearfix">
+                    {% for value in list %}
                     <li>
                         <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
+                                <h3><a href="#">{{ parkList[value['parkId']]['name'] }}</a></h3>
+                                <span class="area">{{ distList[value['distId']]['name'] }}</span>
                             </div>
                             <p class="address">
                                 <i></i>
-                                芙蓉江路388弄
+                                {{ parkList[value['parkId']]['address'] }}
                             </p>
                             <p class="attr">
                                 <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
+                                <span>{{ value['houseBedRoom'] }}室{{ value['houseLivingRoom'] }}厅{{ value['houseBathRoom'] }}卫</span>
+                                <span>{{ value['houseBA'] }}平米</span>
+                                <span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>
                             </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
+                            <p class="desc">{{ value['houseRemark'] }}</p>
                         </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
+                        <div class="house-price"><strong class="total">{{ value['housePrice']/10000 }}万</strong><br />{{ parkList[value['parkId']]['salePrice'] }}元/平米</div>
                         <span class="j-favorite favorite"></span>
                     </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite favorite-on"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite favorite-on"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite favorite-on"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite favorite-on"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite"></span>
-                    </li>
-
-                    <li>
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="#">仁恒河滨花园</a></h3>
-                                <span class="area">长宁区</span>
-                            </div>
-                            <p class="address">
-                                <i></i>
-                                芙蓉江路388弄
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>3室2厅1卫</span>
-                                <span>138平米</span>
-                                <span>楼层：3/22</span>
-                            </p>
-                            <p class="desc">房东急售，满五年唯一，家具家电全送，钥匙房随时看房</p>
-                        </div>
-                        <div class="house-price"><strong class="total">1200万</strong><br />58654元/平米</div>
-                        <span class="j-favorite favorite favorite-on"></span>
-                    </li>
-
+                    {% endfor %}
                 </ul>
 
                 <div class="clearfix result-filters">
-                    <div class="result-pages">
-                        <span class="txt">共找到<em>70</em>个房源</span>
-                        <a class="prev" href="#"><i></i></a>
-                        <span class="num on">1</span>
-                        <a href="#" class="num">2</a>
-                        <a href="#" class="num">3</a>
-                        <a class="next" href="#"><i></i></a>
-                    </div>
+                    {{ page }}
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     <!-- house list end -->

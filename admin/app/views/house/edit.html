@@ -230,8 +230,8 @@
     var menu = 'menu1';
     var moudle = 'houseadd';
     
-    getDist('distId', 0, $("#cityId").val());
-    getRegion('regId', 0, $("#distId").val());
+    getDist('distId', "{{ house['distId'] }}", $("#cityId").val());
+    getRegion('regId', "{{ house['redId'] }}", $("#distId").val());
     
     $(function() {
         $("input[onlyNum=true]").keyup(function(){

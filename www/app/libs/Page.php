@@ -33,7 +33,7 @@ class Page
         }
         if($pages < 2)
         {
-            return '<div class="numsrow clearfix mt30">  <p class=" my_left "> 共有 <strong class=" font_orange " id="totalNum"> ' . $pageCount . '  </strong>条记录  </p></div>';
+            return '<div class="result-pages"><span class="txt">共找到<em> '. intval($pageCount) .' </em>个房源</span></div>';
         }
         if($pages <= $pageCut)
         {
@@ -68,9 +68,9 @@ class Page
         }
 
         //输出上翻页
-        $sHTML = '<div class="numsrow clearfix mt30">  <p class=" my_left "> 共有 <strong class=" font_orange " id="totalNum"> ' . $pageCount . '  </strong>条记录  </p>';
-        $sHTML .= '<div class="pages_nav my_right">';
-        $sHTML .= $page < 2 ? '<span class="pre pre_disable"><em></em>上一页</span>' : '<a href="?page=' . ($page - 1) . $oURL . '"><span class="pre"><em></em>上一页</span></a>';
+        $sHTML = '<div class="result-pages">';
+        $sHTML .= '<span class="txt">共找到<em> '. intval($pageCount) .' </em>个房源</span>';
+        $sHTML .= $page < 2 ? '<a class="prev"><i></i></a>' : '<a class="prev" href="?page=' . ($page - 1) . $oURL . '"><i></i></a>';
         if($pageFrom > 1)
         {
             $sHTML .= '<a href="?page=1' . $oURL . '" class="num" >1</a>...';
@@ -83,7 +83,7 @@ class Page
 
         for($i = $pageFrom; $i <= $pageTo; $i++)
         {
-            $sHTML .= $page == $i ? '<a class="num on">' . $i . '</a>' : '<a href="?page=' . $i . $oURL . '" class="num" >' . $i . '</a>';
+            $sHTML .= $page == $i ? '<span class="num on">' . $i . '</span>' : '<a href="?page=' . $i . $oURL . '" class="num" >' . $i . '</a>';
         }
 
         if($pageTo < $pages)
@@ -91,8 +91,9 @@ class Page
             $sHTML .= '...<a href="?page=' . $pages . $oURL . '" class="num" >' . $pages . '</a>';
         }
         //输出后翻页
-        $sHTML .= $page == $pages ? '<a class="next next_disable"><em></em>下一页</a>' : '<a class="next" href="?page=' . ($page + 1) . $oURL . '"><em></em>下一页</a>';
-        $sHTML .= "</div></div>";
+        $sHTML .= $page == $pages ? '<span class="next"><i></i></span>' : '<a class="next" href="?page=' . ($page + 1) . $oURL . '"><i></i></a>';
+        $sHTML .= "</div>";
+        
         return $sHTML;
     }
 
