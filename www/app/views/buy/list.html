@@ -87,17 +87,17 @@
                 </dd>
             </dl>
 
+            {% if filter['feature'] is not empty %}
             <dl class="filter-item">
                 <dt>特色:</dt>
                 <dd>
-                    <a class="selected" href="#">不限</a>
-                    <a href="#">地铁房</a>
-                    <a href="#">学区房</a>
-                    <a href="#">精装修</a>
-                    <a href="#">满5年唯一</a>
+                    <a{% if params['otherParam']['f']<1 %} class="selected"{% endif %} href="/buy{{ url['feature'][0] }}">不限</a>
+                    {% for key,value in filter['feature'] %}
+                    <a{% if key==params['otherParam']['f'] %} class="selected"{% endif %} href="/buy{{ url['feature'][key] }}">{{ value }}</a>
+                    {% endfor %}
                 </dd>
             </dl>
-
+            {% endif %}
         </div>
         <!-- filters end -->
     </div>

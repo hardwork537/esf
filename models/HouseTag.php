@@ -105,4 +105,31 @@ class HouseTag extends BaseModel
         
         return array('status' => $status);
     }
+    
+    /**
+     * 获取城市标签
+     * @param type $cityId
+     * @param type $columns
+     * @return type
+     */
+    public function getTagsForOption($cityId = 0, $columns = '')
+    {
+        $where = '';
+        $cityId && $where .= "cityId={$cityId}";
+        
+        $condition = array(
+            'conditions' => $where
+        );
+        $columns && $condition['columns'] = $columns;
+        
+        $res = self::find($condition, 0)->toArray();
+        
+        $returnData = array();
+        foreach($res as $v)
+        {
+            $returnData[$v['id']] = $v['name'];
+        }
+        
+        return $returnData;
+    }
 }

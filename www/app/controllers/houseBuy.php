@@ -74,7 +74,7 @@ class houseBuy extends ControllerBase
             $filters['houseType'][$k] = $v['name'];
         }
         //获取特色
-        //$price = $GLOBALS['TAB_PRICE'];
+        $filters['feature'] = $this->_getFeature();
         
         //处理参数
         $resolveRes = $this->resolveParam();
@@ -103,6 +103,12 @@ class houseBuy extends ControllerBase
         return $GLOBALS['TAB_HOUSE_TYPE'];
     }
     
+    protected function _getFeature()
+    {
+        return HouseTag::instance()->getTagsForOption($this->cityId);
+    }
+
+
     private function _getFilterUrl($filters)
     {
         $data = array();
@@ -175,6 +181,13 @@ class houseBuy extends ControllerBase
         foreach($filters['houseType'] as $k=>$v)
         {
             $data['houseType'][$k] = $otherfilter . "h{$k}/" ;
+        }
+        //特色
+        $otherfilter = $combine($this->otherParam, 'f');
+        $data['feature'][0] = $otherfilter!='/' ? $otherfilter . '/' : '/';
+        foreach($filters['feature'] as $k=>$v)
+        {
+            $data['feature'][$k] = $otherfilter . "f{$k}/" ;
         }
         //排序
         $otherfilter = $combine($this->otherParam, 'o');
