@@ -37,7 +37,7 @@ if(!$client->existsType($createMapping))
                 "store" => "yes",
                 "null_value" => '',
             ),
-            "parkAlias" => array(
+            "parkName" => array(
                 "type" => "string",
                 "index" => "analyzed",
                 "analyzer" => "mmseg",
@@ -223,6 +223,18 @@ foreach($house as $v)
 $parkIds = array_flip(array_flip($parkIds));
 $parks = Park::instance()->getParkByIds($parkIds, 'id,name,alias,address');
 //var_dump($parks);
+//获取标签
+$tagList = HouseTag::instance()->getTagsForOption();
+
+//获取房源标签
+$houseTagList = array();
+$houseIds = array_keys($houseList);
+$where = "houseId in(".  implode(',', $houseIds).")";
+$houseTag = HouseExtTag::find($where, 0)->toArray();
+foreach($houseTag as $v)
+{
+    $tagList[$v['tag']] && $houseTagList[$v['houseId']][] = $tagList[$v['tag']];
+}
 
 foreach($houseList as $id => $v)
 {
@@ -230,6 +242,10 @@ foreach($houseList as $id => $v)
     $data['parkName'] = $parks[$v['parkId']]['name'];
     //$data['parkAlias'] = $parks[$v['parkId']]['alias'];
     $data['houseAddress'] = $parks[$v['parkId']]['address'];
+    if(!empty($houseTagList[$data['houseId']]))
+    {
+        $data['houseFeatures'] = implode(',', $houseTagList[$data['houseId']]);
+    }
 
     $bulkData[] = array(
         'index' => array('_id' => $data['houseId'])

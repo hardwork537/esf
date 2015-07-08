@@ -426,7 +426,6 @@ class HouseController extends ControllerBase
                 'ext' => $v['imgExt'],
                 'url' => ImageUtility::getImgUrl(PICTURE_PRODUCT_NAME, $v['imgId'], $v['imgExt'])
             );
-            //var_dump($value);exit;
             $pictures[] = $value;
         }
         $data['pictures'] = $pictures;
@@ -503,7 +502,6 @@ class HouseController extends ControllerBase
             $houseObj = new House();
             if(!$houseObj->editEs($esData, 'house'))
             {
-                var_dump($esData);
                 $this->show('JSON', array('status'=>1, 'info'=>'上线失败~'));
             }
             $res = $house->update($data);
@@ -538,7 +536,6 @@ class HouseController extends ControllerBase
             $houseObj = new House();
             if(!$houseObj->editEs($esData, 'house'))
             {
-                var_dump($esData);
                 $this->show('JSON', array('status'=>1, 'info'=>'上线失败~'));
             }
             $res = $house->update($data);
@@ -591,8 +588,10 @@ class HouseController extends ControllerBase
             $addRes = $tag->create($data);
             if($addRes)
             {
+                //修改es
+                $esRes = $this->_saveEsTag($houseId);
                 $this->show('JSON', array('status'=>0, 'info'=>'标签添加成功'));
-            } else {
+            } else {                
                 $this->show('JSON', array('status'=>1, 'info'=>'标签添加失败'));
             }
             
@@ -606,6 +605,8 @@ class HouseController extends ControllerBase
             $delRes = $houseTag->delete();
             if($delRes)
             {
+                //修改es
+                $esRes = $this->_saveEsTag($houseId);
                 $this->show('JSON', array('status'=>0, 'info'=>'标签取消成功'));
             } else {
                 $this->show('JSON', array('status'=>1, 'info'=>'标签取消失败'));
@@ -613,6 +614,42 @@ class HouseController extends ControllerBase
         }      
     }
     
+    //修改标签ES
+    private function _saveEsTag($houseId)
+    {     
+        //所有标签
+        $tagRes = HouseTag::find("cityId={$this->_cityId}", 0)->toArray();
+        $houseTag = array();
+        foreach($tagRes as $v)
+        {
+            $houseTag[$v['id']] = $v['name'];
+        }
+        
+        //房源标签
+        $houseTagRes = HouseExtTag::find("houseId={$houseId}", 0)->toArray();
+        $tags = array();
+        foreach($houseTagRes as $v)
+        {
+            $houseTag[$v['tag']] && $tags[] = $houseTag[$v['tag']];
+        }
+        $tag = empty($houseTag) ? '' : implode(',', $tags);
+        $houseObj = new House();
+        $esData = array(
+            'id' => (int)$houseId,
+            'data' => array(
+                'houseFeature' => $tag
+            )
+        );
+        
+        if(!$houseObj->editEs($esData, 'house'))
+        {
+            return false;
+        } else {
+            return true;
+        }
+    }
+        
+            
     public function delpicAction()
     {
         $houseId = $this->request->getPost('houseId', 'int', 0);

@@ -118,6 +118,12 @@ class BuyController extends houseBuy
                 }
             }
         }
+        //特色
+        if($otherParam['f'])
+        {
+            $tag = $this->houseTag[$otherParam['f']];
+            $arrWhere['houseFeatures'] = array('like'=>$tag);
+        }
         
         $limit = array($this->_offset, $this->_pagesize);
         //$order = array( "houseUpdate:desc", "_id:desc" );
@@ -141,7 +147,7 @@ class BuyController extends houseBuy
                 break;
         }
         //$order[] = "_id:desc";
-
+        
         $esData = $this->_getEsData($arrWhere, $limit, $order);
         
         return $esData;

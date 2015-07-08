@@ -12,6 +12,7 @@ class houseBuy extends ControllerBase
     protected $otherParam = array();
     protected $distPinyin = '';
     protected $regPinyin = '';
+    protected $houseTag;
     protected $types = array(
         'distId' => 'distId',
         'regId' => 'regId',
@@ -104,8 +105,10 @@ class houseBuy extends ControllerBase
     }
     
     protected function _getFeature()
-    {
-        return HouseTag::instance()->getTagsForOption($this->cityId);
+    {        
+        $this->houseTag = $houseTag = HouseTag::instance()->getTagsForOption($this->cityId);
+        
+        return $houseTag;
     }
 
 
