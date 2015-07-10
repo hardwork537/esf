@@ -637,7 +637,7 @@ class HouseController extends ControllerBase
         $esData = array(
             'id' => (int)$houseId,
             'data' => array(
-                'houseFeature' => $tag
+                'houseFeatures' => $tag
             )
         );
         

@@ -11,8 +11,13 @@ class BuyController extends houseBuy
         $data['filter'] = $res['filter'];
         $data['params'] = $res['params'];
         $data['url'] = $res['url'];
-        
-        $kw = trim($this->request->get('kw', 'string', ''));
+        //搜索关键字
+        $data['kw'] = $kw = trim($this->request->get('kw', 'string', ''));
+        $homeKw = trim($this->request->get('home_kw', 'string', ''));
+        if(!$kw && $homeKw)
+        {
+            $kw = $homeKw;
+        }
         
         if($kw)
         {
@@ -42,6 +47,9 @@ class BuyController extends houseBuy
         $data['parkList'] = Park::instance()->getParkByIds($parkIds, 'id,address,name,salePrice');
         
         $data['list'] = $esData['data'];
+        
+        //去房源图片
+        //$where = "houseId in(".implode( , $data).")"
         
         $this->show(null, $data);
     }
@@ -156,10 +164,9 @@ class BuyController extends houseBuy
     private function _getSearchData($keyword, $params)
     {
         $arrWhere = array();
-        $arrWhere['cityId'] = $this->_cityId;
+        $arrWhere['cityId'] = $this->cityId;
         $arrWhere['status'] = House::STATUS_ONLINE;
-        $arrWhere['parkName'] = array('like' => $keyword);
-        $arrWhere['houseAddress'] = array('likeor' => $keyword);
+        $arrWhere['s_keyword'] = array('like' => array('query' => $keyword, 'fields' => array('parkName', 'houseAddress')));
         
         $limit = array($this->_offset, $this->_pagesize);
         //$order = array( "houseUpdate:desc", "_id:desc" );

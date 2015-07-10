@@ -245,7 +245,7 @@ class Park extends BaseModel
                 $arr['parkSubwaySiteLine'] = $metroInfo['station'];
             }
             
-            $esRes = $this->addEs($arr);
+            //$esRes = $this->addEs($arr);
 
             $data['物业公司'] && $extData['物业公司'] = $data['物业公司'];
             $data['物业电话'] && $extData['物业电话'] = $data['物业电话'];
@@ -559,7 +559,7 @@ class Park extends BaseModel
                 $arr['data']['parkSubwayLine'] = $metroInfo['line'];
                 $arr['data']['parkSubwaySiteLine'] = $metroInfo['station'];
             }
-            $res = $this->editEs($arr);
+            //$res = $this->editEs($arr);
 
             $extData = $moreData = array();
             $data['周边公交'] && $moreData['周边公交'] = $data['周边公交'];
@@ -681,12 +681,12 @@ class Park extends BaseModel
                     "parkStatus" => self::STATUS_DELETE,
                 )
             );
-            $delEs = $this->editEs($arr);
-            if(!$delEs)
-            {
-                $this->rollback();
-                return array("status" => 1, "info" => "删除失败!");
-            }
+            //$delEs = $this->editEs($arr);
+//            if(!$delEs)
+//            {
+//                $this->rollback();
+//                return array("status" => 1, "info" => "删除失败!");
+//            }
 //            $delBbs = ParkBbs::instance()->del($parkId);
 //            if(!$delBbs)
 //            {
