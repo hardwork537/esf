@@ -7,6 +7,7 @@ use Phalcon\Cache\Frontend\Output as OutputFrontend,
     Phalcon\Cache\Backend\Memcache as MemcacheBackend;
 
 require DOCROOT . '../config/system.db.config.php';
+require DOCROOT . '../config/www.config.php';
 
 /**
  * 自动加载

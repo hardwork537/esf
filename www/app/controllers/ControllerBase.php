@@ -152,7 +152,7 @@ class ControllerBase extends ControllerCore
      */
     protected function _getPasswordStr($userName)
     {
-        $password = md5(md5('$asdf@@#js234_' . $userName . '_asd##(23^'));
+        $password = md5(md5('$asdfs234_' . $userName . '_asd##(23^'));
 
         return substr($password, 3, 28);
     }

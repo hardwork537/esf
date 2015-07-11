@@ -37,6 +37,23 @@ $(function(){
 			showMsg(this,'请输入密码');
 			return false;
 		}
+        if (!checkPwd(val)) {
+			showMsg(this,'密码至少为6位数字、字母的组合');
+			return false;
+		}
+		showMsg(this,'right');
+	});
+    
+    $('#j-repwd').blur(function(){
+		var val = $(this).val();
+		if(val.length == 0){
+			showMsg(this,'请输入密码');
+			return false;
+		}
+        if(val != $("#j-pwd").val()) {
+            showMsg(this,'密码不一致');
+			return false;
+        }
 		showMsg(this,'right');
 	});
 	
@@ -45,10 +62,22 @@ $(function(){
 		if($('.msg-error').length > 0) return false;
 		$.ajax({
 			type: 'POST',
-			url: '',   
-			data: '',
+			url: '/register/do/',
+            dataType: 'json',
+			data: {
+                phone: $("#j-mobile").val(),
+                code: $("#j-code").val(),
+                password: $("#j-pwd").val(),
+                repassword: $("#j-repwd").val()
+            },
 			success: function (data) {
-				// success code...
+				if(data.status != 0) {
+                    alert(data.info ? data.info : '注册失败，请稍后重试');
+                    return false;
+                } else {
+                    alert('注册成功');
+                    location.href = '/buy/';
+                }
 			}
 		});  
 	});
@@ -60,8 +89,11 @@ $(function(){
 		$.ajax({
 			type: 'POST',
 			async: false,
-			url: '',
-			data: '',
+            dataType: 'json',
+			url: '/ajax/sendmessage/',
+			data: {
+                phone: $("#j-mobile").val()
+            },
 			success: function (data) {
 				//code...
 				codeWait(120);
@@ -71,6 +103,13 @@ $(function(){
 	
 });
 
+function checkPwd(pwd) {
+    var filterPwd = /^[0-9a-zA-Z\-\.]{6,}$/;
+	if (filterPwd.test(pwd)) {
+		return true;
+	}
+	return false;
+}
 
 function isMobile(mobile) {
 	var filterMobile = /^1\d{10}$/;
