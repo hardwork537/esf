@@ -30,10 +30,18 @@ $(function(){
 		if($('.msg-error').length > 0) return false;
 		$.ajax({
 			type: 'POST',
-			url: '',   
-			data: '',
+			url: '/login/do/',   
+			data: {
+                phone: $("#j-mobile").val(),
+                password: $("#j-pwd").val()
+            },
+            dataType: 'json',
 			success: function (data) {
-				// success code...
+				if(data.status != 0) {
+                    alert(data.info ? data.info : '登录失败');
+                } else {
+                    location.href = '/home/';
+                }
 			}
 		});  
 	});

@@ -23,6 +23,12 @@ class ControllerBase extends ControllerCore
     {
         $this->_page = $this->request->get('page') ? $this->request->get('page') : 1;
         $this->_offset = ($this->_page - 1) * $this->_pagesize;
+        
+        $userInfo = Cookie::get(LOGIN_KEY);
+        if(!empty($userInfo))
+        {
+            $this->_userInfo = $userInfo;
+        }
     }
 
     /**
@@ -137,12 +143,13 @@ class ControllerBase extends ControllerCore
     private function default_assign()
     {
         $currController = $this->dispatcher->getControllerName();
+        $defaultAssign = array(
+           "src_url" => SRC_URL,
+            "currController" => $currController 
+        );
+        empty($this->_userInfo) || $defaultAssign['userInfo'] = $this->_userInfo;
         
-        $this->view->setVars(
-            [
-                "src_url" => SRC_URL,
-                "currController" => $currController
-        ]);
+        $this->view->setVars($defaultAssign);
     }
 
     /**

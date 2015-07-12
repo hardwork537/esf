@@ -22,6 +22,8 @@ class RegisterController extends ControllerBase
             
             $regRes = WwwUser::instance()->add($checkRes['params']);
             $this->show('JSON', $regRes);
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'非法请求'));
         }
     }
     
@@ -62,7 +64,7 @@ class RegisterController extends ControllerBase
         
         $params = array(
             'phone' => $phone,
-            'password' => $this->_getPasswordStr($phone)
+            'password' => $this->_getPasswordStr($pwd)
         );
         
         return array('status'=>0, 'params'=>$params);

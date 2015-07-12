@@ -12,5 +12,6 @@
     <p class="footer-txt">公司名称及备案号</p>
 </div>
 <!-- footer end -->
+<script src="<?php echo $src_url; ?>js/global.js" type="text/javascript"></script>
 </body>
 </html>

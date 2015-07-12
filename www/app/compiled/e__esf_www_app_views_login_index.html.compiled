@@ -1,15 +1,15 @@
 <!-- main begin -->
-<div class="main wrap">
+<div class="main wrap" style='padding-top: 10px;'>
     <h3>登录账户</h3>
-    <form id="loginForm" class="login-form" action="" method="post">
+    <form id="loginForm" class="login-form" action="/login/do/" method="post">
         <div class="clearfix form-group">
             <label class="form-control">手机号</label>
-            <input id="j-mobile" class="form-input" value="" type="text" data-role="手机号" placeholder="请输入手机号">
+            <input name="phone" id="j-mobile" class="form-input" value="" type="text" data-role="手机号" placeholder="请输入手机号">
             <span class="msg"></span>
         </div>
         <div class="clearfix form-group">
             <label class="form-control">密码</label>
-            <input id="j-pwd" class="form-input" value="" type="password" data-role="密码" placeholder="请输入密码">
+            <input name='password' id="j-pwd" class="form-input" value="" type="password" data-role="密码" placeholder="请输入密码">
             <span class="msg"></span>
         </div>
         <div class="form-btn">

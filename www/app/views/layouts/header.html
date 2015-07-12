@@ -27,8 +27,13 @@
                 </div>
                 <div class="header-right">
                     <span>欢迎来到房易买！</span>
+                    {% if userInfo is empty %}
                     <a href="/register/">注册</a>
                     <a href="/login/">登录</a>
+                    {% else %}
+                    <a href="/my/">{{ userInfo['phone'] }}</a>
+                    <a href="javascript:;" onclick="return loginout();">退出</a>
+                    {% endif %}
                     <!--<a href="#">jsdfoweurowlerlkdjsf@sohu-inc.com</a><a href="#">退出</a>-->
                 </div>
             </div>
