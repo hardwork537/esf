@@ -14,7 +14,7 @@ class Page
      * @param bool $lastPage 是否开启显示最后一页 默认不显示
      * @return string
      */
-    public static function create($pageCount, $pageSize = 20)
+    public static function create($pageCount, $pageSize = 10, $name = '')
     {
         $oURL = "";
         $pageCount = intval($pageCount);
@@ -31,9 +31,10 @@ class Page
         {
             return '';
         }
+        $name = $name ? $name : '找到';
         if($pages < 2)
         {
-            return '<div class="result-pages"><span class="txt">共找到<em> '. intval($pageCount) .' </em>个房源</span></div>';
+            return '<div class="result-pages"><span class="txt">共'.$name.'<em> '. intval($pageCount) .' </em>个房源</span></div>';
         }
         if($pages <= $pageCut)
         {

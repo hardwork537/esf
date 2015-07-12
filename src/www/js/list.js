@@ -1,8 +1,23 @@
 $(function(){
 	//收藏房源
 	$('.j-favorite').click(function(){
-		$(this).toggleClass('favorite-on');
-		//code
+        var jFavorite = $(this);
+        $.ajax({
+			type: 'POST',
+			url: '/ajax/addfav/',   
+			data: {
+                houseId: $(this).parent("li").attr('houseId')
+            },
+            dataType: 'json',
+			success: function (data) {
+				if(data.status != 0) {
+                    alert(data.info ? data.info : '收藏失败');
+                } else {
+                    if(!jFavorite.hasClass('favorite-on'))
+                        jFavorite.toggleClass('favorite-on');
+                }
+			}
+		});          		
 	});
 	
 	//搜索
@@ -106,7 +121,7 @@ function houseSearch(){
 
 		$.ajax({
 			type: "POST",
-			url: "",
+			url: "/ajax/getpark/",
 			data: '',
 			dataType: "json",
 			success: function( result ){

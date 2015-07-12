@@ -30,5 +30,37 @@ class AjaxController extends ControllerBase
         $status = 0;
         $this->show('JSON', array('status' => $status));
     }
+    
+    public function addfavAction()
+    {
+        if($this->request->isPost())
+        {
+            if(empty($this->_userInfo))
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'请登陆账号后 再进行收藏'));
+            }
+            $houseId = $this->request->getPost('houseId', 'int', 0);
+            $house = House::findFirst($houseId);
+            if(!$house)
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'房源不存在'));
+            }
+            
+            $data = array(
+                'userId' => $this->_userInfo['id'],
+                'houseId' => $houseId
+            );
+            $addRes = HouseFavorite::instance()->addHouse($data);
+            
+            $this->show('JSON', $addRes);
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'非法请求'));
+        }
+    }
+    
+    public function getparkAction()
+    {
+        $this->show('JSON', array(array('tony')));
+    }
 
 }

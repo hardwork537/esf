@@ -33,20 +33,38 @@ class BuyController extends houseBuy
             $this->show(null, $data);
             return;
         }
-        $parkIds = $distIds = array();
+        $parkIds = $distIds = $houseIds = array();
         foreach($esData['data'] as $v)
         {
             $parkIds[] = $v['parkId'];
             $distIds[] = $v['distId'];
+            $houseIds[] = $v['houseId'];
         }
         //排重
         $parkIds = array_flip(array_flip($parkIds));
         $distIds = array_flip(array_flip($distIds));
+        $houseIds = array_flip(array_flip($houseIds));
         
         $data['distList'] = CityDistrict::instance()->getDistByIds($distIds, 'id,name');
         $data['parkList'] = Park::instance()->getParkByIds($parkIds, 'id,address,name,salePrice');
         
         $data['list'] = $esData['data'];
+        
+        if(!empty($this->_userInfo))
+        {
+            //取收藏情况
+            $condition = array(
+                'conditions' => "userId={$this->_userInfo['id']} and houseId in(".  implode(',', $houseIds).")",
+                'columns' => 'houseId'
+            );
+            $favRes = HouseFavorite::find($condition, 0)->toArray();
+            $favHouse = array();
+            foreach($favRes as $v)
+            {
+                $favHouse[$v['houseId']] = true;
+            }
+            $data['favHouse'] = $favHouse;
+        }
         
         //去房源图片
         //$where = "houseId in(".implode( , $data).")"

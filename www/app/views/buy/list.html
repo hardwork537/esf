@@ -118,7 +118,7 @@
             <div class="result-list">
                 <ul class="clearfix">
                     {% for value in list %}
-                    <li>
+                    <li houseId="{{ value['houseId'] }}">
                         <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
@@ -138,7 +138,7 @@
                             <p class="desc">{{ value['houseRemark'] }}</p>
                         </div>
                         <div class="house-price"><strong class="total">{{ value['housePrice']/10000 }}万</strong><br />{{ parkList[value['parkId']]['salePrice'] }}元/平米</div>
-                        <span class="j-favorite favorite"></span>
+                        <span class="j-favorite favorite{% if favHouse[value['houseId']] %} favorite-on{% endif %}"></span>
                     </li>
                     {% endfor %}
                 </ul>

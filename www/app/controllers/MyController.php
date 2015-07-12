@@ -17,11 +17,87 @@ class MyController extends ControllerBase
         $checkRes = $this->_checkLogin();
     }
     
-    public function favoriteAction()
+    public function favoriteAction($type = 0)
     {
         $data = array();
         $data['cssList'] = array('css/counter.css');
         
+        $totalNum = HouseFavorite::count("userId={$this->_userInfo['id']}");
+        if($totalNum == 0)
+        {
+            $this->show(null, $data);
+            return false;
+        }
+        $data['page'] = Page::create($totalNum, $this->_pagesize, '收藏');
+        $type = intval($type);
+        $condition = array(
+            'conditions' => "userId={$this->_userInfo['id']}",
+            'columns' => 'houseId'
+        );
+        $res = HouseFavorite::find($condition, 0)->toArray();
+        $houseIds = array();
+        foreach($res as $v)
+        {
+            $houseIds[] = $v['houseId'];
+        }
+        //获取房源信息
+        $houseCondition = array(
+            'conditions' => "id in (".  implode(',', $houseIds).")",
+            'columns' => 'id,distId,parkId,bA,remark,price,livingRoom,bathRoom,bedRoom,floor,floorMax',
+            'limit' => array(
+                'offset' => $this->_offset,
+                'number' => $this->_pagesize
+            )
+        );
+        $link = array(
+            'default' => '/my/favorite/',
+            'price' => '/my/favorite/1/',
+            'area' => '/my/favorite/3/'
+        );
+        $data['curr'] = 'default';
+        if(1 == $type)
+        {
+            $houseCondition['order'] = 'price asc';
+            $link['price'] = '/my/favorite/2/';
+            $data['curr'] = 'price';
+        } elseif(2 == $type) {
+            $houseCondition['order'] = 'price desc';
+            $data['curr'] = 'price';
+        } elseif(3 == $type) {
+            $houseCondition['order'] = 'bA asc';
+            $link['area'] = '/my/favorite/4/';
+            $data['curr'] = 'area';
+        } elseif(4 == $type) {
+            $houseCondition['order'] = 'bA desc';
+            $data['curr'] = 'area';
+        }
+        $data['link'] = $link;
+        $data['type'] = $type;
+        
+        $houses = House::find($houseCondition, 0)->toArray();
+        $data['houseList'] = $houses;
+        
+        $parkIds = $distIds = array();
+        foreach($houses as $v)
+        {
+            $parkIds[] = $v['parkId'];
+            $distIds[] = $v['distId'];
+        }
+        $parkIds = array_flip(array_flip($parkIds));
+        $distIds = array_flip(array_flip($distIds));
+        //获取小区信息
+        if(!empty($parkIds))
+        {
+            $parks = Park::instance()->getParkByIds($parkIds, 'id,name,address,salePrice');
+            $data['parkList'] = $parks;
+        }
+        //获取小区信息
+        if(!empty($distIds))
+        {
+            $dists = CityDistrict::instance()->getDistByIds($distIds, 'id,name');
+            $data['distList'] = $dists;
+        }
+               
         $this->show(null, $data);
     }
     
@@ -97,7 +173,7 @@ class MyController extends ControllerBase
         {
             return array( 'status' => 1, 'info' => '用户不存在' );
         }
-        $this->_userObj = $user;
+        //$this->_userObj = $user;
         //验证密码
         $oldPwd = trim($this->request->getPost('oldPwd', 'string', ''));
         $pwd = trim($this->request->getPost('pwd', 'string', ''));
