@@ -55,6 +55,8 @@ class LoginController extends ControllerBase
             return array( 'status' => 1, 'info' => '用户名或密码错误' );
         }
         $userInfo = array(
+            'name' => $user['name'],
+            'sex' => $user['sex'],
             'phone' => $user['phone'],
             'id' => $user['id']
         );

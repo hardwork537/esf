@@ -34,7 +34,7 @@ class ControllerBase extends ControllerCore
     /**
      * 检查是否登录,没有登录直接跳到登录页面
      */
-    private function _checkLogin()
+    protected function _checkLogin()
     {
         if(Cookie::get(LOGIN_KEY))
         {

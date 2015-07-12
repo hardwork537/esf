@@ -42,7 +42,7 @@ class RegisterController extends ControllerBase
         if(!$pwd)
         {
             return array( 'status' => 1, 'info' => '请输入密码' );
-        } elseif(!preg_match("/^[0-9a-zA-Z\-\.]{6,}$/", $phone)) {
+        } elseif(!preg_match("/^[0-9a-zA-Z\-\.]{6,}$/", $pwd)) {
             return array( 'status' => 1, 'info' => '密码格式错误' );
         }
        

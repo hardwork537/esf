@@ -5,8 +5,13 @@ class WwwUser extends CrmBaseModel
     //用户状态
     const STATUS_VALID = 1; // 有效
     const STATUS_INVALID = 2; // 无效
+    //性别
+    const SEX_MALE = 1; //男性
+    const SEX_FEMALE = 2; //女性
 
     protected $id;
+    protected $name = '';
+    protected $sex = 0;
     protected $password = '';
     protected $phone = '';
     protected $cityId = 0;
@@ -17,6 +22,8 @@ class WwwUser extends CrmBaseModel
     {
         return array(
             'userId' => 'id',
+            'userName' => 'name',
+            'userSex' => 'sex',
             'userPassword' => 'password',
             'userPhone' => 'phone',
             'cityId' => 'cityId',
@@ -104,6 +111,41 @@ class WwwUser extends CrmBaseModel
         );
         
         return array('status' => 0, 'data' => $params, 'userObj' => $user);
+    }
+    
+    /**
+     * 编辑用户信息
+     * @param type $data
+     * @return type
+     */
+    public function edit($userId, $data)
+    {
+        $user = self::findFirst("id={$userId}");
+        if(!$user)
+        {
+            return array('status'=>1, 'info'=>'用户不存在');
+        }
+        
+        $editData = array();
+        $data['name'] && $editData['name'] = $data['name'];
+        $data['sex'] && $editData['sex'] = $data['sex'];
+        $data['password'] && $editData['password'] = $data['password'];
+        if($data['phone'])
+        {
+            $phone = $data['phone'];
+            $phoneNum = self::count("phone='{$phone}' and id<>{$userId}");
+            if($phoneNum > 0)
+            {
+                return array('status'=>1, 'info'=>'手机号已经存储在');
+            }
+            $editData['phone'] = $phone;
+        }
+        if(!$user->update($editData))
+        {
+            return array('status'=>1, 'info'=>'修改失败');
+        }
+        
+        return array('status'=>0, 'info'=>'修改成功', 'userInfo'=>$user->toArray());
     }
     
     /**

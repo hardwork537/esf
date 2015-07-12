@@ -40,7 +40,7 @@ $(function(){
 				if(data.status != 0) {
                     alert(data.info ? data.info : '登录失败');
                 } else {
-                    location.href = '/home/';
+                    location.href = '/my/';
                 }
 			}
 		});  

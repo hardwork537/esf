@@ -6,15 +6,10 @@ $router->add('/', array(
     'action'        => 'index' 
 ));
 
-//$router->add('/buy[/]?', array(
-//    'controller' =>	'buy',
-//    'action'     =>	'list'
-//));
-//
-//$router->add('/buy/(.*)[/]?', array(
-//    'controller'    => 'buy',
-//    'action'        => 'list'
-//));
+$router->add('/my[/]?', array(
+    'controller' =>	'my',
+    'action'     =>	'favorite'
+));
 
 $router->add('/buy/?([a-z1-9]*)/?([a-z1-9]*)/?', array(
     "controller"    => 'buy',
