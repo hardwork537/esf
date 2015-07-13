@@ -3,6 +3,29 @@ $(function(){
 		document.getElementById('profileForm').reset();
 	}
 	
+    //取消收藏
+	$('.j-favorite').click(function(){
+        var jFavorite = $(this);
+        $.ajax({
+			type: 'POST',
+			url: '/ajax/delfav/',   
+			data: {
+                houseId: $(this).parent("li").attr('houseId')
+            },
+            dataType: 'json',
+			success: function (data) {
+				if(data.status != 0) {
+                    alert(data.info ? data.info : '取消收藏失败');
+                } else {
+                    if(jFavorite.hasClass('favorite-on'))
+                        jFavorite.removeClass('favorite-on');
+                    
+                    location.reload(false);
+                }
+			}
+		});          		
+	});
+    
 	$('#j-username').blur(function(){
 		var val = $(this).val();
 		if(val == ''){

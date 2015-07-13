@@ -25,7 +25,7 @@
             <div class="result-list">
                 <ul class="clearfix">
                     {% for value in houseList %}
-                    <li>
+                    <li houseId="{{ value['id'] }}">
                         <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="192" width="288" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
@@ -53,6 +53,14 @@
                 <div class="clearfix result-filters">
                     {{ page }}
                 </div>
+            </div>
+            {% else %}
+            <div class="result-list">
+                <ul class="clearfix">
+                    <li style="text-align:center; padding-top: 50px; font-size: 24px;">
+                        暂无收藏
+                    </li>
+                </ul>
             </div>
             {% endif %}
 

@@ -58,6 +58,28 @@ class AjaxController extends ControllerBase
         }
     }
     
+    public function delfavAction()
+    {
+        if($this->request->isPost())
+        {
+            if(empty($this->_userInfo))
+            {
+                $this->show('JSON', array('status'=>1, 'info'=>'请登陆账号后 再取消收藏'));
+            }
+            $houseId = $this->request->getPost('houseId', 'int', 0);
+            
+            $data = array(
+                'userId' => $this->_userInfo['id'],
+                'houseId' => $houseId
+            );
+            $delRes = HouseFavorite::instance()->delHouse($data);
+            
+            $this->show('JSON', $delRes);
+        } else {
+            $this->show('JSON', array('status'=>1, 'info'=>'非法请求'));
+        }
+    }
+    
     public function getparkAction()
     {
         $this->show('JSON', array(array('tony')));

@@ -71,4 +71,29 @@ class HouseFavorite extends BaseModel
         return array('status'=>0);
     }
     
+    /**
+     * 取消收藏
+     * @param type $data
+     * @return type
+     */
+    public function delHouse($data)
+    {
+        if(!$data['houseId'] || !$data['userId'])
+        {
+            return array('status'=>1, 'info'=>'缺少参数');
+        }
+        
+        $favorite = self::findFirst("userId={$data['userId']} and houseId={$data['houseId']}");
+        if(!$favorite)
+        {
+            return array('status'=>0);
+        }
+                
+        if(!$favorite->delete())
+        {
+            return array('status'=>1, 'info'=>'取消收藏失败');
+        }
+        
+        return array('status'=>0);
+    }
 }
