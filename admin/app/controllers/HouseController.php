@@ -254,11 +254,12 @@ class HouseController extends ControllerBase
             $handPrice = $_REQUEST['handPrice'];
             if($handPrice < 1)
                 return array('status' => 1, 'info' => '到手价不能为空');
-            //房源描述
-            $houseDesc = $_POST['houseDesc'];
-            if(!$houseDesc)
-                return array('status' => 1, 'info' => '房源描述不能为空');
-        }                             
+            
+        }    
+        //房源描述
+        $houseDesc = $_POST['houseDesc'];
+        if(!$houseDesc)
+            return array('status' => 1, 'info' => '房源描述不能为空');
         //总楼层
         $floorMax = intval($this->request->getPost('floorMax', 'int', 0));
         //电梯数量

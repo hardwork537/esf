@@ -80,6 +80,22 @@ class AjaxController extends ControllerBase
         }
     }
     
+    public function togglefavAction()
+    {
+        if(empty($this->_userInfo))
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'请先登陆账号'));
+        }
+        $houseId = $this->request->getPost('houseId', 'int', 0);
+        $num = HouseFavorite::count("userId={$this->_userInfo['id']} and houseId={$houseId}");
+        if($num > 0)
+        {
+            $this->delfavAction();
+        } else {
+            $this->addfavAction();
+        }
+    }
+    
     public function getparkAction()
     {
         $this->show('JSON', array(array('tony')));

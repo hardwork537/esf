@@ -306,4 +306,28 @@ class HousePicture extends BaseModel
         $this->commit();
         return array('status'=>0, 'info'=>'审核成功');
     }
+    
+    /**
+     * 获取房源图片
+     * @param type $houseId
+     * @return type
+     */
+    public function getHousePicById($houseId)
+    {
+        $houseId = intval($houseId);
+        if(!$houseId)
+        {
+            return array();
+        }
+        
+        $where = "houseId={$houseId} and status=".self::STATUS_OK;
+        $condition  = array(
+            'conditions' => $where,
+            'columns' => 'imgId,imgExt'
+        );
+        
+        $res = self::find($condition, 0)->toArray();
+        
+        return $res;
+    }
 }

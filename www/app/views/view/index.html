@@ -1,0 +1,548 @@
+<style>
+    .cancel {
+        background-color: #C8C3C3
+    }
+</style>
+<div class="wrap content">
+    <!-- 面包屑 & 标题 begin -->
+    <div class="mapNav">
+        <a href="/">首页</a> <i>&gt;</i>
+        <a href="/buy/">我要买房</a> <i>&gt;</i>
+        <a href="/buy/{{ district['pinyin'] }}/">{{ district['name'] }}二手房</a> <i>&gt;</i>
+        <span>{{ region['name'] }}二手房</span>
+    </div>
+    <div class="hdt_title">
+        <h1>{{ house['title'] }}</h1>
+        <a name="favoriteSale" class="favorite{% if !isFav %} cancel{% endif %}" href="javascript:;"><em></em>{% if isFav %}收藏房源{% else %}取消收藏{% endif %}</a>
+    </div>
+    <!-- 面包屑 & 标题 end -->
+
+    <!-- 首屏 begin -->
+    <div class="hdt_top clearfix">
+        <div id="communitySlider" class="hdt_top_l thumWrap">
+            <div class="inner">
+                <div class="thumSlider">
+                    <span class="prev"><i></i></span>
+                    <span class="next"><i></i></span>
+                    <div class="loading" style="display:none;"></div>
+                    <div class="imgWrap">
+                        {% for key,picUrl in housePic %}
+                        <div class="con" style="display: {% if key==0 %}block{% else %}none{% endif %};"><span><img width="772" height="522" src="{{ picUrl }}" class="bigImg"></span></div>
+                        {% endfor %}
+                    </div>
+                    <div class="thum">
+                        <span class="thum_prev" style="display: none;"><i></i></span>
+                        <span class="thum_next" style="display: none;"><i></i></span>
+                        <div class="thumList clearfix">
+                            <ul class="thumList_inner">
+                                {% for key,picUrl in housePic %}
+                                <li class="thum_img{% if 0==key %} selected{% endif %}" data-src="{{ picUrl }}" data-type="img">
+                                    <span class="box"><s></s></span>
+                                    <img src="{{ picUrl }}" height="68" width="109" />
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="mod_r_price">
+                <strong>￥<span><b id="totalPrice">{{ house['price']/10000 }}</b>万</span></strong>
+                <i>|</i>
+                <em>{{ park['salePrice'] }}元/平米</em>
+            </div>
+            <div class="mod_r_more">
+                <div class="mod_r_tel">
+                    <i class="icons"></i>
+                    <p class="tel">
+                        <b>131 6273 9642</b><br/>转69876
+                    </p>
+                </div>
+                <p class="mod_blank"></p>
+
+                <ul class="mod_r_info">
+                    <li>
+                        <span class="sp_l">小区：{{ park['name'] }}</span>
+                        <span>建面：{{ house['bA'] }}平米</span>
+                    </li>
+                    <li>
+                        <span class="sp_l">户型：{{ house['bedRoom'] }}房{{ house['livingRoom'] }}厅{{ house['bathRoom'] }}卫</span>
+                        <span>楼层：{{ house['floorPosition'] }}</span>
+                    </li>
+                    <li>
+                        <span class="sp_l">朝向：{{ house['orientation'] }}</span>
+                        <span>装修：{{ house['decoration'] }}</span>
+                    </li>
+                    <li>
+                        <span class="sp_l">物业类型：{{ house['propertyType'] }}</span>
+                        <span>建筑类型：{{ house['buildType'] }}</span>
+                    </li>
+                </ul>
+                <p class="mod_blank"></p>
+                {% if houseTag is not empty %}
+                <div class="mod_r_tags">
+                    {% for tag in houseTag %}
+                    <em>{{ tag }}</em>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- 首屏 end -->
+
+    <!-- 房源信息 & 周边配套 begin -->
+    <div class="wrap mod_info_around clearfix">
+        <div class="fl">
+            <p class="mod_com_tit">
+                <i class="icons i_fyxx"></i>房源信息
+            </p>
+            <div class="mod_com_con mod_fyxx">
+                {% if houseTag is not empty %}
+                <div class="fyxx_tag">
+                    {% for tag in houseTag %}
+                    <span class="sp_tags">
+                        <i class="icons i_tag"></i>{{ tag }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="fyxx_text">
+                    {{ description }}
+                </div>
+            </div>
+
+            <p class="mod_com_tit">
+                <i class="icons i_zbpt"></i>周边配套
+            </p>
+            <div class="mod_com_con mod_zbpt">
+                <div class="map_container" id="mapContainer">
+
+                </div>
+                <div class="map_icons" id="mapIcons">
+                    <span class="sp_icons" data-type="1">
+                        <i class="i_map i_cs"></i><br/>超市
+                    </span>
+                    <span class="sp_icons sp_hover" data-type="2">
+                        <i class="i_map i_cy"></i><br/>餐饮
+                    </span>
+                    <span class="sp_icons" data-type="3">
+                        <i class="i_map i_yh"></i><br/>银行
+                    </span>
+                    <span class="sp_icons" data-type="4">
+                        <i class="i_map i_yy"></i><br/>医院
+                    </span>
+                    <span class="sp_icons" data-type="5">
+                        <i class="i_map i_xx"></i><br/>学校
+                    </span>
+                    <span class="sp_icons lst" data-type="6">
+                        <i class="i_map i_gy"></i><br/>公园
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="fr">
+            <p class="mod_com_tit">
+                <i class="icons i_gxq"></i>你可能感兴趣的房源
+            </p>
+            <ul class="fr mod_recommend">
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="">
+                        <img class="pc" src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="123" height="81" alt="东海御庭">
+                        <div class="pt">
+                            <p class="c_black">仁恒河滨花园</p>
+                            <p class="c_gray">138平米 3室2厅1卫</p>
+                            <p class="c_red">￥1200万</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 房源信息 & 周边配套 end -->
+
+    <!-- 参考月供 begin -->
+    <p class="mod_com_tit">
+        <i class="icons i_ckyg"></i>参考月供
+    </p>
+    <div class="clearfix hdt_c hdt_c_month" id="reference_month" data-type="anchor" data-name="reference_month">
+        <div class="clearfix hdt_c_bd">
+            <div class="left">
+                <i class="r_arrow"></i>
+                <p class="mb15">参考首付和参考贷款，您可以更换选项获得自己的专属贷款详情</p>
+                <div class="litems" style="z-index: 3;">
+                    <label>贷款类别:</label>
+                    <div id="loan_type" class="dropdown">
+                        <div class="dropdown_btn"><span data-value="1">商业贷款</span><i></i></div>
+                        <ul class="dropdown_menu" style="display: none;">
+                            <li data-value="1">商业贷款</li>
+                            <li data-value="2">公积金贷款</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="litems" style="z-index: 2;">
+                    <label>按揭成数:</label>
+                    <div id="loan_ltv" class="dropdown">
+                        <div class="dropdown_btn"><span data-value="7">7成</span><i></i></div>
+                        <ul class="dropdown_menu" style="display: none;">
+                            <li data-value="9">9成</li>
+                            <li data-value="8">8成</li>
+                            <li data-value="7">7成</li>
+                            <li data-value="6">6成</li>
+                            <li data-value="5">5成</li>
+                            <li data-value="4">4成</li>
+                            <li data-value="3">3成</li>
+                            <li data-value="2">2成</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="litems" style="z-index: 1;">
+                    <label>贷款时间:</label>
+                    <div id="loan_years" class="dropdown">
+                        <div class="dropdown_btn"><span data-value="20">20年（240期）</span><i></i></div>
+                        <ul class="dropdown_menu" style="display: none;">
+                            <li data-value="1">1年（12期）</li>
+                            <li data-value="2">2年（24期）</li>
+                            <li data-value="3">3年（36期）</li>
+                            <li data-value="4">4年（48期）</li>
+                            <li data-value="5">5年（60期）</li>
+                            <li data-value="6">6年（72期）</li>
+                            <li data-value="7">7年（84期）</li>
+                            <li data-value="8">8年（96期）</li>
+                            <li data-value="9">9年（108期）</li>
+                            <li data-value="10">10年（120期）</li>
+                            <li data-value="11">11年（132期）</li>
+                            <li data-value="12">12年（144期）</li>
+                            <li data-value="13">13年（156期）</li>
+                            <li data-value="14">14年（168期）</li>
+                            <li data-value="15">15年（180期）</li>
+                            <li data-value="16">16年（192期）</li>
+                            <li data-value="17">17年（204期）</li>
+                            <li data-value="18">18年（216期）</li>
+                            <li data-value="19">19年（228期）</li>
+                            <li data-value="20">20年（240期）</li>
+                            <li data-value="25">25年（300期）</li>
+                            <li data-value="30">30年（360期）</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="c_gray">税费由营业税、个人所得税、契税等构成。具体税费因房源不同有差异，详情请咨询经纪人。 </p>
+            </div>
+            <div class="right">
+                <div id="monthCharts" class="month_charts"></div>
+                <div class="month_legend">
+                    <p id="first_pay" class="legend_pay"><i></i>参考首付：<span>90</span>万（<span>5</span>成）</p>
+                    <p id="loan_amount" class="legend_loan"><i></i>贷款金额：<span>90</span>万（<span>5</span>成）</p>
+                    <p id="pay_interest" class="legend_interest"><i></i>支付利息：<span>17</span>万（<span>4.5</span>%）</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 参考月供 end -->
+
+    <!-- 交易税费 begin -->
+    <p class="mod_com_tit">
+        <i class="icons i_jysf"></i>交易税费
+    </p>
+    <div class="mod_com_con mod_jysf">
+        <span class="sp_jysf">
+            <b>契税</b><br/>{{ house['handPrice'] }}元/套
+        </span>
+        <span class="sp_jysf">
+            <b>营业税</b><br/>{{ house['saleTax'] }}元/套
+        </span>
+        <span class="sp_jysf lst">
+            <b>个人所得税</b><br/>{{ house['tax'] }}元/套
+        </span>
+    </div>
+    <!-- 交易税费 end -->
+
+    <!-- 推荐位 begin -->
+    <p class="mod_com_tit">
+        <i class="icons i_tjw"></i>板块内同价位房源
+    </p>
+    <ul class="mod_com_con clearfix mod_tjw">
+        <li>
+            <a href="" target="_blank">
+                <img src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="240" height="180" alt="" />
+                <p class="p1">仁恒河滨花园</p>
+                <p class="p2">
+                    138平米 3室2厅1卫
+                    <b>￥1200万</b>
+                </p>
+            </a>
+        </li>
+        <li>
+            <a href="" target="_blank">
+                <img src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="240" height="180" alt="" />
+                <p class="p1">仁恒河滨花园</p>
+                <p class="p2">
+                    138平米 3室2厅1卫
+                    <b>￥1200万</b>
+                </p>
+            </a>
+        </li>
+        <li>
+            <a href="" target="_blank">
+                <img src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="240" height="180" alt="" />
+                <p class="p1">仁恒河滨花园</p>
+                <p class="p2">
+                    138平米 3室2厅1卫
+                    <b>￥1200万</b>
+                </p>
+            </a>
+        </li>
+        <li class="lst">
+            <a href="" target="_blank">
+                <img src="http://img1.f.itc.cn/esf/16889/180x120_168895148.jpeg" width="240" height="180" alt="" />
+                <p class="p1">仁恒河滨花园</p>
+                <p class="p2">
+                    138平米 3室2厅1卫
+                    <b>￥1200万</b>
+                </p>
+            </a>
+        </li>
+    </ul>
+    <!-- 推荐位 end -->
+</div>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=1.4&amp;ak=&amp;services=&amp;t=20150522093217"></script>-->
+<script type="text/javascript">
+    var parkX = 121.5604260345;
+    //百度地图Y坐标
+    var parkY = 31.250451072258;
+    //小区名称
+    var parkName = "名门世家";
+    var currentAssortType = 0;
+    //第一次进入配套页面的显示类型
+    var firstAssortType = 2;
+    var mapData = [
+        {
+            "type": 1,
+            "list": {
+                "assort_id": "110000",
+                "assort_name": "\u987a\u5fc3\u4fbf\u5229(\u90fd\u5e02\u8def\u5e97)",
+                "x": "121.40516923128",
+                "y": "31.092740031834"
+            }
+        },
+        {
+            "type": 1,
+            "list": {
+                "assort_id": "110001",
+                "assort_name": "\u4f73\u5b9c\u4fbf\u5229",
+                "x": "121.404769126",
+                "y": "31.093065812413"
+            }
+        },
+        {
+            "type": 2,
+            "list": {
+                "assort_id": "110002",
+                "assort_name": "\u5343\u91cc\u9999\u9984\u9968\u9762\u9986",
+                "x": "121.56172025623",
+                "y": "31.251035863021"
+            }
+        },
+        {
+            "type": 2,
+            "list": {
+                "assort_id": "110003",
+                "assort_name": "\u5e7f\u5f0f\u7172\u4ed4\u996d",
+                "x": "121.40859725493",
+                "y": "31.083524164286"
+            }
+        },
+        {
+            "type": 2,
+            "list": {
+                "assort_id": "110004",
+                "assort_name": "\u6f6e\u6c55\u7ca5",
+                "x": "121.41072228645",
+                "y": "31.083327238154"
+            }
+        },
+        {
+            "type": 3,
+            "list": {
+                "assort_id": "110005",
+                "assort_name": "\u4e2d\u56fd\u5efa\u8bbe\u94f6\u884c(\u6d0b\u6cfe\u652f\u884c)",
+                "x": "121.56048400819",
+                "y": "31.251944408128"
+            }
+        },
+        {
+            "type": 3,
+            "list": {
+                "assort_id": "110006",
+                "assort_name": "\u4e2d\u56fd\u94f6\u884c(\u5f20\u6768\u8def\u652f\u884c)",
+                "x": "121.56523811044",
+                "y": "31.248298829099"
+            }
+        },
+        {
+            "type": 4,
+            "list": {
+                "assort_id": "110007",
+                "assort_name": "\u6148\u5584\u533b\u9662",
+                "x": "121.56201651739",
+                "y": "31.249778610962"
+            }
+        },
+        {
+            "type": 5,
+            "list": {
+                "assort_id": "110009",
+                "assort_name": "\u535a\u5c71\u5e7c\u513f\u56ed",
+                "x": "121.56306492975",
+                "y": "31.251972269421"
+            }
+        },
+        {
+            "type": 6,
+            "list": {
+                "assort_id": "110010",
+                "assort_name": "\u6cfe\u4e1c\u516c\u56ed",
+                "x": "121.56786491234",
+                "y": "31.251972269421"
+            }
+        }
+    ];
+
+    console.log('mapData:', mapData);
+
+    $('a[name="favoriteSale"]').bind("click", function () {
+        var cancelFlag = $('a[name="favoriteSale"]').hasClass("cancel") ? 'del' : '';
+        var houseId = {{ house['id'] }};
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/ajax/togglefav",
+            cache: false,
+            dataType: 'JSON',
+            data: {"houseId": houseId, "action": cancelFlag},
+            error: function (XMLResponse) {
+                alert(XMLResponse.responseText);
+            },
+            success: function (html) {
+                if(0 != html.status) {
+                    alert(html.info);
+                    return false;
+                } else {
+                    if (cancelFlag == '') {
+                        $('a[name="favoriteSale"]').addClass("cancel");
+                        $('a[name="favoriteSale"]').html("<em></em>取消收藏");
+                        $('#popBoxQ').show();
+                    }
+                    else {
+                        $('a[name="favoriteSale"]').removeClass("cancel");
+                        $('a[name="favoriteSale"]').html("<em></em>收藏房源");
+                        // $('#popBoxU').show();
+                    }
+                }
+                /*
+                switch (html) {
+                    case '1':
+                        if (cancelFlag == '') {
+                            $('a[name="favoriteSale"]').addClass("cancel");
+                            $('a[name="favoriteSale"]').html("<em></em>取消收藏");
+                            $('#popBoxQ').show();
+                        }
+                        else {
+                            $('a[name="favoriteSale"]').removeClass("cancel");
+                            $('a[name="favoriteSale"]').html("<em></em>收藏房源");
+                            // $('#popBoxU').show();
+                        }
+                        break;
+                    case '0':
+                        if (cancelFlag == '') {
+                            // $('#popBoxR').show();
+                        }
+                        else {
+                            //     $('#favoriteSale').removeClass("cancel");
+                            //    $('#favoriteSale').html("<em></em>收藏房源");
+                        }
+                        break;
+                    case '2':
+                        if (cancelFlag == '') {
+                            $('a[name="favoriteSale"]').addClass("cancel");
+                            $('a[name="favoriteSale"]').html("<em></em>取消收藏");
+                            $('#popBoxQ').show();
+                        }
+                        break;
+                    case '4':
+                        $('#popBoxU').show();
+                        break;
+                    default:
+                        break;
+                }*/
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript" src="{{ src_url }}js/highcharts.js"></script>
+<script type="text/javascript" src="{{ src_url }}js/property_view.js"></script>

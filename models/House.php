@@ -512,16 +512,28 @@ class House extends BaseModel
             'data' => $esData
         );
         $esRes = $this->editEs($arrEsData, 'house');
-        
+        $this->begin();
         if(!$esRes)
         {
             return array('status' => 1, 'info' => '编辑房源失败~');
         }
         if(!$house->update($updateData['data']))
         {
+            $this->rollback();
             return array('status' => 1, 'info' => '编辑房源失败');
         }
         
+        //房源描述
+        $descData = array(
+            'description' => $editData['houseDesc']
+        );
+        $descRes = HouseMore::instance()->modifyHouseDesc($id, $descData);
+        if(!$descRes)
+        {
+            $this->rollback();
+            return array('status' => 1, 'info' => '编辑房源失败');
+        }
+        $this->commit();
         return array('status' => 0, 'info' => '编辑房源成功');
     }
     
@@ -549,6 +561,8 @@ class House extends BaseModel
         isset($data['isMortgage']) && $insertData['isMortgage'] = $data['isMortgage']; //抵押
         isset($data['giveDetail']) && $insertData['give'] = $data['giveDetail']; //赠送细节
         isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注 
+        $insertData['houseDesc'] = $data['houseDesc'];
+        
         if($data['isPublish'])
         {
             $insertData['status'] = self::STATUS_ONLINE;

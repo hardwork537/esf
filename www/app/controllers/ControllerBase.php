@@ -54,7 +54,7 @@ class ControllerBase extends ControllerCore
      * @param type $print
      * @return type
      */
-    public function show($file = null, $data = null, $layout = null)
+    public function show($file = null, $data = null, $layout = null, $controller = '')
     {
         if(!is_null($file))
         {
@@ -85,7 +85,8 @@ class ControllerBase extends ControllerCore
                 die();
             }
             // 自定义视图body文件
-            $this->view->pick($this->dispatcher->getControllerName() . "/" . $file);
+            $controllerName = $controller ? $controller : $this->dispatcher->getControllerName();
+            $this->view->pick($controllerName . "/" . $file);
         }
         $this->default_assign();
         if(!is_null($data) && is_array($data))

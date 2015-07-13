@@ -6,6 +6,12 @@ $router->add('/', array(
     'action'        => 'index' 
 ));
 
+$router->add('/view/([0-9]+).html?', array(
+    'controller' =>	'view',
+    'action'     =>	'index',
+    'houseid' => 1
+));
+
 $router->add('/my[/]?', array(
     'controller' =>	'my',
     'action'     =>	'favorite'
