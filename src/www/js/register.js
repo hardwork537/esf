@@ -71,7 +71,9 @@ $(function(){
                 repassword: $("#j-repwd").val()
             },
 			success: function (data) {
-				if(data.status != 0) {
+                if(data.status == 99) {
+                    location.href = '/my/account';
+                } else if(data.status != 0) {
                     alert(data.info ? data.info : '注册失败，请稍后重试');
                     return false;
                 } else {

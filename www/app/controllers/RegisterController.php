@@ -21,7 +21,21 @@ class RegisterController extends ControllerBase
             }
             
             $regRes = WwwUser::instance()->add($checkRes['params']);
-            $this->show('JSON', $regRes);
+            
+            if(0 != $regRes['status'])
+            {
+                $this->show('JSON', $regRes);
+            }
+            $user = $regRes['userInfo'];
+            $userData = array(
+                'name' => $user['name'],
+                'sex' => $user['sex'],
+                'phone' => $user['phone'],
+                'id' => $user['id']
+            );
+            Cookie::set(LOGIN_KEY, $userData, LOGIN_LIFETIME);
+            
+            $this->show('JSON', array('status'=>99));
         } else {
             $this->show('JSON', array('status'=>1, 'info'=>'非法请求'));
         }

@@ -1,0 +1,8 @@
+request body = <TemplateSMS>
+                    <to>13621987024</to> 
+                    <appId>aaf98f894e7826aa014e7bfe8fa5028e</appId>
+                    <templateId>1</templateId>
+                    <datas><data>房易买验证码: 1,6,2,1,</data><data>5</data></datas>
+                  </TemplateSMS>
+request url = https://sandboxapp.cloopen.com:8883/2013-12-26/Accounts/8a48b5514e5298b9014e6174dd160b9a/SMS/TemplateSMS?sig=63EED45813F685C956AC0A5AF7C6A8C5
+response body = <?xml version="1.0" encoding="UTF-8" standalone="yes"?><Response><statusCode>000000</statusCode><TemplateSMS><dateCreated>20150715213913</dateCreated><smsMessageSid>201507152139135989223</smsMessageSid></TemplateSMS></Response>

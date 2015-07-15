@@ -24,7 +24,7 @@ class AjaxController extends ControllerBase
 
         $codeNum = join(",", str_split($number)) . ",";
         $message = "房易买验证码: {$codeNum}";
-        //$sendRes = OTAApi::sendMessge($mobile, $message, OTAApi::MESSAGE_VOICE);
+        //$sendRes = Sms::sendmessage($phone, $message);
         
         $status = $sendRes['success'] ? 0 : 1;
         $status = 0;

@@ -2,29 +2,37 @@
 
 class Sms
 {
-    const BASE_URL = SMS_BASE_URL;
-    
-    public static function sendmessage($phone)
+
+    private static $_timeout = 5; //5分钟
+    private static $_templateId = SMS_TEMPLATE_ID;
+
+    public static function sendmessage($phone, $message)
     {
-        $timeNow = date('YmdHis');
-        $sig = strtoupper(md5(SMS_ACCOUNT_SID .SMS_AUTH_TOKEN . $timeNow));
-        $url = self::BASE_URL.'/'.SMS_VERSION . '/Accounts/'.SMS_ACCOUNT_SID.'/SMS/TemplateSMS?sig='.$sig;
+        include_once dirname(__FILE__) . '/sms/Demo/SendTemplateSMS.php';
         
-        $data = array(
-            'to' => $phone,
-            'appId' => SMS_APPID,
-            'templateId' => SMS_TEMPLATEID,
-            'datas' => 'tonytest'
-        );
-        $authorization = base64_encode(SMS_ACCOUNT_SID . ':' . $timeNow);
-        $header = array(
-            'Authorization' => $authorization,
-            'Accept' => 'application/json',
-            'Content-Type' => 'Content-Type',
-            'Content-Length' => 123
-        );
-        //var_dump($data,$sig,$authorization);
-        $res = Curl::GetResult($url, 'post', $data, $header);
-        var_dump($res);
+        if(!preg_match('/^1[0-9]{10}$/', $phone))
+        {
+            return array('success'=>false, 'errmsg'=>'手机格式错误');
+        }
+        $message = trim($message);
+        if(!$message)
+        {
+            return array('success'=>false, 'errmsg'=>'内容不能为空');
+        }
+        
+        try
+        {
+            $datas = array(
+                $message,
+                self::$_timeout
+            );
+            $res = sendSms::sendTemplateSMS($phone, $datas, self::$_templateId);
+
+            return $res ? array('success'=>true) : array('success'=>false, 'errmsg'=>'发送失败');
+        } catch(Exception $exc)
+        {
+            return array('success'=>false, 'errmsg'=>'系统异常');
+        }
     }
+
 }

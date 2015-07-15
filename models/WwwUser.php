@@ -89,7 +89,7 @@ class WwwUser extends CrmBaseModel
             }
         }
         
-        return array('status'=>0, 'info'=>'注册成功');
+        return array('status'=>0, 'info'=>'注册成功', 'userInfo'=>$user->toArray());
     }
     
     private function _checkParams($data, $id = 0)
