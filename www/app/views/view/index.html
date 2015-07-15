@@ -13,7 +13,7 @@
     </div>
     <div class="hdt_title">
         <h1>{{ house['title'] }}</h1>
-        <a name="favoriteSale" class="favorite{% if !isFav %} cancel{% endif %}" href="javascript:;"><em></em>{% if isFav %}收藏房源{% else %}取消收藏{% endif %}</a>
+        <a name="favoriteSale" class="favorite{% if isFav %} cancel{% endif %}" href="javascript:;"><em></em>{% if !isFav %}收藏房源{% else %}取消收藏{% endif %}</a>
     </div>
     <!-- 面包屑 & 标题 end -->
 

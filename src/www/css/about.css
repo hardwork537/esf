@@ -1,0 +1,30 @@
+.main {
+    margin: 0 auto;
+    width: 1000px;
+    padding: 40px 0;
+}
+.main h1 {
+    font: bold 30px/45px "Microsoft Yahei";
+}
+
+.main .conlist {
+    font:14px/25px "Microsoft Yahei";
+    line-height: 25px;
+    text-indent: 2rem;
+    padding: 5px 0;
+}
+
+.main .conp {
+    font:14px/25px "Microsoft Yahei";
+    line-height: 20px;
+    text-indent: 3rem;
+    padding: 2px 0;
+}
+
+.main .introducelist {
+    padding: 20px 0;
+}
+
+.main .contitle {
+    font:bold 20px/45px "Microsoft Yahei";
+}
