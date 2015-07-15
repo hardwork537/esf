@@ -25,6 +25,10 @@ class BuyController extends houseBuy
         } else {
             $esData = $this->_getFilterData($data['params']);
         }
+        //热门搜索
+        global $HOT_SEARCH;
+        $data['hot'] = $HOT_SEARCH[$this->cityId];
+        
         $data['totalNum'] = $totalNum = $esData['total'];
         $data['currNum'] = $currNum = count($esData['data']);
         $data['page'] = Page::create($data['totalNum'], $this->_pagesize);
@@ -68,7 +72,7 @@ class BuyController extends houseBuy
         
         //去房源图片
         //$where = "houseId in(".implode( , $data).")"
-        
+               
         $this->show(null, $data);
     }
     

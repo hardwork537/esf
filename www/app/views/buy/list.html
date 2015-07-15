@@ -3,16 +3,15 @@
     <div class="wrap">
         <!-- search begin -->
         <div class="search">
+            {% if hot is not empty %}
+            <?php $hotMaxIndex = count($hot) - 1; ?>
             <div class="search-hot">
                 热门搜索：
-                <a target="_blank" href="#">上海热门二手房</a>、
-                <a target="_blank" href="#">长宁</a>、
-                <a target="_blank" href="#">徐汇</a>、
-                <a target="_blank" href="#">浦东</a>、
-                <a target="_blank" href="#">普陀</a>、
-                <a target="_blank" href="#">精装修</a>、
-                <a target="_blank" href="#">地铁房</a>
+                {% for key,value in hot %}
+                <a href="{{ value['url'] }}">{{ value['name'] }}</a>{% if key<hotMaxIndex %}、{% endif %}
+                {% endfor %}
             </div>
+            {% endif %}
             <div class="search-box clearfix">
                 <form method="get" action="">
                     <span class="input-box">
