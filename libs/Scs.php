@@ -111,7 +111,7 @@ class Scs
         $objImage = new Image();
         $imgInfo = $objImage->getImageByMd5($md5file);
         if(!empty($imgInfo) && intval($imgInfo['imgId']) > 0 && (!empty($imgInfo['imgExt'])))
-        {
+        {   
             $imageArrPath = $this->mProduct . "/" . ImageUtility::hashFile($imgInfo['imgId']) . $imgInfo['imgId'] . "." . $imgInfo['imgExt'];
             $img_info['id'] = $imgInfo['imgId'];
             $img_info['ext'] = $imgInfo['imgExt'];
@@ -142,12 +142,10 @@ class Scs
             return array('error' => "图片ID为空");
         }
 
-        //上传图片
+        //先保存到本地    
         $imageArrFold = $this->fileRoot . $this->mProduct . "/" . ImageUtility::hashFile($image_id);
         if(!is_dir($imageArrFold))
         {
-            //$imageArrFold = 'E:/esfpic/image/1/';
-            //var_dump($imageArrFold);exit;
             $mkRes = PublicFunction::createFold($imageArrFold);
             
             if(!$mkRes)
@@ -162,7 +160,30 @@ class Scs
             $objImage->rollback();
             return array('error' => "图片上传失败", 'filepath'=>$imageArrPath);
         }
-
+        
+        $ch = curl_init();
+        $data = array(
+            'img'=>'@'.$imageArrPath,
+            'filepath' => $this->mProduct . "/" . ImageUtility::hashFile($image_id),
+            'filename' => $image_id . "." . $image_ext
+        );
+        global $_IMG_UPLOAD_URL;
+        curl_setopt($ch, CURLOPT_URL, $_IMG_UPLOAD_URL . "upload.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        
+        //删除本地图片
+        unlink($imageArrPath);
+        $result = json_decode($result, true);
+        if(!$result['success'])
+        {
+            $objImage->rollback();
+            return array('error' => $result['errmsg']);
+        }
+    
         $objImage->commit();
 
         $imageArrPath = $this->mProduct . "/" . ImageUtility::hashFile($image_id) . $image_id . "." . $image_ext;
@@ -548,7 +569,7 @@ class Scs
         }
         if($this->file_size > $size)
         {
-            $this->error_msg = "请不要上传大于4M的文件！";
+            $this->error_msg = "请不要上传大于2M的文件！";
             return false;
         }
         return true;
