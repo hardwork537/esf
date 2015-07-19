@@ -1,0 +1,288 @@
+<script src="{{ src_url }}js/user_center.js"></script>
+<script src="{{ src_url }}js/fabu.js"></script>
+<script src="{{ src_url }}js/checkForm.js"></script>
+<script src="{{ src_url }}js/swfupload.js"></script>
+<script src="{{ src_url }}js/swfupload.queue.js"></script>
+<script src="{{ src_url }}js/uploadimagePerson.js"></script>
+
+<div class=" wrap clearfix container">
+    <iframe id="e_f_l" name="e_f_l" style="display:none;"></iframe>
+    <form action="/index/sale/addSave/" method="post" id="personUnit" target="e_f_l" autocomplete="off" onkeypress="javascript:if (event.keyCode == 13) {
+                    return false;
+                }">
+        <input type="hidden" name="action" value="addSave" />
+        <input type="hidden" name="personId" value="252808" />
+
+        <div class="inputBox_wrap">
+            <p class="p_title">在线委托</p>
+            <div class="inputBox" style="position: relative; z-index: 4;">
+                <b>小区名称</b>
+                <!--<span class="item-drop">
+                    <em>北京</em>
+                    <input type="hidden" id="cityId" name="cityId" class="tn" value="1" datatype="n~1~100" emsg="请选择城市" nmsg="请选择城市" />
+                    <div class="item-drop-list" style="display: none;">
+                        <span>
+                            <a src="1" href="javascript:void(0)">北京</a>
+                        </span>
+                        <span>
+                            <a src="2" href="javascript:void(0)">上海</a>
+                        </span>
+                    </div>
+                </span>-->
+                <span class="txt">
+                    <input type="text" name="parkName" class="wid310" maxlength="50" value="" emsg="请选择下方小区" nmsg="请输入小区名称" id="person_house_name" />
+                    <input type="hidden" name="parkId" class="tn" value="0" datatype="n~1~10000000" id='person_house_id' emsg="请选择下方小区" nmsg="请填写正确小区名称" />
+                </span>
+                <span class="flag">
+                    <span>
+                    </span>
+                </span>
+                <p id="personParkAddress" style="display: none;"></p>
+                <ul id="parkAutocomplete" class="autocomplete" style="display: none;"></ul>
+            </div>
+            <!-- /inputBox -->
+
+            <div class="inputBox">
+                <b>面积</b>
+                <span class="txt">
+                    <input type="text" class="wid260 tn" name="bA" value="" datatype="f~2~2000" emsg="请输入数字，2-2000之间" nmsg="请输入面积" maxlength="10" />
+                </span> 平米
+                <span class="flag">
+                    <span>
+                    </span>
+                </span>
+            </div>
+
+            <div class="inputBox">
+                <b>户型</b>
+                <span class="txt">
+                    <input type="text" class="wid60 tn" maxlength="1" name="bedRoom" value="" datatype="b~n~0~9" emsg="请填写正确的卧室数" nmsg="请输入卧室数" />
+                </span> 室
+                <span class="txt" style="margin-left: 5px;">
+                    <input type="text" class="wid60 tn" maxlength="1" name="livingRoom" value="" datatype="b~n~0~9" emsg="请填写正确的客厅数" nmsg="请填写客厅数" />
+                </span> 厅
+                <span class="txt" style="margin-left: 5px;">
+                    <input type="text" class="wid60 tn" maxlength="1" name="bathRoom" value="" datatype="b~n~0~9" emsg="请填写正确的卫数" nmsg="请填写卫数" />
+                </span> 卫
+                <span class="flag">
+                    <span>
+                    </span>
+                </span>
+            </div>
+
+            <div class="inputBox">
+                <b>挂牌价</b>
+                <span class="txt">
+                    <input type="text" class="wid60 tn" name="price" value="" datatype="f~2~1000000" emsg="请输入数字，2-1000000之间" nmsg="请输入挂牌价" maxlength="10" />
+                </span> 万元
+                <span class="flag">
+                    <span>
+                    </span>
+                </span>
+            </div>
+
+            <div class="inputBox">
+                <b>手机号</b>
+                <span class="txt">
+                    <input type="text" class="wid190 tn" name="contact_phone" value="" datatype="z~0~20" preg="/^1[3458]\d{9}$/" nmsg="请填写手机号码" emsg="手机号码格式不正确，请重新输入" maxlength="11" />
+                </span>
+                <span class="flag">
+                    <span></span>
+                </span>
+            </div>
+
+            <div class="inputBox">
+                <b>联系人</b>
+                <span class="txt">
+                    <input type="text" class="wid80 tn" name="contact_name" value="" datatype="a~1~4" preg="/^[\u4e00-\u9fa5]{1,4}$/" cmsg="请输入1-4个文字" nmsg="请输入联系人" tmsg="联系人不能含有特殊字符" maxlength="4" />
+                </span>
+                <span class="flag">
+                    <span></span>
+                </span>
+            </div>
+
+            <!--<div class="inputBox">
+                <b>验证码</b>
+                <span class="txt">
+                    <input type="text" class="wid80 tn" name="phoneCode" datatype="n~100000~999999" nmsg="请填写手机验证码" emsg="请填写手机验证码" maxlength="6" disabled="disabled" />
+                </span>
+                <input type="hidden" name="phone_type" value="1" />&nbsp;&nbsp;
+                <span id="codeMsg">
+                    <a id="getCodeMsg" href="javascript:getCode();" style="color: #0073C6;">获取手机验证码</a>
+                </span>&nbsp;&nbsp;
+                <span class="flag">
+                    <span>
+                    </span>
+                </span>
+            </div>-->
+
+            <div class="inputBox">
+                <b>房源图片</b>
+                <span class="swfwrap">
+                    <!--<span id="upload_huxing" src="bg_upload.png" width="320" height="50">
+                    </span>-->
+                    <span id="upload_shinei" src="bg_upload.png" width="320" height="50">
+                    </span>
+                </span>
+                <span class="cure" style="margin-left: 7px">
+                    <span class="cureCen" id="upload_notice">
+                        最多可上传8张房源图片
+                    </span>
+                </span>
+            </div>
+
+            <!-- /inputBox -->
+            <div class="inputPic clearfix">
+                <ul class="clear" id="shinei">
+                    <!--<li style="display:none;" id="huxing"></li>-->
+                </ul>
+            </div>
+        </div>
+        <!-- /inputBox -->
+
+        <input type="hidden" name="strUnitType" id="strUnitType" value="sale" />
+        <input type="hidden" name="unit_type" value="2" id="unit_type"/>
+        <div class="faBu">
+            <span class="btn">
+                <input id="checkFormSubmit" type="button" value="立即发布" />
+            </span>
+        </div>
+        <input type="hidden" name="realtorNo" value="24d06e680e8083a2b873ce6582441382" id="realtorNo" />
+        <input type="hidden" name="loginName" value="person_ce88shi@126.com" id="loginName" />
+        <input type="hidden" name="loginId" value="252808" id="loginId" />
+    </form>
+</div>
+
+<script type="text/javascript">
+    var cityId = $("#cityId").val();
+    $(document).ready(function () {
+        $("#cityId").change(function () {
+            cityId = $(this).val();
+        });
+        $('#screen').hide();
+        $('#popBox').hide();
+        //SWFImage("person_ce88shi@126.com", "bj", 1, "upload_huxing", "huxing", "1", "0"); //户型
+        SWFImage("person_ce88shi@126.com", "bj", 8, "upload_shinei", "shinei", "2", "0"); //室内
+
+        var objName = $("input[name='parkName']");
+        $(objName).focus(function () {
+            setNotice($(this));
+        });
+        $(objName).blur(function () {
+            var flag1 = false;
+            var flag2 = true;
+            var houseNameVal = $(this).val();
+            var houseIdVal = parseInt($("#person_house_id").val());
+            $('#person_suggest li').each(function () {
+                flag2 = false;
+                var thisVal = trim($(this).children('a').html());
+                var thisId = parseInt($(this).attr('id'));
+                if (thisVal == houseNameVal && thisId == houseIdVal) {
+                    flag1 = true;
+                    return false;
+                }
+            });
+            if (flag1 || (flag2 && houseIdVal > 0)) {
+                setRight($(this));
+            } else {
+                $("#person_house_id").val('0');
+                setError($(this));
+            }
+        });
+
+
+        function checHiddenArea() {
+            var objHouseName = trim($('#person_house_name').val());
+            if (objHouseName == '' || objHouseName == 0)
+                $('#person_house_id').val('');
+
+            /*setShowArea($('input[name="propertyType"]'), '物业类型');
+             setShowArea($('input[name="decoration"]'), '装修情况');
+             setShowArea($('input[name="orientation"]'), '房屋朝向');
+             setShowArea($('input[name="propertyNature"]'), '房屋产权');*/
+        }
+        /*function setShowArea(obj, val) {
+         var valPropertyType = trim(obj.val());
+         if (valPropertyType == '' || valPropertyType == 0) obj.siblings('em').html(val);
+         }*/
+        checHiddenArea();
+
+    });
+    function call_back_function() {
+        var theStyle = 'width="216" height="149"  ';
+        var divBox = arguments[0]/* ? arguments[0] : ""*/;
+        var serverData = arguments[1] ? arguments[1] : "";
+        eval("var serverData = " + serverData + ";");
+        var tmp = document.getElementsByName(divBox + '[]');
+        var val = serverData["id"] + '.' + serverData['ext'];
+        /*if (divBox == 'shinei') {
+         for (var i in tmp) {
+         if (tmp[i].value == val) return false;
+         }
+             
+         $("#" + divBox).append('<li><img src="' + serverData['upload_url'] + '" ' + theStyle + '/><p><a class="delate" onclick="removeImage(1,this)">删除</a></p><input type="hidden" name="shinei[]" value="' + val + '" /></li>');
+         setDefaultImage();
+         } else {
+         $("#" + divBox).html('<img src="' + serverData['upload_url'] + '" ' + theStyle + '/><p>&nbsp;&nbsp;&nbsp;户型图 <a class="delate" onclick="removeImage(2,this)">删除</a></p><input type="hidden" name="huxing[]" value="' + val + '" />');
+         $("#" + divBox).css('display', 'block');
+         }*/
+        for (var i in tmp) {
+            if (tmp[i].value == val)
+                return false;
+        }
+        $("#" + divBox).append('<li><img src="' + serverData['upload_url'] + '" ' + theStyle + '/><p><a class="delate" onclick="removeImage(1,this)">删除</a></p><input type="hidden" name="shinei[]" value="' + val + '" /></li>');
+        setDefaultImage();
+    }
+    function removeImage(intType, obj) {
+        var intType = parseInt(intType);
+        if (intType == 1) {
+            $(obj).parent().parent().remove();
+        } else {
+            var tmp = $(obj).parent().parent();
+            tmp.css("display", "none");
+            tmp.html('');
+        }
+        setDefaultImage();
+    }
+    function setDefaultImage() {
+        var tmp = $('input[name="cover_image"]');
+        var tmp1 = true;
+        tmp.each(function () {
+            if ($(this).attr('checked'))
+                tmp1 = false;
+        });
+        tmp.each(function () {
+            if (tmp1)
+                $(this).attr('checked', 'checked');
+            return false;
+        });
+    }
+
+    $("input[name='floor']").blur(function () {
+        var floorVal = $(this).val();
+        if (isNaN(floorVal))
+            return false;
+        var floorVal = parseInt(floorVal);
+        var dataType = $("input[name='floor']").attr('datatype').split('~');
+        dataType[2] = floorVal;
+        var strDataType = '';
+        for (var i in dataType) {
+            strDataType += dataType[i] + '~';
+        }
+        $("input[name='floorMax']").attr('datatype', strDataType).attr('emsg', '请输入' + floorVal + '-200之间的整数');
+    });
+
+    function lazyDo() {
+        var obj = $('#checkFormSubmit');
+        obj.attr('disabled', 'disabled');
+        obj.val('正在发布');
+        setTimeout(recoverFromSubmit(), 3000);
+    }
+
+    function recoverFromSubmit()
+    {
+        var obj = $('#checkFormSubmit');
+        obj.removeAttr('disabled');
+        obj.val('立即发布');
+    }
+</script>

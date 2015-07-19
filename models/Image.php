@@ -8,6 +8,7 @@ class Image extends BaseModel
     //图片来源
     const FROM_CRM_HOUSE = 1; //crm后台编辑图片
     const FROM_UEDITOR = 2; //百度编辑框
+    const FROM_WWW_WEITUO = 3; //委托
     //图片状态
     const STATUS_OK = 1; //有效
     const STATUS_DEL = -1; //删除

@@ -203,7 +203,7 @@ foreach($house as $v)
     $value['status'] = (int) $v['status'];
     $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
     $value['houseUpdate'] = strtotime($v['updateTime']);
-    $value['houseUnit'] = (float) ('0.00');
+    $value['houseUnit'] = (float)number_format($v['price']/$v['bA'], 2, '.', '');
     $value['subwayLine'] = '';
     $value['subwaySite'] = '';
     $value['subwaySiteLine'] = '';

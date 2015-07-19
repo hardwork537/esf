@@ -42,13 +42,15 @@ class House extends BaseModel
     const OFFLINE_WAITING = 2; //暂缓出售
     const OFFLINE_INVALID = 3; //无效号码
     const OFFLINE_AGENT = 4; //中介
+    //类型
+    const TYPE_WEITUO = 2; //委托
     
     public $id;
     public $parkId;
-    public $regId;
-    public $distId;
+    public $regId = 0;
+    public $distId = 0;
     public $cityId;
-    public $userId;
+    public $userId = 0;
     public $type = 0;
     public $level = '';
     public $price = 0.00;
@@ -56,37 +58,37 @@ class House extends BaseModel
     public $buyPrice = 0.00;
     public $saleTax = 0.00;
     public $tax = 0.00;
-    public $isFiveYear;
-    public $isOnlyOne;
+    public $isFiveYear = self::NO_FIVEYEAR;
+    public $isOnlyOne = self::IS_ONLYONE;
     public $propertyOwner = '';
     public $propertyPhone = '';
     public $agent = '';
     public $agentPhone = '';
-    public $isRent;
-    public $rentPrice;
+    public $isRent = self::NO_RENT;
+    public $rentPrice = 0;
     public $rentEndTime = '0000-00-00';
-    public $hasPark;
-    public $isMortgage;
-    public $isForeign;
-    public $hasHukou;
-    public $give;
+    public $hasPark = self::NO_PARK;
+    public $isMortgage = self::NO_MORTGAGE;
+    public $isForeign = self::NO_FOREIGN;
+    public $hasHukou = self::NO_HUKOU;
+    public $give = 0;
     public $remark = '';
     public $bedRoom;
     public $livingRoom;
     public $bathRoom;
     public $bA = 0;
     public $uA = 0;
-    public $decoration;
-    public $orientation;
+    public $decoration = 0;
+    public $orientation = 0;
     public $liftCount = 0;
-    public $unitNo;
-    public $roomNo;
+    public $unitNo = 0;
+    public $roomNo = 0;
     public $floor = 0;
     public $floorMax = 0;
     public $picNum = 0;
-    public $buildType;
-    public $floorPosition;
-    public $propertyType;
+    public $buildType = 0;
+    public $floorPosition = 0;
+    public $propertyType = 0;
     public $verification = 0;
     public $status = self::STATUS_ONLINE;
     public $delTime = '0000-00-00 00:00:00';
@@ -390,7 +392,7 @@ class House extends BaseModel
         $value['status'] = (int) $v['status'];
         $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
         $value['houseUpdate'] = 0;
-        $value['houseUnit'] = (float) ('0.00');
+        $value['houseUnit'] = (float) (number_format($v['price']/$v['bA'], 2, '.', ''));
         $value['subwayLine'] = '';
         $value['subwaySite'] = '';
         $value['subwaySiteLine'] = '';
@@ -505,6 +507,7 @@ class House extends BaseModel
         isset($editData['price']) && $esData['housePrice'] = (float)$editData['price']; //价格
         isset($editData['status']) && $esData['status'] = $editData['status']; //状态
         isset($editData['remark']) && $esData['houseRemark'] = $editData['remark']; //状态
+        isset($editData['price']) && $esData['houseUnit'] = (float)number_format($editData['price']/$house->bA, 2, '.', '');
         $esData['houseUpdate'] = time();
         
         $arrEsData = array(
@@ -579,5 +582,115 @@ class House extends BaseModel
         $houseNum = self::count($where);
         
         return $houseNum > 0 ? true : false;
+    }
+    
+    /**
+     * 新增委托房源
+     * @param type $data
+     * @return type
+     */
+    public function addWeituoHouse($data)
+    {
+        $insertData = $this->_getInsertData($data);
+        if(empty($data) || empty($insertData))
+        {
+            return array('status' => 1, 'info' => '数据为空');
+        }
+        if(0 != $insertData['status'])
+        {
+            return $insertData;
+        }
+        
+        $this->begin();
+        $houseObj = self::instance();
+        $insertData['data']['createTime'] = date('Y-m-d H:i:s'); //创建时间
+        
+        if(!$houseObj->save($insertData['data']))
+        {
+            $this->rollback();
+            return array('status' => 1, 'info' => '房源添加失败');
+        }
+        
+        if(!empty($data['images']))
+        {
+            $delSql = "DELETE FROM house_picture WHERE houseId={$houseObj->id}";
+            $delRes = HousePicture::instance()->execute($delSql);
+            if(!$delRes)
+            {
+                $this->rollback();
+                return array('status' => 1, 'info' => '房源添加失败');  
+            }
+            
+            $addData = '';
+            $timeNow = date('Y-m-d H:i:s');
+
+            foreach($data['images'] as $v)
+            {
+                $id = $v['id'];
+                $ext = $v['ext'];
+                $status = HousePicture::STATUS_TOPASS;
+                $addData .= "({$houseObj->id},{$id},'{$ext}',{$houseObj->parkId},{$status},'{$timeNow}'),";
+            }
+            $addData = rtrim($addData, ',');
+            $addSql = "INSERT INTO house_picture(houseId,imgId,imgExt,parkId,picStatus,picUpdate) VALUES".$addData;
+            
+            $addRes = HousePicture::instance()->execute($addSql);
+            if(!$addRes)
+            {
+                $this->rollback();
+                return array('status' => 1, 'info' => '房源添加失败');  
+            }
+        }
+        $v = $insertData['data'];
+        $value = array();
+        $value['id'] = (int) $houseObj->id;
+        $value['houseId'] = (int) $houseObj->id;
+        $value['parkId'] = (int) $v['parkId'];
+        $value['housePrice'] = (float) $v['price'];
+        $value['houseBA'] = (float) $v['bA'];
+        $value['houseBedRoom'] = (int) $v['bedRoom'];
+        $value['houseLivingRoom'] = (int) $v['livingRoom'];
+        $value['houseBathRoom'] = (int) $v['bathRoom'];
+        $value['status'] = (int) $v['status'];
+        $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
+        $value['houseUpdate'] = 0;
+        $value['houseUnit'] = (float) (number_format($v['price']/$v['bA'], 2, '.', ''));        
+        $value['housePicId'] = 0;
+        $value['housePicExt'] = '';
+        $value['cityId'] = (int) $v['cityId'];
+        
+        $parkInfo = Park::findFirst($v['parkId'], 0)->toArray();
+        $value['parkName'] = $parkInfo['name'];
+        $value['houseAddress'] = $parkInfo['address'];
+        
+        $esRes = $this->addEs($value, 'house');
+        if(!$esRes)
+        {
+            $this->rollback();
+            return array('status' => 1, 'info' => '房源添加失败~');
+        }
+        
+        $this->commit();
+        return array('status' => 0, 'info' => '添加房源成功');
+    }
+    
+    private function _getInsertWeituoData($data, $houseId = 0)
+    {   
+        isset($data['parkId']) && $insertData['parkId'] = $data['parkId']; //小区id
+        isset($data['cityId']) && $insertData['cityId'] = $data['cityId']; //城市
+        isset($data['userId']) && $insertData['userId'] = $data['userId'];
+        isset($data['bedRoom']) && $insertData['bedRoom'] = $data['bedRoom']; //室
+        isset($data['livingRoom']) && $insertData['livingRoom'] = $data['livingRoom']; //厅
+        isset($data['bathRoom']) && $insertData['bathRoom'] = $data['bathRoom']; //卫
+        isset($data['bA']) && $insertData['bA'] = $data['bA']; //建筑面积
+        isset($data['agent']) && $insertData['agent'] = $data['agent']; //代理人
+        isset($data['agentPhone']) && $insertData['agentPhone'] = $data['agentPhone']; //代理人联系方式
+        isset($data['price']) && $insertData['price'] = $data['price']; //价格     
+    
+        $insertData['type'] = self::TYPE_WEITUO;
+        $insertData['status'] = self::STATUS_ONLINE;
+        $insertData['level'] = 'C';
+        
+        return array('status' => 0, 'data' => $insertData);
     }
 }
