@@ -70,8 +70,9 @@ class BuyController extends houseBuy
             $data['favHouse'] = $favHouse;
         }
         
-        //去房源图片
-        //$where = "houseId in(".implode( , $data).")"
+        //获取房源图片
+        $houseImgs = HousePicture::instance()->getHousePicsByIds($houseIds);
+        $data['imgs'] = $houseImgs;
                
         $this->show(null, $data);
     }

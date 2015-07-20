@@ -330,4 +330,35 @@ class HousePicture extends BaseModel
         
         return $res;
     }
+    
+    /**
+     * 获取房源图片
+     * @param type $houseIds
+     * @return type
+     */
+    public function getHousePicsByIds($houseIds)
+    {
+        if(empty($houseIds))
+        {
+            return array();
+        }
+        $where = "houseId in(".  implode(',', $houseIds).") and status=".self::STATUS_OK;
+        $condition = array(
+            'conditions' => $where,
+            'columns' => 'houseId,imgId,imgExt',
+            'group' => 'houseId',
+            'order' => 'imgId asc'
+        );
+        
+        $res = self::find($condition, 0)->toArray();
+        
+        $result = array();
+        foreach($res as $v)
+        {
+            $result[$v['houseId']] = $v;
+            $result[$v['houseId']]['imgUrl'] = ImageUtility::getImgUrl('esf', $v['imgId'], $v['imgExt']);
+        }
+        
+        return $result;
+    }
 }

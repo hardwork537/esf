@@ -118,7 +118,7 @@
                 <ul class="clearfix">
                     {% for value in list %}
                     <li houseId="{{ value['houseId'] }}">
-                        <a class="house-pic" href="/view/{{ value['houseId'] }}.html"><img src="{{ src_url }}img/pic2.png" height="240" width="360" /></a>
+                        <a class="house-pic" href="/view/{{ value['houseId'] }}.html"><img src="{{ imgs[value['houseId']]['imgUrl'] }}" height="240" width="360" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
                                 <h3><a href="/view/{{ value['houseId'] }}.html">{{ parkList[value['parkId']]['name'] }}</a></h3>
