@@ -86,5 +86,105 @@ class ViewController extends ControllerBase
         
         $this->show(null, $data);
     }
+    
+    //可能感兴趣的房源
+    public function favhouseAction()
+    {
+        if($this->request->isPost())
+        {
+            $parkId = $this->request->getPost('parkId', 'int', 0);
+            $num = $this->request->getPost('num', 'int', 0);
+            $num == 0 && $num = 7;
+            
+            $where = "parkId={$parkId} and status=".House::STATUS_ONLINE;
+            $condition = array(
+                'conditions' => $where,
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
+                'limit' => array(
+                    'offset' => 0,
+                    'number' => $num
+                ),
+                'order' => 'createTime desc'
+            );
+            $res = House::find($condition, 0)->toArray();
+            if(empty($res))
+            {
+                $this->show('JSON', array('num'=>0));
+            }
+            $house = $houseIds = array();
+            foreach($res as $v)
+            {
+                $house[$v['id']] = $v;
+                $house[$v['id']]['imgUrl'] = '';
+                $houseIds[] = $v['id'];
+            }
+            //获取房源图片
+            $condition = array(
+                'conditions' => "houseId in(".implode(',', $houseIds).") and status=".HousePicture::STATUS_OK,
+                'columns' => 'houseId,imgId,imgExt',
+                'group' => 'houseId',
+                'order' => 'imgId asc'
+            );
+            $imgRes = HousePicture::find($condition, 0)->toArray();
+            foreach($imgRes as $v)
+            {
+                $house[$v['houseId']]['imgUrl'] = ImageUtility::getImgUrl('esf', $v['imgId'], $v['imgExt']);
+            }
+            shuffle($house);
+            $this->show('JSON', array('num'=>count($res), 'data'=>$house));
+        } else {
+            $this->show('JSON', array('num'=>0));
+        }
+    }
+    
+    //同板块房源
+    public function reghouseAction()
+    {
+        if($this->request->isPost())
+        {
+            $regId = $this->request->getPost('regId', 'int', 0);
+            $num = $this->request->getPost('num', 'int', 0);
+            $num == 0 && $num = 4;
+            
+            $where = "regId={$regId} and status=".House::STATUS_ONLINE;
+            $condition = array(
+                'conditions' => $where,
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
+                'limit' => array(
+                    'offset' => 0,
+                    'number' => $num
+                ),
+                'order' => 'createTime desc'
+            );
+            $res = House::find($condition, 0)->toArray();
+            if(empty($res))
+            {
+                $this->show('JSON', array('num'=>0));
+            }
+            $house = $houseIds = array();
+            foreach($res as $v)
+            {
+                $house[$v['id']] = $v;
+                $house[$v['id']]['imgUrl'] = '';
+                $houseIds[] = $v['id'];
+            }
+            //获取房源图片
+            $condition = array(
+                'conditions' => "houseId in(".implode(',', $houseIds).") and status=".HousePicture::STATUS_OK,
+                'columns' => 'houseId,imgId,imgExt',
+                'group' => 'houseId',
+                'order' => 'imgId asc'
+            );
+            $imgRes = HousePicture::find($condition, 0)->toArray();
+            foreach($imgRes as $v)
+            {
+                $house[$v['houseId']]['imgUrl'] = ImageUtility::getImgUrl('esf', $v['imgId'], $v['imgExt']);
+            }
+            shuffle($house);
+            $this->show('JSON', array('num'=>count($res), 'data'=>$house));
+        } else {
+            $this->show('JSON', array('num'=>0));
+        }
+    }
 }
 
