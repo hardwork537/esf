@@ -591,7 +591,7 @@ class House extends BaseModel
      */
     public function addWeituoHouse($data)
     {
-        $insertData = $this->_getInsertData($data);
+        $insertData = $this->_getInsertWeituoData($data);
         if(empty($data) || empty($insertData))
         {
             return array('status' => 1, 'info' => '数据为空');
@@ -688,7 +688,7 @@ class House extends BaseModel
         isset($data['price']) && $insertData['price'] = $data['price']; //价格     
     
         $insertData['type'] = self::TYPE_WEITUO;
-        $insertData['status'] = self::STATUS_ONLINE;
+        $insertData['status'] = self::STATUS_OFFLINE;
         $insertData['level'] = 'C';
         
         return array('status' => 0, 'data' => $insertData);

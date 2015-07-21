@@ -1,0 +1,109 @@
+<link href="{{ src_url }}css/house_list.css" rel="stylesheet" type="text/css" />
+<script src="{{ src_url }}My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+<div class="mainout items">
+    <div class="main">
+        <div class="maininner">
+            <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 委托管理  &gt; <strong class="font_gold"> 房源列表 </strong> </h6>
+
+            <!-- search filters begin -->
+            <form class="" name="" id="" method="get" action="/entrust/list">
+                <div class="form-group input_group inputwrap">
+                    <input type="text" name="keyword" class="form-control wl autoComplete search_input" placeholder="输入小区名称or委托人or联系方式" url="/ajax/getParkName/" toName="comId" nums=10 value="{{ params['keyword'] }}">
+                    <input id="comId" type="hidden" value="" name="comId">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="distId" name="distId" onchange="getRegion('regId', 0, $(this).val(), '板块');">
+                        <option value="0">城区</option>
+                    </select>
+                    <select class="form-control" id="regId" name="regId">
+                        <option value="0">板块</option>
+                    </select>
+                    <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="startDate" value="{{ params['startDate'] }}" />
+                    <span class="my_tittle font_gray">  &mdash; </span>
+                    <input type="text" onclick="WdatePicker()" class="Wdate form-control" name="endDate" value="{{ params['endDate'] }}" />
+                    <select class="form-control" name="status">
+                        <option value="0">处理进度</option>
+                        <?=MyTags::options($statuses, $params['status'])?>
+                    </select>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+            <!-- search filters end -->
+            <!-- search result begin -->          
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover table-house">
+                <colgroup>
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col width="10%">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>委托时间</th>
+                        <th>城区</th>
+                        <th>板块</th>
+                        <th>小区</th>
+                        <th>户型</th>
+                        <th>面积</th>
+                        <th>到手价</th>
+                        <th>委托人</th>
+                        <th>联系方式</th>
+                        <th>处理进度</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    {% if lists is empty %}
+                    <tr class="noreascout">
+                        <td colspan='11' height='300px;'>
+                            <p style='margin-top: 80px;'><strong class="font14">很抱歉，没有找到符合条件的标签</strong></p>
+                            <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
+                        </td>
+
+                    </tr>
+                    {% else %}
+                    {% for id,value in lists %}
+                    <tr>
+                        <td>{{ value['createTime'] }}</td>
+                        <td>{{ district[value['distId']]['name'] }}</td>
+                        <td>{{ region[value['regId']]['name'] }}</td>
+                        <td>{{ park[value['parkId']]['name'] }}</td>
+                        <td>{{ value['bedRoom'] }}/{{ value['livingRoom'] }}/{{ value['bathRoom'] }}</td>
+                        <td>{{ value['bA'] }}</td>
+                        <td>{{ value['price'] }}</td>
+                        <td>{{ value['agent'] }}</td>
+                        <td>{{ value['agentPhone'] }}</td>
+                        <td>
+                            {% if value['status']==1 %}
+                            已处理
+                            {% elseif value['status']==2 %}
+                            待处理
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}                    
+                </tbody>
+            </table>
+            {{ page }}
+            <!-- search result end -->
+        </div>
+    </div>
+</div>
+
+<script>
+    var menu = 'menu2';
+    var moudle = 'entrustlist';
+    var distId = {{ params['distId'] }};         
+    var regId = {{ params['regId'] }};
+    var cityId = {{ cityId }};
+    
+    getDist('distId', distId, cityId, '城区');
+    getRegion('regId', regId, distId, '板块');
+</script>
