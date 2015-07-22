@@ -26,7 +26,7 @@ class Scs
     private $file_size = 0;
     private $size;
     private $error_msg = null;
-    private $fileRoot = 'E:/esfpic/';
+    private $fileRoot = IMAGE_ROOT_PATH;
     //图片格式
     private $img_type = array(
         'jpg', 'jpeg', 'gif', 'png'
@@ -160,7 +160,7 @@ class Scs
             $objImage->rollback();
             return array('error' => "图片上传失败", 'filepath'=>$imageArrPath);
         }
-        
+        /*
         $ch = curl_init();
         $data = array(
             'img'=>'@'.$imageArrPath,
@@ -168,7 +168,7 @@ class Scs
             'filename' => $image_id . "." . $image_ext
         );
         global $_IMG_UPLOAD_URL;
-        curl_setopt($ch, CURLOPT_URL, $_IMG_UPLOAD_URL . "upload.php");
+        curl_setopt($ch, CURLOPT_URL, $_IMG_UPLOAD_URL . "upload/index");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -183,7 +183,7 @@ class Scs
             $objImage->rollback();
             return array('error' => $result['errmsg']);
         }
-    
+        */
         $objImage->commit();
 
         $imageArrPath = $this->mProduct . "/" . ImageUtility::hashFile($image_id) . $image_id . "." . $image_ext;

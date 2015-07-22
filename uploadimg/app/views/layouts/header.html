@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>房易买</title>
+        <script src="{{ src_url }}js/jquery-1.9.1.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="{{ src_url }}css/base.css" />
+        {% if cssList is not empty %}
+        {% for cssFile in cssList %}
+        <link rel="stylesheet" href="{{ src_url }}{{ cssFile }}" />
+        {% endfor %}
+        {% endif %}
+    </head>
+
+    <body>
+        <!-- header begin -->
+        <div class="header">
+            <div class="wrap clearfix">
+                <img class="header-logo" src="{{ src_url }}img/logo.png" height="24" width="80" />
+                <div class="header-nav">
+                    <ul>
+                        <li><a href="/"{% if currController=='home' %} class="on"{% endif %}>首页</a></li>
+                        <li><a href="/buy/"{% if currController=='buy' or currController=='view' %} class="on"{% endif %}>我要买房</a></li>
+                        <li><a href="/sell/"{% if currController=='sell' %} class="on"{% endif %}>我要卖房</a></li>
+                        <li><a href="/service/"{% if currController=='service' %} class="on"{% endif %}>我要服务</a></li>
+                    </ul>
+                </div>
+                <div class="header-right">
+                    <span>欢迎来到房易买！</span>
+                    {% if userInfo is empty %}
+                    <a href="/register/">注册</a>
+                    <a href="/login/">登录</a>
+                    {% else %}
+                    <a href="/my/">{{ userInfo['phone'] }}</a>
+                    <a href="javascript:;" onclick="return loginout();">退出</a>
+                    {% endif %}
+                    <!--<a href="#">jsdfoweurowlerlkdjsf@sohu-inc.com</a><a href="#">退出</a>-->
+                </div>
+            </div>
+        </div>
+        <!-- header end -->

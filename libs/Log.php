@@ -101,6 +101,9 @@ class Log
             case 'crondtab':
                 $file_path .= 'crondtab/';
                 break;
+            case 'image':
+                $file_path .= 'image/';
+                break;
             default:
                 $file_path .= 'unknow/';
                 break;
