@@ -14,10 +14,8 @@ class SubwaylineController extends ControllerBase
         $condition = array(
             "conditions" => $where,
             "order" => "weight asc, id asc",
-            "limit" => array(
-                "number" => $this->_pagesize,
-                "offset" => $this->_offset
-            )
+            "limit" => $this->_pagesize,
+            "offset" => $this->_offset
         );
         $pageCount = Metro::count($where);
         $data['page'] = Page::create($pageCount, $this->_pagesize);

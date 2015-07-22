@@ -32,10 +32,8 @@ class RegionController extends ControllerBase
                 [
                     "conditions" => $con,
                     "order" => " weight asc,id asc",
-                    "limit" => [
-                        "number" => $this->_pagesize,
-                        "offset" => $this->_offset
-                    ]
+                    "limit" => $this->_pagesize,
+                    "offset" => $this->_offset
             ])->toArray();
         foreach($data['lists'] as &$v)
         {

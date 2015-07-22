@@ -14,10 +14,8 @@ class HousetagController extends ControllerBase
         $condition = array(
             "conditions" => $where,
             "order" => "id desc",
-            "limit" => array(
-                "number" => $this->_pagesize,
-                "offset" => $this->_offset
-            )
+            "limit" => $this->_pagesize,
+            "offset" => $this->_offset
         );
         $pageCount = HouseTag::count($where);
         $data['page'] = Page::create($pageCount, $this->_pagesize);

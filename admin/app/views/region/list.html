@@ -12,7 +12,7 @@
                     <select class="form-control" name="cityId"
                             onchange="location.href='/region/list?cityId='+$(this).val()"
                             id="cityId">
-                        <?=MyTags::options($citys, $params['cityId'])?>
+                        <?=MyTags::options($citys, $cityId)?>
                     </select>
                 </td>
                 <td width="140">

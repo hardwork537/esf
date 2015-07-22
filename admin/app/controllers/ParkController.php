@@ -31,10 +31,8 @@ class ParkController extends ControllerBase
             "conditions" => $where,
             "order"      => "id desc",
             "columns"    => "id,name",
-            "limit"      => array(
-                "number" => $this->_pagesize,
-                "offset" => $this->_offset
-            )
+            "limit" => $this->_pagesize,
+            "offset" => $this->_offset
         );
         $pageCount     = Park::count($where);
         $data['page']  = Page::create($pageCount, $this->_pagesize);

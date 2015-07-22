@@ -7,10 +7,8 @@ class UserController extends ControllerBase
         $condition = array(
             'conditions' => null,
             'order' => 'id desc',
-            'limit' => array(
-                'offset' => $this->_offset,
-                'number' => $this->_pagesize
-            )
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize
         );
         $user = AdminUser::find($condition, 0)->toArray();
         

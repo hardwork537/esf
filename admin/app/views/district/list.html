@@ -10,7 +10,7 @@
             <tr>
                 <td width="120">
                     <select class="form-control s" name="cityId" onchange="location.href='/district/list?cityId=' + $(this).val()">
-                        <?=MyTags::options($citys, $params['cityId'])?>
+                        <?=MyTags::options($citys, $cityId)?>
                     </select>
                 </td>
                 <td>

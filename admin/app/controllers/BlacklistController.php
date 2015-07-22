@@ -29,10 +29,8 @@ class BlacklistController extends ControllerBase
         $condition = array(
             'conditions' => $where,
             'order' => 'id desc',
-            'limit' => array(
-                'offset' => $this->_offset,
-                'number' => $this->_pagesize
-            )
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize
         );
         $result = Blacklist::find($condition, 0)->toArray();
         

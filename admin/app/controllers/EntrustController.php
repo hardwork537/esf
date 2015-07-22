@@ -25,10 +25,8 @@ class EntrustController extends ControllerBase
         $column = "distId,regId,id,createTime,parkId,bedRoom,livingRoom,bathRoom,bA,price,agent,agentPhone,status";
         $condition = array(
             'conditions' => $where,
-            'limit' => array(
-                'offset' => $this->_offset,
-                'number' => $this->_pagesize
-            ),
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize,
             'order' => 'createTime desc',
             'columns' => $column
         );

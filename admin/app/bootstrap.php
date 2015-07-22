@@ -8,6 +8,9 @@ use Phalcon\Cache\Frontend\Output as OutputFrontend,
 
 require DOCROOT . '../config/system.db.config.php';
 
+global $sysMemcache;
+ini_set("session.save_handler", "memcache");
+ini_set('session.save_path','tcp://'.$sysMemcache['default']['host'].':11211');
 /**
  * 自动加载
  */

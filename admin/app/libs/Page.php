@@ -52,7 +52,7 @@ class Page
 
 
         //print_r($_REQUEST);
-        foreach($_REQUEST as $key => $value)
+        foreach($_GET as $key => $value)
         {
             if($key == "page")
             {

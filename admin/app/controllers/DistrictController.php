@@ -19,10 +19,8 @@ class DistrictController extends ControllerBase
                 [
                     "conditions" => "cityId=$cityId",
                     "order" => "weight asc,id asc",
-                    "limit" => [
-                        "number" => $this->_pagesize,
-                        "offset" => $this->_offset
-                    ]
+                    "limit" => $this->_pagesize,
+                    "offset" => $this->_offset
             ])->toArray();
 
         $data['params'] = $this->request->get();

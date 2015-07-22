@@ -20,10 +20,8 @@ class HouseController extends ControllerBase
         $condition = array(
             'conditions' => $where,
             'columns' => 'id,name',
-            'limit' => array(
-                'offset' => $this->_offset,
-                'number' => $this->_pagesize
-            )
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize
         );
         $result = AdminUser::find($condition, 0)->toArray();
         foreach($result as $v)
