@@ -69,7 +69,7 @@
                     </tr>
                     {% else %}
                     {% for id,value in lists %}
-                    <tr>
+                    <tr houseId="{{ value['id'] }}">
                         <td>{{ value['createTime'] }}</td>
                         <td>{{ district[value['distId']]['name'] }}</td>
                         <td>{{ region[value['regId']]['name'] }}</td>
@@ -80,10 +80,14 @@
                         <td>{{ value['agent'] }}</td>
                         <td>{{ value['agentPhone'] }}</td>
                         <td>
-                            {% if value['status']==1 %}
+                            {% if value['status']==2 %}
                             已处理
-                            {% elseif value['status']==2 %}
-                            待处理
+                            {% elseif value['status']==1 %}
+                            <div class=" arrow_tipswrap">
+                                <a class="widthl td_delete">待处理</a>
+                                <div>
+                                </div>
+                            </div>                           
                             {% endif %}
                         </td>
                     </tr>
@@ -97,6 +101,40 @@
     </div>
 </div>
 
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm message"> 确认删除该楼盘吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm message"> 删除楼盘成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回委托列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除楼盘失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回委托操作</a></p>
+    </div>
+</div>
+
 <script>
     var menu = 'menu2';
     var moudle = 'entrustlist';
@@ -106,4 +144,28 @@
     
     getDist('distId', distId, cityId, '城区');
     getRegion('regId', regId, distId, '板块');
+    
+    $(function() {
+        var cururl = base_url + "entrust/";
+        $('.td_delete').click(function() {
+            var houseId = $(this).parent().parent("td").parent("tr").attr("houseId");
+            var _this = $(this);
+
+            _this.delConfirm("处理确认", "确定要处理该委托吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "handle/" + houseId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("处理成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+    });
 </script>

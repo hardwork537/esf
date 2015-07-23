@@ -28,8 +28,8 @@ class AuditController extends ControllerBase
         $condition = array(
             'conditions' => $where,
             'order' => 'id desc',
-            'limit' => $this->_offset,
-            'offset' => $this->_pagesize
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize
         );
         $result = HousePicture::find($condition, 0)->toArray();
         $pictures = array();

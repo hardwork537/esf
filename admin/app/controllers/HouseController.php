@@ -58,6 +58,7 @@ class HouseController extends ControllerBase
             $value['price'] = $v['price'];
             $value['createTime'] = date('Y.m.d', strtotime($v['createTime']));
             $value['picNum'] = $v['picNum'];
+            $value['url'] = WWW_BASE_URL . 'view/'.$v['id'].'.html';
             
             $list[$v['id']] = $value;
         }

@@ -77,7 +77,7 @@ class MyController extends ControllerBase
         $houses = House::find($houseCondition, 0)->toArray();
         $data['houseList'] = $houses;
         
-        $parkIds = $distIds = array();
+        $parkIds = $distIds = $houseId = array();
         foreach($houses as $v)
         {
             $parkIds[] = $v['parkId'];
@@ -97,6 +97,9 @@ class MyController extends ControllerBase
             $dists = CityDistrict::instance()->getDistByIds($distIds, 'id,name');
             $data['distList'] = $dists;
         }
+        //获取房源图片
+        $houseImgs = HousePicture::instance()->getHousePicsByIds($houseIds);
+        $data['imgs'] = $houseImgs;
                
         $this->show(null, $data);
     }

@@ -11,8 +11,8 @@ class EntrustController extends ControllerBase
         $paramRes = $this->_filterParams();
         $data['params'] = $paramRes['params'];
         $data['statuses'] = array(
-            House::STATUS_ONLINE => '已处理',
-            House::STATUS_OFFLINE => '待处理'
+            House::VERIFICATION_YES => '已处理',
+            House::VERIFICATION_NO => '待处理'
         );
         $where = $paramRes['where'];
         $totalNum = House::count($where);
@@ -99,8 +99,36 @@ class EntrustController extends ControllerBase
             $endTime = date('Y-m-d H:i:s', strtotime($endDate));
             $where .= " and createTime<='{$endTime}'";
         }
-        $status && $where .= " and status={$status}";
+        $status && $where .= " and verification={$status}";
         
         return array('status'=>0, 'where'=>$where, 'params'=>$params);
+    }
+    
+    public function handleAction($houseId = 0)
+    {
+        $houseId = intval($houseId);
+        if($houseId < 1)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'请选择要处理的委托'));
+        }
+        
+        $house = House::findFirst("id={$houseId} and type=".House::TYPE_WEITUO);
+        if(!$house)
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'该委托不存在'));
+        }
+        
+        if($house->verification == House::VERIFICATION_YES)
+        {
+            $this->show('JSON', array('status'=>0, 'info'=>'委托处理成功'));
+        }
+        
+        $house->verification = House::VERIFICATION_YES;
+        if(!$house->update())
+        {
+            $this->show('JSON', array('status'=>1, 'info'=>'委托处理失败'));
+        }
+        
+        $this->show('JSON', array('status'=>0, 'info'=>'委托处理成功'));
     }
 }

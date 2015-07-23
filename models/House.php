@@ -45,6 +45,9 @@ class House extends BaseModel
     //类型
     const TYPE_WEITUO = 2; //委托
     
+    const VERIFICATION_NO = 1; //未处理委托
+    const VERIFICATION_YES = 2;  //已处理委托
+    
     public $id;
     public $parkId;
     public $regId = 0;
@@ -89,7 +92,7 @@ class House extends BaseModel
     public $buildType = 0;
     public $floorPosition = 0;
     public $propertyType = 0;
-    public $verification = 0;
+    public $verification = self::VERIFICATION_NO;
     public $status = self::STATUS_ONLINE;
     public $delTime = '0000-00-00 00:00:00';
     public $auditingTime = '0000-00-00 00:00:00';

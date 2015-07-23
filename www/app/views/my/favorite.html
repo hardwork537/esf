@@ -26,7 +26,7 @@
                 <ul class="clearfix">
                     {% for value in houseList %}
                     <li houseId="{{ value['id'] }}">
-                        <a class="house-pic" href="#"><img src="{{ src_url }}img/pic2.png" height="192" width="288" /></a>
+                        <a class="house-pic" href="#"><img src="{{ imgs[value['id']]['imgUrl'] }}" height="192" width="288" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
                                 <h3><a href="#">{{ parkList[value['parkId']]['name'] }}</a></h3>

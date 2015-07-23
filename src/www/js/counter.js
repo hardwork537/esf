@@ -1,6 +1,7 @@
 $(function(){
 	window.onload = function(){
-		document.getElementById('profileForm').reset();
+        if(document.getElementById('profileForm'))
+            document.getElementById('profileForm').reset();
 	}
 	
     //取消收藏
@@ -112,10 +113,12 @@ $(function(){
 		});  
 	});
 	
-	$('.btn-reset').on('click',function(){
-		document.getElementById('profileForm').reset();
-		$('.form-group .msg').removeClass('msg-error msg-right').html('').hide();
-	});
+    if($('.btn-reset')) {
+        $('.btn-reset').on('click',function(){
+            document.getElementById('profileForm').reset();
+            $('.form-group .msg').removeClass('msg-error msg-right').html('').hide();
+        });
+    }	
 });
 
 function isMobile(mobile) {
