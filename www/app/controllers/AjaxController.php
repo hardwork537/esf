@@ -23,12 +23,12 @@ class AjaxController extends ControllerBase
             $this->show("JSON", array('status' => 1, 'info' => '网络错误，请重试'));
         }
 
-        $codeNum = join(",", str_split($number)) . ",";
-        $message = "房易买验证码: {$codeNum}";
-        //$sendRes = Sms::sendmessage($phone, $message);
+//        $codeNum = join(",", str_split($number)) . ",";
+//        $message = "房易买验证码: {$codeNum}";
+        $sendRes = Sms::sendmessage($phone, $number);
 
         $status = $sendRes['success'] ? 0 : 1;
-        $status = 0;
+        //$status = 0;
         $this->show('JSON', array('status' => $status));
     }
 

@@ -67,6 +67,7 @@ $(function(){
 			data: {
                 phone: $("#j-mobile").val(),
                 code: $("#j-code").val(),
+                imgCode: $("#image-code").val(),
                 password: $("#j-pwd").val(),
                 repassword: $("#j-repwd").val()
             },
@@ -98,7 +99,12 @@ $(function(){
             },
 			success: function (data) {
 				//code...
-				codeWait(120);
+                if(data.status == 0) {
+                    codeWait(120);
+                } else {
+                    alert(data.info ? data.info : '发送失败，请稍后重试');
+                }
+				
 			}
 		});
 	});

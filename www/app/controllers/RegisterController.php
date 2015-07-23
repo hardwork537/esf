@@ -70,8 +70,15 @@ class RegisterController extends ControllerBase
         $memkey = Data::getSendMessageMemkey($phone);
 
         $num = Mem::Instance()->Get($memkey);
-        $num = '3838';
+        //$num = '3838';
         if($code != $num)
+        {
+            return array('status' => 1, 'info' => '短信验证码错误' );
+        }
+        //图形验证码
+        $imgCode = $this->session->get('www_reg_authnum_session');
+        $image_code = trim($this->request->getPost('imgCode', 'string', ''));
+        if($image_code != $imgCode)
         {
             return array('status' => 1, 'info' => '验证码错误' );
         }

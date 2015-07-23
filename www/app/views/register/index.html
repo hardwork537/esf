@@ -14,6 +14,12 @@
             <span class="msg"></span>
         </div>
         <div class="clearfix form-group">
+            <label class="form-control">验证码</label>
+            <input id="image-code" name="imgCode" class="form-input form-input-code" value="" type="text" data-role="验证码" placeholder="请输入验证码">
+            <img id="flush_authcode" width="100px;" height="45px;" style=" float:left; margin:0px 11px 0px 8px;"  src="/checkcode/">
+            <span class="msg"></span>
+        </div>
+        <div class="clearfix form-group">
             <label class="form-control">密码</label>
             <input name="password" id="j-pwd" class="form-input" value="" type="password" data-role="密码" placeholder="请输入密码">
             <span class="msg"></span>
@@ -31,3 +37,11 @@
 <!-- main end -->
 
 <script src="{{ src_url }}js/register.js" type="text/javascript"></script>
+<script>
+    $(function(){
+        $("#flush_authcode").click(function () {
+            var timestamp = (new Date()).valueOf();
+            $(this).attr({src: "/checkcode/?t=" + timestamp, alt: "刷新验证码"});
+        });
+    })
+</script>

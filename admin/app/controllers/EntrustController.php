@@ -78,7 +78,7 @@ class EntrustController extends ControllerBase
         HEAD_CITY == $this->_cityId || $where .= " and cityId={$this->_cityId}";
         if($keyword)
         {
-            $keyword = "cityId={$this->_cityId} and name='{$keyword}' and status=".Park::STATUS_VALID;
+            $parkWhere = "cityId={$this->_cityId} and name='{$keyword}' and status=".Park::STATUS_VALID;
             $park = Park::findFirst($parkWhere, 0)->toArray();
             if(!empty($park))
             {
