@@ -325,12 +325,20 @@ $(function(){
     //var assortType = !!currentAssortType && !$("#mapIcons").find(".sp_icons").eq(currentAssortType-1).hasClass("li_gray") ? currentAssortType : firstAssortType;
     var assortType = 1;
 
-    function bindEvent(){
+    /*function bindEvent(){
         $('.i_close').click(function(){
             $(this).parents('.overLayer').hide();
         });
     }
-    bindEvent();
+    bindEvent();*/
+
+    function resize(){
+        setTimeout(function() {
+            initMap();
+        }, 200);
+    }
+    resize();
+
     function initData(){
         var newObj = {};
         $.each(mapData,function(index, data){
@@ -342,18 +350,11 @@ $(function(){
         return newObj;
     }
     var parkAssortObj = initData();
-
     // 百度地图API功能
-    var map = null,
+    var map = null/*,
         lastOffsetX,
-        lastOffsetY;
+        lastOffsetY*/;
 
-    /*默认显示小区标注*/
-    function defaultOverlay(){
-        var element = '<span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
-            myCustomOverlay = new customOverlay(element, new BMap.Point(parkX,parkY));
-        map.addOverlay(myCustomOverlay);
-    }
 
     function initMap(){
         map = new BMap.Map("mapContainer", {enableMapClick: false});
@@ -407,7 +408,7 @@ $(function(){
 
 
     function setData(type){
-        var datas = parkAssortObj[type];
+        var datas = parkAssortObj[type];console.log('type:',datas);
         $(map.getPanes().labelPane).empty();
         $.each(datas, function(index,data){
             normalOverlay(data);
@@ -418,6 +419,13 @@ $(function(){
     function normalOverlay(data/*, relationship*/){
         var element = '<a href="javascript:;" class="marker marker2" data-id="'+ data.assort_id +'" data-x="'+ data.x +'"></a>',
             myCustomOverlay = new customOverlay(element, new BMap.Point(data.x,data.y));
+        map.addOverlay(myCustomOverlay);
+    }
+
+    /*默认显示小区标注*/
+    function defaultOverlay(){
+        var element = '<span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
+            myCustomOverlay = new customOverlay(element, new BMap.Point(parkX,parkY));console.log('aaa',element);
         map.addOverlay(myCustomOverlay);
     }
 
