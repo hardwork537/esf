@@ -46,7 +46,7 @@
                 <p class="p_title">在线委托</p>
                 <div class="inputBox" style="position: relative; z-index: 4;">
                     <b>小区名称</b>
-                    <!--<span class="item-drop">
+                    <span class="item-drop">
                         <em>北京</em>
                         <input type="hidden" id="cityId" name="cityId" class="tn" value="1" datatype="n~1~100" emsg="请选择城市" nmsg="请选择城市" />
                         <div class="item-drop-list" style="display: none;">
@@ -57,7 +57,7 @@
                                 <a src="2" href="javascript:void(0)">上海</a>
                             </span>
                         </div>
-                    </span>-->
+                    </span>
                     <span class="txt">
                         <input type="text" name="parkName" class="wid310" maxlength="50" value="" emsg="请选择下方小区" nmsg="请输入小区名称" id="person_house_name" />
                         <input type="hidden" name="parkId" class="tn" value="0" datatype="n~1~10000000" id='person_house_id' emsg="请选择下方小区" nmsg="请填写正确小区名称" />
@@ -67,7 +67,13 @@
                         </span>
                     </span>
                     <p id="personParkAddress" style="display: none;"></p>
-                    <ul id="parkAutocomplete" class="autocomplete" style="display: none;"></ul>
+                    <ul id="parkAutocomplete" class="autocomplete" style="display: none;">
+                        <li address="浦东瑞安路211弄、瑞安路693弄、瑞和路350弄" title="安阁苑" id="31102">安阁苑</li>
+                        <li address="闵行沪光路39弄" title="爱庐世纪新苑" id="30925">爱庐世纪新苑</li>
+                        <li address="浦东利津路385弄" title="爱法新城" id="32312">爱法新城</li>
+                        <li address="民耀路423弄" title="爱法花园二期" id="33078">爱法花园二期</li>
+                        <li address="浦东川周公路4005弄" title="安康新村" id="31693">安康新村</li>
+                    </ul>
                 </div>
                 <!-- /inputBox -->
 
