@@ -5,7 +5,7 @@
     <form method="get" action="/blacklist/list/">
     <table class="search_form mb15">
         <tbody>
-            <tr>     
+            <tr>    
                 <td width="140">
                     <input class="form-control" type="text" placeholder="手机号" name="phone" value="{{ phone }}" />
                 </td>
@@ -23,7 +23,9 @@
                 <td>
                     <button class="btn btn-gray" type="submit">搜 索</button>
                     <button type="button" class="btn btn-success ml20 addmodal" > 添加 </button>
-                </td>
+                    <button style="margin-left: 20px;" class="btn btn-default" type="button" id="import_excel">导入excel</button> 
+                    <button id="add_label" data-toggle="modal" data-target="#addnew"  class="btn btn-success" type="button">excel模板</button>
+                </td>                
             </tr>
         </tbody>
     </table>
@@ -138,7 +140,7 @@
     <a class="close_mylabel icon icon_xx"> </a>
     <div class="words">
         <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm message"> 删除账号成功 </span></p>
-        <p class="btnwrap mt10"><a href="">返回账号列表</a></p>
+        <p class="btnwrap mt10"><a href="">返回黑名单列表</a></p>
     </div>
 </div>
 <!-- 撤回失败弹出框 -->
@@ -152,14 +154,82 @@
     </div>
 </div>
 
+<!-- 批量导入 -->
+<div class="modal fade" id="import_modal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="zhuanyiLabel">批量导入黑名单</h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable"> 
+                    <p class="errortips" id="errortips" style="display: none;"> <em class=" icon icon_tips"> </em><span>批量导入失败</span> </p>
+                    <form enctype="multipart/form-data" action="/blacklist/import/" target="e_f_l" method="post" id='formimport'>
+                        <table class="edittable">
+                            <tr>
+                                <td width="140" style=" padding-left:13px;">
+                                    <input name="filecsv" type="file" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=" padding-left:13px;">
+                                    <input type="hidden" name="act" value="" />
+                                    <button type="button" class="btn btn-primary" id="save_import">确 认</button>
+                                    <button type="button" class="btn btn-default widthl2" data-dismiss="modal">取 消</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <iframe id="e_f_l" name="e_f_l" style="display:none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var menu = 'menu4';
     var moudle = 'blacklistlist';
+    
+    function doframe(str) {
+        if (str) {
+            alert(str);
+        }
+    }
+    
     function initModal() {
         $("#newmodal").find("form")[0].reset();
     }
     
+    function modal_hide() {
+        $("#import_modal").modal("hide");
+    }
+        
     $(function () {
+        //点击导入
+        $("#import_excel").click(function() {
+            $.clearError("errortips");
+            $("#import_modal").smodal({title: "", act: 'import'});
+        });
+        
+        $("#save_import").click(function() {
+            $.clearError();
+            if ($("input[name=filecsv]").val() == "") {
+                $.error("请选择上传的csv文件");
+
+                return false;
+            }
+            $("#formimport").get(0).submit();
+            window.setTimeout(modal_hide, 1000);
+        });
+        
+        //下载模板
+        $("#add_label").click(function() {
+            location.href = '/blacklist/download';
+            //$("#import_modal").smodal({title: "", act: 'import'});
+        });                    
+    
         var cururl = base_url + "blacklist/";
         $(".saveButton").click(function () {
             _do = $("#form1").find("input[name=act]").val();
@@ -183,7 +253,7 @@
         });       
 
         $('.td_delete').click(function () {
-            var hsId = $(this).parent().parent("td").parent("tr").attr("userId");
+            var hsId = $(this).parent().parent("td").parent("tr").attr("id");
             var _this = $(this);
             _this.delConfirm("删除确认", "确定要删除吗?", function (result) {
                 if (result == true) {
