@@ -9,11 +9,18 @@ class AjaxController extends ControllerBase
     public function sendmessageAction()
     {
         $phone = $this->request->getPost('phone', 'string', '');
+        $imgCode = $this->request->getPost('imgCode', 'string', '');
+        
         if(!preg_match("/^1\d{10}$/", $phone))
         {
             $this->show("JSON", array('status' => 1, 'info' => '手机格式错误'));
         }
-
+        $sessionImgCode = $this->session->get('www_reg_authnum_session');
+        if($imgCode != $sessionImgCode)
+        {
+            $this->show("JSON", array('status' => 1, 'info' => '图形验证码错误'));
+        }
+        
         $number = mt_rand(1000, 9999);
         $memkey = Data::getSendMessageMemkey($phone);
 

@@ -95,7 +95,8 @@ $(function(){
             dataType: 'json',
 			url: '/ajax/sendmessage/',
 			data: {
-                phone: $("#j-mobile").val()
+                phone: $("#j-mobile").val(),
+                imgCode: $("#image-code").val()
             },
 			success: function (data) {
 				//code...
