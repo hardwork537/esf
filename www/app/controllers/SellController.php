@@ -18,7 +18,7 @@ class SellController extends ControllerBase
             exit();
         }
         $data = array();
-        $data['cssList'] = array('css/fabu.css');
+        $data['cssList'] = array('css/fabu.css?v=20150726001');
         $data['baseUrl'] = WWW_BASE_URL;
         $data['userId'] = intval($this->_userInfo['id']);
         //$data['citys'] = City::instance()->getOptions();;
