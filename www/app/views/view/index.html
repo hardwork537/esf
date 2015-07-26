@@ -265,6 +265,7 @@
         var parkId = "{{ park['id'] }}";
         var regId = "{{ region['id'] }}";
         var parkName = "{{ park['name'] }}";
+        var houseId = "{{ house['id'] }}";
         //可能感兴趣的房源
         getFavoriteHouse(parkId);
         //同板块房源
@@ -275,7 +276,8 @@
                 type: 'POST',
                 url: '/view/favhouse/',   
                 data: {
-                    parkId: parkId
+                    parkId: parkId,
+                    houseId: houseId
                 },
                 dataType: 'json',
                 success: function (result) {
@@ -307,7 +309,8 @@
                 type: 'POST',
                 url: '/view/reghouse/',   
                 data: {
-                    regId: regId
+                    regId: regId,
+                    houseId: houseId
                 },
                 dataType: 'json',
                 success: function (result) {

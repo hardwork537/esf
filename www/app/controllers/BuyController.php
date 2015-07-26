@@ -174,6 +174,7 @@ class BuyController extends houseBuy
                 $order[] = "houseBA:desc";
                 break;
             default:
+                $order[] = "houseLevel:asc";
                 $order[] = "houseUpdate:desc";
                 break;
         }
@@ -209,6 +210,7 @@ class BuyController extends houseBuy
                 $order[] = "houseBA:desc";
                 break;
             default:
+                $order[] = "houseLevel:asc";
                 $order[] = "houseUpdate:desc";
                 break;
         }

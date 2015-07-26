@@ -80,12 +80,12 @@
                         <td>{{ parks[value['parkId']]['name'] }}</td>
                         <td>{{ value['bedRoom'] }}/{{ value['livingRoom'] }}/{{ value['bathRoom'] }}</td>
                         <td>{{ value['bA'] }}</td>
-                        <td>{{ value['price'] }}</td>
+                        <td>{{ value['price']/10000 }}万</td>
                         <td>{{ value['picNum'] }}</td>
                         <td>{{ users[value['userId']] }}</td>
                         <td>{{ value['createTime'] }}</td>
                         <td align="center" class="operate">
-                            <a href="/house/edit/{{ id }}/">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a target="_blank" href="/house/edit/{{ id }}/">编辑</a>&nbsp;&nbsp;&nbsp;
                             <a target="_blank" href="{{ value['url'] }}">查看</a>
                         </td>
                     </tr>

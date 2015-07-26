@@ -160,6 +160,12 @@ if(!$client->existsType($createMapping))
                 "index" => "not_analyzed",
                 'null_value' => '',
             ),
+            "houseLevel" => array(
+                'type' => 'string',
+                'store' => 'yes',
+                "index" => "not_analyzed",
+                'null_value' => '',
+            ),
             "houseType" => array(
                 "type" => "short",
                 "store" => "yes",
@@ -217,6 +223,7 @@ foreach($house as $v)
     $value['houseTags'] = (int) $v['parkId'];
     $value['cityId'] = (int) $v['cityId'];
     $value['houseRemark'] = $v['remark'];
+    $value['houseLevel'] = $v['level'];
 
     $houseList[$v['id']] = $value;
 }

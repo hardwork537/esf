@@ -93,17 +93,16 @@ class ViewController extends ControllerBase
         if($this->request->isPost())
         {
             $parkId = $this->request->getPost('parkId', 'int', 0);
+            $houseId = $this->request->getPost('houseId', 'int', 0);
             $num = $this->request->getPost('num', 'int', 0);
             $num == 0 && $num = 7;
             
-            $where = "parkId={$parkId} and status=".House::STATUS_ONLINE;
+            $where = "id<>{$houseId} and parkId={$parkId} and status=".House::STATUS_ONLINE;
             $condition = array(
                 'conditions' => $where,
                 'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
-                'limit' => array(
-                    'offset' => 0,
-                    'number' => $num
-                ),
+                'offset' => 0,
+                'limit' => $num,
                 'order' => 'createTime desc'
             );
             $res = House::find($condition, 0)->toArray();
@@ -143,17 +142,16 @@ class ViewController extends ControllerBase
         if($this->request->isPost())
         {
             $regId = $this->request->getPost('regId', 'int', 0);
+            $houseId = $this->request->getPost('houseId', 'int', 0);
             $num = $this->request->getPost('num', 'int', 0);
             $num == 0 && $num = 4;
             
-            $where = "regId={$regId} and status=".House::STATUS_ONLINE;
+            $where = "id<>{$houseId} and regId={$regId} and status=".House::STATUS_ONLINE;
             $condition = array(
                 'conditions' => $where,
                 'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
-                'limit' => array(
-                    'offset' => 0,
-                    'number' => $num
-                ),
+                'offset' => 0,
+                'limit' => $num,
                 'order' => 'createTime desc'
             );
             $res = House::find($condition, 0)->toArray();

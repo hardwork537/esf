@@ -16,12 +16,12 @@ class AjaxController extends ControllerBase
      * */
 
     public function getParkNameAction()
-    {
+    { 
         $inputInfo = $this->request->getPost('keyword', string);
         $cityId = $this->request->getPost('cityId', int);
         $nums = $this->request->getPost('nums', int);
         $nums || $nums = 10;
-        $list = [];
+        $list = array();
         $inputInfo = trim($inputInfo);
         $con = "(name like '{$inputInfo}%' or pinyin like '{$inputInfo}%' or pinyinAbbr like '{$inputInfo}%')";
         if($cityId > 0)
@@ -30,13 +30,17 @@ class AjaxController extends ControllerBase
         }
 
         $rs = Park::find(array(
-                $con,
-                "limit" => $nums
+                'conditions' => $con,
+                'columns' => 'id,name',
+                "limit" => $nums,
+                "offset" => 0
             ))->toArray();
+        
         foreach($rs as $k => $v)
         {
             $list[] = array("id" => $v['id'], "name" => $v['name']);
         }
+       
         $this->_json['data'] = $list;
         $this->show("JSON");
     }

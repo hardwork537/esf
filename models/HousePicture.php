@@ -181,11 +181,24 @@ class HousePicture extends BaseModel
         $houses = House::find($where);
         foreach($houses as $house)
         {
+            $oldLevel = $house->level;
             $house->picNum = $house->picNum > $housePics[$house->id] ? $house->picNum-$housePics[$house->id] : 0;
+            $house->level = $this->getHouseLevel($house->picNum);
             if(!$house->update())
             {
                 $this->rollback();
                 return array('status'=>1, 'info'=>'更新图片失败');
+            }
+            if($oldLevel != $house->level)
+            {
+                //更新ES
+                $arrEsData = array(
+                    'id' => (int)$house->id,
+                    'data' => array(
+                        'houseLevel' => $house->level
+                    )
+                );
+                $esEs = $this->editEs($arrEsData, 'house');
             }
         }
         /*
@@ -296,10 +309,23 @@ class HousePicture extends BaseModel
         foreach($houses as $house)
         {
             $house->picNum += $housePics[$house->id];
+            $oldLevel = $house->level;
+            $house->level = $this->getHouseLevel($house->picNum);
             if(!$house->update())
             {
                 $this->rollback();
                 return array('status'=>1, 'info'=>'更新图片失败');
+            }
+            if($oldLevel != $house->level)
+            {
+                //更新ES
+                $arrEsData = array(
+                    'id' => (int)$house->id,
+                    'data' => array(
+                        'houseLevel' => $house->level
+                    )
+                );
+                $esEs = $this->editEs($arrEsData, 'house');
             }
         }
         
@@ -331,6 +357,25 @@ class HousePicture extends BaseModel
         return $res;
     }
     
+    /**
+     * 根据图片个数获取房源等级
+     * @param type $picNum
+     * @return string
+     */
+    public function getHouseLevel($picNum)
+    {
+        $picNum = intval($picNum);
+        if($picNum == 0)
+        {
+            $level = 'C';
+        } elseif($picNum > 0 && $picNum < 5) {
+            $level = 'B';
+        } else {
+            $level = 'A';
+        }
+        
+        return $level;
+    }
     /**
      * 获取房源图片
      * @param type $houseIds

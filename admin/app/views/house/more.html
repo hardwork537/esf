@@ -107,10 +107,10 @@
                 url: '/house/tag/' + type + '/' + houseId + '/' + tagId + '/',
                 callback: function (msg) {
                     if (msg.status == 0) {
-                        alert(msg.info);
+                        //alert(msg.info);
                         //location.reload(false);
                     } else {
-                        alert(msg.info);
+                        alert(msg.info ? msg.info : '失败，请稍后重试');
                     }
                 }
             });
