@@ -46,7 +46,7 @@ function SWFImage(){
 	    } catch (ex) {}
 	}
 	function uploadError_new(file, errorCode, message){
-        alert(errorCode);
+        //alert(errorCode);
 		try {
 	        switch (errorCode) {
 	        case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:

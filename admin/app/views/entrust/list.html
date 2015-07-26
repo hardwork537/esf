@@ -80,9 +80,9 @@
                         <td>{{ value['agent'] }}</td>
                         <td>{{ value['agentPhone'] }}</td>
                         <td>
-                            {% if value['status']==2 %}
+                            {% if value['verification']==2 %}
                             已处理
-                            {% elseif value['status']==1 %}
+                            {% elseif value['verification']==1 %}
                             <div class=" arrow_tipswrap">
                                 <a class="widthl td_delete">待处理</a>
                                 <div>

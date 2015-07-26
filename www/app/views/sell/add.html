@@ -8,7 +8,7 @@
 
 <div class=" wrap clearfix container">
     <iframe id="e_f_l" name="e_f_l" style="display:none;"></iframe>
-    <form action="/sell/addsave/" method="post" id="personUnit" target="e_f_l" autocomplete="off" onkeypress="javascript:if (event.keyCode == 13) {
+    <form action="/sell/addsave/" method="post" id="personUnit" autocomplete="off" onkeypress="javascript:if (event.keyCode == 13) {
                     return false;
                 }">
         <input type="hidden" name="action" value="addSave" />
@@ -19,8 +19,8 @@
             <div class="inputBox" style="position: relative; z-index: 4;">
                 <b>小区名称</b>
                 <span class="item-drop">
-                    <em>北京</em>
-                    <input type="hidden" id="cityId" name="cityId" class="tn" value="1" datatype="n~1~100" emsg="请选择城市" nmsg="请选择城市" />
+                    <em>{{ default['name'] }}</em>
+                    <input type="hidden" id="cityId" name="cityId" class="tn" value="{{ default['cityId'] }}" datatype="n~1~100" emsg="请选择城市" nmsg="请选择城市" />
                     <div class="item-drop-list" style="display: none;">
                         {% for id,name in citys %}
                         <span>
@@ -273,6 +273,7 @@
     });
 
     function lazyDo() {
+        alert('abc');return false;
         var obj = $('#checkFormSubmit');
         obj.attr('disabled', 'disabled');
         obj.val('正在发布');
@@ -281,6 +282,7 @@
 
     function recoverFromSubmit()
     {
+        alert('ddd');return false;
         var obj = $('#checkFormSubmit');
         obj.removeAttr('disabled');
         obj.val('立即发布');

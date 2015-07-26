@@ -433,7 +433,7 @@ function getParkSuggest(){
                         parkAddress = $(this).attr("address");
                         objParkInput.val(houseName);
                         objParkId.val(houseId);
-                        objParkAddress.html(parkAddress).show();
+                        //objParkAddress.html(parkAddress).show();
                         objAutocomplete.hide();
                         setRight($(objParkInput));
                         return false;

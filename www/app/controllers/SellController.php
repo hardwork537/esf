@@ -12,11 +12,18 @@ class SellController extends ControllerBase
     
     public function addAction()
     {
+        if(empty($this->_userInfo))
+        {
+            $this->response->redirect("/login/", true)->sendHeaders();
+            exit();
+        }
         $data = array();
         $data['cssList'] = array('css/fabu.css');
         $data['baseUrl'] = WWW_BASE_URL;
         $data['userId'] = intval($this->_userInfo['id']);
-        $data['citys'] = City::instance()->getOptions();;
+        //$data['citys'] = City::instance()->getOptions();;
+        $data['citys'] = array(2=>'上海');
+        $data['default'] = array('cityId'=>2, 'name'=>'上海');
         
         $this->show(null, $data);
     }
@@ -28,18 +35,31 @@ class SellController extends ControllerBase
             $checkRes = $this->_checkParams();
             if(0 !== $checkRes['status'])
             {
-                $this->show('JSON', $checkRes);
+                echo "<script>alert('".$checkRes['info']."');location.href='/sell/add/';</script>";
+                exit();
             }
             $addRes = House::instance()->addWeituoHouse($checkRes['params']);
             
-            $this->show('JSON', $addRes);
+            if($addRes['status'] !== 0)
+            {
+                echo "<script>alert('".($checkRes['info'] ? $checkRes['info'] : '发布失败') ."');location.href='/sell/add/';</script>";
+                exit();
+            } else {
+                echo "<script>alert('发布成功');location.href='/buy/';</script>";
+                exit();
+            }
         } else {
-            $this->show('JSON', array('status'=>1, 'info'=>'无效请求'));
+            echo "<script>alert('无效请求');location.href='/sell/add/';</script>";
+            exit();
         }
     }
     
     private function _checkParams()
     {
+        if(empty($this->_userInfo))
+        {
+            return array('status' => 1, 'info' => '请先进行登陆');
+        }
         //验证城市
         $cityId = $this->request->getPost('cityId', 'int', 0);
         $where = "id={$cityId} and status=".City::STATUS_ENABLED;

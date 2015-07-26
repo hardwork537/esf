@@ -2,7 +2,7 @@
 
 class EntrustController extends ControllerBase
 {
-
+    
     public function listAction()
     {
         $data = array();
@@ -22,7 +22,7 @@ class EntrustController extends ControllerBase
             $this->show(null, $data);
             return ;
         }
-        $column = "distId,regId,id,createTime,parkId,bedRoom,livingRoom,bathRoom,bA,price,agent,agentPhone,status";
+        $column = "distId,regId,id,createTime,parkId,bedRoom,livingRoom,bathRoom,bA,price,agent,agentPhone,status,verification";
         $condition = array(
             'conditions' => $where,
             'offset' => $this->_offset,
