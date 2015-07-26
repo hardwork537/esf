@@ -59,6 +59,8 @@ class HouseController extends ControllerBase
             $value['createTime'] = date('Y.m.d', strtotime($v['createTime']));
             $value['picNum'] = $v['picNum'];
             $value['url'] = WWW_BASE_URL . 'view/'.$v['id'].'.html';
+            $value['status'] = $data['statuses'][$v['status']];
+            $value['level'] = $v['level'];
             
             $list[$v['id']] = $value;
         }

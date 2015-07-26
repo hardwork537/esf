@@ -217,7 +217,7 @@ class MetroStation extends BaseModel
         {
             return array('status'=>1, 'info'=>'轨道线路不存在或无效！');
         }
-        if($this->isExistMetroStationName($data["msName"], $data["cityId"], $id))
+        if($this->isExistMetroStationName($data["msName"], $data["cityId"], $id, $data['metroId']))
         {
             return array('status'=>1, 'info'=>'轨道站点已经存在！');
         }
@@ -269,7 +269,7 @@ class MetroStation extends BaseModel
      * @param int    $metroId
      * @return boolean
      */
-    private function isExistMetroStationName($msName, $cityId, $msId=0)
+    private function isExistMetroStationName($msName, $cityId, $msId=0, $mId = 0)
     {
         $msName = trim($msName);
         if(empty($msName))
@@ -277,8 +277,8 @@ class MetroStation extends BaseModel
             return true;
         }
         $con['conditions'] = "name='{$msName}' and cityId={$cityId} and status=" . self::STATUS_ENABLED;
-        $msId > 0 && $con['conditions'] .= " and id<>{$msId}";
-
+        $msId > 0 && $con['conditions'] .= " and id<>{$msId} and metroId={$mId}";
+       
         $intCount = self::count($con);
         if($intCount > 0)
         {

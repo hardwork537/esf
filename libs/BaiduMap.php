@@ -108,7 +108,8 @@ class BaiduMap
         $cacheKey = MCDefine::BAIDU_MAP . "x:" . $x . "y:$y";
         $memCache = Mem::Instance();
         $info = $memCache->get($cacheKey); //不需要清楚cache，因为x，y变了，自然key也变了
-        if($info === false)
+
+        if(!$info|| $info == 'null')
         {
             $url = "http://api.map.baidu.com/geoconv/v1/";
             $array = array(
@@ -119,7 +120,7 @@ class BaiduMap
             );
             $sn = $this->caculateAKSN($this->ak, $this->sk, '/geoconv/v1/', $array);
             $requestUrl = $url . '?' . http_build_query($array) . "&sn=" . $sn;
-            $info = Curl::GetResult($requestUrl, array(), '', 3, 0, '', 'get');
+            $info = Curl::GetResult($requestUrl, 'get', array(), '', 3, 0, '');
             $info = json_decode($info, true);
             if($info['status'] == 0)
             {

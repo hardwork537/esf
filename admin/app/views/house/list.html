@@ -45,11 +45,15 @@
                     <col width="8%">
                     <col width="8%">
                     <col width="8%">
+                    <col width="8%">
+                    <col width="8%">
                     <col>
                 </colgroup>
                 <thead>
                     <tr>
                         <th>房源编号</th>
+                        <th>房源状态</th>
+                        <th>房源等级</th>
                         <th>城区</th>
                         <th>板块</th>
                         <th>小区</th>
@@ -75,6 +79,8 @@
                     {% for id,value in lists %}
                     <tr>
                         <td>{{ id }}</td>
+                        <td>{{ value['status'] }}</td>
+                        <td>{{ value['level'] }}</td>
                         <td>{{ dists[value['distId']]['name'] }}</td>
                         <td>{{ regs[value['regId']]['name'] }}</td>
                         <td>{{ parks[value['parkId']]['name'] }}</td>

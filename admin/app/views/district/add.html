@@ -41,7 +41,7 @@
                 <tr>
                     <td align="right">城区简称:</td>
                     <td>
-                        <input class="form-control" type="text" name="abbr" value="{{ info.abbr}}" notnull="true" info="城区简称" />
+                        <input class="form-control" type="text" name="abbr" value="{% if info.abbr %}{{ info.abbr}}{% else %}{{ info.name}}{% endif %}" notnull="true" info="城区简称" />
                         <em class=" required"> * </em>
                     </td>
                 </tr>
