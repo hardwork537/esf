@@ -3,14 +3,14 @@ define("SRC_URL", "http://src.taoyun.com/www/");
 define("BASE_URL", "/");
 define("MAPABC_KEY", "4706805b4dac4acdeddafabe13079a4d8099793ef5ce0f49b2f9153d82a4594af912c23f25f0cfee"); 
 
-if($_GET['debug'])
-{
-    define("OPEN_DEBUG", true);
-}
-else
-{
+//if($_GET['debug'])
+//{
+//    define("OPEN_DEBUG", true);
+//}
+//else
+//{
     define("OPEN_DEBUG", false);
-}
+//}
 
 //超时自动登出
 define('LOGIN_LIFETIME',86400);
