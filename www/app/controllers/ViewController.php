@@ -2,6 +2,16 @@
 
 class ViewController extends ControllerBase
 {   
+    
+    private $_typeMapping = array(
+        2 => 3, //银行
+        6 => 2, //餐饮
+        4 => 4, //医院
+        8 => 1, //超市
+        7 => 5, //学校
+        9 => 6 //公园
+    );
+    
     public function indexAction()
     {
         $houseId = intval($this->dispatcher->getParam('houseid'));
@@ -51,7 +61,7 @@ class ViewController extends ControllerBase
             $data['region'] = $region[$house['regId']];
         }
         //小区信息
-        $park = Park::instance()->getParkByIds($house['parkId'], 'id,name,salePrice');
+        $park = Park::instance()->getParkByIds($house['parkId'], 'id,name,salePrice,BdX,BdY');
         if(!empty($park))
         {
             $data['park'] = $park[$house['parkId']];
@@ -83,6 +93,37 @@ class ViewController extends ControllerBase
                 $data['isFav'] = true;
             }
         }
+        //获取 小区扩展信息
+        $arrAssort = CPark::getParkAssort($house['parkId'], 2);
+        $newMapArr = array();
+        if(!empty($arrAssort))
+        {
+            foreach($arrAssort as $k=>$v)
+            {
+                if(array_key_exists($k, $this->_typeMapping))
+                {
+                    foreach($v as $key=>$value)
+                    {
+                        $vv = array(
+                            'type' => $this->_typeMapping[$k],
+                            'list' => array(
+                                'assort_id' => $value['assort_id'],
+                                'assort_name' => $value['assort_name'],
+                                'x' => $value['x'],
+                                'y' => $value['y'],
+                            )
+                        );
+                        $newMapArr[] = $vv;
+                    }
+                }
+            }
+        }
+        $parkId = $house['parkId'];
+        $data['bX'] = empty($park) ? '' : $park[$parkId]['BdX'];
+        $data['bY'] = empty($park) ? '' : $park[$parkId]['BdY'];
+        $data['mapJson'] = json_encode($newMapArr);
+        //echo '<pre>';var_dump($data['mapJson']);exit;
+        //var_dump($data['mapJson']);exit;
         
         $this->show(null, $data);
     }

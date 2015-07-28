@@ -57,7 +57,7 @@
                 <div class="mod_r_tel">
                     <i class="icons"></i>
                     <p class="tel">
-                        <b>131 6273 9642</b><br/>转69876
+                        <b>400-700</b><br/>转1234
                     </p>
                 </div>
                 <p class="mod_blank"></p>
@@ -339,106 +339,27 @@
     })
 </script>
 <script type="text/javascript">
-    var parkX = 121.5604260345;
+    var parkX = {{ bX }};
     //百度地图Y坐标
-    var parkY = 31.250451072258;
+    var parkY = {{ bY }};
     //小区名称
-    var parkName = "名门世家";
+    var parkName = "{{ park[house['parkId']]['name'] }}";
     var currentAssortType = 0;
     //第一次进入配套页面的显示类型
     var firstAssortType = 2;
-    var mapData = [
-        {
-            "type": 1,
-            "list": {
-                "assort_id": "110000",
-                "assort_name": "\u987a\u5fc3\u4fbf\u5229(\u90fd\u5e02\u8def\u5e97)",
-                "x": "121.40516923128",
-                "y": "31.092740031834"
-            }
-        },
-        {
-            "type": 1,
-            "list": {
-                "assort_id": "110001",
-                "assort_name": "\u4f73\u5b9c\u4fbf\u5229",
-                "x": "121.404769126",
-                "y": "31.093065812413"
-            }
-        },
-        {
-            "type": 2,
-            "list": {
-                "assort_id": "110002",
-                "assort_name": "\u5343\u91cc\u9999\u9984\u9968\u9762\u9986",
-                "x": "121.56172025623",
-                "y": "31.251035863021"
-            }
-        },
-        {
-            "type": 2,
-            "list": {
-                "assort_id": "110003",
-                "assort_name": "\u5e7f\u5f0f\u7172\u4ed4\u996d",
-                "x": "121.40859725493",
-                "y": "31.083524164286"
-            }
-        },
-        {
-            "type": 2,
-            "list": {
-                "assort_id": "110004",
-                "assort_name": "\u6f6e\u6c55\u7ca5",
-                "x": "121.41072228645",
-                "y": "31.083327238154"
-            }
-        },
-        {
-            "type": 3,
-            "list": {
-                "assort_id": "110005",
-                "assort_name": "\u4e2d\u56fd\u5efa\u8bbe\u94f6\u884c(\u6d0b\u6cfe\u652f\u884c)",
-                "x": "121.56048400819",
-                "y": "31.251944408128"
-            }
-        },
-        {
-            "type": 3,
-            "list": {
-                "assort_id": "110006",
-                "assort_name": "\u4e2d\u56fd\u94f6\u884c(\u5f20\u6768\u8def\u652f\u884c)",
-                "x": "121.56523811044",
-                "y": "31.248298829099"
-            }
-        },
-        {
-            "type": 4,
-            "list": {
-                "assort_id": "110007",
-                "assort_name": "\u6148\u5584\u533b\u9662",
-                "x": "121.56201651739",
-                "y": "31.249778610962"
-            }
-        },
-        {
-            "type": 5,
-            "list": {
-                "assort_id": "110009",
-                "assort_name": "\u535a\u5c71\u5e7c\u513f\u56ed",
-                "x": "121.56306492975",
-                "y": "31.251972269421"
-            }
-        },
-        {
-            "type": 6,
-            "list": {
-                "assort_id": "110010",
-                "assort_name": "\u6cfe\u4e1c\u516c\u56ed",
-                "x": "121.56786491234",
-                "y": "31.251972269421"
-            }
-        }
-    ];
+//    var mapData = [
+//        {
+//            "type": 1,
+//            "list": {
+//                "assort_id": "110000",
+//                "assort_name": "\u987a\u5fc3\u4fbf\u5229(\u90fd\u5e02\u8def\u5e97)",
+//                "x": "121.40516923128",
+//                "y": "31.092740031834"
+//            }
+//        }
+//    ];
+    var mapData = {{ mapJson }};
+    //mapData = eval('(' + mapData + ')');
 
     console.log('mapData:', mapData);
 
@@ -513,4 +434,4 @@
 </script>
 
 <script type="text/javascript" src="{{ src_url }}js/highcharts.js"></script>
-<script type="text/javascript" src="{{ src_url }}js/property_view.js"></script>
+<script type="text/javascript" src="{{ src_url }}js/property_view.js?v=20150728001"></script>

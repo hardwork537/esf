@@ -1,157 +1,157 @@
-$(function(){
-	
-	/* for ie6 hover */
-	if(navigator.userAgent.indexOf('MSIE 6.0')>0){
-		/* sidebar star agent */
-		$('.thumSlider .prev').hover(function(){
-			$(this).addClass('prev_hover');
-		},function(){
-			$(this).removeClass('prev_hover');
-		});
-		$('.thumSlider .next').hover(function(){
-			$(this).addClass('next_hover');
-		},function(){
-			$(this).removeClass('next_hover');
-		});
-		$('.thumSlider .thum_prev').hover(function(){
-			$(this).addClass('thum_prev_hover');
-		},function(){
-			$(this).removeClass('thum_prev_hover');
-		});
-		$('.thumSlider .thum_next').hover(function(){
-			$(this).addClass('thum_next_hover');
-		},function(){
-			$(this).removeClass('thum_next_hover');
-		});
-		$('.mod_r_agent .btn').hover(function () {
-			$(this).addClass('btn_hover');
-		}, function () {
-			$(this).removeClass('btn_hover');
-		});
-	}
-
-	/* slider */	
-	//imgSliderInit("#topSlider",100);
-	imgSliderInit("#communitySlider",119);
-	function imgSliderInit(obj,swidth){
-		/* 初始化 */
-		var currTabsIdx = 0, 
-			index = 0, 
-			len = 0, 
-			pageSize = 6, 
-			w = swidth * len, 
-			currentPage = 0, 
-			totalPage = parseInt((len + pageSize -1) / pageSize);
-		var $thumTabs = $(obj).find(".thum_tabs li");
-		var $thumCon = $(obj).find(".thumSlider");
-		
-		thumShow();
-		
-		/* 图片类型切换 */
-		$thumTabs.click(function(){
-			currTabsIdx = $(this).index();
-			$thumTabs.removeClass('on').eq(currTabsIdx).addClass('on');
-			$thumCon.hide().eq(currTabsIdx).show();
-			thumShow();
-		});
-		
-		function thumShow(){
-			var $currThum = $thumCon.eq(currTabsIdx),
-				$imgWrap = $currThum.find(".imgWrap"),
-				$thum = $currThum.find(".thum"),
-				$thumImg = $thum.find(".thum_img"),
-				$thumNext = $thum.find(".thum_next"),
-				$thumPrev = $thum.find(".thum_prev"),
-				$thumListInner = $thum.find(".thumList_inner");
-			
-			len = $thumImg.length;
-			w = swidth * len;
-			currentPage = 0;
-			totalPage = parseInt((len + pageSize -1) / pageSize);
-			$thumListInner.width(w);
-			
-			if(totalPage == 1){
-				$thumNext.hide();
-				$thumPrev.hide();
-			}
-			$thumListInner.stop(true,false).animate({left: -swidth * currentPage * pageSize},300);
-			
-			/* 点击小图 */
-			$thumImg.click(function(){
-				index = $thumImg.index(this);			
-				showImg(index);
-			}).eq(0).click();
-			
-			/* 点击小图下一页 */
-			$thumNext.click(function(){
-				thumScrollRight();
-			});
-			
-			/* 点击小图上一页 */
-			$thumPrev.click(function(){			
-				thumScrollLeft();
-			});						
-		}
-		
-		function thumScrollRight(){
-			
-			if(currentPage < totalPage-1){
-				currentPage++;
-				$thumCon.eq(currTabsIdx).find(".thumList_inner").stop(true,false).animate({left: -swidth * currentPage * pageSize},300);				
-			}
-		}
-		
-		function thumScrollLeft(){
-			if(currentPage > 0){
-				currentPage--;
-				$thumCon.eq(currTabsIdx).find(".thumList_inner").stop(true,false).animate({left: -swidth * currentPage * pageSize},300);
-			}
-		}
-		
-		function showImg(index){
-			var $currThum = $thumCon.eq(currTabsIdx),
-				$imgWrap = $currThum.find(".imgWrap"),
-				$thum = $currThum.find(".thum"),
-				$thumImg = $thum.find(".thum_img");
-			$thumImg.find(".box").remove();
-			$thumImg.eq(index).prepend("<span class='box'><s></s></span>").addClass("selected").siblings().removeClass("selected");
-			$imgWrap.find(".con").eq(index).show().siblings().hide();	
-		}
-		
-		/* 点击大图下一 */
-		$thumCon.find(".next").click(function(){
-			if(index < len-1){
-				index++;
-				showImg(index);
-				if(index % pageSize == 0){
-					thumScrollRight();
-				}
-			}else{
-				if($thumTabs.length > 0){
-					currTabsIdx = currTabsIdx < $thumTabs.length-1 ? (currTabsIdx+1) : 0;
-					$thumTabs.eq(currTabsIdx).click();
-				}
-			}
-		});
-		
-		/* 点击大图上一张 */
-		$thumCon.find(".prev").click(function(){
-			if(index > 0){
-				if(index % pageSize == 0){
-					thumScrollLeft();
-				}
-				index--;
-				showImg(index);
-			}else{
-				if($thumTabs.length > 0){
-					currTabsIdx = currTabsIdx > 0 ? (currTabsIdx-1) : $thumTabs.length-1;
-					$thumTabs.eq(currTabsIdx).click();
-				}
-			}
-		});
-		
-	}
-});
+//$(function(){
+//	
+//	/* for ie6 hover */
+//	if(navigator.userAgent.indexOf('MSIE 6.0')>0){
+//		/* sidebar star agent */
+//		$('.thumSlider .prev').hover(function(){
+//			$(this).addClass('prev_hover');
+//		},function(){
+//			$(this).removeClass('prev_hover');
+//		});
+//		$('.thumSlider .next').hover(function(){
+//			$(this).addClass('next_hover');
+//		},function(){
+//			$(this).removeClass('next_hover');
+//		});
+//		$('.thumSlider .thum_prev').hover(function(){
+//			$(this).addClass('thum_prev_hover');
+//		},function(){
+//			$(this).removeClass('thum_prev_hover');
+//		});
+//		$('.thumSlider .thum_next').hover(function(){
+//			$(this).addClass('thum_next_hover');
+//		},function(){
+//			$(this).removeClass('thum_next_hover');
+//		});
+//		$('.mod_r_agent .btn').hover(function () {
+//			$(this).addClass('btn_hover');
+//		}, function () {
+//			$(this).removeClass('btn_hover');
+//		});
+//	}
+//
+//	/* slider */	
+//	//imgSliderInit("#topSlider",100);
+//	imgSliderInit("#communitySlider",119);
+//	function imgSliderInit(obj,swidth){
+//		/* 初始化 */
+//		var currTabsIdx = 0, 
+//			index = 0, 
+//			len = 0, 
+//			pageSize = 6, 
+//			w = swidth * len, 
+//			currentPage = 0, 
+//			totalPage = parseInt((len + pageSize -1) / pageSize);
+//		var $thumTabs = $(obj).find(".thum_tabs li");
+//		var $thumCon = $(obj).find(".thumSlider");
+//		
+//		thumShow();
+//		
+//		/* 图片类型切换 */
+//		$thumTabs.click(function(){
+//			currTabsIdx = $(this).index();
+//			$thumTabs.removeClass('on').eq(currTabsIdx).addClass('on');
+//			$thumCon.hide().eq(currTabsIdx).show();
+//			thumShow();
+//		});
+//		
+//		function thumShow(){
+//			var $currThum = $thumCon.eq(currTabsIdx),
+//				$imgWrap = $currThum.find(".imgWrap"),
+//				$thum = $currThum.find(".thum"),
+//				$thumImg = $thum.find(".thum_img"),
+//				$thumNext = $thum.find(".thum_next"),
+//				$thumPrev = $thum.find(".thum_prev"),
+//				$thumListInner = $thum.find(".thumList_inner");
+//			
+//			len = $thumImg.length;
+//			w = swidth * len;
+//			currentPage = 0;
+//			totalPage = parseInt((len + pageSize -1) / pageSize);
+//			$thumListInner.width(w);
+//			
+//			if(totalPage == 1){
+//				$thumNext.hide();
+//				$thumPrev.hide();
+//			}
+//			$thumListInner.stop(true,false).animate({left: -swidth * currentPage * pageSize},300);
+//			
+//			/* 点击小图 */
+//			$thumImg.click(function(){
+//				index = $thumImg.index(this);			
+//				showImg(index);
+//			}).eq(0).click();
+//			
+//			/* 点击小图下一页 */
+//			$thumNext.click(function(){
+//				thumScrollRight();
+//			});
+//			
+//			/* 点击小图上一页 */
+//			$thumPrev.click(function(){			
+//				thumScrollLeft();
+//			});						
+//		}
+//		
+//		function thumScrollRight(){
+//			
+//			if(currentPage < totalPage-1){
+//				currentPage++;
+//				$thumCon.eq(currTabsIdx).find(".thumList_inner").stop(true,false).animate({left: -swidth * currentPage * pageSize},300);				
+//			}
+//		}
+//		
+//		function thumScrollLeft(){
+//			if(currentPage > 0){
+//				currentPage--;
+//				$thumCon.eq(currTabsIdx).find(".thumList_inner").stop(true,false).animate({left: -swidth * currentPage * pageSize},300);
+//			}
+//		}
+//		
+//		function showImg(index){
+//			var $currThum = $thumCon.eq(currTabsIdx),
+//				$imgWrap = $currThum.find(".imgWrap"),
+//				$thum = $currThum.find(".thum"),
+//				$thumImg = $thum.find(".thum_img");
+//			$thumImg.find(".box").remove();
+//			$thumImg.eq(index).prepend("<span class='box'><s></s></span>").addClass("selected").siblings().removeClass("selected");
+//			$imgWrap.find(".con").eq(index).show().siblings().hide();	
+//		}
+//		
+//		/* 点击大图下一 */
+//		$thumCon.find(".next").click(function(){
+//			if(index < len-1){
+//				index++;
+//				showImg(index);
+//				if(index % pageSize == 0){
+//					thumScrollRight();
+//				}
+//			}else{
+//				if($thumTabs.length > 0){
+//					currTabsIdx = currTabsIdx < $thumTabs.length-1 ? (currTabsIdx+1) : 0;
+//					$thumTabs.eq(currTabsIdx).click();
+//				}
+//			}
+//		});
+//		
+//		/* 点击大图上一张 */
+//		$thumCon.find(".prev").click(function(){
+//			if(index > 0){
+//				if(index % pageSize == 0){
+//					thumScrollLeft();
+//				}
+//				index--;
+//				showImg(index);
+//			}else{
+//				if($thumTabs.length > 0){
+//					currTabsIdx = currTabsIdx > 0 ? (currTabsIdx-1) : $thumTabs.length-1;
+//					$thumTabs.eq(currTabsIdx).click();
+//				}
+//			}
+//		});
+//		
+//	}
+//});
 
 /* 月供参考 */
 $(function(){
@@ -409,7 +409,7 @@ $(function(){
     function setData(type){
         var datas = parkAssortObj[type];
         $(map.getPanes().labelPane).empty();
-        $.each(datas, function(index,data){
+        datas && $.each(datas, function(index,data){
             normalOverlay(data);
         });
     }
