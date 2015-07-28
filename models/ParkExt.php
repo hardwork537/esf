@@ -19,7 +19,6 @@ class ParkExt extends BaseModel
     const KEY_OF_YEAR_LIMIT = "产权年限";
     const KEY_OF_ESTATE_DEVELOPER = '开发商';
     const KEY_OF_PROPERTY_COMPANY = '物业公司';
-     
 
     public function columnMap()
     {
@@ -165,5 +164,34 @@ class ParkExt extends BaseModel
         }
 
         return true;
-    }   
+    }
+
+    /**
+     * @abstract 获取小区扩展信息根据扩展字段值
+     * @author Eric xuminwan@sohu-inc.com
+     * @param int $intParkId
+     * @param string $strName
+     * @return array
+     * 
+     */
+    public function getParkExtByParkId($intParkId, $strName = '')
+    {
+        if(!$intParkId)
+            return array();
+        if($strName != '')
+        {
+            $strCond = "status = 1 and parkId = ?1 and name =?2";
+            $arrParam = array(1 => $intParkId, 2 => $strName);
+        } else
+        {
+            $strCond = "status = 1 and parkId = ?1";
+            $arrParam = array(1 => $intParkId);
+        }
+        $arrAssort = self::find(array(
+                $strCond,
+                'bind' => $arrParam,
+                ), 0)->toArray();
+        return $arrAssort;
+    }
+
 }
