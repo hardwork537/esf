@@ -16,7 +16,7 @@ class BuyController extends houseBuy
         $homeKw = trim($this->request->get('home_kw', 'string', ''));
         if(!$kw && $homeKw)
         {
-            $kw = $homeKw;
+            $data['kw'] = $kw = $homeKw;
         }
         
         if($kw)
