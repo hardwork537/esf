@@ -138,7 +138,10 @@ ul, ol {
 	width: 1100px;
 }
 .footer-nav li {
-	float: left;
+	display: inline-block;
+	*display: inline;
+	zoom: 1;
+	vertical-align: top;
 }
 .footer-nav a {
 	display: inline-block;
