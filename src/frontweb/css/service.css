@@ -6,8 +6,9 @@
 
 /* for section1 */
 .section1 { 
-	height: 764px; 
+	height: 400px; 
 	overflow: hidden;
+	text-align: center;
 }
 .section1-bg {
 	position: absolute;
@@ -19,28 +20,26 @@
 	background-size: cover;
 }
 .section1-txt1 {
-	position: relative;
-	margin: 163px auto 0 auto;
+	margin: 70px auto 0 auto;
 	background: url(../img/font7.png) no-repeat left top;
-	height: 62px;
-	width: 565px;
+	height: 50px;
+	width: 456px;
 }
 .section1-txt2 {
-	position: relative;
-	margin: 25px auto 0 auto;
+	margin: 30px auto 0 auto;
 	background: url(../img/font8.png) no-repeat left top;
-	height: 36px;
-	width: 487px;
+	height: 30px;
+	width: 406px;
 }
 .section1 .tel {
-	margin-top: 82px;
+	margin: 60px auto 0 auto;
 	text-align: center;
 }
 
 /* for section2 */
-.section2 { padding: 115px 0; }
+.section2 { padding: 50px 0; }
 .section2 .list1 {
-	margin-bottom: 115px;
+	margin-bottom: 50px;
 }
 .section2 .list2 { margin: 0 120px; }
 .section2 .list1 li { width: 33%; }
