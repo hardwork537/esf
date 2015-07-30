@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>房易买</title>
         <script src="<?php echo $src_url; ?>js/jquery-1.9.1.min.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="<?php echo $src_url; ?>css/base.css?v=20150729001" />
+        <link rel="stylesheet" href="<?php echo $src_url; ?>css/base.css?v=20150730001" />
         <?php if ($cssList == !$empty) { ?>
         <?php foreach ($cssList as $cssFile) { ?>
         <link rel="stylesheet" href="<?php echo $src_url; ?><?php echo $cssFile; ?>" />
