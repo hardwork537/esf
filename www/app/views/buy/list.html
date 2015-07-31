@@ -118,26 +118,28 @@
                 <ul class="clearfix">
                     {% for value in list %}
                     <li houseId="{{ value['houseId'] }}">
-                        <a class="house-pic" href="/view/{{ value['houseId'] }}.html"><img src="{{ imgs[value['houseId']]['imgUrl'] }}" height="240" width="360" /></a>
-                        <div class="house-info">
-                            <div class="clearfix title">
-                                <h3><a href="/view/{{ value['houseId'] }}.html">{{ parkList[value['parkId']]['name'] }}</a></h3>
-                                <span class="area">{{ distList[value['distId']]['name'] }}</span>
+                        <a href="/view/{{ value['houseId'] }}.html">
+                            <img class="house-pic" src="{{ imgs[value['houseId']]['imgUrl'] }}" height="240" width="360" />
+                            <div class="house-info">
+                                <div class="clearfix title">
+                                    <h3>{{ parkList[value['parkId']]['name'] }}</h3>
+                                    <span class="area">{{ distList[value['distId']]['name'] }}</span>
+                                </div>
+                                <p class="address">
+                                    <i></i>
+                                    {{ parkList[value['parkId']]['address'] }}
+                                </p>
+                                <p class="attr">
+                                    <i></i>
+                                    <span>{{ value['houseBedRoom'] }}室{{ value['houseLivingRoom'] }}厅{{ value['houseBathRoom'] }}卫</span>
+                                    <span>{{ value['houseBA'] }}平米</span>
+                                    <span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>
+                                </p>
+                                <p class="desc">{{ value['houseRemark'] }}</p>
                             </div>
-                            <p class="address">
-                                <i></i>
-                                {{ parkList[value['parkId']]['address'] }}
-                            </p>
-                            <p class="attr">
-                                <i></i>
-                                <span>{{ value['houseBedRoom'] }}室{{ value['houseLivingRoom'] }}厅{{ value['houseBathRoom'] }}卫</span>
-                                <span>{{ value['houseBA'] }}平米</span>
-                                <span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>
-                            </p>
-                            <p class="desc">{{ value['houseRemark'] }}</p>
-                        </div>
-                        <div class="house-price"><strong class="total">{{ value['housePrice']/10000 }}万</strong><br />{{ value['houseUnit'] }}元/平米</div>
-                        <span class="j-favorite favorite{% if favHouse[value['houseId']] %} favorite-on{% endif %}"></span>
+                            <div class="house-price"><strong class="total">{{ value['housePrice']/10000 }}万</strong><br />{{ value['houseUnit'] }}元/平米</div>
+                            <span class="j-favorite favorite{% if favHouse[value['houseId']] %} favorite-on{% endif %}"></span>
+                        </a>
                     </li>
                     {% endfor %}
                 </ul>

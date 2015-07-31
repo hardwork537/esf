@@ -3,7 +3,7 @@
 	position: relative;
 	min-width: 1100px;
 }
-.section1 { height: 647px; }
+.section1 { height: 400px; }
 .section1-bg {
 	position: absolute;
 	left: 0;
@@ -14,26 +14,29 @@
 	background-size: cover;
 }
 .section1-txt1 {
-	display: inline-block;
 	position: relative;
-	margin-left: 180px;
-	margin-top: 118px;
+	left: 280px;
+	top: 60px;
 	background: url(../img/font1.png) no-repeat left top;
-	height: 63px;
-	width: 571px;
+	height: 40px;
+	width: 363px;
 }
 .section1-txt2 {
-	margin-left: 480px;
-	margin-top: 15px;
+	position: relative;
+	left: 550px;
+	top: 80px;
 	background: url(../img/font2.png) no-repeat left top;
-	height: 62px;
-	width: 377px;
+	height: 40px;
+	width: 243px;
 }
 
 /* for search */
 .search {
 	position: relative;
-	margin-top: 70px;
+	top: 120px;
+	margin: 0 auto;
+	width: 840px;
+	padding: 0 30px;
 }
 .search-bg {
 	position: absolute;
@@ -42,16 +45,13 @@
 	background-color: #000;
 	opacity: .3;
 	filter: alpha(opacity=30);
-	height: 175px;
+	height: 120px;
 	width: 100%;
 }
 .search-box {
 	position: relative;
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-	margin: 46px 47px 15px 47px;
-	width: 1016px;
+	padding-top: 25px;
+	margin-bottom: 10px;
 	z-index: 90;
 }
 .search-box .input-box {
@@ -59,8 +59,8 @@
 	float: left;
 	background-color: #fff;
 	border-right: 0;
-	height: 50px;
-    width: 800px;
+	height: 40px;
+    width: 670px;
 	overflow: hidden;
 }
 .search-box .input-box,
@@ -76,8 +76,8 @@
     font-size: 16px;
     height: 24px;
     line-height: 24px;
-	margin: 13px 15px 0 15px;
-	width: 770px;
+	margin: 8px 15px 0 15px;
+	width: 640px;
 }
 .search-box .btn {
 	float: right;
@@ -86,15 +86,14 @@
 	cursor: pointer;
 	color: #fff;
 	font-size: 16px;
-	height: 50px;
-	width: 200px;
+	height: 40px;
+	width: 160px;
 	text-align: center;
 }
 .search-hot {
 	position: relative;
 	color: #fff;
-	font-size: 16px;
-	padding: 0 47px;
+	font-size: 14px;
 }
 .search-hot a {
 	color: #fff;
@@ -139,7 +138,7 @@
 /* for section2 */
 .section2 {
 	background-color: #f4f4f4;
-	padding: 115px 0;
+	padding: 30px 0;
 }
 .section2 ul {
 	position: relative;
@@ -181,7 +180,7 @@
 
 /* for section3 */
 .section3 { 
-	height: 800px; 
+	height: 460px; 
 	overflow: hidden;
 }
 .section3-bg {
@@ -195,7 +194,7 @@
 }
 .section3-txt {
 	position: relative;
-	margin: 165px auto 115px auto;
+	margin: 50px auto;
 	background: url(../img/font3.png) no-repeat left top;
 	height: 41px;
 	width: 847px;
@@ -233,13 +232,13 @@
 
 /* for section4 */
 .section4 { 
-	height: 800px; 
+	height: 460px; 
 	overflow: hidden;
 	background-color: #fff;
 }
 .section4-txt {
 	position: relative;
-	margin: 190px auto 105px auto;
+	margin: 50px auto;
 	background: url(../img/font4.png) no-repeat left top;
 	height: 36px;
 	width: 828px;
@@ -276,13 +275,13 @@
 /* for section5 */
 .section5 {
 	background-color: #f26432;
-	height: 250px;
+	height: 150px;
 	overflow: hidden;
 }
 .section5 p {
 	color: #fff;
-	font-size: 26px;
-	line-height: 48px;
-	margin-top: 80px;
+	font-size: 22px;
+	line-height: 40px;
+	margin-top: 35px;
 	text-align: center;
 }

@@ -5,7 +5,7 @@ class BuyController extends houseBuy
     public function listAction()
     {
         $data = array();
-        $data['cssList'] = array('css/list.css');
+        $data['cssList'] = array('css/list.css?v=20150730001');
         //筛选项
         $res = $this->getFilters();
         $data['filter'] = $res['filter'];
