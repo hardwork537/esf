@@ -54,12 +54,14 @@ class House extends BaseModel
     public $distId = 0;
     public $cityId;
     public $userId = 0;
+    public $title = '';
     public $type = 0;
     public $level = '';
     public $price = 0.00;
     public $handPrice = 0.00;
     public $buyPrice = 0.00;
     public $saleTax = 0.00;
+    public $contractTax = 0.00;
     public $tax = 0.00;
     public $isFiveYear = self::NO_FIVEYEAR;
     public $isOnlyOne = self::IS_ONLYONE;
@@ -116,12 +118,14 @@ class House extends BaseModel
             'distId' => 'distId',
             'cityId' => 'cityId',
             'userId' => 'userId',
+            'houseTitle' => 'title',
             'houseType' => 'type',
             'houseLevel' => 'level',
             'housePrice' => 'price',
             'houseHandPrice' => 'handPrice',
             'houseBuyPrice' => 'buyPrice',
             'houseSaleTax' => 'saleTax',
+            'houseContractTax' => 'contractTax',
             'houseTax' => 'tax',
             'houseIsFiveYear' => 'isFiveYear',
             'houseIsOnlyOne' => 'isOnlyOne',
@@ -384,7 +388,8 @@ class House extends BaseModel
         $value['parkId'] = (int) $v['parkId'];
         $value['distId'] = (int) $v['distId'];
         $value['regId'] = (int) $v['regId'];
-        $value['housePrice'] = (float) $v['price'];
+        $value['houseTitle'] = $v['title'];
+        $value['housePrice'] = (float) $v['handPrice'];
         $value['houseBuildType'] = (int) $v['buildType'];
         $value['houseBA'] = (float) $v['bA'];
         $value['houseBedRoom'] = (int) $v['bedRoom'];
@@ -433,6 +438,8 @@ class House extends BaseModel
         isset($data['distId']) && $insertData['distId'] = $data['distId']; //区域
         isset($data['regId']) && $insertData['regId'] = $data['regId']; //板块
         isset($data['userId']) && $insertData['userId'] = $data['userId'];
+        isset($data['title']) && $insertData['title'] = $data['title']; //标题
+        isset($data['contractTax']) && $insertData['contractTax'] = $data['contractTax']; //板块
         isset($data['propertyType']) && $insertData['propertyType'] = $data['propertyType']; //物业类型
         isset($data['buildType']) && $insertData['buildType'] = $data['buildType']; //建筑类型
         isset($data['orientation']) && $insertData['orientation'] = $data['orientation']; //朝向
@@ -490,6 +497,7 @@ class House extends BaseModel
     public function editHouse($id, $data)
     {
         $updateData = $this->_getUpdateData($data);
+
         if(empty($data) || empty($updateData))
         {
             return array('status' => 1, 'info' => '数据为空');
@@ -507,10 +515,11 @@ class House extends BaseModel
         $esData = array();
         $editData = $updateData['data'];
         isset($editData['floorMax']) && $esData['houseFloorMax'] = $editData['floorMax']; //总楼层
-        isset($editData['price']) && $esData['housePrice'] = (float)$editData['price']; //价格
+        isset($editData['handPrice']) && $esData['housePrice'] = (float)$editData['handPrice']; //价格
         isset($editData['status']) && $esData['status'] = $editData['status']; //状态
         isset($editData['remark']) && $esData['houseRemark'] = $editData['remark']; //状态
         isset($editData['price']) && $esData['houseUnit'] = (float)number_format($editData['price']/$house->bA, 2, '.', '');
+        isset($editData['title']) && $esData['houseTitle'] = $editData['title']; //标题
         $esData['houseUpdate'] = time();
         
         $arrEsData = array(
@@ -545,9 +554,23 @@ class House extends BaseModel
     
     private function _getUpdateData($data, $houseId = 0)
     {   
+        isset($data['title']) && $insertData['title'] = $data['title']; //标题
+        isset($data['contractTax']) && $insertData['contractTax'] = $data['contractTax']; //板块
+        isset($data['propertyType']) && $insertData['propertyType'] = $data['propertyType']; //物业类型
+        isset($data['buildType']) && $insertData['buildType'] = $data['buildType']; //建筑类型
+        isset($data['orientation']) && $insertData['orientation'] = $data['orientation']; //朝向
+        isset($data['decoration']) && $insertData['decoration'] = $data['decoration']; //装修状况
+        isset($data['floorPosition']) && $insertData['floorPosition'] = $data['floorPosition']; //楼层位置
         isset($data['floorMax']) && $insertData['floorMax'] = $data['floorMax']; //总楼层
-        isset($data['listCount']) && $insertData['liftCount'] = $data['listCount']; //电梯数量
+        isset($data['listCount']) && $insertData['listCount'] = $data['listCount']; //电梯数量
+        isset($data['unitNo']) && $insertData['unitNo'] = $data['unitNo']; //单元号
+        isset($data['roomNo']) && $insertData['roomNo'] = $data['roomNo']; //房号
+        isset($data['bedRoom']) && $insertData['bedRoom'] = $data['bedRoom']; //室
+        isset($data['livingRoom']) && $insertData['livingRoom'] = $data['livingRoom']; //厅
+        isset($data['bathRoom']) && $insertData['bathRoom'] = $data['bathRoom']; //卫
+        isset($data['bA']) && $insertData['bA'] = $data['bA']; //建筑面积
         isset($data['uA']) && $insertData['uA'] = $data['uA']; //使用面积
+        isset($data['handPrice']) && $insertData['handPrice'] = $data['handPrice']; //到手价
         isset($data['buyPrice']) && $insertData['buyPrice'] = $data['buyPrice']; //买入价
         isset($data['saleTax']) && $insertData['saleTax'] = $data['saleTax']; //营业税
         isset($data['tax']) && $insertData['tax'] = $data['tax']; //个税
@@ -566,14 +589,19 @@ class House extends BaseModel
         isset($data['price']) && $insertData['price'] = $data['price']; //价格
         isset($data['isMortgage']) && $insertData['isMortgage'] = $data['isMortgage']; //抵押
         isset($data['giveDetail']) && $insertData['give'] = $data['giveDetail']; //赠送细节
-        isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注 
-        $insertData['houseDesc'] = $data['houseDesc'];
+        isset($data['remark']) && $insertData['remark'] = $data['remark']; //备注        
+        isset($data['houseDesc']) && $insertData['houseDesc'] = $data['houseDesc']; //备注        
         
-        if($data['isPublish'])
+        if($insertData['parkId'] && $insertData['unitNo'] && $insertData['roomNo'])
         {
-            $insertData['status'] = self::STATUS_ONLINE;
-        }
+            $isExist = $this->_isRoomExist($insertData['parkId'], $insertData['unitNo'], $insertData['roomNo'], $houseId);
+            if($isExist)
+            {
+                return array('status' => 1, 'info' => '该套房源已存在');
+            }
+        } 
         $insertData['updateTime'] = date('Y-m-d H:i:s');
+        $data['isPublish'] && $insertData['status'] = self::STATUS_ONLINE; //房源状态，是否发布
         
         return array('status' => 0, 'data' => $insertData);
     }
@@ -613,7 +641,7 @@ class House extends BaseModel
             $this->rollback();
             return array('status' => 1, 'info' => '房源添加失败');
         }
-        
+        /*
         if(!empty($data['images']))
         {
             $delSql = "DELETE FROM house_picture WHERE houseId={$houseObj->id}";
@@ -672,7 +700,7 @@ class House extends BaseModel
             $this->rollback();
             return array('status' => 1, 'info' => '房源添加失败~');
         }
-        
+        */
         $this->commit();
         return array('status' => 0, 'info' => '添加房源成功');
     }
@@ -688,7 +716,9 @@ class House extends BaseModel
         isset($data['bA']) && $insertData['bA'] = $data['bA']; //建筑面积
         isset($data['agent']) && $insertData['agent'] = $data['agent']; //代理人
         isset($data['agentPhone']) && $insertData['agentPhone'] = $data['agentPhone']; //代理人联系方式
-        isset($data['price']) && $insertData['price'] = $data['price']; //价格     
+        isset($data['price']) && $insertData['price'] = $data['price']; //价格  
+        $insertData['distId'] = intval($data['distId']);
+        $insertData['regId'] = intval($data['regId']);
     
         $insertData['type'] = self::TYPE_WEITUO;
         $insertData['status'] = self::STATUS_OFFLINE;

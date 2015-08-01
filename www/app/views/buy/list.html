@@ -135,7 +135,7 @@
                                     <span>{{ value['houseBA'] }}平米</span>
                                     <span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>
                                 </p>
-                                <p class="desc">{{ value['houseRemark'] }}</p>
+                                <p class="desc">{{ value['houseTitle'] }}</p>
                             </div>
                             <div class="house-price"><strong class="total">{{ value['housePrice']/10000 }}万</strong><br />{{ value['houseUnit'] }}元/平米</div>
                             <span class="j-favorite favorite{% if favHouse[value['houseId']] %} favorite-on{% endif %}"></span>

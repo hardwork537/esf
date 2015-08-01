@@ -27,7 +27,7 @@ class ViewController extends ControllerBase
         $houseInfo = array();
         $houseInfo['id'] = $houseId;
         $houseInfo['bA'] = $house['bA']; //建筑面积
-        $houseInfo['title'] = $house['remark']; //标题
+        $houseInfo['title'] = $house['title']; //标题
         $houseInfo['bedRoom'] = $house['bedRoom']; //室
         $houseInfo['livingRoom'] = $house['livingRoom']; //厅
         $houseInfo['bathRoom'] = $house['bathRoom']; //卫
@@ -35,9 +35,10 @@ class ViewController extends ControllerBase
         $houseInfo['regId'] = $house['regId'];
         $houseInfo['parkId'] = $house['parkId'];
         $houseInfo['handPrice'] = $house['handPrice'];
+        $houseInfo['contractTax'] = $house['contractTax'];
         $houseInfo['tax'] = $house['tax'];
         $houseInfo['saleTax'] = $house['saleTax'];
-        $houseInfo['price'] = $house['price'];
+        $houseInfo['price'] = $house['handPrice'];
         
         global $FLOOR_POSITION, $LIVE_TYPE, $BUILD_TYPE, $UNIT_EXPOSURE, $UNIT_FITMENT;
         $houseInfo['orientation'] = $UNIT_EXPOSURE[$house['orientation']]; //朝向
@@ -47,7 +48,7 @@ class ViewController extends ControllerBase
         $houseInfo['buildType'] = $BUILD_TYPE[$house['buildType']]; //建筑类型
         
         $data['house'] = $houseInfo;
-        
+
         //区域信息
         $district = CityDistrict::instance()->getDistByIds($house['distId'], 'id,pinyin,name');
         if(!empty($district))

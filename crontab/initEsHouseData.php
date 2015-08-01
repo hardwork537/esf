@@ -51,6 +51,13 @@ if(!$client->existsType($createMapping))
                 "store" => "yes",
                 "null_value" => '',
             ),
+            "houseTitle" => array(
+                "type" => "string",
+                "index" => "analyzed",
+                "analyzer" => "mmseg",
+                "store" => "yes",
+                "null_value" => '',
+            ),
             "distId" => array(
                 'type' => 'integer',
                 'store' => 'yes',
@@ -198,7 +205,8 @@ foreach($house as $v)
     $value['parkId'] = (int) $v['parkId'];
     $value['distId'] = (int) $v['distId'];
     $value['regId'] = (int) $v['regId'];
-    $value['housePrice'] = (float) $v['price'];
+    $value['houseTitle'] = $v['title'];
+    $value['housePrice'] = (float) $v['handPrice'];
     $value['houseBuildType'] = (int) $v['buildType'];
     $value['houseBA'] = (float) $v['bA'];
     $value['houseBedRoom'] = (int) $v['bedRoom'];
@@ -208,7 +216,7 @@ foreach($house as $v)
     $value['houseDecoration'] = (int) $v['decoration'];
     $value['status'] = (int) $v['status'];
     $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
-    $value['houseUpdate'] = strtotime($v['updateTime']);
+    $value['houseUpdate'] = strtotime($v['updateTime']) ? strtotime($v['updateTime']) : 0;
     $value['houseUnit'] = (float)number_format($v['price']/$v['bA'], 2, '.', '');
     $value['subwayLine'] = '';
     $value['subwaySite'] = '';
@@ -275,6 +283,6 @@ foreach($houseList as $id => $v)
         fwrite($errorFh, "error:" . $tmp . "\n");
     } else
     {
-        echo $value['houseId'] .' done'.PHP_EOL;
+        echo $v['houseId'] .' done'.PHP_EOL;
     }
 }

@@ -18,7 +18,7 @@ class SellController extends ControllerBase
             exit();
         }
         $data = array();
-        $data['cssList'] = array('css/fabu.css?v=20150726001');
+        $data['cssList'] = array('css/fabu.css?v=20150730002');
         $data['baseUrl'] = WWW_BASE_URL;
         $data['userId'] = intval($this->_userInfo['id']);
         //$data['citys'] = City::instance()->getOptions();;
@@ -104,15 +104,17 @@ class SellController extends ControllerBase
              
         $params = array(
             'cityId' => $cityId,
+            'distId' => $park['distId'],
+            'regId' => $park['regId'],
             'userId' => $this->_userInfo['id'],
             'parkId' => $park['id'],
             'bedRoom' => $bedRoom,
             'livingRoom' => $livingRoom,
             'bathRoom' => $bathRoom,
-            'bA' => $bA*10000,
+            'bA' => $bA,
             'agent' => $agent,
             'agentPhone' => $agentPhone,
-            'price' => $price,
+            'price' => $price*10000,
             'images' => $images
         );
         

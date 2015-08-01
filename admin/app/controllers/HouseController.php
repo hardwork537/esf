@@ -37,7 +37,14 @@ class HouseController extends ControllerBase
             return;
         }
         $where = $filterRes['where'];
-        $result = House::find($where, 0)->toArray();
+        
+        $houseCondition = array(
+            'where' => $where,
+            'order' => 'createTime desc',
+            'offset' => $this->_offset,
+            'limit' => $this->_pagesize
+        );
+        $result = House::find($houseCondition, 0)->toArray();
         if(empty($result))
         {
             $this->show(null, $data);
@@ -55,7 +62,7 @@ class HouseController extends ControllerBase
             $value['bathRoom'] = $v['bathRoom'];
             $value['bA'] = $v['bA'];
             $value['userId'] = $v['userId'];
-            $value['price'] = $v['price'];
+            $value['price'] = $v['handPrice'];
             $value['createTime'] = date('Y.m.d', strtotime($v['createTime']));
             $value['picNum'] = $v['picNum'];
             $value['url'] = WWW_BASE_URL . 'view/'.$v['id'].'.html';
@@ -195,68 +202,64 @@ class HouseController extends ControllerBase
             $cityNum = City::count($where);
             if($cityNum == 0)
                 return array('status' => 1, 'info' => '城市无效');
-            //验证区域
-            $distId = $this->request->getPost('distId', 'int', 0);
-            $where = "id={$distId} and cityId={$cityId} and status=".CityDistrict::STATUS_ENABLED;
-            $distNum = CityDistrict::count($where);
-            if($distNum == 0)
-                return array('status' => 1, 'info' => '区域无效');
-            //验证板块
-            $regId = $this->request->getPost('regId', 'int', 0);
-            $where = "id={$regId} and cityId={$cityId} and distId={$distId} and status=".CityRegion::STATUS_ON;
-            $regNum = CityRegion::count($where);
-            if($regNum == 0)
-                return array('status' => 1, 'info' => '板块无效');
+          
             //验证小区
             $parkName = trim($this->request->getPost('parkName', 'string', ''));
             $where = "name='{$parkName}' and cityId={$cityId}";
             $park = Park::findFirst($where, 0)->toArray();
             if(empty($park))
                 return array('status' => 1, 'info' => '该城市不存在该小区');
-            //验证物业类型
-            $propertyType = $this->request->getPost('propertyType', 'int', 0);
-            if(!array_key_exists($propertyType, $options['propertyType']))
-                return array('status' => 1, 'info' => '无效的物业类型');
-            //验证建筑类型
-            $buildType = $this->request->getPost('buildType', 'int', 0);
-            if(!array_key_exists($buildType, $options['buildType']))
-                return array('status' => 1, 'info' => '无效的建筑类型');
-            //验证朝向
-            $orientation = $this->request->getPost('orientation', 'int', 0);
-            if(!array_key_exists($orientation, $options['orientation']))
-                return array('status' => 1, 'info' => '无效的朝向');
-            //验证装修状况
-            $decoration = $this->request->getPost('decoration', 'int', 0);
-            if(!array_key_exists($decoration, $options['decoration']))
-                return array('status' => 1, 'info' => '装修状况');
-            //验证楼层位置
-            $floorPosition = $this->request->getPost('floorPosition', 'int', 0);
-            if(!array_key_exists($floorPosition, $options['floorPosition']))
-                return array('status' => 1, 'info' => '无效的楼层位置');
-            //单元号
-            $unitNo = $this->request->getPost('unitNo', 'int', 0);
-            if($unitNo < 1)
-                return array('status' => 1, 'info' => '单元号不能为空');
-            //室号
-            $roomNo = $this->request->getPost('roomNo', 'int', 0);
-            if($roomNo < 1)
-                return array('status' => 1, 'info' => '室号不能为空');
-            //室
-            $bedRoom = $this->request->getPost('bedRoom', 'int', 0);
-            //厅
-            $livingRoom = $this->request->getPost('livingRoom', 'int', 0);
-            //卫
-            $bathRoom = $this->request->getPost('bathRoom', 'int', 0);
-            //建筑面积
-            $bA = $this->request->getPost('bA', 'int', 0);
-            if($bA < 1)
-                return array('status' => 1, 'info' => '建筑面积不能为空');
-            //到手价
-            $handPrice = $_REQUEST['handPrice'];
-            if($handPrice < 1)
-                return array('status' => 1, 'info' => '到手价不能为空');
             
-        }    
+            
+        }  
+        //验证标题
+        $title = trim($this->request->getPost('houseTitle', 'string', ''));
+        if(!$title)
+            return array('status' => 1, 'info' => '标题不能为空');
+        
+        //验证物业类型
+        $propertyType = $this->request->getPost('propertyType', 'int', 0);
+        if(!array_key_exists($propertyType, $options['propertyType']))
+            return array('status' => 1, 'info' => '无效的物业类型');
+        //验证建筑类型
+        $buildType = $this->request->getPost('buildType', 'int', 0);
+        if(!array_key_exists($buildType, $options['buildType']))
+            return array('status' => 1, 'info' => '无效的建筑类型');
+        //验证朝向
+        $orientation = $this->request->getPost('orientation', 'int', 0);
+        if(!array_key_exists($orientation, $options['orientation']))
+            return array('status' => 1, 'info' => '无效的朝向');
+        //验证装修状况
+        $decoration = $this->request->getPost('decoration', 'int', 0);
+        if(!array_key_exists($decoration, $options['decoration']))
+            return array('status' => 1, 'info' => '装修状况');
+        //验证楼层位置
+        $floorPosition = $this->request->getPost('floorPosition', 'int', 0);
+        if(!array_key_exists($floorPosition, $options['floorPosition']))
+            return array('status' => 1, 'info' => '无效的楼层位置');
+        //单元号
+        $unitNo = $this->request->getPost('unitNo', 'int', 0);
+        if($unitNo < 1)
+            return array('status' => 1, 'info' => '单元号不能为空');
+        //室号
+        $roomNo = $this->request->getPost('roomNo', 'int', 0);
+        if($roomNo < 1)
+            return array('status' => 1, 'info' => '室号不能为空');
+        //室
+        $bedRoom = $this->request->getPost('bedRoom', 'int', 0);
+        //厅
+        $livingRoom = $this->request->getPost('livingRoom', 'int', 0);
+        //卫
+        $bathRoom = $this->request->getPost('bathRoom', 'int', 0);
+        //建筑面积
+        $bA = $this->request->getPost('bA');
+        if($bA < 1)
+            return array('status' => 1, 'info' => '建筑面积不能为空');
+        //到手价
+        $handPrice = $_REQUEST['handPrice'];
+        if($handPrice < 1)
+            return array('status' => 1, 'info' => '到手价不能为空');
+            
         //房源描述
         $houseDesc = $_POST['houseDesc'];
         if(!$houseDesc)
@@ -266,13 +269,15 @@ class HouseController extends ControllerBase
         //电梯数量
         $listCount = $this->request->getPost('listCount', 'int', 0);      
         //使用面积
-        $uA = $this->request->getPost('uA', 'int', 0);       
+        $uA = $this->request->getPost('uA');   
         //买入价
         $buyPrice = $_REQUEST['buyPrice'];
         //营业税
         $saleTax = $_REQUEST['saleTax'];
         //个税
         $tax = $_REQUEST['tax'];
+        //契税
+        $contractTax = $_REQUEST['contractTax'];
         //验证满五年
         $isFiveYear = $this->request->getPost('isFiveYear', 'int', 0);
         if(!array_key_exists($isFiveYear, $options['isFiveYear']))
@@ -328,9 +333,11 @@ class HouseController extends ControllerBase
         
         $params = array(
             'cityId' => $cityId,
-            'distId' => $distId,
-            'regId' => $regId,
+            'distId' => $park['distId'],
+            'regId' => $park['regId'],
             'userId' => $this->_userInfo['id'],
+            'title' => $title,
+            'contractTax' => $contractTax*10000,
             'parkId' => $park['id'],
             'propertyType' => $propertyType,
             'buildType' => $buildType,
@@ -346,10 +353,10 @@ class HouseController extends ControllerBase
             'bathRoom' => $bathRoom,
             'bA' => $bA,
             'uA' => $uA,
-            'handPrice' => $handPrice,
-            'buyPrice' => $buyPrice,
-            'saleTax' => $saleTax,
-            'tax' => $tax,
+            'handPrice' => $handPrice*10000,
+            'buyPrice' => $buyPrice*10000,
+            'saleTax' => $saleTax*10000,
+            'tax' => $tax*10000,
             'isFiveYear' => $isFiveYear,
             'isOnlyOne' => $isOnlyOne,
             'propertyOwner' => $propertyOwner,

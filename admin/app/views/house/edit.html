@@ -42,7 +42,7 @@
                 <ul class="main_form">
                     <li class="form_group clearfix inputwrap">
                         <em class="sp_em"><i>*</i>小区名称：</em>
-                        <div class="input_group">
+                        <div class="input_group" style="width:200px;">
                             <input {% if action=='edit' %}disabled="disabled"{% endif %} type="text" datatype="*" notnull="true" info="小区名称" id="parkName" name="parkName" autocomplete="off" class="form_control input_l Validform_error autoComplete search_input" url="/ajax/getParkName/" toName="comId" nums=10 value="{{ house['parkName'] }}">
                             <input id="comId" type="hidden" value="{{ comId }}" name="comId">
                         </div>
@@ -50,26 +50,28 @@
                         <em class="sp_em">房源编号：</em>
                         <input type="text" name="houseId" value="{{ house['id'] }}" disabled="disabled" />
                         {% endif %}
+                        <em class="sp_em"><i>*</i>标题：</em>
+                        <input type="text" name="houseTitle" value="{{ house['title'] }}" notnull="true" info="标题" />
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>物业类型：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="propertyType" notnull="true" info='物业类型'>
+                        <select class="form-control" name="propertyType" notnull="true" info='物业类型'>
                             <?=MyTags::options($options['propertyType'], $house['propertyType'])?>
                         </select>
                         <em class="sp_em"><i>*</i>建筑类型：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="buildType" notnull="true" info='建筑类型'>
+                        <select class="form-control" name="buildType" notnull="true" info='建筑类型'>
                             <?=MyTags::options($options['buildType'], $house['buildType'])?>
                         </select>
                         <em class="sp_em"><i>*</i>朝向：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="orientation" notnull="true" info='朝向'>
+                        <select class="form-control" name="orientation" notnull="true" info='朝向'>
                             <?=MyTags::options($options['orientation'], $house['orientation'])?>
                         </select>
                         <em class="sp_em"><i>*</i>装修状况：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="decoration" notnull="true" info='装修状况'>
+                        <select class="form-control" name="decoration" notnull="true" info='装修状况'>
                             <?=MyTags::options($options['decoration'], $house['decoration'])?>
                         </select>
                         <em class="sp_em"><i>*</i>楼层位置：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="floorPosition" notnull="true" info='楼层位置'>
+                        <select class="form-control" name="floorPosition" notnull="true" info='楼层位置'>
                             <?=MyTags::options($options['floorPosition'], $house['floorPosition'])?>
                         </select>
                     </li>
@@ -79,28 +81,22 @@
                         <em class="sp_em">电梯数量：</em>
                         <input class="w60 mr45" type="text" value="{{ house['liftCount'] }}" name="listCount" onlyNum='true' />
                         <em class="sp_em"><i>*</i>单元号：</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w60 mr45" type="text" value="{{ house['unitNo'] }}" name="unitNo" notnull="true" info="单元号" onlyNum='true' />
+                        <input class="w60 mr45" type="text" value="{{ house['unitNo'] }}" name="unitNo" notnull="true" info="单元号" onlyNum='true' />
                         <em class="sp_em"><i>*</i>室号：</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w60 mr45" type="text" value="{{ house['roomNo'] }}" name="roomNo" notnull="true" info="室号" onlyNum='true' />
+                        <input class="w60 mr45" type="text" value="{{ house['roomNo'] }}" name="roomNo" notnull="true" info="室号" onlyNum='true' />
                         <em class="sp_em"><i>*</i>户型：</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w40" type="text" value="{{ house['bedRoom'] }}" name="bedRoom" notnull="true" info="室" onlyNum='true' />
+                        <input class="w40" type="text" value="{{ house['bedRoom'] }}" name="bedRoom" notnull="true" info="室" onlyNum='true' />
                         <em class="em_one">室</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w40" type="text" value="{{ house['livingRoom'] }}" name="livingRoom" notnull="true" info="厅" onlyNum='true' />
+                        <input class="w40" type="text" value="{{ house['livingRoom'] }}" name="livingRoom" notnull="true" info="厅" onlyNum='true' />
                         <em class="em_one">厅</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w40" type="text" value="{{ house['bathRoom'] }}" name="bathRoom" notnull="true" info="卫" onlyNum='true' />
+                        <input class="w40" type="text" value="{{ house['bathRoom'] }}" name="bathRoom" notnull="true" info="卫" onlyNum='true' />
                         <em class="em_one">卫</em>
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>建筑面积：</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w89 mr15" type="text" value="{{ house['bA'] }}" name="bA" notnull="true" info="建筑面积" onlyNum='true'  />
+                        <input class="w89 mr15" type="text" value="{{ house['bA'] }}" name="bA" notnull="true" info="建筑面积" onlyNum='true'  />
                         <em class="sp_em">使用面积：</em>
                         <input class="w89 mr15" type="text" value="{{ house['uA'] }}" name="uA" onlyNum='true' />
-                        <em class="sp_em"><i>*</i>区域：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="distId" id="distId" notnull="true" info='区域'  onchange="getRegion('regId', 0, $(this).val());">
-                        </select>
-                        <em class="sp_em"><i>*</i>板块：</em>
-                        <select {% if action=='edit' %}disabled="disabled"{% endif %} class="form-control" name="regId" id="regId" notnull="true" info='板块'>
-                        </select>
                     </li>
                 </ul>
                 <!-- 基本信息 END -->
@@ -112,15 +108,17 @@
                 <ul class="main_form">
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>到手价：</em>
-                        <input {% if action=='edit' %}disabled="disabled"{% endif %} class="w110 mr15" type="text" value="{{ house['handPrice'] }}" name="handPrice" notnull="true" info="到手价" onlyNum='true' />
+                        <input class="w110 mr15" type="text" value="{{ house['handPrice']/10000 }}" name="handPrice" notnull="true" info="到手价" onlyNum='true' /><em class="sp_em" style="text-align:left; width:30px;">万元</em>
                         <em class="sp_em">买入价：</em>
-                        <input class="w110 mr15" type="text" value="{{ house['buyPrice'] }}" name="buyPrice" onlyNum='true' />
+                        <input class="w110 mr15" type="text" value="{{ house['buyPrice']/10000 }}" name="buyPrice" onlyNum='true' /><em class="sp_em" style="text-align:left; width:30px;">万元</em>
                         <em class="sp_em">营业税：</em>
-                        <input class="w110 mr15" type="text" value="{{ house['saleTax'] }}" name="saleTax" onlyNum='true' />
+                        <input class="w110 mr15" type="text" value="{{ house['saleTax']/10000 }}" name="saleTax" onlyNum='true' /><em class="sp_em" style="text-align:left; width:30px;">万元</em>
                         <em class="sp_em">个税：</em>
-                        <input class="w110 mr15" type="text" value="{{ house['tax'] }}" name="tax" onlyNum='true' />
+                        <input class="w110 mr15" type="text" value="{{ house['tax']/10000 }}" name="tax" onlyNum='true' /><em class="sp_em" style="text-align:left; width:30px;">万元</em>
                     </li>
                     <li class="form_group clearfix">
+                        <em class="sp_em"><i>*</i>契税：</em>
+                        <input class="w110 mr15" type="text" value="{{ house['contractTax']/10000 }}" name="contractTax" onlyNum='true' /><em class="sp_em" style="text-align:left; width:30px;">万元</em>
                         <em class="sp_em">满五年：</em>
                         <select class="form-control" name="isFiveYear">
                             <?=MyTags::options($options['isFiveYear'], $house['isFiveYear'])?>
@@ -230,8 +228,8 @@
     var menu = 'menu1';
     var moudle = 'houseadd';
     
-    getDist('distId', "{{ house['distId'] }}", $("#cityId").val());
-    getRegion('regId', "{{ house['redId'] }}", $("#distId").val());
+//    getDist('distId', "{{ house['distId'] }}", $("#cityId").val());
+//    getRegion('regId', "{{ house['redId'] }}", $("#distId").val());
     
     $(function() {
         $("input[onlyNum=true]").keyup(function(){

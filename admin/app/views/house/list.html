@@ -37,15 +37,17 @@
             <!-- search result begin -->          
             <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover table-house">
                 <colgroup>
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
                     <col width="8%">
+                    <col width="7%">
                     <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
-                    <col width="8%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
                     <col width="8%">
                     <col>
                 </colgroup>
@@ -69,7 +71,7 @@
                 <tbody>
                     {% if lists is empty %}
                     <tr class="noreascout">
-                        <td colspan='11' height='300px;'>
+                        <td colspan='13' height='300px;'>
                             <p style='margin-top: 80px;'><strong class="font14">很抱歉，没有找到符合条件的标签</strong></p>
                             <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p>
                         </td>
@@ -91,7 +93,7 @@
                         <td>{{ users[value['userId']] }}</td>
                         <td>{{ value['createTime'] }}</td>
                         <td align="center" class="operate">
-                            <a target="_blank" href="/house/edit/{{ id }}/">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a href="/house/edit/{{ id }}/">编辑</a>&nbsp;&nbsp;&nbsp;
                             <a target="_blank" href="{{ value['url'] }}">查看</a>
                         </td>
                     </tr>
