@@ -95,8 +95,8 @@
             var isCheck = $(this).is(':checked');
             if(isCheck) {
                 var checkNum = $("input:checked").length;
-                if(checkNum >= 4) {
-                    alert('最多只能选 3 个标签');
+                if(checkNum >= 7) {
+                    alert('最多只能选 6 个标签');
                     $(this).removeAttr('checked');
                     return false;
                 }

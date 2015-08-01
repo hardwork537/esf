@@ -2,7 +2,9 @@
 
 class HouseController extends ControllerBase
 {
-
+    //标签数量
+    const TAG_LIMIT = 6;
+    
     public function listAction()
     {
         $data = array();
@@ -583,7 +585,7 @@ class HouseController extends ControllerBase
                 $this->show('JSON', array('status'=>1, 'info'=>'标签不存在'));
             }
             $tagNum = HouseExtTag::count("houseId={$houseId}");
-            if($tagNum >= 3)
+            if($tagNum > self::TAG_LIMIT)
             {
                 $this->show('JSON', array('status'=>1, 'info'=>'最多只能选择 3 个标签'));
             }
