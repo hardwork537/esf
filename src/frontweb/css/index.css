@@ -285,3 +285,26 @@
 	margin-top: 35px;
 	text-align: center;
 }
+
+/* for section6 */
+.section6 { height: 600px; }
+.section6-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url(../img/banner3.jpg) no-repeat center;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+}
+.section6 .tel {
+	position: relative;
+	padding-top: 150px;
+	text-align: center;
+}
+.section6 p {
+	color: #f26432;
+	font-size: 48px;
+	margin-top: 15px;
+	text-align: center;
+}
