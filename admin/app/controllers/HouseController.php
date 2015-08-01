@@ -39,7 +39,7 @@ class HouseController extends ControllerBase
         $where = $filterRes['where'];
         
         $houseCondition = array(
-            'where' => $where,
+            'conditions' => $where,
             'order' => 'createTime desc',
             'offset' => $this->_offset,
             'limit' => $this->_pagesize
