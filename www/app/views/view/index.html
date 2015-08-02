@@ -51,13 +51,13 @@
             <div class="mod_r_price">
                 <strong>￥<span><b id="totalPrice">{{ house['price']/10000 }}</b>万</span></strong>
                 <i>|</i>
-                <em>{{ park['salePrice'] }}元/平米</em>
+                <em>{{ house['avgPrice'] }}元/平米</em>
             </div>
             <div class="mod_r_more">
                 <div class="mod_r_tel">
                     <i class="icons"></i>
                     <p class="tel">
-                        <b>400-700</b><br/>转1234
+                        <b>400-700-4999</b><br/>转6666
                     </p>
                 </div>
                 <p class="mod_blank"></p>
@@ -263,9 +263,12 @@
 <script>
     $(function() {
         var parkId = "{{ park['id'] }}";
+        var distId = "{{ district['id'] }}";
         var regId = "{{ region['id'] }}";
         var parkName = "{{ park['name'] }}";
         var houseId = "{{ house['id'] }}";
+        var price = "{{ house['price'] }}";
+        var cityId = "{{ house['cityId'] }}";
         //可能感兴趣的房源
         getFavoriteHouse(parkId);
         //同板块房源
@@ -276,6 +279,12 @@
                 type: 'POST',
                 url: '/view/favhouse/',   
                 data: {
+                    cityId: cityId,
+                    price: price,
+                    regId: regId,
+                    bedRoom: "{{ house['bedRoom'] }}",
+                    livingRoom: "{{ house['livingRoom'] }}",
+                    bathRoom: "{{ house['bathRoom'] }}",
                     parkId: parkId,
                     houseId: houseId
                 },
@@ -291,7 +300,7 @@
                             liHtml += '        <div class="pt">';
                             liHtml += '            <p class="c_black">'+parkName+'</p>';
                             liHtml += '            <p class="c_gray">'+parseInt(n.bA)+'平米 '+n.bedRoom+'室'+n.livingRoom+'厅'+n.bathRoom+'卫</p>';
-                            liHtml += '            <p class="c_red">￥'+n.price/10000+'万</p>';
+                            liHtml += '            <p class="c_red">￥'+n.price+'万</p>';
                             liHtml += '        </div>';
                             liHtml += '    </a>';
                             liHtml += '</li>';
@@ -309,7 +318,10 @@
                 type: 'POST',
                 url: '/view/reghouse/',   
                 data: {
+                    cityId: cityId,
+                    distId: distId,
                     regId: regId,
+                    price: price,
                     houseId: houseId
                 },
                 dataType: 'json',
@@ -318,13 +330,17 @@
                     if(result.num > 0) {
                         $(result.data).each(function(i, n){
                             var liHtml = '';
-
-                            liHtml += '<li>';
+                            if(i == result.num - 1) {
+                                liHtml += '<li class="lst">'; 
+                            } else {
+                                liHtml += '<li>';
+                            }
+                            
                             liHtml += '    <a target="_blank" href="/view/'+n.id+'.html">'
                             liHtml += '        <img src="'+n.imgUrl+'" width="240" height="180" alt="'+parkName+'">';
                             liHtml += '        <p class="p1">'+parkName+'</p>';
                             liHtml += '        <p class="p2">'+parseInt(n.bA)+'平米 '+n.bedRoom+'室'+n.livingRoom+'厅'+n.bathRoom+'卫';
-                            liHtml += '            <b>￥'+n.price/10000+'万</b>';
+                            liHtml += '            <b>￥'+n.price+'万</b>';
                             liHtml += '        </p>';
                             liHtml += '    </a>';
                             liHtml += '</li>';

@@ -1,8 +1,8 @@
 <?php
 
 class ViewController extends ControllerBase
-{   
-    
+{
+
     private $_typeMapping = array(
         2 => 3, //银行
         6 => 2, //餐饮
@@ -11,7 +11,7 @@ class ViewController extends ControllerBase
         7 => 5, //学校
         9 => 6 //公园
     );
-    
+
     public function indexAction()
     {
         $houseId = intval($this->dispatcher->getParam('houseid'));
@@ -39,14 +39,15 @@ class ViewController extends ControllerBase
         $houseInfo['tax'] = $house['tax'];
         $houseInfo['saleTax'] = $house['saleTax'];
         $houseInfo['price'] = $house['handPrice'];
-        
+        $houseInfo['cityId'] = $house['cityId'];
+
         global $FLOOR_POSITION, $LIVE_TYPE, $BUILD_TYPE, $UNIT_EXPOSURE, $UNIT_FITMENT;
         $houseInfo['orientation'] = $UNIT_EXPOSURE[$house['orientation']]; //朝向
         $houseInfo['floorPosition'] = $FLOOR_POSITION[$house['floorPosition']]; //楼层
         $houseInfo['decoration'] = $UNIT_FITMENT[$house['decoration']]; //装修
         $houseInfo['propertyType'] = $LIVE_TYPE[$house['propertyType']]; //物业类型
         $houseInfo['buildType'] = $BUILD_TYPE[$house['buildType']]; //建筑类型
-        
+
         $data['house'] = $houseInfo;
 
         //区域信息
@@ -67,9 +68,11 @@ class ViewController extends ControllerBase
         {
             $data['park'] = $park[$house['parkId']];
         }
+        //均价
+        $data['house']['avgPrice'] = $house['bA'] ? number_format($house['handPrice'] / $house['bA'], 0) : intval($data['park']['salePrice']);
         //房源标签
         $houseTag = HouseTag::instance()->getTagsForOption($this->_cityId, 'id,name');
-        
+
         $houseExtTag = HouseExtTag::find("houseId={$houseId}", 0)->toArray();
         foreach($houseExtTag as $v)
         {
@@ -99,11 +102,11 @@ class ViewController extends ControllerBase
         $newMapArr = array();
         if(!empty($arrAssort))
         {
-            foreach($arrAssort as $k=>$v)
+            foreach($arrAssort as $k => $v)
             {
                 if(array_key_exists($k, $this->_typeMapping))
                 {
-                    foreach($v as $key=>$value)
+                    foreach($v as $key => $value)
                     {
                         $vv = array(
                             'type' => $this->_typeMapping[$k],
@@ -125,106 +128,53 @@ class ViewController extends ControllerBase
         $data['mapJson'] = json_encode($newMapArr);
         //echo '<pre>';var_dump($data['mapJson']);exit;
         //var_dump($data['mapJson']);exit;
-        
+
         $this->show(null, $data);
     }
-    
+
     //可能感兴趣的房源
     public function favhouseAction()
     {
         if($this->request->isPost())
         {
+            $cityId = $this->request->getPost('cityId', 'int', 0);
             $parkId = $this->request->getPost('parkId', 'int', 0);
             $houseId = $this->request->getPost('houseId', 'int', 0);
+            $regId = $this->request->getPost('regId', 'int', 0);
+            $bedRoom = $this->request->getPost('bedRoom', 'int', 0);
+            $livingRoom = $this->request->getPost('livingRoom', 'int', 0);
+            $bathRoom = $this->request->getPost('bathRoom', 'int', 0);
+            $price = $this->request->getPost('price');
             $num = $this->request->getPost('num', 'int', 0);
             $num == 0 && $num = 7;
-            
-            $where = "id<>{$houseId} and parkId={$parkId} and status=".House::STATUS_ONLINE;
-            $condition = array(
-                'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
-                'offset' => 0,
-                'limit' => $num,
-                'order' => 'createTime desc'
-            );
-            $res = House::find($condition, 0)->toArray();
-            if(empty($res))
-            {
-                $this->show('JSON', array('num'=>0));
-            }
-            $house = $houseIds = array();
-            foreach($res as $v)
-            {
-                $house[$v['id']] = $v;
-                $house[$v['id']]['imgUrl'] = '';
-                $houseIds[] = $v['id'];
-            }
-            //获取房源图片
-            $condition = array(
-                'conditions' => "houseId in(".implode(',', $houseIds).") and status=".HousePicture::STATUS_OK,
-                'columns' => 'houseId,imgId,imgExt',
-                'group' => 'houseId',
-                'order' => 'imgId asc'
-            );
-            $imgRes = HousePicture::find($condition, 0)->toArray();
-            foreach($imgRes as $v)
-            {
-                $house[$v['houseId']]['imgUrl'] = ImageUtility::getImgUrl('esf', $v['imgId'], $v['imgExt']);
-            }
-            shuffle($house);
-            $this->show('JSON', array('num'=>count($res), 'data'=>$house));
-        } else {
-            $this->show('JSON', array('num'=>0));
+
+            $house = CHouse::getFavHouse($num, $houseId, $cityId, $regId, $parkId, $bedRoom, $livingRoom, $bathRoom, $price);
+            $this->show('JSON', array('num' => count($house), 'data' => $house));
+        } else
+        {
+            $this->show('JSON', array('num' => 0));
         }
     }
-    
+
     //同板块房源
     public function reghouseAction()
     {
         if($this->request->isPost())
         {
+            $distId = $this->request->getPost('distId', 'int', 0);
             $regId = $this->request->getPost('regId', 'int', 0);
             $houseId = $this->request->getPost('houseId', 'int', 0);
+            $cityId = $this->request->getPost('cityId', 'int', 0);
+            $price = $this->request->getPost('price');
             $num = $this->request->getPost('num', 'int', 0);
             $num == 0 && $num = 4;
-            
-            $where = "id<>{$houseId} and regId={$regId} and status=".House::STATUS_ONLINE;
-            $condition = array(
-                'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,price',
-                'offset' => 0,
-                'limit' => $num,
-                'order' => 'createTime desc'
-            );
-            $res = House::find($condition, 0)->toArray();
-            if(empty($res))
-            {
-                $this->show('JSON', array('num'=>0));
-            }
-            $house = $houseIds = array();
-            foreach($res as $v)
-            {
-                $house[$v['id']] = $v;
-                $house[$v['id']]['imgUrl'] = '';
-                $houseIds[] = $v['id'];
-            }
-            //获取房源图片
-            $condition = array(
-                'conditions' => "houseId in(".implode(',', $houseIds).") and status=".HousePicture::STATUS_OK,
-                'columns' => 'houseId,imgId,imgExt',
-                'group' => 'houseId',
-                'order' => 'imgId asc'
-            );
-            $imgRes = HousePicture::find($condition, 0)->toArray();
-            foreach($imgRes as $v)
-            {
-                $house[$v['houseId']]['imgUrl'] = ImageUtility::getImgUrl('esf', $v['imgId'], $v['imgExt']);
-            }
-            shuffle($house);
-            $this->show('JSON', array('num'=>count($res), 'data'=>$house));
-        } else {
-            $this->show('JSON', array('num'=>0));
+
+            $house = CHouse::getRegHouse($num, $houseId, $cityId, $distId, $regId, $price);
+            $this->show('JSON', array('num' => count($house), 'data' => $house));
+        } else
+        {
+            $this->show('JSON', array('num' => 0));
         }
     }
-}
 
+}
