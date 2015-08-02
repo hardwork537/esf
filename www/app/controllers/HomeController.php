@@ -10,8 +10,8 @@ class HomeController extends ControllerBase
         $data = array();
         $data['cssList'] = array('css/index.css?v=20150801001');
         //热门搜索
-        global $HOT_SEARCH;
-        $data['hot'] = $HOT_SEARCH[2];
+        $data['baseUrl'] = substr(WWW_BASE_URL, 0, -1);
+        $data['hot'] = HotSearch::instance()->getHotSearchByCityId(2);
         //推荐最新房源
         $where = "cityId={$this->_defaultCityId} and status=".House::STATUS_ONLINE;
         $columns = "id,parkId,price";

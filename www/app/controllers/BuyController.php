@@ -30,8 +30,8 @@ class BuyController extends houseBuy
         $this->_setTitle($title);
         
         //热门搜索
-        global $HOT_SEARCH;
-        $data['hot'] = $HOT_SEARCH[$this->cityId];
+        $data['baseUrl'] = substr(WWW_BASE_URL, 0, -1);
+        $data['hot'] = HotSearch::instance()->getHotSearchByCityId($this->cityId);
         
         $data['totalNum'] = $totalNum = $esData['total'];
         $data['currNum'] = $currNum = count($esData['data']);
