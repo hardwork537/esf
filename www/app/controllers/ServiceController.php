@@ -7,6 +7,8 @@ class ServiceController extends ControllerBase
         $data = array();
         $data['cssList'] = array('css/service.css');
         
+        $this->_setTitle('房易买-我要服务');
+        
         $this->show(null, $data);
     }
 }

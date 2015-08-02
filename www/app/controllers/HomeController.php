@@ -42,6 +42,8 @@ class HomeController extends ControllerBase
         //房源图片
         $data['housePic'] = HousePicture::instance()->getHousePicsByIds($houseIds);
         
+        $this->_setTitle('房易买-首页');
+        
         $this->show(null, $data);
     }
 

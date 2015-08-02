@@ -22,6 +22,7 @@ class houseBuy extends ControllerBase
         'f' => 'feature',
         'o' => 'order'
     );
+    protected $title;
 
     protected function initialize()
     {      
@@ -32,6 +33,7 @@ class houseBuy extends ControllerBase
             $cityDefault = $GLOBALS['CITY_DEFAULT'];
             $this->cityId = $cityDefault['cityId'];
             $this->cityName = $cityDefault['cityName'];
+            $this->title = $this->cityName;
         }
     }
     
@@ -232,10 +234,12 @@ class houseBuy extends ControllerBase
                 if($param1Res['regId'])
                 {
                     $filter['filter']['regId'] = $param1Res['regId'];
+                    $this->title .= $this->region[$param1Res['regId']]['name'];
                 }
                 if($param1Res['distId'])
                 {
                     $filter['filter']['distId'] = $param1Res['distId'];
+                    $this->title .= $this->district[$param1Res['distId']]['name'];
                 }
             } else {
                 //其他筛选项

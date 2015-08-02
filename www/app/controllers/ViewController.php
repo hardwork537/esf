@@ -128,6 +128,12 @@ class ViewController extends ControllerBase
         $data['mapJson'] = json_encode($newMapArr);
         //echo '<pre>';var_dump($data['mapJson']);exit;
         //var_dump($data['mapJson']);exit;
+        //设置title
+        $title = $house['title'];
+        $title .= ($title ? '-' : '').$region[$house['regId']]['name'].'二手房';
+        $title .= '-房易买二手房';
+
+        $this->_setTitle($title);
 
         $this->show(null, $data);
     }

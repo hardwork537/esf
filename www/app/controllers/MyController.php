@@ -100,6 +100,8 @@ class MyController extends ControllerBase
         //获取房源图片
         $houseImgs = HousePicture::instance()->getHousePicsByIds($houseIds);
         $data['imgs'] = $houseImgs;
+        
+        $this->_setTitle('房易买-我的收藏');
 
         $this->show(null, $data);
     }
@@ -110,6 +112,8 @@ class MyController extends ControllerBase
         $data['cssList'] = array('css/counter.css');
         $data['user'] = $user = $this->_userInfo;
         $data['sexList'] = $this->_sexList;
+        
+        $this->_setTitle('房易买-管理账号');
 
         $this->show(null, $data);
     }

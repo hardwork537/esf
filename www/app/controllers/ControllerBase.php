@@ -18,6 +18,8 @@ class ControllerBase extends ControllerCore
     protected $_offset = 0;
     private $_controllerPowerArr = array();
     private $_menuArr = array();
+    private $_title = '房易买';
+    private $_description = '房易买';
 
     protected function initialize()
     {
@@ -47,6 +49,15 @@ class ControllerBase extends ControllerCore
         return false;
     }
 
+    protected function _setTitle($title)
+    {
+        $this->_title = $title;
+    }
+    
+    protected function _setDescription($desc)
+    {
+        $this->_description = $desc;
+    }
     /**
      * @param type $file
      * @param type $data
@@ -146,7 +157,9 @@ class ControllerBase extends ControllerCore
         $currController = $this->dispatcher->getControllerName();
         $defaultAssign = array(
            "src_url" => SRC_URL,
-            "currController" => $currController 
+            "currController" => $currController,
+            'title' => $this->_title,
+            'description' => $this->_description
         );
         empty($this->_userInfo) || $defaultAssign['userInfo'] = $this->_userInfo;
         

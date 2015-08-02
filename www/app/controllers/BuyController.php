@@ -25,6 +25,10 @@ class BuyController extends houseBuy
         } else {
             $esData = $this->_getFilterData($data['params']);
         }
+        //设置title
+        $title = $this->title.'房屋出售信息-房易买'.$this->cityName;
+        $this->_setTitle($title);
+        
         //热门搜索
         global $HOT_SEARCH;
         $data['hot'] = $HOT_SEARCH[$this->cityId];
@@ -73,7 +77,7 @@ class BuyController extends houseBuy
         //获取房源图片
         $houseImgs = HousePicture::instance()->getHousePicsByIds($houseIds);
         $data['imgs'] = $houseImgs;
-               
+                     
         $this->show(null, $data);
     }
     

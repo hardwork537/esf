@@ -6,6 +6,7 @@ class SellController extends ControllerBase
     {
         $data = array();
         $data['cssList'] = array('css/weituo.css');
+        $this->_setTitle('房易买-我要卖房');
         
         $this->show(null, $data);
     }
@@ -24,6 +25,8 @@ class SellController extends ControllerBase
         //$data['citys'] = City::instance()->getOptions();;
         $data['citys'] = array(2=>'上海');
         $data['default'] = array('cityId'=>2, 'name'=>'上海');
+        
+        $this->_setTitle('房易买-我要卖房');
         
         $this->show(null, $data);
     }
