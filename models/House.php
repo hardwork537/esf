@@ -511,38 +511,44 @@ class House extends BaseModel
         {
             return array('status' => 1, 'info' => '房源不存在');
         }
-             
-        $esData = array();
-        $editData = $updateData['data'];
-        isset($editData['floorMax']) && $esData['houseFloorMax'] = $editData['floorMax']; //总楼层
-        isset($editData['handPrice']) && $esData['housePrice'] = (float)$editData['handPrice']; //价格
-        isset($editData['status']) && $esData['status'] = $editData['status']; //状态
-        isset($editData['remark']) && $esData['houseRemark'] = $editData['remark']; //状态
-        isset($editData['handPrice']) && $esData['houseUnit'] = (float)number_format($editData['handPrice']/$house->bA, 2, '.', '');
-        isset($editData['title']) && $esData['houseTitle'] = $editData['title']; //标题
-        isset($editData['bedRoom']) && $esData['houseBedRoom'] = $editData['bedRoom']; //几室
-        isset($editData['livingRoom']) && $esData['houseLivingRoom'] = $editData['livingRoom']; //几厅
-        isset($editData['bathRoom']) && $esData['houseBathRoom'] = $editData['bathRoom']; //几卫
-        isset($editData['floor']) && $esData['houseFloor'] = $editData['floor']; //楼层
-        isset($editData['bA']) && $esData['houseBA'] = (float)$editData['bA']; //面积
-        $esData['houseUpdate'] = time();
         
-        $arrEsData = array(
-            'id' => (int)$id,
-            'data' => $esData
-        );
-        $esRes = $this->editEs($arrEsData, 'house');
-        $this->begin();
-        if(!$esRes)
+        $this->begin(); 
+        $editData = $updateData['data'];
+        
+        if($house->type != self::TYPE_WEITUO)
         {
-            return array('status' => 1, 'info' => '编辑房源失败~');
+            //非委托，修改ES
+            $esData = array();            
+            isset($editData['floorMax']) && $esData['houseFloorMax'] = $editData['floorMax']; //总楼层
+            isset($editData['handPrice']) && $esData['housePrice'] = (float)$editData['handPrice']; //价格
+            isset($editData['status']) && $esData['status'] = $editData['status']; //状态
+            isset($editData['remark']) && $esData['houseRemark'] = $editData['remark']; //状态
+            isset($editData['handPrice']) && $esData['houseUnit'] = (float)number_format($editData['handPrice']/$house->bA, 2, '.', '');
+            isset($editData['title']) && $esData['houseTitle'] = $editData['title']; //标题
+            isset($editData['bedRoom']) && $esData['houseBedRoom'] = $editData['bedRoom']; //几室
+            isset($editData['livingRoom']) && $esData['houseLivingRoom'] = $editData['livingRoom']; //几厅
+            isset($editData['bathRoom']) && $esData['houseBathRoom'] = $editData['bathRoom']; //几卫
+            isset($editData['floor']) && $esData['houseFloor'] = $editData['floor']; //楼层
+            isset($editData['bA']) && $esData['houseBA'] = (float)$editData['bA']; //面积
+            $esData['houseUpdate'] = time();
+
+            $arrEsData = array(
+                'id' => (int)$id,
+                'data' => $esData
+            );
+            $esRes = $this->editEs($arrEsData, 'house');
+            
+            if(!$esRes)
+            {
+                return array('status' => 1, 'info' => '编辑房源失败~');
+            }
+            
         }
         if(!$house->update($updateData['data']))
         {
             $this->rollback();
             return array('status' => 1, 'info' => '编辑房源失败');
         }
-        
         //房源描述
         $descData = array(
             'description' => $editData['houseDesc']

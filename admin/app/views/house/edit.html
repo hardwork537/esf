@@ -50,8 +50,7 @@
                         <em class="sp_em">房源编号：</em>
                         <input type="text" name="houseId" value="{{ house['id'] }}" disabled="disabled" />
                         {% endif %}
-                        <em class="sp_em"><i>*</i>标题：</em>
-                        <input type="text" name="houseTitle" value="{{ house['title'] }}" notnull="true" info="标题" />
+                        
                     </li>
                     <li class="form_group clearfix">
                         <em class="sp_em"><i>*</i>物业类型：</em>
@@ -199,7 +198,13 @@
                 <div class="main_filter clearfix">
                     <b>详细描述</b>
                 </div>
-                <div class="main_form main_info clearfix">
+                <div class="main_form main_info clearfix">  
+                    <ul class="main_form" style="margin: 10px auto 20px 0px; text-align: left; padding: 0px;">
+                        <li class="form_group clearfix inputwrap">
+                            <em class="sp_em"><i>*</i>标题：</em>
+                        <input style=" width: 200px;" type="text" name="houseTitle" value="{{ house['title'] }}" notnull="true" info="标题" />
+                    </li>
+                    </ul>
                     <em class="sp_em"><i>*</i>房源描述：</em>
                     <div class="info_inner">
                         <script {% if action=='edit' %}disabled="disabled"{% endif %} id="editorContainer" name="houseDesc" type="text/plain" style="width:98%; height:300px;">{{ house['desc'] }}</script>
