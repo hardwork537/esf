@@ -26,10 +26,10 @@
                 <ul class="clearfix">
                     {% for value in houseList %}
                     <li houseId="{{ value['id'] }}">
-                        <a class="house-pic" href="#"><img src="{{ imgs[value['id']]['imgUrl'] }}" height="192" width="288" /></a>
+                        <a target="_blank" class="house-pic" href="/view/{{ value['id'] }}.html"><img src="{{ imgs[value['id']]['imgUrl'] }}" height="192" width="288" /></a>
                         <div class="house-info">
                             <div class="clearfix title">
-                                <h3><a href="#">{{ parkList[value['parkId']]['name'] }}</a></h3>
+                                <h3><a target="_blank" href="/view/{{ value['id'] }}.html">{{ parkList[value['parkId']]['name'] }}</a></h3>
                                 <span class="area">{{ distList[value['distId']]['name'] }}</span>
                             </div>
                             <p class="address">
@@ -42,9 +42,9 @@
                                 <span>{{ value['bA'] }}平米</span>
                                 <span>楼层：{{ value['floor'] }}/{{ value['floorMax'] }}</span>
                             </p>
-                            <p class="desc">{{ value['remark'] }}</p>
+                            <p class="desc">{{ value['title'] }}</p>
                         </div>
-                        <div class="house-price"><strong class="total">{{ value['price']/10000 }}万</strong><br />{{ parkList[value['parkId']]['salePrice'] }}元/平米</div>
+                        <div class="house-price"><strong class="total">{{ value['price'] }}万</strong><br />{{ value['avgPrice'] }}元/平米</div>
                         <span class="j-favorite favorite favorite-on"></span>
                     </li>
                     {% endfor %}

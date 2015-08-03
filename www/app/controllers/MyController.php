@@ -42,7 +42,7 @@ class MyController extends ControllerBase
         //获取房源信息
         $houseCondition = array(
             'conditions' => "id in (" . implode(',', $houseIds) . ")",
-            'columns' => 'id,distId,parkId,bA,remark,price,livingRoom,bathRoom,bedRoom,floor,floorMax',
+            'columns' => 'id,distId,parkId,bA,remark,price,livingRoom,bathRoom,bedRoom,floor,floorMax,title,handPrice',
             'offset' => $this->_offset,
             'limit' => $this->_pagesize
         );
@@ -78,8 +78,10 @@ class MyController extends ControllerBase
         $data['houseList'] = $houses;
 
         $parkIds = $distIds = $houseId = array();
-        foreach($houses as $v)
+        foreach($data['houseList'] as $k=>$v)
         {
+            $data['houseList'][$k]['price'] = number_format($v['handPrice']/10000, 2);
+            $data['houseList'][$k]['avgPrice'] = $v['bA'] ? number_format($v['handPrice']/$v['bA'], 0) : 0;
             $parkIds[] = $v['parkId'];
             $distIds[] = $v['distId'];
         }
