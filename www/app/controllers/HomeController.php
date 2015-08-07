@@ -14,7 +14,7 @@ class HomeController extends ControllerBase
         $data['hot'] = HotSearch::instance()->getHotSearchByCityId(2);
         //推荐最新房源
         $where = "cityId={$this->_defaultCityId} and status=".House::STATUS_ONLINE;
-        $columns = "id,parkId,price";
+        $columns = "id,parkId,price,handPrice";
         $condition = array(
             'conditions' => $where,
             'columns' => $columns,
