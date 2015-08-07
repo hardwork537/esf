@@ -34,7 +34,7 @@
         <ul class="clearfix">
             {% for value in houseList %}
             <li>
-                <a href="/view/{{ value['id'] }}.html">
+                <a target="_blank" href="/view/{{ value['id'] }}.html">
                     <img src="{{ housePic[value['id']]['imgUrl'] }}" height="180" width="240" />
                     <p class="name">{{ parkList[value['parkId']]['name'] }}</p>
                     <p class="price"><strong>{{ value['handPrice']/10000 }}</strong>万</p>
