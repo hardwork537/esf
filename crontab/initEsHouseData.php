@@ -13,8 +13,37 @@ $createMapping = array(
     'index' => "esf",
     "type" => "house",
 );
-//$client->deleteByQuery(array('where'=>array('houseId'=>array('in'=>array(1,7)))));
-//exit;
+$inParams = array();
+//解析参数
+foreach($argv as $v)
+{
+    if(false === strpos($v, '='))
+    {
+        continue;
+    }
+    $result = explode('=', $v);
+    if($result[0] && $result[1])
+    {
+        $inParams[$result[0]] = $result[1];
+    }
+}
+
+if($inParams['id'])
+{
+    $houseIds = explode(',', $inParams['id']);
+}
+if('delete' == $inParams['type'])
+{
+    if(!empty($houseIds))
+    {
+        $where = array('where'=>array('houseId'=>array('in'=>$houseIds)));
+    } else {
+        $where = array('where'=>array('houseId'=>array('>'=>0)));
+    }
+    $client->deleteByQuery($where);
+    exit;
+}
+
 if(!$client->existsType($createMapping))
 {
     $mapType = array(
@@ -190,7 +219,8 @@ if(!$client->existsType($createMapping))
     $client->createMapping($mapType);
 }
 
-$house = House::find(null, 0)->toArray();
+$conWhere = empty($houseIds) ? null : "id in(".  implode(',', $houseIds).")";
+$house = House::find($conWhere, 0)->toArray();
 if(empty($house))
 {
     exit('no house');
@@ -217,7 +247,7 @@ foreach($house as $v)
     $value['status'] = (int) $v['status'];
     $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
     $value['houseUpdate'] = strtotime($v['updateTime']) ? strtotime($v['updateTime']) : 0;
-    $value['houseUnit'] = (float)number_format($v['price']/$v['bA'], 2, '.', '');
+    $value['houseUnit'] = (float)number_format($v['handPrice']/$v['bA'], 2, '.', '');
     $value['subwayLine'] = '';
     $value['subwaySite'] = '';
     $value['subwaySiteLine'] = '';
@@ -266,7 +296,7 @@ foreach($houseList as $id => $v)
         'index' => array('_id' => $data['houseId'])
     );
     $bulkData[] = $data;
-
+    
     $info = $client->bulk($bulkData);
 
     if($info === false || $info['errors'] == true)
