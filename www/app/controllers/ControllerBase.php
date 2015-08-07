@@ -158,8 +158,8 @@ class ControllerBase extends ControllerCore
         $defaultAssign = array(
            "src_url" => SRC_URL,
             "currController" => $currController,
-            'title' => $this->_title,
-            'description' => $this->_description
+            'headTitle' => $this->_title,
+            'headDesc' => $this->_description
         );
         empty($this->_userInfo) || $defaultAssign['userInfo'] = $this->_userInfo;
         
