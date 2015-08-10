@@ -146,27 +146,27 @@ if(!$client->existsType($createMapping))
                 'store' => 'yes',
                 "null_value" => '0.00',
             ),
-            "subwayLine" => array(
-                "type" => "string",
-                "index" => "analyzed",
-                "analyzer" => "mmseg",
-                "store" => "yes",
-                "null_value" => '',
-            ),
-            "subwaySite" => array(
-                "type" => "string",
-                "index" => "analyzed",
-                "analyzer" => "mmseg",
-                "store" => "yes",
-                "null_value" => '',
-            ),
-            "subwaySiteLine" => array(
-                "type" => "string",
-                "index" => "analyzed",
-                "analyzer" => "mmseg",
-                "store" => "yes",
-                "null_value" => '',
-            ),
+//            "subwayLine" => array(
+//                "type" => "string",
+//                "index" => "analyzed",
+//                "analyzer" => "mmseg",
+//                "store" => "yes",
+//                "null_value" => '',
+//            ),
+//            "subwaySite" => array(
+//                "type" => "string",
+//                "index" => "analyzed",
+//                "analyzer" => "mmseg",
+//                "store" => "yes",
+//                "null_value" => '',
+//            ),
+//            "subwaySiteLine" => array(
+//                "type" => "string",
+//                "index" => "analyzed",
+//                "analyzer" => "mmseg",
+//                "store" => "yes",
+//                "null_value" => '',
+//            ),
             "housePropertyType" => array(
                 'type' => 'short',
                 'store' => 'yes',
@@ -183,6 +183,10 @@ if(!$client->existsType($createMapping))
                 'store' => 'yes',
             ),
             "houseFloorMax" => array(
+                'type' => 'short',
+                'store' => 'yes',
+            ),
+            "houseFloorPosition" => array(
                 'type' => 'short',
                 'store' => 'yes',
             ),
@@ -255,6 +259,7 @@ foreach($house as $v)
     $value['houseFeatures'] = '';
     $value['houseFloor'] = (int) $v['floor'];
     $value['houseFloorMax'] = (int) $v['floorMax'];
+    $value['houseFloorPosition'] = (int) $v['floorPosition'];
     $value['housePicId'] = 0;
     $value['housePicExt'] = '';
     $value['houseType'] = (int) $v['type'];

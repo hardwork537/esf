@@ -119,21 +119,23 @@
                     {% for value in list %}
                     <li houseId="{{ value['houseId'] }}">
                         <a href="/view/{{ value['houseId'] }}.html">
-                            <img class="house-pic" src="{{ imgs[value['houseId']]['imgUrl'] }}" height="240" width="360" />
+                            <img class="house-pic" src="{{ imgs[value['houseId']]['imgUrl'] }}" height="160" width="240" />
                             <div class="house-info">
                                 <div class="clearfix title">
                                     <h3>{{ parkList[value['parkId']]['name'] }}</h3>
                                     <span class="area">{{ distList[value['distId']]['name'] }}</span>
+                                    <p class="address">
+                                        <i></i>
+                                        {{ parkList[value['parkId']]['address'] }}
+                                    </p>
                                 </div>
-                                <p class="address">
-                                    <i></i>
-                                    {{ parkList[value['parkId']]['address'] }}
-                                </p>
+                                
                                 <p class="attr">
                                     <i></i>
                                     <span>{{ value['houseBedRoom'] }}室{{ value['houseLivingRoom'] }}厅{{ value['houseBathRoom'] }}卫</span>
                                     <span>{{ value['houseBA'] }}平米</span>
-                                    <span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>
+                                    <span>楼层：{{ floors[value['houseFloorPosition']] }}</span>
+                                    <!--<span>楼层：{{ value['houseFloor'] }}/{{ value['houseFloorMax'] }}</span>-->
                                 </p>
                                 <p class="desc">{{ value['houseTitle'] }}</p>
                             </div>

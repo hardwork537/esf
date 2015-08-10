@@ -6,7 +6,7 @@
 
 /* for section1 */
 .section1 { 
-	height: 400px; 
+	height: 470px; 
 	overflow: hidden;
 	text-align: center;
 }
@@ -20,19 +20,19 @@
 	background-size: cover;
 }
 .section1-txt1 {
-	margin: 70px auto 0 auto;
+	margin: 80px auto 0 auto;
 	background: url(../img/font7.png) no-repeat left top;
-	height: 50px;
-	width: 456px;
+	height: 62px;
+	width: 565px;
 }
 .section1-txt2 {
-	margin: 30px auto 0 auto;
+	margin: 20px auto 0 auto;
 	background: url(../img/font8.png) no-repeat left top;
-	height: 30px;
-	width: 406px;
+	height: 36px;
+	width: 487px;
 }
 .section1 .tel {
-	margin: 60px auto 0 auto;
+	margin: 80px auto 0 auto;
 	text-align: center;
 }
 
@@ -54,13 +54,19 @@
 	display: inline-block;
 	height: 140px;
 	width: 140px;
-	background: url(../img/icon-wt.png) no-repeat 0 0;
+	background: url(../img/icon-service.png) no-repeat 0 0;
 }
 .section2 .icon02 {
 	background-position: 0 -140px;
 }
 .section2 .icon03 {
 	background-position: 0 -280px;
+}
+.section2 .icon04 {
+	background-position: 0 -420px;
+}
+.section2 .icon05 {
+	background-position: 0 -560px;
 }
 .section2 h4 {
 	font-size: 24px;

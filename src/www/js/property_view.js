@@ -413,7 +413,7 @@ $(function(){
     function setData(type){
         var datas = parkAssortObj[type];
         $(map.getPanes().labelPane).empty();
-        $.each(datas, function(index,data){
+        datas && $.each(datas, function(index,data){
             normalOverlay(data);
         });
     }

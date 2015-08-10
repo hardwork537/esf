@@ -5,7 +5,7 @@ class BuyController extends houseBuy
     public function listAction()
     {
         $data = array();
-        $data['cssList'] = array('css/list.css?v=20150730001');
+        $data['cssList'] = array('css/list.css?v=20150810001');
         //筛选项
         $res = $this->getFilters();
         $data['filter'] = $res['filter'];
@@ -77,6 +77,9 @@ class BuyController extends houseBuy
         //获取房源图片
         $houseImgs = HousePicture::instance()->getHousePicsByIds($houseIds);
         $data['imgs'] = $houseImgs;
+        
+        //楼层位置
+        $data['floors'] = $GLOBALS['FLOOR_POSITION'];
                      
         $this->show(null, $data);
     }
