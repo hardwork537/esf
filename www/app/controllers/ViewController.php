@@ -16,7 +16,7 @@ class ViewController extends ControllerBase
     {
         $houseId = intval($this->dispatcher->getParam('houseid'));
         $data = array();
-        $data['cssList'] = array('css/property_view.css?v=20150810001');
+        $data['cssList'] = array('css/property_view.css?v=2015081011');
         //房源基础信息
         $house = House::findFirst($houseId, 0)->toArray();
         if(empty($house))

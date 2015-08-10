@@ -5,7 +5,7 @@ class SellController extends ControllerBase
     public function indexAction()
     {
         $data = array();
-        $data['cssList'] = array('css/weituo.css?v=20150810001');
+        $data['cssList'] = array('css/weituo.css?v=2015081010');
         $this->_setTitle('房易买-我要卖房');
         
         $this->show(null, $data);
