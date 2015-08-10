@@ -6,7 +6,7 @@
 
 /* for section1 */
 .section1 { 
-	height: 800px; 
+	height: 600px; 
 	overflow: hidden;
 }
 .section1-bg {
@@ -20,10 +20,10 @@
 }
 .section1-txt1 {
 	position: relative;
-	margin: 163px auto 0 auto;
+	margin: 80px auto 0 auto;
 	background: url(../img/font5.png) no-repeat left top;
 	height: 62px;
-	width: 628px;
+	width: 565px;
 }
 .section1-txt2 {
 	position: relative;
@@ -53,7 +53,7 @@
 	border-radius: 4px;
 }
 .section1 .tel {
-	margin-top: 105px;
+	margin-top: 75px;
 	text-align: center;
 }
 
