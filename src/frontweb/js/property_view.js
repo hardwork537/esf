@@ -358,14 +358,14 @@ $(function(){
 
     function initMap(){
         map = new BMap.Map("mapContainer", {enableMapClick: false});
-        map.centerAndZoom(new BMap.Point(parkX,parkY), 15);
+        map.centerAndZoom(new BMap.Point(parkX,parkY), 16);
         map.enableScrollWheelZoom();
         var bottom_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT});// 左上角，添加比例尺
         var top_left_navigation = new BMap.NavigationControl();  //左下角，添加默认缩放平移控件
         map.addControl(bottom_left_control);
         map.addControl(top_left_navigation);
 
-        defaultOverlay();
+        //defaultOverlay();
         $("#mapIcons").find(".sp_icons").removeClass("sp_hover");
 
         if(!!assortType){
@@ -383,24 +383,27 @@ $(function(){
     customOverlay.prototype = new BMap.Overlay();
     customOverlay.prototype.initialize = function(map){
         this._map = map;
-        if(this._element.className.indexOf("marker1") > -1){
+        /*if(this._element.className.indexOf("marker1") > -1){
             map.getPanes().markerPane.appendChild(this._element);
         }
         else if(this._element.className.indexOf("marker2") > -1){
             map.getPanes().labelPane.appendChild(this._element);
-        }
+        }*/
+        map.getPanes().labelPane.appendChild(this._element);
         return this._element;
     }
     customOverlay.prototype.draw = function(){
         var pixel = map.pointToOverlayPixel(this._point);
-        if(this._element.className.indexOf("marker1") > -1){
+        /*if(this._element.className.indexOf("marker1") > -1){
             this._element.style.left = pixel.x - 8 + "px";
             this._element.style.top  = pixel.y - 41 + "px";
         }
         else if(this._element.className.indexOf("marker2") > -1){
             this._element.style.left = pixel.x - 13 + "px";
             this._element.style.top  = pixel.y - 30 + "px";
-        }
+        }*/
+        this._element.style.left = pixel.x - 13 + "px";
+        this._element.style.top  = pixel.y - 30 + "px";
     }
     customOverlay.prototype.addEventListener = function(event,fun){
         this._element['on'+event] = fun;
@@ -408,7 +411,7 @@ $(function(){
 
 
     function setData(type){
-        var datas = parkAssortObj[type];console.log('type:',datas);
+        var datas = parkAssortObj[type];
         $(map.getPanes().labelPane).empty();
         $.each(datas, function(index,data){
             normalOverlay(data);
@@ -417,15 +420,32 @@ $(function(){
 
     /*周边配套*/
     function normalOverlay(data/*, relationship*/){
-        var element = '<a href="javascript:;" class="marker marker2" data-id="'+ data.assort_id +'" data-x="'+ data.x +'"></a>',
-            myCustomOverlay = new customOverlay(element, new BMap.Point(data.x,data.y));
+        //var element = '<a href="javascript:;" class="marker marker2" data-id="'+ data.assort_id +'" data-x="'+ data.x +'"></a><span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
+        var element = '<span class="marker_all"><span class="marker marker1" style="white-space: nowrap; ">'+ data.assort_name +'<i class="i_bot2"></i></span><a href="javascript:;" class="marker marker2" data-id="'+ data.assort_id +'" data-x="'+ data.x +'"></a></span>';
+        //var element = '<span style="display: inline-block;"><a href="javascript:;" class="marker marker2" data-id="'+ data.assort_id +'" data-x="'+ data.x +'"></a><em>' + data.assort_name + '</em></span>',
+        myCustomOverlay = new customOverlay(element, new BMap.Point(data.x,data.y));
         map.addOverlay(myCustomOverlay);
+
+        $('.marker_all').mouseenter(function(){
+            var wid = $(this).find('.marker1').css('width'),
+                wid1 = parseInt(wid)+30,
+                wid2 = parseInt(wid1-24)/2,
+                wid3 = parseInt(wid1-8)/2;
+
+            $(this).find('.marker1').css({"visibility":"visible","left": '-' + wid2 + 'px'});
+            $(this).find('.marker1').find('.i_bot2').css({"left": wid3 + 'px'});
+            $(this).css({"zIndex":4});
+        });
+        $('.marker_all').mouseleave(function(){
+            $(this).find('.marker1').css({"visibility":"hidden"});
+            $(this).css({"zIndex":3});
+        });
     }
 
     /*默认显示小区标注*/
     function defaultOverlay(){
         var element = '<span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
-            myCustomOverlay = new customOverlay(element, new BMap.Point(parkX,parkY));console.log('aaa',element);
+            myCustomOverlay = new customOverlay(element, new BMap.Point(parkX,parkY));
         map.addOverlay(myCustomOverlay);
     }
 

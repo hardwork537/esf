@@ -268,6 +268,9 @@ body{
         margin-right: 5px;
         width: 125px;
     }
+.mod_r_tags{
+    padding-right: 15px;
+}
 .mod_r_tags em{
     margin: 0 6px 10px 0;
     padding: 0 8px;
@@ -666,7 +669,12 @@ body{
         color: #f00;
     }
 
-/*map*/
+.marker_all{
+    position: absolute;
+    z-index: 3;
+    display: inline-block;
+    /**display: inline;*/
+}
 .i_bot2, .marker2:link, .marker2:visited, .listing .title .a_tit{
     display: inline-block;
     background: url("../img/icon_title.png") no-repeat 0 0;
@@ -675,27 +683,36 @@ body{
     cursor: pointer;
 }
 .marker{
-    position: absolute;
-    /*top: 50px;
-    left: 330px;*/
-    z-index: 3;
+    /*position: absolute;
+    *//*top: 50px;
+    left: 330px;*//*
+    z-index: 3;*/
     display: inline-block;
     padding: 0 15px;
-    height: 27px;
-    line-height: 27px;
+    height: 30px;
+    line-height: 30px;
     color: #fff;
     background: #ef831e;
-    border-radius: 2px;
+
 }
 .marker .i_bot2{
     position: absolute;
-    bottom: -5px;
-    left: 50%;
+    /*bottom: -9px;*/
+    top: 30px;
+    /*left: 48%;*/
     background-position: right -274px;
     width: 8px;
     height: 5px;
 }
+.marker1{
+    position: absolute;
+    /*left: -45%;*/
+    top: -30px;
+    visibility: hidden;
+    z-index: 4;
+}
 .marker2:link, .marker2:visited{
+    margin-top: 7px;
     padding: 0;
     left: 420px;
     background-position: right -233px;
@@ -705,7 +722,8 @@ body{
     z-index: 0;
 }
 .marker2:hover, .marker_curr:link, .marker_curr:visited, .marker_curr:hover{
-    background-position: 0 0;
+    /*background-position: 0 0;
+    background-position: 0 0;*/
     z-index: 10;
 }
 
