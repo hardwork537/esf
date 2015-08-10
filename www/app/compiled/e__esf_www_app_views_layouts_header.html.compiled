@@ -5,7 +5,7 @@
         <title><?php echo $headTitle; ?></title>
         <meta name="Description" content="<?php echo $headDesc; ?>">
         <script src="<?php echo $src_url; ?>js/jquery-1.9.1.min.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="<?php echo $src_url; ?>css/base.css?v=20150801001" />
+        <link rel="stylesheet" href="<?php echo $src_url; ?>css/base.css?v=2015081010" />
         <?php if ($cssList == !$empty) { ?>
         <?php foreach ($cssList as $cssFile) { ?>
         <link rel="stylesheet" href="<?php echo $src_url; ?><?php echo $cssFile; ?>" />

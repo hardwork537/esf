@@ -401,13 +401,14 @@ class House extends BaseModel
         $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
         $value['houseUpdate'] = 0;
         $value['houseUnit'] = (float) (number_format($v['price']/$v['bA'], 2, '.', ''));
-        $value['subwayLine'] = '';
-        $value['subwaySite'] = '';
-        $value['subwaySiteLine'] = '';
+//        $value['subwayLine'] = '';
+//        $value['subwaySite'] = '';
+//        $value['subwaySiteLine'] = '';
         $value['housePropertyType'] = (int) $v['propertyType'];
         $value['houseFeatures'] = '';
         $value['houseFloor'] = (int) $v['floor'];
         $value['houseFloorMax'] = (int) $v['floorMax'];
+        $value['houseFloorPosition'] = (int) $v['floorPosition'];
         $value['housePicId'] = 0;
         $value['housePicExt'] = '';
         $value['houseType'] = (int) $v['type'];
@@ -529,6 +530,7 @@ class House extends BaseModel
             isset($editData['livingRoom']) && $esData['houseLivingRoom'] = $editData['livingRoom']; //几厅
             isset($editData['bathRoom']) && $esData['houseBathRoom'] = $editData['bathRoom']; //几卫
             isset($editData['floor']) && $esData['houseFloor'] = $editData['floor']; //楼层
+            isset($editData['floorPosition']) && $esData['houseFloorPosition'] = $editData['floorPosition']; //楼层位置
             isset($editData['bA']) && $esData['houseBA'] = (float)$editData['bA']; //面积
             $esData['houseUpdate'] = time();
 
