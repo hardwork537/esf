@@ -361,6 +361,7 @@ class House extends BaseModel
         $houseObj = self::instance();
         $insertData['data']['createTime'] = date('Y-m-d H:i:s'); //创建时间
         $insertData['data']['status'] = $data['isPublish'] ? self::STATUS_ONLINE : self::STATUS_OFFLINE; //房源状态，是否发布
+        $data['isPublish'] && $insertData['data']['updateTime'] = date('Y-m-d H:i:s'); //创建时间
         
         if(!$houseObj->save($insertData['data']))
         {
@@ -400,7 +401,7 @@ class House extends BaseModel
         $value['status'] = (int) $v['status'];
         $value['houseCreate'] = strtotime($v['createTime']) ? strtotime($v['createTime']) : 0;
         $value['houseUpdate'] = 0;
-        $value['houseUnit'] = (float) (number_format($v['price']/$v['bA'], 2, '.', ''));
+        $value['houseUnit'] = (float) (number_format($v['handPrice']/$v['bA'], 2, '.', ''));
 //        $value['subwayLine'] = '';
 //        $value['subwaySite'] = '';
 //        $value['subwaySiteLine'] = '';

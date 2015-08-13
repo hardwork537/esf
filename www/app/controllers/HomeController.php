@@ -13,16 +13,7 @@ class HomeController extends ControllerBase
         $data['baseUrl'] = substr(WWW_BASE_URL, 0, -1);
         $data['hot'] = HotSearch::instance()->getHotSearchByCityId(2);
         //推荐最新房源
-        $where = "cityId={$this->_defaultCityId} and status=".House::STATUS_ONLINE;
-        $columns = "id,parkId,price,handPrice";
-        $condition = array(
-            'conditions' => $where,
-            'columns' => $columns,
-            'offset' => 0,
-            'limit' => $this->_limitNum,
-            'order' => 'updateTime desc'
-        );
-        $res = House::find($condition, 0)->toArray();
+        $res = CHouse::getHomeNewHouse($this->_defaultCityId, 'id,parkId,price,handPrice', $this->_limitNum);
         
         if(empty($res))
         {

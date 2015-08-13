@@ -7,6 +7,43 @@ class CHouse
     const PRICE_RANGE = 100000;
 
     /**
+     * 首页推荐最新房源
+     * @param type $cityId
+     * @param string $columns
+     * @param type $limit
+     * @return type
+     */
+    public static function getHomeNewHouse($cityId, $columns = '', $limit = 4)
+    {
+        $memKey = "fym_home_new_house_{$cityId}_{$limit}";
+        $memValue = Mem::Instance()->Get($memKey);
+        if(!empty($memValue))
+        {
+            return $memValue;
+        }
+        
+        //推荐最新房源
+        $where = "cityId={$cityId} and status=".House::STATUS_ONLINE;
+        $condition = array(
+            'conditions' => $where,
+            'columns' => $columns,
+            'offset' => 0,
+            'limit' => $limit,
+            'order' => 'updateTime desc'
+        );
+        $res = House::find($condition, 0)->toArray();
+        
+        if(empty($res))
+        {
+            return array();
+        } else {
+            Mem::Instance()->Set($memKey, $res, 300);
+            
+            return $res;
+        }      
+    }
+
+    /**
      * 获取你可能感兴趣的房源 (房源单页右侧栏)
      * @param type $num
      * @param type $houseId
