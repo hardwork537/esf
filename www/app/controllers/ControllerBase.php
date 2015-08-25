@@ -14,7 +14,7 @@ class ControllerBase extends ControllerCore
     protected $_userInfo = null;
     protected $_cityId = 0;
     protected $_page = 1; // 当前页码
-    protected $_pagesize = 10;
+    protected $_pagesize = 15;
     protected $_offset = 0;
     private $_controllerPowerArr = array();
     private $_menuArr = array();
