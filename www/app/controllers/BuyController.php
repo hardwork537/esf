@@ -108,11 +108,11 @@ class BuyController extends houseBuy
                 $price = $priceConfig[$otherParam['p']];
                 if(isset($price['max']))
                 {
-                    $arrWhere['housePrice'] = array('<=' => $price['max']*10000);
+                    $arrWhere['housePrice']['<='] = $price['max']*10000;
                 }
                 if(isset($price['min']))
                 {
-                    $arrWhere['housePrice'] = array('>=' => $price['min']*10000);
+                    $arrWhere['housePrice']['>='] = $price['min']*10000;
                 }
             }
             //面积
@@ -126,11 +126,11 @@ class BuyController extends houseBuy
                 $area = $areaConfig[$otherParam['a']];
                 if(isset($area['max']))
                 {
-                    $arrWhere['houseBA'] = array('<=' => $area['max']);
+                    $arrWhere['houseBA']['<='] = $area['max'];
                 }
                 if(isset($area['min']))
                 {
-                    $arrWhere['houseBA'] = array('>=' => $area['min']);
+                    $arrWhere['houseBA']['>='] = $area['min'];
                 }
             }
             //户型
@@ -148,11 +148,11 @@ class BuyController extends houseBuy
                 }
                 if(isset($houseType['max']))
                 {
-                    $arrWhere['houseBedRoom'] = array('<=' => $houseType['max']);
+                    $arrWhere['houseBedRoom']['<='] = $houseType['max'];
                 }
                 if(isset($houseType['min']))
                 {
-                    $arrWhere['houseBedRoom'] = array('>=' => $houseType['min']);
+                    $arrWhere['houseBedRoom']['>='] = $houseType['min'];
                 }
             }
         }
