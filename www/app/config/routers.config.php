@@ -17,7 +17,7 @@ $router->add('/my[/]?', array(
     'action'     =>	'favorite'
 ));
 
-$router->add('/buy/?([a-z1-9]*)/?([a-z1-9]*)/?', array(
+$router->add('/buy/?([a-z0-9]*)/?([a-z0-9]*)/?', array(
     "controller"    => 'buy',
     'action'        => 'list',
     'param1' => 1,
