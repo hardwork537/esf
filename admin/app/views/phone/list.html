@@ -1,0 +1,230 @@
+<div class="main">
+    <div class="maininner">
+        <h6 class="maintt"> 您的位置：<a href="/">首页</a> &gt; 城市数据  &gt; <strong class="font_gold"> 400电话 </strong> </h6>
+        <form method="get" action="/phone/list/">
+        <table class="search_form mb15">
+            <tbody>
+                <tr>              
+                    <td width="140">
+                        <input class="form-control" type="text" placeholder="手机号" name="mobile" value="{{ mobile }}" />
+                    </td>
+                    <td>
+                        <button class="btn btn-gray" type="submit">搜 索</button>                      
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-success widthxl addmodal" data-toggle="modal" data-target="#addnew" >添加400电话绑定</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+
+        {% if lists is empty %}
+        <table class="table table-striped table-hover mt10">
+            <tr>
+                <th style="width:25%;">手机号</th>
+                <th style="width:25%;">400电话主号</th>
+                <th style="width:25%;">400电话小号</th>
+                <th>操作</th>
+            </tr>
+        </table>
+
+        <div class="noreascout">
+            <div> <p>  <strong class="font14">  很抱歉，没有找到符合条件的标签  </strong></p>
+                <p class=" mt10 gray"> 建议您：调整搜索内容，获取更多结果  </p></div>
+        </div>
+
+        {% else %}
+
+        <table class="table table-hover mt10">
+            <tr>
+                <th style="width:25%;">手机号</th>
+                <th style="width:25%;">400电话主号</th>
+                <th style="width:25%;">400电话小号</th>
+                <th>操作</th>
+            </tr>
+            {% for list in lists %}
+            <tr id="{{ list['id'] }}">
+                <td align="center">{{ list['mobile'] }}</td>
+                <td align="center">{{ list['phoneHost'] }}</td>
+                <td align="center">{{ list['phoneExt'] }}</td>
+                <td align="center" class="operate">
+                    <a  data-toggle="modal" data-target="#addnew" class="editmodal">修改</a>
+                    <div class=" arrow_tipswrap">
+                        <a class="widthl td_delete">删除</a>
+                        <div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {{ page }}
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- 添加用户 -->
+<div class="modal fade" id="newmodal" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" width:500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title" id="addnewLabel"> 新增400电话 </h5>
+            </div>
+            <div class="modal-body">
+                <div class="edittable">
+                    <div class="alert alert-warning alert-dismissible errortips" role="alert" style='display: none;'>
+                        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <strong> 提示：</strong> <span class="notice-info">您输入的内容有误！</span>
+                    </div>
+                    <form id="form1" onsubmit="return false" form_tittle="400电话" method="post" action="">
+                        <table class="edittable">
+                            <tr>
+                                <td align="right" width="140">
+                                    手机号:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="mobile" notnull="true" info="手机号" />
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    400电话主号:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="phoneHost" notnull="true" info="400电话主号" />
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    400电话小号:
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" name="phoneExt" notnull="true" info="400电话小号" />
+                                    <em class=" required"> * </em>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" name="act" value="" />
+                        <input type="hidden" name="id" value="" />
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success saveButton">保 存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="arrow_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_gantan vm"></em>  <span class="wordsr widthm "> 确认删除该400绑定吗？ </span></p>
+        <p class="btnwrap">
+            <button type="button" class="btn btn-success btn-xs btn-yes">确认</button>
+            <button type="button" class="btn btn-default btn-xs widthl2 btn-no">取消</button>
+        </p>
+    </div>
+</div>
+<!-- 撤回成功弹出框 -->
+<div style="display:none;"  class="arrow_tipsinner arrow_tips" id="del_success_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_sure vm"></em>  <span class="wordsr widthm "> 删除成功 </span></p>
+        <p class="btnwrap mt10"><a href="">返回400电话绑定列表</a></p>
+    </div>
+</div>
+<!-- 撤回失败弹出框 -->
+<div style="display:none;" class="arrow_tipsinner arrow_tips" id="del_fail_tips">
+    <img width="11" height="8" class="arrow_t" src="{{ src_url }}images/arrow_t.png">
+    <h5 class="tittle">系统提示</h5>
+    <a class="close_mylabel icon icon_xx"> </a>
+    <div class="words">
+        <p><em class="icon icon_error vm"></em>  <span class="wordsr widthm message"> 删除失败！ </span></p>
+        <p class="btnwrap mt10"><a href="">返回操作</a></p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var menu = 'menu5';
+    var moudle = 'phonelist';
+
+    function initModal() {
+        $("#newmodal").find("form")[0].reset();
+    }
+    function initEeditModal(data) {
+        $("input[name=mobile]").val(data.mobile);
+        $("input[name=phoneHost]").val(data.phoneHost);
+        $("input[name=phoneExt]").val(data.phoneExt);
+    }
+    $(function() {
+        var cururl = base_url + "phone/";
+        $(".saveButton").click(function() {
+            _do = $("#form1").find("input[name=act]").val();
+            $("#form1").ajaxSubmit({
+                "url": cururl + _do,
+                "callback": function(msg) {
+                    if (msg.status == 0) {
+                        var action = 'add' == $("input[name='act']").val() ? '新增400电话绑定' : '修改400电话绑定';
+                        alert(action + '成功');
+                        location.reload(false);
+                    } else {
+                        $.error(msg.info);
+                    }
+                }
+            });
+        });
+        $(".addmodal").click(function() {
+            initModal();
+            $("#newmodal").smodal({title: "新增400电话绑定", act: 'add'});
+        });
+        $(".editmodal").click(function() {
+            initModal();
+            var bindId = $(this).parent("td").parent("tr").attr("id");
+            $("input[name=id]").val(bindId);
+            $("#newmodal").smodal({title: "修改400电话绑定", act: 'edit'});
+            $.request({
+                url: cururl + "edit/" + bindId + "/",
+                callback: function(msg) {
+                    if (msg.status == 0) {
+                        initEeditModal(msg.data);
+                    }
+                }
+            });
+        });
+        
+        $('.td_delete').click(function() {
+            var bindId = $(this).parent().parent("td").parent("tr").attr("id");
+            var _this = $(this);
+
+            _this.delConfirm("删除确认", "确定要删除吗?", function(result) {
+                if (result == true) {
+                    $.request({
+                        url: cururl + "del/" + bindId + "/",
+                        callback: function(msg) {
+                            if (msg.status == 0) {
+                                _this.delSuccess("删除成功");
+                            } else {
+                                _this.delFail(msg.info);
+                            }
+
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+</script>

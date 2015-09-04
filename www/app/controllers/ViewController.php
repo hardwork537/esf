@@ -50,24 +50,32 @@ class ViewController extends ControllerBase
 
         $data['house'] = $houseInfo;
 
+        //获取400电话
+        
+        
         //区域信息
-        $district = CityDistrict::instance()->getDistByIds($house['distId'], 'id,pinyin,name');
-        if(!empty($district))
-        {
-            $data['district'] = $district[$house['distId']];
-        }
+        $data['district'] = CHouse::getDistById($house['distId'], 'id,pinyin,name');
+        
         //板块信息
-        $region = CityRegion::instance()->getRegionByIds($house['regId'], 'id,pinyin,name');
-        if(!empty($region))
-        {
-            $data['region'] = $region[$house['regId']];
-        }
+        $data['region'] = CHouse::getRegById($house['regId'], 'id,pinyin,name');
+
         //小区信息
-        $park = Park::instance()->getParkByIds($house['parkId'], 'id,name,salePrice,BdX,BdY');
-        if(!empty($park))
+        $data['park'] = CHouse::getParkById($house['parkId'], 'id,name,salePrice,BdX,BdY');
+        
+        //获取房源发布者信息
+        $userInfo = CHouse::getUserById($house['userId']);
+        if(!empty($userInfo))
         {
-            $data['park'] = $park[$house['parkId']];
+            $phone400 = CHouse::getPhoneByMobile($userInfo['tel']);
+            if(!empty($phone400))
+            {
+                $data['phone400'] = array(
+                    'host' => $phone400['phoneHost'],
+                    'ext' => $phone400['phoneExt']
+                );
+            }
         }
+
         //均价
         $data['house']['avgPrice'] = $house['bA'] ? number_format($house['handPrice'] / $house['bA'], 0) : intval($data['park']['salePrice']);
         //房源标签

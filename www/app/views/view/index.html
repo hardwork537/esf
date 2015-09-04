@@ -57,7 +57,11 @@
                 <div class="mod_r_tel">
                     <i class="icons"></i>
                     <p class="tel">
+                        {% if phone400 is empty %}
                         <b>400-700-4999</b><br/>转6666
+                        {% else %}
+                        <b>{{ phone400['host'] }}</b><br/>转{{ phone400['ext'] }}
+                        {% endif %}
                     </p>
                 </div>
                 <p class="mod_blank"></p>

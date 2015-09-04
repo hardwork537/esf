@@ -306,5 +306,200 @@ class CHouse
 
         return $house;
     }
+    
+    /**
+     * 获取区域信息
+     * @param type $distId
+     * @return type
+     */
+    public static function getDistById($distId, $columns = '')
+    {
+        if(!$distId)
+        {
+            return array();
+        }
+        $memKey = "fym_web_getDist_byId_" . $distId;
+        $memValue = Mem::Instance()->Get($memKey);
+        
+        if(!empty($memValue))
+        {
+            $res = $memValue;
+        } else {
+            $res = CityDistrict::instance()->getDistByIds($distId);
+            if(empty($res))
+            {
+                return array();
+            }
 
+            $res = $res[$distId];
+            Mem::Instance()->Set($memKey, $res, 3600);
+        }
+        
+        if($columns)
+        {
+            $columnArr = explode(',', $columns);
+            $result = array();
+            foreach($columnArr as $column)
+            {
+                $result[$column] = $res[$column];
+            }
+            return $result;
+        } else {
+            return $res;
+        }    
+    }
+    
+    /**
+     * 获取板块信息
+     * @param type $regId
+     * @return type
+     */
+    public static function getRegById($regId, $columns = '')
+    {
+        if(!$regId)
+        {
+            return array();
+        }
+        $memKey = "fym_web_getRegion_byId_" . $regId;
+        $memValue = Mem::Instance()->Get($memKey);
+        if(!empty($memValue))
+        {
+            $res = $memValue;
+        } else {
+            $res = CityRegion::instance()->getRegionByIds($regId);
+            if(empty($res))
+            {
+                return array();
+            }
+
+            $res = $res[$regId];
+            Mem::Instance()->Set($memKey, $res, 3600);
+        }
+        
+        if($columns)
+        {
+            $columnArr = explode(',', $columns);
+            $result = array();
+            foreach($columnArr as $column)
+            {
+                $result[$column] = $res[$column];
+            }
+            return $result;
+        } else {
+            return $res;
+        }    
+    }
+    
+    /**
+     * 获取小区信息
+     * @param type $parkId
+     * @return type
+     */
+    public static function getParkById($parkId, $columns = '')
+    {
+        if(!$parkId)
+        {
+            return array();
+        }
+        $memKey = "fym_web_getpark_byId_" . $parkId;
+        $memValue = Mem::Instance()->Get($memKey);
+        if(!empty($memValue))
+        {
+            $res = $memValue;
+        } else {
+            $res = Park::instance()->getParkByIds($parkId);
+            if(empty($res))
+            {
+                return array();
+            }
+
+            $res = $res[$parkId];
+            Mem::Instance()->Set($memKey, $res, 3600);
+        }
+        
+        if($columns)
+        {
+            $columnArr = explode(',', $columns);
+            $result = array();
+            foreach($columnArr as $column)
+            {
+                $result[$column] = $res[$column];
+            }
+            return $result;
+        } else {
+            return $res;
+        }    
+    }
+    
+    /**
+     * 获取房源发布人信息
+     * @param type $parkId
+     * @return type
+     */
+    public static function getUserById($userId, $columns = '')
+    {
+        if(!$userId)
+        {
+            return array();
+        }
+        $memKey = "fym_web_getuser_byId_" . $userId;
+        $memValue = Mem::Instance()->Get($memKey);
+        if(!empty($memValue))
+        {
+            $res = $memValue;
+        } else {
+            $res = AdminUser::instance()->getUserByIds($userId);
+            if(empty($res))
+            {
+                return array();
+            }
+
+            $res = $res[$userId];
+            Mem::Instance()->Set($memKey, $res, 3600);
+        }
+        
+        if($columns)
+        {
+            $columnArr = explode(',', $columns);
+            $result = array();
+            foreach($columnArr as $column)
+            {
+                $result[$column] = $res[$column];
+            }
+            return $result;
+        } else {
+            return $res;
+        }    
+    }
+    
+    /**
+     * 获取400电话
+     * @param type $mobile
+     * @return type
+     */
+    public static function getPhoneByMobile($mobile, $columns = '')
+    {
+        if(!$mobile)
+        {
+            return array();
+        }
+        $res = Phone400::instance()->getPhoneByMobile($mobile);
+        if(empty($res))
+        {
+            return array();
+        }
+        
+        if($columns)
+        {
+            $columnArr = explode(',', $columns);
+            $result = array();
+            foreach($columnArr as $column)
+            {
+                $result[$column] = $res[$column];
+            }
+            return $result;
+        } else {
+            return $res;
+        }    
+    }
 }
