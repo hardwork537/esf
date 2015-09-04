@@ -61,6 +61,7 @@ class ViewController extends ControllerBase
 
         //小区信息
         $data['park'] = CHouse::getParkById($house['parkId'], 'id,name,salePrice,BdX,BdY');
+        $park[$house['parkId']] = $data['park'];
         
         //获取房源发布者信息
         $userInfo = CHouse::getUserById($house['userId']);
