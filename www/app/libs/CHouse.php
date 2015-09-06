@@ -67,13 +67,13 @@ class CHouse
         }
         $houseId = $houseId + 0;
         $numLess = $num;
-        $house = $houseIds = array();
+        $house = $houseIds = $parkIds = array();
         $existHouseIds = array($houseId);
         //同小区内同户型房源
         $where = "cityId={$cityId} and id<>{$houseId} and bedRoom={$bedRoom} and livingRoom={$livingRoom} and bathRoom={$bathRoom} and parkId={$parkId} and status=" . House::STATUS_ONLINE;
         $condition = array(
             'conditions' => $where,
-            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
             'offset' => 0,
             'limit' => $num,
             'order' => 'updateTime desc'
@@ -88,6 +88,7 @@ class CHouse
                 $house[$v['id']]['imgUrl'] = '';
                 $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                 $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                $parkIds[] = $v['parkId'];
             }
         }
         $numLess = $num - count($houseIds);
@@ -97,7 +98,7 @@ class CHouse
             $where = "cityId={$cityId} and bedRoom={$bedRoom} and livingRoom={$livingRoom} and bathRoom={$bathRoom} and regId={$regId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
                 'offset' => 0,
                 'limit' => $numLess,
                 'order' => 'updateTime desc'
@@ -111,6 +112,7 @@ class CHouse
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                     $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                    $parkIds[] = $v['parkId'];
                 }
             }
         }
@@ -123,7 +125,7 @@ class CHouse
             $where = "cityId={$cityId} and regId={$regId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ") and handPrice>={$minPrice} and handPrice<={$maxPrice}";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
                 'offset' => 0,
                 'limit' => $numLess,
                 'order' => 'updateTime desc'
@@ -137,6 +139,7 @@ class CHouse
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                     $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                    $parkIds[] = $v['parkId'];
                 }
             }
         }
@@ -147,10 +150,10 @@ class CHouse
             $where = "cityId={$cityId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
                 'offset' => 0,
                 'limit' => $numLess,
-                'order' => 'createTime desc'
+                'order' => 'updateTime desc'
             );
             $res = House::find($condition, 0)->toArray();
             if(count($res) > 0)
@@ -161,12 +164,13 @@ class CHouse
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                     $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                    $parkIds[] = $v['parkId'];
                 }
             }
         }
 
         if(!empty($houseIds))
-        {
+        {                      
             //获取房源图片
             $condition = array(
                 'conditions' => "houseId in(" . implode(',', $houseIds) . ") and status=" . HousePicture::STATUS_OK,
@@ -184,8 +188,13 @@ class CHouse
         shuffle($house);
         if(!empty($house))
         {
+            //获取小区信息
+            $parkIds = array_flip(array_flip($parkIds));
+            $parkInfo = Park::instance()->getParkByIds($parkIds, 'id,name');
+            
             foreach($house as $key => $row) 
             {
+                $house[$key]['parkName'] = $parkInfo[$row['parkId']]['name'];
                 $volume[$key]  = $row['updateTime'];
             }
             array_multisort($volume, SORT_DESC, $house);
@@ -212,7 +221,7 @@ class CHouse
         {
             //return $memValue;
         }
-        $house = $houseIds = array();
+        $house = $houseIds = $parkIds = array();
         $houseId = $houseId + 0;
 
         //同板块内相邻价格房源
@@ -222,7 +231,7 @@ class CHouse
         $where = "cityId={$cityId} and handPrice>={$minPrice} and handPrice<={$maxPrice} and id<>{$houseId} and regId={$regId} and status=" . House::STATUS_ONLINE;
         $condition = array(
             'conditions' => $where,
-            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
             'offset' => 0,
             'limit' => $num,
             'order' => 'updateTime desc'
@@ -237,6 +246,7 @@ class CHouse
                 $house[$v['id']]['imgUrl'] = '';
                 $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                 $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                $parkIds[] = $v['parkId'];
             }
         }
 
@@ -247,7 +257,7 @@ class CHouse
             $where = "cityId={$cityId} and handPrice>={$minPrice} and handPrice<={$maxPrice} and distId={$distId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
                 'offset' => 0,
                 'limit' => $numLess,
                 'order' => 'updateTime desc'
@@ -261,19 +271,20 @@ class CHouse
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                     $houseIds[] = $existHouseIds[] = $v['id'] + 0;
+                    $parkIds[] = $v['parkId'];
                 }
             }
         }
         
         $numLess = $num - count($houseIds);
-        Log::ErrorWrite('www', '', json_encode($houseIds).'-'.$numLess, 'debug.txt');
+        //Log::ErrorWrite('www', '', json_encode($houseIds).'-'.$numLess, 'debug.txt');
         if($numLess > 0)
         {
             //最新发布房源
             $where = "cityId={$cityId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime,parkId',
                 'offset' => 0,
                 'limit' => $numLess,
                 'order' => 'updateTime desc'
@@ -287,6 +298,7 @@ class CHouse
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
                     $houseIds[] = $existHouseIds[] = $v['id'];
+                    $parkIds[] = $v['parkId'];
                 }
             }
         }
@@ -310,8 +322,13 @@ class CHouse
         
         if(!empty($house))
         {
+            //获取小区信息
+            $parkIds = array_flip(array_flip($parkIds));
+            $parkInfo = Park::instance()->getParkByIds($parkIds, 'id,name');
+            
             foreach($house as $key => $row) 
             {
+                $house[$key]['parkName'] = $parkInfo[$row['parkId']]['name'];
                 $volume[$key]  = $row['updateTime'];
             }
             array_multisort($volume, SORT_DESC, $house);

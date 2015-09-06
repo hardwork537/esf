@@ -300,9 +300,9 @@
                             var liHtml = '';
                             liHtml += '<li>';
                             liHtml += '    <a target="_blank" href="/view/'+n.id+'.html">'
-                            liHtml += '        <img class="pc" src="'+n.imgUrl+'" width="123" height="81" alt="'+parkName+'">';
+                            liHtml += '        <img class="pc" src="'+n.imgUrl+'" width="123" height="81" alt="'+n.parkName+'">';
                             liHtml += '        <div class="pt">';
-                            liHtml += '            <p class="c_black">'+parkName+'</p>';
+                            liHtml += '            <p class="c_black">'+n.parkName+'</p>';
                             liHtml += '            <p class="c_gray">'+parseInt(n.bA)+'平米 '+n.bedRoom+'室'+n.livingRoom+'厅'+n.bathRoom+'卫</p>';
                             liHtml += '            <p class="c_red">￥'+n.price+'万</p>';
                             liHtml += '        </div>';
@@ -341,8 +341,8 @@
                             }
                             
                             liHtml += '    <a target="_blank" href="/view/'+n.id+'.html">'
-                            liHtml += '        <img src="'+n.imgUrl+'" width="240" height="180" alt="'+parkName+'">';
-                            liHtml += '        <p class="p1">'+parkName+'</p>';
+                            liHtml += '        <img src="'+n.imgUrl+'" width="240" height="180" alt="'+n.parkName+'">';
+                            liHtml += '        <p class="p1">'+n.parkName+'</p>';
                             liHtml += '        <p class="p2">'+parseInt(n.bA)+'平米 '+n.bedRoom+'室'+n.livingRoom+'厅'+n.bathRoom+'卫';
                             liHtml += '            <b>￥'+n.price+'万</b>';
                             liHtml += '        </p>';
