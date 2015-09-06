@@ -63,11 +63,10 @@ class ViewController extends ControllerBase
         $data['park'] = CHouse::getParkById($house['parkId'], 'id,name,salePrice,BdX,BdY');
         $park[$house['parkId']] = $data['park'];
         
-        //获取房源发布者信息
-        $userInfo = CHouse::getUserById($house['userId']);
-        if(!empty($userInfo))
+        //获取400电话
+        if($house['propertyPhone'])
         {
-            $phone400 = CHouse::getPhoneByMobile($userInfo['tel']);
+            $phone400 = CHouse::getPhoneByMobile($house['propertyPhone']);
             if(!empty($phone400))
             {
                 $data['phone400'] = array(
