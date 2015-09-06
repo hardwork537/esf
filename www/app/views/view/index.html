@@ -269,7 +269,7 @@
         var parkId = "{{ park['id'] }}";
         var distId = "{{ district['id'] }}";
         var regId = "{{ region['id'] }}";
-        var parkName = "{{ park['name'] }}";
+//        var parkName = "{{ park['name'] }}";
         var houseId = "{{ house['id'] }}";
         var price = "{{ house['price'] }}";
         var cityId = "{{ house['cityId'] }}";
@@ -363,7 +363,8 @@
     //百度地图Y坐标
     var parkY = {{ bY }};
     //小区名称
-    var parkName = "{{ park[house['parkId']]['name'] }}";
+//    var parkName = "{{ park[house['parkId']]['name'] }}";
+    var parkName = "{{ park['name'] }}";
     var currentAssortType = 0;
     //第一次进入配套页面的显示类型
     var firstAssortType = 2;
@@ -454,4 +455,4 @@
 </script>
 
 <script type="text/javascript" src="{{ src_url }}js/highcharts.js"></script>
-<script type="text/javascript" src="{{ src_url }}js/property_view.js?v=2015081010"></script>
+<script type="text/javascript" src="{{ src_url }}js/property_view.js?v=20150901"></script>
