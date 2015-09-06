@@ -63,19 +63,20 @@ class CHouse
         $memValue = Mem::Instance()->Get($memKey);
         if(!empty($memValue))
         {
-            return $memValue;
+            //return $memValue;
         }
-
+        $houseId = $houseId + 0;
         $numLess = $num;
         $house = $houseIds = array();
+        $existHouseIds = array($houseId);
         //同小区内同户型房源
         $where = "cityId={$cityId} and id<>{$houseId} and bedRoom={$bedRoom} and livingRoom={$livingRoom} and bathRoom={$bathRoom} and parkId={$parkId} and status=" . House::STATUS_ONLINE;
         $condition = array(
             'conditions' => $where,
-            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
             'offset' => 0,
             'limit' => $num,
-            'order' => 'createTime desc'
+            'order' => 'updateTime desc'
         );
         $res = House::find($condition, 0)->toArray();
         $tmpNum = count($res);
@@ -86,21 +87,20 @@ class CHouse
                 $house[$v['id']] = $v;
                 $house[$v['id']]['imgUrl'] = '';
                 $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                $houseIds[] = $v['id'];
+                $houseIds[] = $existHouseIds[] = $v['id'] + 0;
             }
         }
         $numLess = $num - count($houseIds);
         if($numLess > 0)
         {
-            $existHouseIds = array($houseId) + $houseIds;
             //同板块内同户型房源
             $where = "cityId={$cityId} and bedRoom={$bedRoom} and livingRoom={$livingRoom} and bathRoom={$bathRoom} and regId={$regId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
                 'offset' => 0,
                 'limit' => $numLess,
-                'order' => 'createTime desc'
+                'order' => 'updateTime desc'
             );
             $res = House::find($condition, 0)->toArray();
             if(count($res) > 0)
@@ -110,24 +110,23 @@ class CHouse
                     $house[$v['id']] = $v;
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                    $houseIds[] = $v['id'];
+                    $houseIds[] = $existHouseIds[] = $v['id'] + 0;
                 }
             }
         }
         $numLess = $num - count($houseIds);
         if($numLess > 0)
         {
-            $existHouseIds = array($houseId) + $houseIds;
             //同板块内相邻价格房源
             $minPrice = $price - self::PRICE_RANGE;
             $maxPrice = $price + self::PRICE_RANGE;
             $where = "cityId={$cityId} and regId={$regId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ") and handPrice>={$minPrice} and handPrice<={$maxPrice}";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
                 'offset' => 0,
                 'limit' => $numLess,
-                'order' => 'createTime desc'
+                'order' => 'updateTime desc'
             );
             $res = House::find($condition, 0)->toArray();
             if(count($res) > 0)
@@ -137,14 +136,13 @@ class CHouse
                     $house[$v['id']] = $v;
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                    $houseIds[] = $v['id'];
+                    $houseIds[] = $existHouseIds[] = $v['id'] + 0;
                 }
             }
         }
         $numLess = $num - count($houseIds);
         if($numLess > 0)
         {
-            $existHouseIds = array($houseId) + $houseIds;
             //最新发布房源
             $where = "cityId={$cityId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
@@ -162,7 +160,7 @@ class CHouse
                     $house[$v['id']] = $v;
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                    $houseIds[] = $v['id'];
+                    $houseIds[] = $existHouseIds[] = $v['id'] + 0;
                 }
             }
         }
@@ -186,7 +184,12 @@ class CHouse
         shuffle($house);
         if(!empty($house))
         {
-            Mem::Instance()->Set($memKey, $house, 3600);
+            foreach($house as $key => $row) 
+            {
+                $volume[$key]  = $row['updateTime'];
+            }
+            array_multisort($volume, SORT_DESC, $house);
+            Mem::Instance()->Set($memKey, $house, 300);
         }
 
         return $house;
@@ -202,14 +205,15 @@ class CHouse
      * @param type $price
      */
     public static function getRegHouse($num = 4, $houseId = 0, $cityId = 0, $distId = 0, $regId = 0, $price = 0)
-    {
+    {        
         $memKey = "fym_houseView_bottom_houseId_" . $houseId;
         $memValue = Mem::Instance()->Get($memKey);
         if(!empty($memValue))
         {
-            return $memValue;
+            //return $memValue;
         }
         $house = $houseIds = array();
+        $houseId = $houseId + 0;
 
         //同板块内相邻价格房源
         $minPrice = $price - self::PRICE_RANGE;
@@ -218,11 +222,12 @@ class CHouse
         $where = "cityId={$cityId} and handPrice>={$minPrice} and handPrice<={$maxPrice} and id<>{$houseId} and regId={$regId} and status=" . House::STATUS_ONLINE;
         $condition = array(
             'conditions' => $where,
-            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+            'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
             'offset' => 0,
             'limit' => $num,
-            'order' => 'createTime desc'
+            'order' => 'updateTime desc'
         );
+        $existHouseIds = array($houseId);
         $res = House::find($condition, 0)->toArray();
         if(!empty($res))
         {
@@ -231,22 +236,21 @@ class CHouse
                 $house[$v['id']] = $v;
                 $house[$v['id']]['imgUrl'] = '';
                 $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                $houseIds[] = $v['id'];
+                $houseIds[] = $existHouseIds[] = $v['id'] + 0;
             }
         }
 
         $numLess = $num - count($houseIds);
         if($numLess > 0)
         {
-            $existHouseIds = array($houseId) + $houseIds;
             //同区域内相邻价格房源
             $where = "cityId={$cityId} and handPrice>={$minPrice} and handPrice<={$maxPrice} and distId={$distId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
                 'offset' => 0,
                 'limit' => $numLess,
-                'order' => 'createTime desc'
+                'order' => 'updateTime desc'
             );
             $res = House::find($condition, 0)->toArray();
             if(!empty($res))
@@ -256,23 +260,23 @@ class CHouse
                     $house[$v['id']] = $v;
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                    $houseIds[] = $v['id'];
+                    $houseIds[] = $existHouseIds[] = $v['id'] + 0;
                 }
             }
         }
-
+        
         $numLess = $num - count($houseIds);
+        Log::ErrorWrite('www', '', json_encode($houseIds).'-'.$numLess, 'debug.txt');
         if($numLess > 0)
         {
-            $existHouseIds = array($houseId) + $houseIds;
             //最新发布房源
             $where = "cityId={$cityId} and status=" . House::STATUS_ONLINE . " and id not in(" . implode(',', $existHouseIds) . ")";
             $condition = array(
                 'conditions' => $where,
-                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice',
+                'columns' => 'id,bA,bedRoom,livingRoom,bathRoom,handPrice,updateTime',
                 'offset' => 0,
                 'limit' => $numLess,
-                'order' => 'createTime desc'
+                'order' => 'updateTime desc'
             );
             $res = House::find($condition, 0)->toArray();
             if(count($res) > 0)
@@ -282,7 +286,7 @@ class CHouse
                     $house[$v['id']] = $v;
                     $house[$v['id']]['imgUrl'] = '';
                     $house[$v['id']]['price'] = number_format($v['handPrice'] / 10000, 2);
-                    $houseIds[] = $v['id'];
+                    $houseIds[] = $existHouseIds[] = $v['id'];
                 }
             }
         }
@@ -303,7 +307,17 @@ class CHouse
             }
         }
         shuffle($house);
-
+        
+        if(!empty($house))
+        {
+            foreach($house as $key => $row) 
+            {
+                $volume[$key]  = $row['updateTime'];
+            }
+            array_multisort($volume, SORT_DESC, $house);
+            Mem::Instance()->Set($memKey, $house, 300);
+        }
+        
         return $house;
     }
     

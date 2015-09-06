@@ -500,7 +500,8 @@ class HouseController extends ControllerBase
         {
             //上线房源
             $data = array(
-                'status' => House::STATUS_ONLINE
+                'status' => House::STATUS_ONLINE,
+                'updateTime' => date('Y-m-d H:i:s')
             );
             //修改ES
             $esData = array(
