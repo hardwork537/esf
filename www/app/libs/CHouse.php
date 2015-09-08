@@ -63,7 +63,7 @@ class CHouse
         $memValue = Mem::Instance()->Get($memKey);
         if(!empty($memValue))
         {
-            //return $memValue;
+            return $memValue;
         }
         $houseId = $houseId + 0;
         $numLess = $num;
@@ -219,7 +219,7 @@ class CHouse
         $memValue = Mem::Instance()->Get($memKey);
         if(!empty($memValue))
         {
-            //return $memValue;
+            return $memValue;
         }
         $house = $houseIds = $parkIds = array();
         $houseId = $houseId + 0;
