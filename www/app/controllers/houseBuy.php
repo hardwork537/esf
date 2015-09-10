@@ -28,13 +28,13 @@ class houseBuy extends ControllerBase
     {      
         parent::initialize();
         $tmp = explode('.', $_SERVER['HTTP_HOST']);
-        if('www' == $tmp[0])
-        {
+        //if('www' == $tmp[0])
+        //{
             $cityDefault = $GLOBALS['CITY_DEFAULT'];
             $this->cityId = $cityDefault['cityId'];
             $this->cityName = $cityDefault['cityName'];
             $this->title = $this->cityName;
-        }
+        //}
     }
     
     /**
