@@ -80,8 +80,9 @@ class Blacklist extends BaseModel
             $remark = $v['remark'];
             $addTime = date('Y-m-d H:i:s');
             
-            $addSql .= "({$operatorId},'{$phone}','{$remark}','{$addTime}')";
+            $addSql .= "({$operatorId},'{$phone}','{$remark}','{$addTime}'),";
         }
+        $addSql = rtrim($addSql, ',');
         $addRes = self::instance()->execute($addSql);
         if($addRes)
         {
