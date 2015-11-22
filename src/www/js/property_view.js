@@ -416,6 +416,8 @@ $(function(){
         datas && $.each(datas, function(index,data){
             normalOverlay(data);
         });
+		//小区显示
+		defaultOverlay();
     }
 
     /*周边配套*/
@@ -444,9 +446,19 @@ $(function(){
 
     /*默认显示小区标注*/
     function defaultOverlay(){
-        var element = '<span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
+        //var element = '<span class="marker marker1" style="white-space: nowrap;">'+ parkName +'<i class="i_bot2"></i></span>',
+		var element = '<span class="marker_all" id="marker_park"><span class="marker marker_park" style="white-space: nowrap; ">'+ parkName +'<i class="i_bot2"></i></span><a href="javascript:;" class="marker marker2" data-id="0" data-x="'+ parkX +'"></a></span>';
             myCustomOverlay = new customOverlay(element, new BMap.Point(parkX,parkY));
         map.addOverlay(myCustomOverlay);
+
+		var wid = $('.marker_park').css('width'),
+				wid1 = parseInt(wid)+30,
+				wid2 = parseInt(wid1-24)/2,
+				wid3 = parseInt(wid1-8)/2;
+
+		$('.marker_park').css({"visibility":"visible","left": '-' + wid2 + 'px'});
+		$('.marker_park').find('.i_bot2').css({"left": wid3 + 'px'});
+		$('.marker_park').css({"zIndex":4});
     }
 
     $("#mapIcons").on("click",".sp_icons",function(){
